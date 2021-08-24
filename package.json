@@ -1,0 +1,21 @@
+{
+  "name": "project-project-team-6",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd backend && npm install --only=prod && npm run build && cd ../frontend && npm install --only=dev && npm install && npm run build && cp -R build ../backend/dist/build && cd ..",
+    "start": "cd backend && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoftEng761-2021/project-project-team-6.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SoftEng761-2021/project-project-team-6/issues"
+  },
+  "homepage": "https://github.com/SoftEng761-2021/project-project-team-6#readme"
+}

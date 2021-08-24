@@ -1,0 +1,43 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --forceExit --passWithNoTests --detectOpenHandles --runInBand",
+    "dev": "nodemon -r esm src --exec babel-node",
+    "build": "babel src -d dist",
+    "start": "node -r esm dist/index.js",
+    "lint": "eslint .",
+    "fix-lint": "eslint . --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "firebase-admin": "^9.11.0",
+    "mongoose": "^5.13.7"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.15.0",
+    "@babel/node": "^7.14.9",
+    "@babel/preset-env": "^7.15.0",
+    "@types/jest": "^27.0.1",
+    "axios": "^0.21.1",
+    "babel-jest": "^27.0.6",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "jest": "^27.0.6",
+    "mongodb-memory-server": "^7.3.6",
+    "nodemon": "^2.0.12",
+    "prettier": "^2.3.2"
+  }
+}
