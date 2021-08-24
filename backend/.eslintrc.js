@@ -17,5 +17,6 @@ module.exports = {
         'no-console': 'off',
         indent: ['error', 4],
         'prettier/prettier': 0,
+        'quotes': [2, 'single', { avoidEscape: true }],
     },
 };
