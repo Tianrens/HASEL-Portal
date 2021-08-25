@@ -20,16 +20,11 @@ function AppContextProvider({ children }) {
 
     const context = {
         firebaseUserIdToken,
-    }
+    };
 
     return (
-        <AppContext.Provider value={context}>
-            {children}
-        </AppContext.Provider>
+        <AppContext.Provider value={context}>{children}</AppContext.Provider>
     );
 }
 
-export {
-    AppContext,
-    AppContextProvider,
-}
+export { AppContext, AppContextProvider };

@@ -42,5 +42,4 @@ router.delete('/', (req, res) => {
     return res.status(501).send('Unimplemented');
 });
 
-
 export default router;

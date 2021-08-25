@@ -3,7 +3,7 @@ import express from 'express';
 const router = express.Router();
 
 /** POST new request */
-router.post('/',  (req, res) => {
+router.post('/', (req, res) => {
     // TODO: POST new request
     console.log(req.originalUrl);
 
@@ -11,7 +11,7 @@ router.post('/',  (req, res) => {
 });
 
 /** GET all requests */
-router.get('/',  (req, res) => {
+router.get('/', (req, res) => {
     // TODO: GET all requests
     console.log(req.originalUrl);
 
@@ -19,7 +19,7 @@ router.get('/',  (req, res) => {
 });
 
 /** PATCH approve or deny request */
-router.patch('/',  (req, res) => {
+router.patch('/', (req, res) => {
     // TODO: PATCH approve or deny request
     console.log(req.originalUrl);
 
@@ -27,12 +27,11 @@ router.patch('/',  (req, res) => {
 });
 
 /** DELETE a request */
-router.delete('/',  (req, res) => {
+router.delete('/', (req, res) => {
     // TODO: DELETE a request
     console.log(req.originalUrl);
 
     return res.status(501).send('Unimplemented');
 });
-
 
 export default router;

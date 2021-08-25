@@ -8,7 +8,7 @@ module.exports = {
     parser: 'babel-eslint',
     parserOptions: {
         sourceType: 'module',
-        allowImportExportEverywhere: true
+        allowImportExportEverywhere: true,
     },
     rules: {
         quotes: [2, 'single', { avoidEscape: true }],
@@ -19,5 +19,6 @@ module.exports = {
         'import/prefer-default-export': 0,
         'no-console': 'off',
         indent: ['error', 4],
+        semi: [2, 'always'],
     },
 };

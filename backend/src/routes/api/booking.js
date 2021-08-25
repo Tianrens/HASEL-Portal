@@ -3,7 +3,7 @@ import express from 'express';
 const router = express.Router();
 
 /** POST add a new booking */
-router.post('/',  (req, res) => {
+router.post('/', (req, res) => {
     // TODO: POST add a new booking
     console.log(req.originalUrl);
 
@@ -11,7 +11,7 @@ router.post('/',  (req, res) => {
 });
 
 /** GET all bookings */
-router.get('/',  (req, res) => {
+router.get('/', (req, res) => {
     // TODO: GET all bookings
     console.log(req.originalUrl);
 
@@ -19,7 +19,7 @@ router.get('/',  (req, res) => {
 });
 
 /** PUT edit a booking */
-router.put('/',  (req, res) => {
+router.put('/', (req, res) => {
     // TODO: PUT edit a booking
     console.log(req.originalUrl);
 
@@ -33,6 +33,5 @@ router.delete('/', (req, res) => {
 
     return res.status(501).send('Unimplemented');
 });
-
 
 export default router;

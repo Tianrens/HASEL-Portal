@@ -4,7 +4,6 @@ import request from './request';
 import resource from './resource';
 import booking from './booking';
 
-
 const router = express.Router();
 
 router.use('/user', user);
