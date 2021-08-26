@@ -1,0 +1,54 @@
+@import '../../../assets/colours';
+
+@mixin theme($theme: $primaryBlue) {
+    background-color: $theme;
+    border: 2px solid $theme;
+    &:hover {
+        background-color: transparent;
+        color: $theme;
+    }
+}
+
+.button {
+    @include theme;
+
+    border-radius: 32px;
+    color: white;
+    display: flex;
+    font-family: NationalBold, sans-serif;
+    font-weight: bold;
+    margin: 0.5em;
+    max-width: 100%;
+    min-height: 3em;
+    overflow: hidden;
+    padding: 0.6em 2em;
+    text-align: center;
+    text-decoration: none;
+    text-transform: none;
+    text-overflow: ellipsis;
+    transition: .3s;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.white {
+    @include theme($theme: white);
+    color: $primaryBlue;
+}
+
+.green {
+    @include theme($theme: $green);
+}
+
+.yellow {
+    @include theme($theme: $yellow);
+}
+
+.red {
+    @include theme($theme: $red);
+}
+
+.transparent {
+    background-color: transparent;
+    border-color: none;
+}
