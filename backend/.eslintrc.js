@@ -19,5 +19,6 @@ module.exports = {
         'prettier/prettier': 0,
         quotes: [2, 'single', { avoidEscape: true }],
         semi: [2, 'always'],
+        'no-underscore-dangle': 'off',
     },
 };

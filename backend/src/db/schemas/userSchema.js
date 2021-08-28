@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const UserSchema = mongoose.Schema;
-const { Types } = mongoose.Schema.Types;
 
 const userSchema = new UserSchema(
     {
@@ -10,9 +9,12 @@ const userSchema = new UserSchema(
             required: [true, 'An email is required'],
             unique: true,
         },
-        currentRequest: { type: Types.ObjectId, ref: 'SignUpRequest' },
+        currentRequestId: {
+            type: UserSchema.Types.ObjectId,
+            ref: 'SignUpRequest',
+        },
         upi: { type: String, required: true, unique: true },
-        authUserId: { type: Types.Long, required: true },
+        authUserId: { type: String, required: true },
         firstName: { type: String, required: true },
         lastName: { type: String, required: true },
         type: {

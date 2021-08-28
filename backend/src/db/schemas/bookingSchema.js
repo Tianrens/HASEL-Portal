@@ -4,12 +4,12 @@ const BookingSchema = mongoose.Schema;
 
 const bookingSchema = new BookingSchema(
     {
-        resource: {
+        resourceId: {
             type: BookingSchema.Types.ObjectId,
             ref: 'Resource',
             required: true,
         },
-        user: {
+        userId: {
             type: BookingSchema.Types.ObjectId,
             ref: 'User',
             required: true,

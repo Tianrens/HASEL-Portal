@@ -4,18 +4,18 @@ const SignUpRequestSchema = mongoose.Schema;
 
 const signUpRequestSchema = new SignUpRequestSchema(
     {
-        user: {
+        userId: {
             type: SignUpRequestSchema.Types.ObjectId,
             ref: 'User',
             required: true,
         },
-        allocatedResource: {
+        allocatedResourceId: {
             type: SignUpRequestSchema.Types.ObjectId,
             ref: 'Resource',
             required: true,
         },
         supervisorName: String,
-        comments: String,
+        comments: { type: String, default: '' },
         status: {
             type: String,
             required: true,
