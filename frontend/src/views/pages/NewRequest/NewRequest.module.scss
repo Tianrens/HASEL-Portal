@@ -1,0 +1,29 @@
+@import '../../../assets/colours';
+
+h1 {
+    color: $heading;
+    text-align: center;
+}
+
+.inputTitles {
+    color: $subtitle;
+}
+
+.inputTitles:not(:first-child) {
+    margin-top: 3em;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.form {
+    min-width: 40ch;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+}

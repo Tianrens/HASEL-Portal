@@ -25,6 +25,6 @@ function AppContextProvider({ children }) {
     return (
         <AppContext.Provider value={context}>{children}</AppContext.Provider>
     );
-};
+}
 
 export { AppContext, AppContextProvider };

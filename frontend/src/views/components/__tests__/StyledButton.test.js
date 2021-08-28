@@ -1,12 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { StylesProvider } from '@material-ui/core';
-import App from './App';
+import { StyledButton } from '../buttons/StyledButton';
 
-test('App renders properly', () => {
+test('StyledButton renders properly', () => {
     const snapshotComponent = renderer.create(
         <StylesProvider injectFirst>
-            <App />
+            <StyledButton />
         </StylesProvider>,
     );
     const tree = snapshotComponent.toJSON();

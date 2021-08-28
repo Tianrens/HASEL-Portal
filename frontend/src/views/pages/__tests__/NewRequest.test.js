@@ -1,12 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { StylesProvider } from '@material-ui/core';
-import App from './App';
+import NewRequest from '../NewRequest/NewRequest';
 
-test('App renders properly', () => {
+test('New Request Page renders properly', () => {
     const snapshotComponent = renderer.create(
         <StylesProvider injectFirst>
-            <App />
+            <NewRequest />
         </StylesProvider>,
     );
     const tree = snapshotComponent.toJSON();
