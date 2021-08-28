@@ -1,14 +1,12 @@
 import React from 'react';
 import { StylesProvider } from '@material-ui/core';
 import './App.css';
-import NewRequest from './views/pages/NewRequest/NewRequest';
+import LandingPage from './views/pages/LandingPage/LandingPage';
 
 function App() {
     return (
         <StylesProvider injectFirst>
-            <div>
-                <NewRequest />
-            </div>
+            <LandingPage />
         </StylesProvider>
     );
 }

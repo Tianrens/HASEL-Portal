@@ -1,0 +1,8 @@
+$bg-img: url('./UoAClockTower.jpg');
+
+.bgImg {
+    background-image: $bg-img;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+}

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
 import { firebase, auth } from '../../../firebase';
+import { StyledButton } from './StyledButton';
 
-async function login(callback) {
+async function login(callback, errorCallback) {
     const provider = new firebase.auth.GoogleAuthProvider();
 
     await auth.signInWithPopup(provider).then(() => {
@@ -14,7 +14,7 @@ async function login(callback) {
             callback();
         } else {
             auth.signOut();
-            throw new Error('not using an University of Auckland email');
+            errorCallback('Not using a University of Auckland email.');
         }
     });
 }
@@ -24,16 +24,16 @@ async function login(callback) {
  * Upon unsuccessful login, throws error.
  * @param {function callback specifies the function that is called after the login is successful}
  */
-export function LoginButton({ callback }) {
+function LoginButton({ callback, errorCallback }) {
     return (
-        <Button
-            variant='contained'
-            color='primary'
+        <StyledButton
             onClick={() => {
-                login(callback);
+                login(callback, errorCallback);
             }}
         >
-            Log In
-        </Button>
+            Login
+        </StyledButton>
     );
 }
+
+export default LoginButton;
