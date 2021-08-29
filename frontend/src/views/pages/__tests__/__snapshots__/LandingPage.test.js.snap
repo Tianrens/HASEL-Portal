@@ -13,22 +13,32 @@ exports[`Landing Page renders properly 1`] = `
       <div
         className="content"
       >
-        <h1>
+        <h1
+          className="header"
+        >
           HASEL Lab
         </h1>
         <div
           className="QnA"
         >
-          <h2>
+          <h2
+            className="subheader"
+          >
             What is HASEL?
           </h2>
-          <p>
+          <p
+            className="text"
+          >
             The Human Aspects in Software Engineering Lab (HASEL) researches projects related to improving software practices and processes, with a focus on the human aspects of software engineering. We have several high performance machine learning computers available for use in the lab. They can be accessed remotely through SSH as well.
           </p>
-          <h2>
+          <h2
+            className="subheader"
+          >
             How do I gain access?
           </h2>
-          <p>
+          <p
+            className="text"
+          >
             Login with your university connected Google account below. Then enter your details and apply for a workstation. After access is granted you will receive an email with your workstation details. You can then use this site to book the lab computers.
           </p>
         </div>

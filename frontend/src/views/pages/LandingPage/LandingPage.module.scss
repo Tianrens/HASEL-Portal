@@ -1,17 +1,17 @@
 @import '../../../assets/colours';
 
-h1 {
+.header {
     font-size: 3rem;
     color: $heading;
 }
 
-h2 {
+.subheader {
     font-size: 2rem;
     margin-top: 5rem;
     width: 60%;
 }
 
-p {
+.text {
     font-size: 1.2rem;
 }
 

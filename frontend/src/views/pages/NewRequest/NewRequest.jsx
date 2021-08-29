@@ -23,12 +23,8 @@ const NewRequest = () => {
 
     return (
         <div className={styles.container}>
-            <h1>You&apos;ll need approval to access a workstation.</h1>
-            <form
-                autoComplete='off'
-                className={styles.form}
-                onSubmit={handleSubmit}
-            >
+            <h1 className={styles.header}>You&apos;ll need approval to access a workstation.</h1>
+            <form autoComplete='off' className={styles.form} onSubmit={handleSubmit}>
                 {showSupervisor && (
                     <>
                         <p className={styles.inputTitles}>Supervisor name</p>
@@ -41,9 +37,7 @@ const NewRequest = () => {
                     </>
                 )}
 
-                <p className={styles.inputTitles}>
-                    Reasoning/Comments (optional)
-                </p>
+                <p className={styles.inputTitles}>Reasoning/Comments (optional)</p>
                 <TextField
                     variant='outlined'
                     fullWidth
@@ -52,9 +46,7 @@ const NewRequest = () => {
                     onChange={(e) => setReason(e.target.value)}
                 />
 
-                <p className={styles.inputTitles}>
-                    Workstation (may be overridden)
-                </p>
+                <p className={styles.inputTitles}>Workstation (may be overridden)</p>
                 <Select
                     required
                     defaultValue=''

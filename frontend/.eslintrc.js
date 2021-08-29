@@ -4,7 +4,13 @@ module.exports = {
         es2021: true,
     },
     plugins: ['react', 'prettier'],
-    extends: ['react-app', 'react-app/jest', 'airbnb', 'prettier'],
+    extends: [
+        'react-app',
+        'react-app/jest',
+        'airbnb',
+        'prettier',
+        'plugin:import/typescript',
+    ],
     parser: 'babel-eslint',
     parserOptions: {
         sourceType: 'module',

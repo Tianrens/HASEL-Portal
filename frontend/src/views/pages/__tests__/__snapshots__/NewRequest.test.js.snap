@@ -4,7 +4,9 @@ exports[`New Request Page renders properly 1`] = `
 <div
   className="container"
 >
-  <h1>
+  <h1
+    className="header"
+  >
     You'll need approval to access a workstation.
   </h1>
   <form

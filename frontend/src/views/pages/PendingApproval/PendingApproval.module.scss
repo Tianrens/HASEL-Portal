@@ -1,0 +1,31 @@
+@import '../../../assets/colours';
+
+.header {
+    color: $heading;
+    text-align: center;
+    margin-bottom: 4rem;
+}
+.value {
+    font-weight: normal;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: 100%;
+    margin: auto;
+}
+
+.title {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    color: $secondaryBlue;
+    font-weight: bold;
+}
+
+.reasonField {
+    pointer-events: none;
+}

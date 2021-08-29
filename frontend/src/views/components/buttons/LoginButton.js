@@ -7,10 +7,7 @@ async function login(callback, errorCallback) {
 
     await auth.signInWithPopup(provider).then(() => {
         const userEmail = auth.currentUser.email;
-        if (
-            userEmail.endsWith('@aucklanduni.ac.nz') ||
-            userEmail.endsWith('@auckland.ac.nz')
-        ) {
+        if (userEmail.endsWith('@aucklanduni.ac.nz') || userEmail.endsWith('@auckland.ac.nz')) {
             callback();
         } else {
             auth.signOut();

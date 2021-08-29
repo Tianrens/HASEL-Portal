@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import LandingPage from './views/pages/LandingPage/LandingPage';
 import { AppContext } from './AppContextProvider';
 import NewRequest from './views/pages/NewRequest/NewRequest';
+import PendingApproval from './views/pages/PendingApproval/PendingApproval';
 
 function App() {
     const idToken = useContext(AppContext).firebaseUserIdToken;
@@ -12,6 +13,7 @@ function App() {
         return (
             <Switch>
                 <Route exact path='/' component={NewRequest} />
+                <Route path='/pending' component={PendingApproval} />
                 {/* Default path */}
                 <Route component={NewRequest} />
             </Switch>
@@ -28,11 +30,7 @@ function App() {
         );
     }
 
-    return (
-        <Router>
-            {idToken ? <AuthenticatedPaths /> : <UnauthenticatedPaths />}
-        </Router>
-    );
+    return <Router>{idToken ? <AuthenticatedPaths /> : <UnauthenticatedPaths />}</Router>;
 }
 
 export default App;
