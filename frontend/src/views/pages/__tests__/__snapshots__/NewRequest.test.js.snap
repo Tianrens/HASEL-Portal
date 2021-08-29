@@ -10,6 +10,7 @@ exports[`New Request Page renders properly 1`] = `
   <form
     autoComplete="off"
     className="form"
+    onSubmit={[Function]}
   >
     <p
       className="inputTitles"
@@ -144,7 +145,6 @@ exports[`New Request Page renders properly 1`] = `
         className="MuiButtonBase-root MuiButton-root MuiButton-contained button undefined"
         disabled={false}
         onBlur={[Function]}
-        onClick={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}

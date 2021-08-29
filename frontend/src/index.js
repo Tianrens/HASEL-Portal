@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import { StylesProvider } from '@material-ui/core';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AppContextProvider } from './AppContextProvider';
@@ -8,7 +9,9 @@ import { AppContextProvider } from './AppContextProvider';
 ReactDOM.render(
     <React.StrictMode>
         <AppContextProvider>
-            <App />
+            <StylesProvider injectFirst>
+                <App />
+            </StylesProvider>
         </AppContextProvider>
     </React.StrictMode>,
     document.getElementById('root'),

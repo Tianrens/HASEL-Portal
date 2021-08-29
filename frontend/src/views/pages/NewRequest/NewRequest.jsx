@@ -14,7 +14,8 @@ const NewRequest = () => {
 
     const showSupervisor = false;
 
-    const handleSubmit = () => {
+    const handleSubmit = (event) => {
+        event.preventDefault();
         // send email
         // call API
         console.log(supervisor, reason, workstation);
@@ -23,7 +24,11 @@ const NewRequest = () => {
     return (
         <div className={styles.container}>
             <h1>You&apos;ll need approval to access a workstation.</h1>
-            <form autoComplete='off' className={styles.form}>
+            <form
+                autoComplete='off'
+                className={styles.form}
+                onSubmit={handleSubmit}
+            >
                 {showSupervisor && (
                     <>
                         <p className={styles.inputTitles}>Supervisor name</p>
@@ -71,11 +76,7 @@ const NewRequest = () => {
                     ))}
                 </Select>
                 <div className={styles.buttonContainer}>
-                    <StyledButton
-                        className={styles.button}
-                        type='submit'
-                        onClick={() => handleSubmit()}
-                    >
+                    <StyledButton className={styles.button} type='submit'>
                         Request Access
                     </StyledButton>
                 </div>
