@@ -1,17 +1,25 @@
 import React from 'react';
+import { useSnackbar } from 'notistack';
 import { content, QnA, loginContainer } from './LandingPage.module.scss';
 import LoginButton from '../../components/buttons/LoginButton';
 import HeroPageTemplate from '../../components/templates/HeroPageTemplate/HeroPageTemplate';
 
-function loginCallback() {
-    console.log('login callback');
-}
-
-function loginFailCallback(error) {
-    console.log(`login fail callback: ${error}`);
-}
-
 function LandingPage() {
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    function loginSuccessCallback() {
+        enqueueSnackbar('Login Successful', {
+            variant: 'success',
+            autoHideDuration: 3000,
+            onClose: closeSnackbar,
+        });
+    }
+    function loginFailCallback(error) {
+        enqueueSnackbar(error, {
+            variant: 'error',
+            autoHideDuration: 3000,
+            onClose: closeSnackbar,
+        });
+    }
     return (
         <HeroPageTemplate>
             <div className={content}>
@@ -39,7 +47,7 @@ function LandingPage() {
             </div>
             <div className={loginContainer}>
                 <LoginButton
-                    callback={loginCallback}
+                    callback={loginSuccessCallback}
                     errorCallback={loginFailCallback}
                 />
             </div>

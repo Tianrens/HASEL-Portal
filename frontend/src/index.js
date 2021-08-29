@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { StylesProvider } from '@material-ui/core';
+import { SnackbarProvider } from 'notistack';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AppContextProvider } from './AppContextProvider';
@@ -10,7 +11,9 @@ ReactDOM.render(
     <React.StrictMode>
         <AppContextProvider>
             <StylesProvider injectFirst>
-                <App />
+                <SnackbarProvider>
+                    <App />
+                </SnackbarProvider>
             </StylesProvider>
         </AppContextProvider>
     </React.StrictMode>,
