@@ -104,58 +104,40 @@ afterAll(async () => {
     await mongo.stop();
 });
 
+function expectDbRequestMatchWithRequest(dbRequest, request) {
+    expect(dbRequest).toBeTruthy();
+    expect(dbRequest.userId).toEqual(request.userId);
+    expect(dbRequest.allocatedResourceId).toEqual(request.allocatedResourceId);
+    expect(dbRequest.supervisorName).toEqual(request.supervisorName);
+    if (request.comments) {
+        expect(dbRequest.comments).toEqual(request.comments);
+    }
+    expect(dbRequest.status).toEqual(request.status);
+    expect(dbRequest.startDate).toEqual(request.startDate);
+    expect(dbRequest.endDate).toEqual(request.endDate);
+}
+
 it('get all requests', async () => {
     const requests = await retrieveAllRequests();
 
     expect(requests).toBeTruthy();
     expect(requests).toHaveLength(2);
 
-    expect(requests[0].userId).toEqual(request1.userId);
-    expect(requests[0].allocatedResourceId).toEqual(
-        request1.allocatedResourceId,
-    );
-    expect(requests[0].supervisorName).toBe(request1.supervisorName);
-    expect(requests[0].comments).toBe(request1.comments);
-    expect(requests[0].status).toBe(request1.status);
-    expect(requests[0].startDate).toEqual(request1.startDate);
-    expect(requests[0].endDate).toEqual(request1.endDate);
-
-    expect(requests[1].userId).toEqual(request2.userId);
-    expect(requests[1].allocatedResourceId).toEqual(
-        request2.allocatedResourceId,
-    );
-    expect(requests[1].supervisorName).toBe(request2.supervisorName);
-    expect(requests[1].comments).toBe(request2.comments);
-    expect(requests[1].status).toBe(request2.status);
-    expect(requests[1].startDate).toEqual(request2.startDate);
-    expect(requests[1].endDate).toEqual(request2.endDate);
+    expectDbRequestMatchWithRequest(requests[0], request1);
+    expectDbRequestMatchWithRequest(requests[1], request2);
 });
 
 it('create new request', async () => {
     const newRequest = await createSignUpRequest(request3);
     const dbRequest = await SignUpRequest.findById(newRequest._id);
 
-    expect(dbRequest).toBeTruthy();
-    expect(dbRequest.userId).toEqual(request3.userId);
-    expect(dbRequest.allocatedResourceId).toEqual(request3.allocatedResourceId);
-    expect(dbRequest.supervisorName).toBe(request3.supervisorName);
-    expect(dbRequest.comments).toBe('');
-    expect(dbRequest.status).toBe(request3.status);
-    expect(dbRequest.startDate).toEqual(request3.startDate);
-    expect(dbRequest.endDate).toEqual(request3.endDate);
+    expectDbRequestMatchWithRequest(dbRequest, request3);
 });
 
 it('retrieve a single request', async () => {
     const dbRequest = await retrieveRequestById(request1._id);
 
-    expect(dbRequest).toBeTruthy();
-    expect(dbRequest.userId).toEqual(request1.userId);
-    expect(dbRequest.allocatedResourceId).toEqual(request1.allocatedResourceId);
-    expect(dbRequest.supervisorName).toBe(request1.supervisorName);
-    expect(dbRequest.comments).toBe(request1.comments);
-    expect(dbRequest.status).toBe(request1.status);
-    expect(dbRequest.startDate).toEqual(request1.startDate);
-    expect(dbRequest.endDate).toEqual(request1.endDate);
+    expectDbRequestMatchWithRequest(dbRequest, request1);
 });
 
 it('update request status', async () => {

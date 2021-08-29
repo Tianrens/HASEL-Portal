@@ -79,35 +79,30 @@ afterAll(async () => {
     await mongo.stop();
 });
 
+function expectDbBookingMatchWithBooking(dbBooking, booking) {
+    expect(dbBooking).toBeTruthy();
+    expect(dbBooking.resourceId).toEqual(booking.resourceId);
+    expect(dbBooking.userId).toEqual(booking.userId);
+    expect(dbBooking.startTimestamp).toEqual(booking.startTimestamp);
+    expect(dbBooking.endTimestamp).toEqual(booking.endTimestamp);
+    expect(dbBooking.numGPUs).toEqual(booking.numGPUs);
+}
+
 it('get all bookings', async () => {
     const bookings = await retrieveAllBookings();
 
     expect(bookings).toBeTruthy();
     expect(bookings).toHaveLength(2);
 
-    expect(bookings[0].resourceId).toEqual(booking1.resourceId);
-    expect(bookings[0].userId).toEqual(booking1.userId);
-    expect(bookings[0].startTimestamp).toEqual(booking1.startTimestamp);
-    expect(bookings[0].endTimestamp).toEqual(booking1.endTimestamp);
-    expect(bookings[0].numGPUs).toBe(booking1.numGPUs);
-
-    expect(bookings[1].resourceId).toEqual(booking2.resourceId);
-    expect(bookings[1].userId).toEqual(booking2.userId);
-    expect(bookings[1].startTimestamp).toEqual(booking2.startTimestamp);
-    expect(bookings[1].endTimestamp).toEqual(booking2.endTimestamp);
-    expect(bookings[1].numGPUs).toBe(booking2.numGPUs);
+    expectDbBookingMatchWithBooking(bookings[0], booking1);
+    expectDbBookingMatchWithBooking(bookings[1], booking2);
 });
 
 it('create new booking', async () => {
     const newBooking = await createBooking(booking3);
     const dbBooking = await Booking.findById(newBooking._id);
 
-    expect(dbBooking).toBeTruthy();
-    expect(dbBooking.resourceId).toEqual(booking3.resourceId);
-    expect(dbBooking.userId).toEqual(booking3.userId);
-    expect(dbBooking.startTimestamp).toEqual(booking3.startTimestamp);
-    expect(dbBooking.endTimestamp).toEqual(booking3.endTimestamp);
-    expect(dbBooking.numGPUs).toBe(booking3.numGPUs);
+    expectDbBookingMatchWithBooking(dbBooking, booking3);
 });
 
 it("retrieve user's bookings", async () => {
@@ -115,7 +110,7 @@ it("retrieve user's bookings", async () => {
 
     expect(bookings).toBeTruthy();
     expect(bookings).toHaveLength(1);
-    expect(bookings[0]._id).toEqual(booking1._id);
+    expectDbBookingMatchWithBooking(bookings[0], booking1);
 });
 
 it('retrieve bookings for a resource', async () => {
@@ -123,8 +118,8 @@ it('retrieve bookings for a resource', async () => {
 
     expect(bookings).toBeTruthy();
     expect(bookings).toHaveLength(2);
-    expect(bookings[0]._id).toEqual(booking1._id);
-    expect(bookings[1]._id).toEqual(booking2._id);
+    expectDbBookingMatchWithBooking(bookings[0], booking1);
+    expectDbBookingMatchWithBooking(bookings[1], booking2);
 });
 
 it('update booking info', async () => {
@@ -154,5 +149,5 @@ it('delete booking', async () => {
 
     expect(bookings).toBeTruthy();
     expect(bookings).toHaveLength(1);
-    expect(bookings[0]._id).toEqual(booking1._id);
+    expectDbBookingMatchWithBooking(bookings[0], booking1);
 });

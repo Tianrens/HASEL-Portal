@@ -19,4 +19,8 @@ async function updateUser(userId, newUserInfo) {
     await User.updateOne({ _id: userId }, newUserInfo);
 }
 
-export { createUser, retrieveAllUsers, retrieveUserById, updateUser };
+async function retrieveUserByAuthId(authId) {
+    return User.findOne({ authUserId: authId });
+}
+
+export { createUser, retrieveAllUsers, retrieveUserById, updateUser, retrieveUserByAuthId };

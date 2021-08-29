@@ -119,46 +119,37 @@ afterAll(async () => {
     await mongo.stop();
 });
 
+function expectDbResourceMatchWithResource(dbResource, resource) {
+    expect(dbResource).toBeTruthy();
+    expect(dbResource.name).toEqual(resource.name);
+    expect(dbResource.location).toEqual(resource.location);
+    expect(dbResource.numGPUs).toEqual(resource.numGPUs);
+    expect(dbResource.gpuDescription).toEqual(resource.gpuDescription);
+    expect(dbResource.ramDescription).toEqual(resource.ramDescription);
+    expect(dbResource.cpuDescription).toEqual(resource.cpuDescription);
+}
+
 it('get all resources', async () => {
     const resources = await retrieveAllResources();
 
     expect(resources).toBeTruthy();
     expect(resources).toHaveLength(2);
 
-    expect(resources[0].name).toBe(resource1.name);
-    expect(resources[0].numGPUs).toBe(resource1.numGPUs);
-    expect(resources[0].gpuDescription).toBe(resource1.gpuDescription);
-    expect(resources[0].ramDescription).toBe(resource1.ramDescription);
-    expect(resources[0].cpuDescription).toBe(resource1.cpuDescription);
-
-    expect(resources[1].name).toBe(resource2.name);
-    expect(resources[1].numGPUs).toBe(resource2.numGPUs);
-    expect(resources[1].gpuDescription).toBe(resource2.gpuDescription);
-    expect(resources[1].ramDescription).toBe(resource2.ramDescription);
-    expect(resources[1].cpuDescription).toBe(resource2.cpuDescription);
+    expectDbResourceMatchWithResource(resources[0], resource1);
+    expectDbResourceMatchWithResource(resources[1], resource2);
 });
 
 it('create new resource', async () => {
     const newResource = await createResource(resource3);
     const dbResource = await Resource.findById(newResource._id);
 
-    expect(dbResource).toBeTruthy();
-    expect(dbResource.name).toBe(resource3.name);
-    expect(dbResource.numGPUs).toBe(resource3.numGPUs);
-    expect(dbResource.gpuDescription).toBe(resource3.gpuDescription);
-    expect(dbResource.ramDescription).toBe(resource3.ramDescription);
-    expect(dbResource.cpuDescription).toBe(resource3.cpuDescription);
+    expectDbResourceMatchWithResource(dbResource, resource3);
 });
 
 it("retrieve user's resource", async () => {
     const userResource = await retrieveResourceOfUser(user1._id);
 
-    expect(userResource).toBeTruthy();
-    expect(userResource.name).toBe(resource2.name);
-    expect(userResource.numGPUs).toBe(resource2.numGPUs);
-    expect(userResource.gpuDescription).toBe(resource2.gpuDescription);
-    expect(userResource.ramDescription).toBe(resource2.ramDescription);
-    expect(userResource.cpuDescription).toBe(resource2.cpuDescription);
+    expectDbResourceMatchWithResource(userResource, resource2);
 });
 
 it("retrieve user's resource with declined request", async () => {
@@ -175,9 +166,5 @@ it('delete resource', async () => {
     expect(resources).toBeTruthy();
     expect(resources).toHaveLength(1);
 
-    expect(resources[0].name).toBe(resource1.name);
-    expect(resources[0].numGPUs).toBe(resource1.numGPUs);
-    expect(resources[0].gpuDescription).toBe(resource1.gpuDescription);
-    expect(resources[0].ramDescription).toBe(resource1.ramDescription);
-    expect(resources[0].cpuDescription).toBe(resource1.cpuDescription);
+    expectDbResourceMatchWithResource(resources[0], resource1);
 });

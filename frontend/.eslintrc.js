@@ -20,5 +20,6 @@ module.exports = {
         'no-console': 'off',
         indent: ['error', 4],
         semi: [2, 'always'],
+        'eol-last': ['error', 'always'],
     },
 };

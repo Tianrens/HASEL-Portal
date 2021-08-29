@@ -20,5 +20,6 @@ module.exports = {
         quotes: [2, 'single', { avoidEscape: true }],
         semi: [2, 'always'],
         'no-underscore-dangle': 'off',
+        'eol-last': ['error', 'always'],
     },
 };
