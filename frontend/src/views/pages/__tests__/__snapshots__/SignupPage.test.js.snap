@@ -40,7 +40,7 @@ exports[`Signup page renders properly 1`] = `
           <p
             className="uoaEmail"
           >
-            mockEmail@aucklanduni.ac.nz
+            Unknown email, please contact Admin
           </p>
         </div>
         <div>

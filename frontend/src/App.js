@@ -13,11 +13,11 @@ function App() {
     function AuthenticatedPaths() {
         return (
             <Switch>
-                <Route exact path='/' component={LandingPage} />
-                <Route path='/pending' component={PendingApproval} />
                 <Route exact path='/signup' component={SignupPage} />
+                <Route path='/request' component={NewRequest} />
+                <Route path='/pending' component={PendingApproval} />
                 {/* Default path */}
-                <Route component={NewRequest} />
+                <Route component={SignupPage} />
             </Switch>
         );
     }
