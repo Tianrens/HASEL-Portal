@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TopBar renders properly 1`] = `
+<Context.Provider
+  value={
+    Object {
+      "disableGeneration": false,
+      "generateClassName": [Function],
+      "jss": Jss {
+        "generateId": [Function],
+        "id": 2,
+        "options": Object {
+          "Renderer": [Function],
+          "createGenerateId": [Function],
+          "id": Object {
+            "minify": false,
+          },
+          "insertionPoint": <!--mui-inject-first-->,
+          "plugins": Array [],
+        },
+        "plugins": PluginsRegistry {
+          "plugins": Object {
+            "external": Array [
+              Object {
+                "onCreateRule": [Function],
+                "onProcessStyle": [Function],
+                "onUpdate": [Function],
+              },
+              Object {
+                "onCreateRule": [Function],
+                "onProcessRule": [Function],
+              },
+              Object {
+                "onProcessStyle": [Function],
+              },
+              Object {
+                "onChangeValue": [Function],
+                "onProcessStyle": [Function],
+              },
+              Object {
+                "onChangeValue": [Function],
+                "onProcessStyle": [Function],
+              },
+              Object {
+                "onChangeValue": [Function],
+                "onProcessRule": [Function],
+                "onProcessStyle": [Function],
+              },
+              Object {
+                "onProcessStyle": [Function],
+              },
+            ],
+            "internal": Array [
+              Object {
+                "onCreateRule": [Function],
+              },
+              Object {
+                "onCreateRule": [Function],
+              },
+              Object {
+                "onChangeValue": [Function],
+                "onCreateRule": [Function],
+                "onProcessStyle": [Function],
+              },
+              Object {
+                "onCreateRule": [Function],
+              },
+              Object {
+                "onCreateRule": [Function],
+              },
+              Object {
+                "onCreateRule": [Function],
+              },
+              Object {
+                "onCreateRule": [Function],
+              },
+            ],
+          },
+          "registry": Object {
+            "onChangeValue": Array [
+              [Function],
+              [Function],
+              [Function],
+              [Function],
+            ],
+            "onCreateRule": Array [
+              [Function],
+              [Function],
+              [Function],
+              [Function],
+              [Function],
+              [Function],
+              [Function],
+              [Function],
+              [Function],
+            ],
+            "onProcessRule": Array [
+              [Function],
+              [Function],
+            ],
+            "onProcessSheet": Array [],
+            "onProcessStyle": Array [
+              [Function],
+              [Function],
+              [Function],
+              [Function],
+              [Function],
+              [Function],
+              [Function],
+            ],
+            "onUpdate": Array [
+              [Function],
+            ],
+          },
+        },
+        "version": "10.7.1",
+      },
+      "sheetsCache": null,
+      "sheetsManager": Map {},
+      "sheetsRegistry": null,
+    }
+  }
+>
+  <TopBar />
+</Context.Provider>
+`;

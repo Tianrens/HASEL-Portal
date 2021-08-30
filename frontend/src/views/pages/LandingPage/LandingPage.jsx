@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSnackbar } from 'notistack';
-import { header, subheader, text, content, QnA, loginContainer } from './LandingPage.module.scss';
+import { content, header, loginContainer, QnA, subheader, text } from './LandingPage.module.scss';
 import LoginButton from '../../components/buttons/LoginButton';
 import HeroPageTemplate from '../../components/templates/HeroPageTemplate/HeroPageTemplate';
 

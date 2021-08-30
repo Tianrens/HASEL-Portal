@@ -1,0 +1,87 @@
+@import '../../../../assets/colours';
+@import '../../../../assets/mediaQueryBreakpoints';
+
+.wrapper {
+    margin: 0px 10px;
+
+    &:hover {
+        background-color: $blackBgHoverColour;
+    }
+}
+
+a {
+    color: white;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.title {
+    text-transform: none;
+}
+
+.spacer {
+    width: 5px;
+}
+
+.alertBadge {
+    z-index: 2;
+    position: absolute;
+    right: -10px;
+    top: 0;
+    background-color: $red;
+    padding: 0px 5px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: normal;
+}
+
+.navIcon {
+    width: 28px;
+    height: 28px;
+    image-rendering: smooth;
+}
+
+.drawerWrapper {
+    display: none;
+}
+
+.drawerPatternBg {
+    display: flex;
+    flex: 1;
+    background-color: $blackPatternBgColor;
+    background-image: $blackGradientPatternBg;
+}
+
+.drawer {
+    background: $blackGradient;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.drawerButton {
+    color: lightgray;
+    transition: all 0.3s;
+
+    &:hover {
+        background-color: $blackBgHoverColour;
+    }
+}
+
+.linksWrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+// Make drawer in a column layout
+@include responsive(tablet) {
+    .drawerWrapper {
+        display: block;
+    }
+
+    .linksWrapper {
+        flex-direction: column;
+        padding: 10px;
+    }
+}

@@ -1,104 +1,576 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Pending Approval Page renders properly 1`] = `
-<div
-  className="container"
->
-  <h1
-    className="header"
-  >
-    Sit tight, your account is awaiting approval.
-  </h1>
+Array [
   <div
-    className="container"
-  >
-    <h2
-      className="text "
-    >
-      <span>
-        Your Application
-      </span>
-    </h2>
-  </div>
-  <h3
-    className="value"
-  >
-    <span
-      className="title"
-    >
-      Supervisor Name: 
-    </span>
-    Emmanuel Baguia
-  </h3>
-  <h3
-    className="title"
-  >
-    Reason:
-  </h3>
-  <div
-    className="MuiFormControl-root MuiTextField-root reasonField"
+    className="fillTopbarSpace"
   >
     <div
-      className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl MuiInputBase-multiline MuiOutlinedInput-multiline"
-      onClick={[Function]}
-      style={
-        Object {
-          "fontSize": "1.17rem",
-          "lineHeight": "1.8rem",
-        }
-      }
+      className="navbar"
     >
-      <textarea
-        aria-invalid={false}
-        autoFocus={false}
-        className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiOutlinedInput-inputMultiline"
-        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        disabled={false}
-        onAnimationStart={[Function]}
-        onBlur={[Function]}
-        onChange={[Function]}
-        onFocus={[Function]}
-        readOnly={true}
-        required={false}
-        rows={5}
-      />
-      <fieldset
-        aria-hidden={true}
-        className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
-        style={
-          Object {
-            "paddingLeft": 8,
-          }
-        }
+      <div
+        className="patternBgLayer"
       >
-        <legend
-          className="PrivateNotchedOutline-legend-2"
+        <div
+          className="bgLayer"
+        >
+          <img
+            alt="University of Auckland"
+            className="uoaLogo"
+            src="uoaLogo.svg"
+          />
+          <div
+            className="spacer"
+          />
+          <div
+            className="title"
+          >
+            HASEL Lab
+            <div
+              className="subTitle"
+            >
+              SUPERADMIN
+            </div>
+          </div>
+          <div
+            className="pushSpacer"
+          />
+          <div
+            className="horizontalNavLinks"
+          >
+            <div
+              className="linksWrapper"
+            >
+              <button
+                className="MuiButtonBase-root MuiButton-root MuiButton-text wrapper"
+                disabled={false}
+                onBlur={[Function]}
+                onDragLeave={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onMouseDown={[Function]}
+                onMouseLeave={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
+                onTouchMove={[Function]}
+                onTouchStart={[Function]}
+                tabIndex={0}
+                type="button"
+              >
+                <span
+                  className="MuiButton-label"
+                >
+                  <a
+                    href=""
+                  >
+                    <img
+                      alt="Approvals"
+                      className="navIcon"
+                      src="approvals.svg"
+                    />
+                    <div
+                      className="spacer"
+                    />
+                    <div
+                      className="title"
+                    >
+                      Approvals
+                    </div>
+                    <div
+                      className="alertBadge"
+                    >
+                      73
+                    </div>
+                  </a>
+                </span>
+              </button>
+              <button
+                className="MuiButtonBase-root MuiButton-root MuiButton-text wrapper"
+                disabled={false}
+                onBlur={[Function]}
+                onDragLeave={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onMouseDown={[Function]}
+                onMouseLeave={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
+                onTouchMove={[Function]}
+                onTouchStart={[Function]}
+                tabIndex={0}
+                type="button"
+              >
+                <span
+                  className="MuiButton-label"
+                >
+                  <a
+                    href=""
+                  >
+                    <img
+                      alt="Resources"
+                      className="navIcon"
+                      src="workstation.svg"
+                    />
+                    <div
+                      className="spacer"
+                    />
+                    <div
+                      className="title"
+                    >
+                      Resources
+                    </div>
+                  </a>
+                </span>
+              </button>
+              <button
+                className="MuiButtonBase-root MuiButton-root MuiButton-text wrapper"
+                disabled={false}
+                onBlur={[Function]}
+                onDragLeave={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onMouseDown={[Function]}
+                onMouseLeave={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
+                onTouchMove={[Function]}
+                onTouchStart={[Function]}
+                tabIndex={0}
+                type="button"
+              >
+                <span
+                  className="MuiButton-label"
+                >
+                  <a
+                    href=""
+                  >
+                    <img
+                      alt="View Users"
+                      className="navIcon"
+                      src="viewUsers.svg"
+                    />
+                    <div
+                      className="spacer"
+                    />
+                    <div
+                      className="title"
+                    >
+                      View Users
+                    </div>
+                  </a>
+                </span>
+              </button>
+              <button
+                className="MuiButtonBase-root MuiButton-root MuiButton-text wrapper"
+                disabled={false}
+                onBlur={[Function]}
+                onDragLeave={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onMouseDown={[Function]}
+                onMouseLeave={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
+                onTouchMove={[Function]}
+                onTouchStart={[Function]}
+                tabIndex={0}
+                type="button"
+              >
+                <span
+                  className="MuiButton-label"
+                >
+                  <a
+                    href=""
+                  >
+                    <img
+                      alt="My Account"
+                      className="navIcon"
+                      src="id.svg"
+                    />
+                    <div
+                      className="spacer"
+                    />
+                    <div
+                      className="title"
+                    >
+                      My Account
+                    </div>
+                  </a>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            className="drawerWrapper"
+            onClick={[Function]}
+            onTouchEnd={[Function]}
+          >
+            <button
+              className="MuiButtonBase-root MuiIconButton-root drawerButton"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={0}
+              type="button"
+            >
+              <span
+                className="MuiIconButton-label"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M2 15.5v2h20v-2H2zm0-5v2h20v-2H2zm0-5v2h20v-2H2z"
+                  />
+                </svg>
+              </span>
+            </button>
+            <div
+              className="MuiDrawer-root MuiDrawer-docked drawer"
+            >
+              <div
+                className="MuiPaper-root MuiDrawer-paper MuiDrawer-paperAnchorRight MuiDrawer-paperAnchorDockedRight MuiPaper-elevation0"
+                style={
+                  Object {
+                    "visibility": "hidden",
+                  }
+                }
+              >
+                <div
+                  className="drawerPatternBg"
+                >
+                  <div
+                    className="drawer"
+                  >
+                    <div>
+                      <button
+                        className="MuiButtonBase-root MuiIconButton-root drawerButton"
+                        disabled={false}
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onDragLeave={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        onKeyUp={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseLeave={[Function]}
+                        onMouseUp={[Function]}
+                        onTouchEnd={[Function]}
+                        onTouchMove={[Function]}
+                        onTouchStart={[Function]}
+                        tabIndex={0}
+                        type="button"
+                      >
+                        <span
+                          className="MuiIconButton-label"
+                        >
+                          <svg
+                            aria-hidden={true}
+                            className="MuiSvgIcon-root"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                            />
+                          </svg>
+                        </span>
+                      </button>
+                    </div>
+                    <div
+                      className="linksWrapper"
+                    >
+                      <button
+                        className="MuiButtonBase-root MuiButton-root MuiButton-text wrapper"
+                        disabled={false}
+                        onBlur={[Function]}
+                        onDragLeave={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        onKeyUp={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseLeave={[Function]}
+                        onMouseUp={[Function]}
+                        onTouchEnd={[Function]}
+                        onTouchMove={[Function]}
+                        onTouchStart={[Function]}
+                        tabIndex={0}
+                        type="button"
+                      >
+                        <span
+                          className="MuiButton-label"
+                        >
+                          <a
+                            href=""
+                          >
+                            <img
+                              alt="Approvals"
+                              className="navIcon"
+                              src="approvals.svg"
+                            />
+                            <div
+                              className="spacer"
+                            />
+                            <div
+                              className="title"
+                            >
+                              Approvals
+                            </div>
+                            <div
+                              className="alertBadge"
+                            >
+                              73
+                            </div>
+                          </a>
+                        </span>
+                      </button>
+                      <button
+                        className="MuiButtonBase-root MuiButton-root MuiButton-text wrapper"
+                        disabled={false}
+                        onBlur={[Function]}
+                        onDragLeave={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        onKeyUp={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseLeave={[Function]}
+                        onMouseUp={[Function]}
+                        onTouchEnd={[Function]}
+                        onTouchMove={[Function]}
+                        onTouchStart={[Function]}
+                        tabIndex={0}
+                        type="button"
+                      >
+                        <span
+                          className="MuiButton-label"
+                        >
+                          <a
+                            href=""
+                          >
+                            <img
+                              alt="Resources"
+                              className="navIcon"
+                              src="workstation.svg"
+                            />
+                            <div
+                              className="spacer"
+                            />
+                            <div
+                              className="title"
+                            >
+                              Resources
+                            </div>
+                          </a>
+                        </span>
+                      </button>
+                      <button
+                        className="MuiButtonBase-root MuiButton-root MuiButton-text wrapper"
+                        disabled={false}
+                        onBlur={[Function]}
+                        onDragLeave={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        onKeyUp={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseLeave={[Function]}
+                        onMouseUp={[Function]}
+                        onTouchEnd={[Function]}
+                        onTouchMove={[Function]}
+                        onTouchStart={[Function]}
+                        tabIndex={0}
+                        type="button"
+                      >
+                        <span
+                          className="MuiButton-label"
+                        >
+                          <a
+                            href=""
+                          >
+                            <img
+                              alt="View Users"
+                              className="navIcon"
+                              src="viewUsers.svg"
+                            />
+                            <div
+                              className="spacer"
+                            />
+                            <div
+                              className="title"
+                            >
+                              View Users
+                            </div>
+                          </a>
+                        </span>
+                      </button>
+                      <button
+                        className="MuiButtonBase-root MuiButton-root MuiButton-text wrapper"
+                        disabled={false}
+                        onBlur={[Function]}
+                        onDragLeave={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        onKeyUp={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseLeave={[Function]}
+                        onMouseUp={[Function]}
+                        onTouchEnd={[Function]}
+                        onTouchMove={[Function]}
+                        onTouchStart={[Function]}
+                        tabIndex={0}
+                        type="button"
+                      >
+                        <span
+                          className="MuiButton-label"
+                        >
+                          <a
+                            href=""
+                          >
+                            <img
+                              alt="My Account"
+                              className="navIcon"
+                              src="id.svg"
+                            />
+                            <div
+                              className="spacer"
+                            />
+                            <div
+                              className="title"
+                            >
+                              My Account
+                            </div>
+                          </a>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="content"
+  >
+    <div
+      className="container"
+    >
+      <h1
+        className="header"
+      >
+        Sit tight, your account is awaiting approval.
+      </h1>
+      <div
+        className="container"
+      >
+        <h2
+          className="text "
+        >
+          <span>
+            Your Application
+          </span>
+        </h2>
+      </div>
+      <h3
+        className="value"
+      >
+        <span
+          className="title"
+        >
+          Supervisor Name: 
+        </span>
+        Emmanuel Baguia
+      </h3>
+      <h3
+        className="title"
+      >
+        Reason:
+      </h3>
+      <div
+        className="MuiFormControl-root MuiTextField-root reasonField"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl MuiInputBase-multiline MuiOutlinedInput-multiline"
+          onClick={[Function]}
           style={
             Object {
-              "width": 0.01,
+              "fontSize": "1.17rem",
+              "lineHeight": "1.8rem",
             }
           }
         >
-          <span
-            dangerouslySetInnerHTML={
+          <textarea
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiOutlinedInput-inputMultiline"
+            defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            disabled={false}
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            readOnly={true}
+            required={false}
+            rows={5}
+          />
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+            style={
               Object {
-                "__html": "&#8203;",
+                "paddingLeft": 8,
               }
             }
-          />
-        </legend>
-      </fieldset>
+          >
+            <legend
+              className="PrivateNotchedOutline-legend-2"
+              style={
+                Object {
+                  "width": 0.01,
+                }
+              }
+            >
+              <span
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#8203;",
+                  }
+                }
+              />
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <h3
+        className="value"
+      >
+        <span
+          className="title"
+        >
+          Workstation Requested: 
+        </span>
+        ZEUS
+      </h3>
     </div>
-  </div>
-  <h3
-    className="value"
-  >
-    <span
-      className="title"
-    >
-      Workstation Requested: 
-    </span>
-    ZEUS
-  </h3>
-</div>
+  </div>,
+]
 `;
