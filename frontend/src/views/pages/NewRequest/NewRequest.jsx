@@ -4,6 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import styles from './NewRequest.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
+import selectMenuProps from '../../../assets/selectMenuProps';
 
 const NewRequest = () => {
     const [supervisor, setSupervisor] = useState('');
@@ -52,13 +53,7 @@ const NewRequest = () => {
                     defaultValue=''
                     fullWidth
                     variant='outlined'
-                    MenuProps={{
-                        anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        },
-                        getContentAnchorEl: null,
-                    }}
+                    MenuProps={selectMenuProps}
                     onChange={(e) => setWorkstation(e.target.value)}
                 >
                     {workstationNames.map((option) => (

@@ -5,6 +5,7 @@ import LandingPage from './views/pages/LandingPage/LandingPage';
 import { AppContext } from './AppContextProvider';
 import NewRequest from './views/pages/NewRequest/NewRequest';
 import PendingApproval from './views/pages/PendingApproval/PendingApproval';
+import SignupPage from './views/pages/SignupPage/SignupPage';
 
 function App() {
     const idToken = useContext(AppContext).firebaseUserIdToken;
@@ -12,8 +13,9 @@ function App() {
     function AuthenticatedPaths() {
         return (
             <Switch>
-                <Route exact path='/' component={NewRequest} />
+                <Route exact path='/' component={LandingPage} />
                 <Route path='/pending' component={PendingApproval} />
+                <Route exact path='/signup' component={SignupPage} />
                 {/* Default path */}
                 <Route component={NewRequest} />
             </Switch>

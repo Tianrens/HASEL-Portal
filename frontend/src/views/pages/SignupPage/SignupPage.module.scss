@@ -1,0 +1,52 @@
+@import '../../../assets/colours';
+
+.content {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    padding: 0 10rem;
+}
+
+.header {
+    color: $heading;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.accountDetailsContainer {
+    margin-bottom: 1rem;
+}
+
+.uoaEmail {
+    color: $body;
+    font-weight: 500;
+}
+
+.inputTitle {
+    color: $secondaryBlue;
+    margin-bottom: 0.3rem;
+}
+
+.nameContainer { // TODO: use Alex's media queries for more of a responsive design
+    display: flex;
+    flex-direction: row;
+}
+
+.nameInput {
+    width: 100%;
+    &:first-child {
+        margin-right: 1rem;
+    }
+}
+
+.inputField {
+    background-color: white;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
