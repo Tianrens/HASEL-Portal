@@ -21,8 +21,8 @@ const signUpRequestSchema = new SignUpRequestSchema(
             required: true,
             enum: ['PENDING', 'ACTIVE', 'EXPIRED', 'DECLINED'],
         },
-        startDate: { type: Date, required: true },
-        endDate: { type: Date, required: true },
+        startDate: { type: Date },
+        endDate: { type: Date },
     },
     {
         timestamps: {},

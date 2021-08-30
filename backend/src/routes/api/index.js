@@ -9,7 +9,7 @@ import booking from './booking';
 const router = express.Router();
 
 router.use('/user', firebaseAuth, user);
-router.use('/request', request);
+router.use('/request', firebaseAuth, request);
 router.use('/resource', resource);
 router.use('/booking', booking);
 
