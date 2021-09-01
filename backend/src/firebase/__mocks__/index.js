@@ -4,7 +4,7 @@ const firebase = {
         return this;
     },
     verifyIdToken(token) {
-        if (token === 'test') {
+        if (`${token}`.includes('test')) {
             this.id = token;
             return this;
         }

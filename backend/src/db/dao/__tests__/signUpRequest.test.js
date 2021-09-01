@@ -3,9 +3,11 @@ import mongoose from 'mongoose';
 import {
     createSignUpRequest,
     retrieveAllRequests,
+    retrieveRequests,
     retrieveRequestById,
     updateRequest,
     updateRequestStatus,
+    countRequests,
 } from '../signUpRequestDao';
 import { SignUpRequest } from '../../schemas/signUpRequestSchema';
 import { User } from '../../schemas/userSchema';
@@ -14,6 +16,7 @@ let mongo;
 let request1;
 let request2;
 let request3;
+let request4;
 let user1;
 /**
  * Before all tests, create an in-memory MongoDB instance so we don't have to test on a real database,
@@ -64,6 +67,18 @@ beforeEach(async () => {
         endDate: new Date(2021, 9, 29),
     };
 
+    request3 = {
+        userId: mongoose.Types.ObjectId('111111111111111111111111'),
+        allocatedResourceId: mongoose.Types.ObjectId(
+            '555555555555555555555555',
+        ),
+        supervisorName: 'Meads Andrew',
+        comments: 'Need access to the LESAH Lab machines for PhD research',
+        status: 'ACTIVE',
+        startDate: new Date(2021, 0, 21),
+        endDate: new Date(2021, 9, 29),
+    };
+
     user1 = new User({
         email: 'user1@gmail.com',
         upi: 'dnut420',
@@ -73,7 +88,7 @@ beforeEach(async () => {
         type: 'STUDENT',
     });
 
-    request3 = {
+    request4 = {
         userId: user1._id,
         allocatedResourceId: mongoose.Types.ObjectId(
             '444444444444444444444444',
@@ -85,7 +100,7 @@ beforeEach(async () => {
     };
 
     await usersColl.insertOne(user1);
-    await signUpRequestsColl.insertMany([request1, request2]);
+    await signUpRequestsColl.insertMany([request1, request2, request3]);
 });
 
 /**
@@ -121,17 +136,67 @@ it('get all requests', async () => {
     const requests = await retrieveAllRequests();
 
     expect(requests).toBeTruthy();
-    expect(requests).toHaveLength(2);
+    expect(requests).toHaveLength(3);
 
     expectDbRequestMatchWithRequest(requests[0], request1);
     expectDbRequestMatchWithRequest(requests[1], request2);
+    expectDbRequestMatchWithRequest(requests[2], request3);
+});
+
+it('get pending requests', async () => {
+    const STATUS = 'PENDING';
+    const PAGE = 1;
+    const LIMIT = 1;
+
+    const requests = await retrieveRequests(STATUS, PAGE, LIMIT);
+
+    expect(requests).toBeTruthy();
+    expect(requests).toHaveLength(1);
+
+    expectDbRequestMatchWithRequest(requests[0], request1);
+});
+
+it('get page 1 limit 2 active requests', async () => {
+    const STATUS = 'ACTIVE';
+    const PAGE = 1;
+    const LIMIT = 2;
+
+    const requests = await retrieveRequests(STATUS, PAGE, LIMIT);
+
+    expect(requests).toBeTruthy();
+    expect(requests).toHaveLength(2);
+
+    expectDbRequestMatchWithRequest(requests[0], request2);
+    expectDbRequestMatchWithRequest(requests[1], request3);
+});
+
+it('get page 2 limit 1 active requests', async () => {
+    const STATUS = 'ACTIVE';
+    const PAGE = 2;
+    const LIMIT = 1;
+
+    const requests = await retrieveRequests(STATUS, PAGE, LIMIT);
+
+    expect(requests).toBeTruthy();
+    expect(requests).toHaveLength(1);
+
+    expectDbRequestMatchWithRequest(requests[0], request3);
+});
+
+it('counts ACTIVE documents', async () => {
+    const STATUS = 'ACTIVE';
+
+    const count = await countRequests(STATUS);
+
+    expect(count).toBeTruthy();
+    expect(count).toEqual(2);
 });
 
 it('create new request', async () => {
-    const newRequest = await createSignUpRequest(request3);
+    const newRequest = await createSignUpRequest(request4);
     const dbRequest = await SignUpRequest.findById(newRequest._id);
 
-    expectDbRequestMatchWithRequest(dbRequest, request3);
+    expectDbRequestMatchWithRequest(dbRequest, request4);
 });
 
 it('retrieve a single request', async () => {

@@ -1,10 +1,11 @@
 import express from 'express';
-import { getUser } from './util/userUtil';
+import { checkSuperAdmin, getUser } from './util/userUtil';
 
 import {
     createSignUpRequest,
     updateRequestStatus,
-    retrieveAllRequests,
+    retrieveRequests,
+    countRequests,
 } from '../../db/dao/signUpRequestDao';
 
 const router = express.Router();
@@ -16,35 +17,41 @@ const HTTP_BAD_REQUEST = 400;
 const HTTP_FORBIDDEN = 403;
 const HTTP_NOT_IMPLEMENTED = 501;
 
+const BASE_VALUE = 10;
+
 /** POST new request */
 router.post('/', getUser, async (req, res) => {
-    let signUpRequest;
     try {
-        signUpRequest = await createSignUpRequest({
+        const signUpRequest = await createSignUpRequest({
             userId: req.user._id,
             allocatedResourceId: req.body.allocatedResourceId,
             supervisorName: req.body.supervisorName,
             comments: req.body.comments,
             status: 'PENDING',
         });
+        return res.status(HTTP_CREATED).json(signUpRequest);
     } catch (err) {
         return res.status(HTTP_BAD_REQUEST).json('Bad request');
     }
-
-    return res.status(HTTP_CREATED).json(signUpRequest);
 });
 
-/** GET all requests */
-router.get('/', getUser, async (req, res) => {
-    // TODO: GET all requests
-    if (req.user.type !== 'SUPERADMIN') {
-        return res.status(HTTP_FORBIDDEN).send('Forbidden: SUPERADMINs only');
-    }
+/** GET requests */
+router.get('/:status', getUser, checkSuperAdmin, async (req, res) => {
+    const { status } = req.params;
+    try {
+        const page = parseInt(req.query.page, BASE_VALUE);
+        const limit = parseInt(req.query.limit, BASE_VALUE);
 
-    // TODO: Pagination of some kind
-    // TODO: Filtering by type
-    const requests = await retrieveAllRequests();
-    return res.status(HTTP_OK).json(requests);
+        const count = await countRequests(status);
+        const pageCount = Math.ceil(count / limit);
+        const requests = await retrieveRequests(status, page, limit);
+        return res.status(HTTP_OK).json({
+            pageCount,
+            requests,
+        });
+    } catch (err) {
+        return res.status(HTTP_BAD_REQUEST).json('Bad request');
+    }
 });
 
 /** PATCH approve or deny request */
