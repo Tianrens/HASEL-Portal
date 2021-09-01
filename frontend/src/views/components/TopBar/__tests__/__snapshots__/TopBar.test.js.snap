@@ -121,6 +121,8 @@ exports[`TopBar renders properly 1`] = `
     }
   }
 >
-  <TopBar />
+  <MemoryRouter>
+    <TopBar />
+  </MemoryRouter>
 </Context.Provider>
 `;

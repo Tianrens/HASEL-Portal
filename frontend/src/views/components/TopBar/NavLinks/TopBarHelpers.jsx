@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, ClickAwayListener, Drawer, IconButton } from '@material-ui/core';
 import { Close, Dehaze } from '@material-ui/icons';
+import { Link } from 'react-router-dom';
 import styles from './TopBarHelpers.module.scss';
 import IdIcon from '../../../../assets/images/id.svg';
 import ApprovalsIcon from '../../../../assets/images/approvals.svg';
@@ -11,14 +12,14 @@ import ViewUsersIcon from '../../../../assets/images/viewUsers.svg';
 function NavBarLink({ title, icon, link, alertBadgeNumber }) {
     return (
         <Button className={styles.wrapper}>
-            <a href={link}>
+            <Link to={link}>
                 {icon}
                 <div className={styles.spacer} />
                 <div className={styles.title}>{title}</div>
                 {alertBadgeNumber ? (
                     <div className={styles.alertBadge}>{alertBadgeNumber}</div>
                 ) : null}
-            </a>
+            </Link>
         </Button>
     );
 }
@@ -28,16 +29,15 @@ function AdminLinks() {
     // TODO: Retrieve number of awaiting approvals from DB
     const numNewApprovals = 73;
 
-    // TODO: Add links when the pages are done
     const links = [
         {
             title: 'Approvals',
-            link: '',
+            link: '/approvals',
             src: ApprovalsIcon,
             badge: numNewApprovals,
         },
-        { title: 'Resources', link: '', src: WorkstationIcon },
-        { title: 'View Users', link: '', src: ViewUsersIcon },
+        { title: 'Resources', link: '/resources', src: WorkstationIcon },
+        { title: 'View Users', link: '/users', src: ViewUsersIcon },
     ];
 
     return links.map((item) => (
@@ -57,10 +57,9 @@ export function NavLinks({ isAdmin }) {
         <div className={styles.linksWrapper}>
             {isAdmin ? <AdminLinks /> : null}
 
-            {/* TODO: Add link when the page is done */}
             <NavBarLink
                 title='My Account'
-                link=''
+                link='/user'
                 icon={<img className={styles.navIcon} src={IdIcon} alt='My Account' />}
             />
         </div>

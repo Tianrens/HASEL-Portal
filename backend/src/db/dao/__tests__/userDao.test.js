@@ -33,7 +33,7 @@ beforeAll(async () => {
  * Before each test, intialize the database with some data
  */
 beforeEach(async () => {
-    const usersColl = await mongoose.connection.db.createCollection('users');
+    const usersColl = await mongoose.connection.db.collection('users');
 
     user1 = {
         email: 'user1@gmail.com',

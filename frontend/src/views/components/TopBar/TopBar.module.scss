@@ -52,11 +52,6 @@ $topBarHeight: 58px;
     font-weight: bold;
     padding: 0.2em;
     flex-direction: column;
-    transition: all 0.3s;
-
-    &:hover {
-        background-color: $blackBgHoverColour;
-    }
 }
 
 .subTitle {

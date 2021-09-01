@@ -14,24 +14,29 @@ Array [
         <div
           className="bgLayer"
         >
-          <img
-            alt="University of Auckland"
-            className="uoaLogo"
-            src="uoaLogo.svg"
-          />
-          <div
-            className="spacer"
-          />
-          <div
-            className="title"
+          <a
+            href="/"
+            onClick={[Function]}
           >
-            HASEL Lab
+            <img
+              alt="University of Auckland"
+              className="uoaLogo"
+              src="uoaLogo.svg"
+            />
             <div
-              className="subTitle"
+              className="spacer"
+            />
+            <div
+              className="title"
             >
-              SUPERADMIN
+              HASEL Lab
+              <div
+                className="subTitle"
+              >
+                SUPERADMIN
+              </div>
             </div>
-          </div>
+          </a>
           <div
             className="pushSpacer"
           />
@@ -62,7 +67,8 @@ Array [
                   className="MuiButton-label"
                 >
                   <a
-                    href=""
+                    href="/approvals"
+                    onClick={[Function]}
                   >
                     <img
                       alt="Approvals"
@@ -106,7 +112,8 @@ Array [
                   className="MuiButton-label"
                 >
                   <a
-                    href=""
+                    href="/resources"
+                    onClick={[Function]}
                   >
                     <img
                       alt="Resources"
@@ -145,7 +152,8 @@ Array [
                   className="MuiButton-label"
                 >
                   <a
-                    href=""
+                    href="/users"
+                    onClick={[Function]}
                   >
                     <img
                       alt="View Users"
@@ -184,7 +192,8 @@ Array [
                   className="MuiButton-label"
                 >
                   <a
-                    href=""
+                    href="/user"
+                    onClick={[Function]}
                   >
                     <img
                       alt="My Account"
@@ -318,7 +327,8 @@ Array [
                           className="MuiButton-label"
                         >
                           <a
-                            href=""
+                            href="/approvals"
+                            onClick={[Function]}
                           >
                             <img
                               alt="Approvals"
@@ -362,7 +372,8 @@ Array [
                           className="MuiButton-label"
                         >
                           <a
-                            href=""
+                            href="/resources"
+                            onClick={[Function]}
                           >
                             <img
                               alt="Resources"
@@ -401,7 +412,8 @@ Array [
                           className="MuiButton-label"
                         >
                           <a
-                            href=""
+                            href="/users"
+                            onClick={[Function]}
                           >
                             <img
                               alt="View Users"
@@ -440,7 +452,8 @@ Array [
                           className="MuiButton-label"
                         >
                           <a
-                            href=""
+                            href="/user"
+                            onClick={[Function]}
                           >
                             <img
                               alt="My Account"
