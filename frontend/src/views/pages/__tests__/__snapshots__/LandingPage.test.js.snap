@@ -44,6 +44,9 @@ exports[`Landing Page renders properly 1`] = `
         </div>
       </div>
       <div
+        className="expandingSpacer"
+      />
+      <div
         className="loginContainer"
       >
         <button

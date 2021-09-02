@@ -1,6 +1,8 @@
+@import '../../../../assets/responsiveDesignHelpers';
+
 .fullPage {
     display: flex;
-    width: 100vw;
+    width: 100%;
     min-height: 100vh;
     height: 100%;
 }
@@ -13,4 +15,12 @@
 
 .rightSide {
     width: 35vw;
+    display: block;
+}
+
+// Hide bg image
+@include responsive(tablet) {
+    .rightSide {
+        display: none;
+    }
 }

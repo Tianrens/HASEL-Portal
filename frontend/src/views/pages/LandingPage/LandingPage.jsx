@@ -1,6 +1,14 @@
 import React from 'react';
 import { useSnackbar } from 'notistack';
-import { content, header, loginContainer, QnA, subheader, text } from './LandingPage.module.scss';
+import {
+    content,
+    expandingSpacer,
+    header,
+    loginContainer,
+    QnA,
+    subheader,
+    text,
+} from './LandingPage.module.scss';
 import LoginButton from '../../components/buttons/LoginButton';
 import HeroPageTemplate from '../../components/templates/HeroPageTemplate/HeroPageTemplate';
 
@@ -42,6 +50,7 @@ function LandingPage() {
                     </p>
                 </div>
             </div>
+            <div className={expandingSpacer} />
             <div className={loginContainer}>
                 <LoginButton callback={loginSuccessCallback} errorCallback={loginFailCallback} />
             </div>

@@ -1,11 +1,11 @@
 @import '../../../assets/colours';
+@import '../../../assets/responsiveDesignHelpers';
 
 .content {
+    @extend .responsiveMargin;
     display: flex;
     flex-direction: column;
-    height: 100vh;
     justify-content: center;
-    padding: 0 10rem;
 }
 
 .header {
@@ -28,7 +28,7 @@
     margin-bottom: 0.3rem;
 }
 
-.nameContainer { // TODO: use Alex's media queries for more of a responsive design
+.nameContainer {
     display: flex;
     flex-direction: row;
 }
@@ -49,4 +49,11 @@
     justify-content: center;
     margin-top: 2rem;
     margin-bottom: 2rem;
+}
+
+// Make name inputs appear in a column
+@include responsive(mobile) {
+    .nameContainer {
+        flex-direction: column;
+    }
 }
