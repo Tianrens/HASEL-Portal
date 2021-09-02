@@ -5,17 +5,18 @@ import { StylesProvider } from '@material-ui/core';
 import { SnackbarProvider } from 'notistack';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { AppContextProvider } from './AppContextProvider';
+import './state/state';
+import StateProvider from './state/StateProvider';
 
 ReactDOM.render(
     <React.StrictMode>
-        <AppContextProvider>
-            <StylesProvider injectFirst>
+        <StylesProvider injectFirst>
+            <StateProvider>
                 <SnackbarProvider>
                     <App />
                 </SnackbarProvider>
-            </StylesProvider>
-        </AppContextProvider>
+            </StateProvider>
+        </StylesProvider>
     </React.StrictMode>,
     document.getElementById('root'),
 );

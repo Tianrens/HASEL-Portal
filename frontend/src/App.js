@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import LandingPage from './views/pages/LandingPage/LandingPage';
-import { AppContext } from './AppContextProvider';
 import NewRequest from './views/pages/NewRequest/NewRequest';
 import PendingApproval from './views/pages/PendingApproval/PendingApproval';
 import SignupPage from './views/pages/SignupPage/SignupPage';
+import { useDoc } from './state/state';
+import { idTokenDoc } from './state/docs/idTokenDoc';
 
 function App() {
-    const idToken = useContext(AppContext).firebaseUserIdToken;
+    const [idToken] = useDoc(idTokenDoc);
 
     function AuthenticatedPaths() {
         return (
