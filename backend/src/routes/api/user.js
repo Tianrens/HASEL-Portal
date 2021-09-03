@@ -9,7 +9,7 @@ const HTTP_NOT_IMPLEMENTED = 501;
 
 /** POST a new user from Firebase */
 router.post('/', async (req, res) => {
-    let dbUser = await retrieveUserByAuthId(req.body.firebaseUID);
+    let dbUser = await retrieveUserByAuthId(req.firebase.uid);
 
     if (dbUser) {
         res.status(HTTP_BAD_REQUEST);
@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
     dbUser = await createUser({
         email: req.body.email,
         upi: req.body.upi,
-        authUserId: req.body.firebaseUID,
+        authUserId: req.firebase.uid,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         type: req.body.type,

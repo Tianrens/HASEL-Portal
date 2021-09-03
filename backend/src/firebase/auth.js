@@ -25,7 +25,7 @@ function firebaseAuth(request, response, next) {
         .auth()
         .verifyIdToken(token)
         .then((user) => {
-            request.body.firebaseUID = user.uid;
+            request.firebase = user;
             next();
         })
         .catch(() => {

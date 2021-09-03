@@ -5,10 +5,10 @@ const HTTP_FORBIDDEN = 403;
 // Gets the user related to the current auth token, and sets to req.user
 // Should always be called after auth
 async function getUser(req, res, next) {
-    if (req.body.firebaseUID) {
-        req.user = await retrieveUserByAuthId(req.body.firebaseUID);
+    if (req.firebase) {
+        req.user = await retrieveUserByAuthId(req.firebase.uid);
     }
-    if (!req.body.firebaseUID || !req.user) {
+    if (!req.firebase || !req.user) {
         return res.status(HTTP_FORBIDDEN).send('Token not in database');
     }
     return next();
