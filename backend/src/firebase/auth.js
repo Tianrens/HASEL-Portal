@@ -2,7 +2,7 @@ import firebase from './index';
 
 /**
  * Middleware. Checks if firebase sesion id is valid.
- * If so, the request body is set with the firebaeUID, for ease of access.
+ * If so, the request body is set with the firebaseUID, for ease of access.
  */
 // eslint-disable-next-line consistent-return
 function firebaseAuth(request, response, next) {

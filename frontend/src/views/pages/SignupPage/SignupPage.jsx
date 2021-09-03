@@ -8,6 +8,8 @@ import StyledHeader from '../../components/text/StyledHeader';
 import HeroPageTemplate from '../../components/templates/HeroPageTemplate/HeroPageTemplate';
 import selectMenuProps from '../../../assets/selectMenuProps';
 import { auth } from '../../../firebase';
+import accountTypes from './accountTypes';
+import { signUpUser } from '../../../state/docs/userDoc';
 
 const SignupPage = () => {
     const [firstName, setFirstName] = useState('');
@@ -15,13 +17,11 @@ const SignupPage = () => {
     const [upi, setUpi] = useState('');
     const [accountType, setAccountType] = useState('');
 
-    const accountTypes = ['Student', 'Staff', 'Academic', 'Other']; // TODO: extract into config file
     const uoaEmail = auth?.currentUser?.email ?? 'Unknown email, please contact Admin';
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // TODO: Call signup API
-        console.log(`${firstName} ${lastName}`, upi, accountType);
+        await signUpUser(firstName, lastName, upi, accountType.toUpperCase());
     };
 
     return (

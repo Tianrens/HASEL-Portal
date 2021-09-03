@@ -1,5 +1,6 @@
 const firebase = {
     id: '',
+    email: 'test@email.com',
     auth() {
         return this;
     },
@@ -22,7 +23,7 @@ const firebase = {
         return null;
     },
     then(next) {
-        next({ uid: this.id });
+        next({ uid: this.id, email: this.email });
         return {
             catch() {},
         };

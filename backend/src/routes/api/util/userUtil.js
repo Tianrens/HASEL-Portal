@@ -1,6 +1,5 @@
 import { retrieveUserByAuthId } from '../../../db/dao/userDao';
-
-const HTTP_FORBIDDEN = 403;
+import HTTP from './http_codes';
 
 // Gets the user related to the current auth token, and sets to req.user
 // Should always be called after auth
@@ -9,7 +8,7 @@ async function getUser(req, res, next) {
         req.user = await retrieveUserByAuthId(req.firebase.uid);
     }
     if (!req.firebase || !req.user) {
-        return res.status(HTTP_FORBIDDEN).send('Token not in database');
+        return res.status(HTTP.FORBIDDEN).send('Token not in database');
     }
     return next();
 }
@@ -20,7 +19,7 @@ async function checkAdmin(req, res, next) {
     if (req.user.type === 'SUPERADMIN' || req.user.type === 'ADMIN') {
         return next();
     }
-    return res.status(HTTP_FORBIDDEN).send('Forbidden: ADMINs only');
+    return res.status(HTTP.FORBIDDEN).send('Forbidden: ADMINs only');
 }
 
 // Checks if the current user is a superadmin
@@ -29,7 +28,7 @@ async function checkSuperAdmin(req, res, next) {
     if (req.user.type === 'SUPERADMIN') {
         return next();
     }
-    return res.status(HTTP_FORBIDDEN).send('Forbidden: SUPERADMINs only');
+    return res.status(HTTP.FORBIDDEN).send('Forbidden: SUPERADMINs only');
 }
 
 export { getUser, checkAdmin, checkSuperAdmin };

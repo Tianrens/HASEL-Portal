@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import styles from './TopBar.module.scss';
 import UoaLogo from '../../../assets/images/uoaLogo.svg';
 import { HamburgerDrawer, NavLinks } from './NavLinks/TopBarHelpers';
+import { useDoc } from '../../../state/state';
+import { userDoc } from '../../../state/docs/userDoc';
 
 export default function TopBar() {
-    // TODO: Get userType and determine if they are admin or not
-    const userType = 'SUPERADMIN';
-    const isAdmin = true;
+    const [user] = useDoc(userDoc);
+    const userType = user?.type;
+    const isAdmin = user?.type === 'ADMIN' || user?.type === 'SUPER_ADMIN';
 
     return (
         <div className={styles.fillTopbarSpace}>

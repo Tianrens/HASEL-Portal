@@ -5,6 +5,7 @@ import express from 'express';
 import router from '../request';
 import firebaseAuth from '../../../firebase/auth';
 import { User } from '../../../db/schemas/userSchema';
+import HTTP from '../util/http_codes';
 
 let mongo;
 let app;
@@ -18,11 +19,6 @@ let user2;
 
 const TOKEN_PASS = 'test';
 const TOKEN_FAIL = 'fail';
-
-const HTTP_OK = 200;
-const HTTP_CREATED = 201;
-const HTTP_BAD_REQUEST = 400;
-const HTTP_FORBIDDEN = 403;
 
 jest.mock('../../../firebase/index.js');
 const REQUEST_API_URL = 'http://localhost:3000/api/request';
@@ -170,7 +166,7 @@ it('create request success', async () => {
     });
 
     expect(response).toBeDefined();
-    expect(response.status).toEqual(HTTP_CREATED);
+    expect(response.status).toEqual(HTTP.CREATED);
     expectDbRequestMatchWithRequest(response.data, request4);
 });
 
@@ -181,7 +177,7 @@ it('create request bad token', async () => {
             authorization: `Bearer ${TOKEN_FAIL}`,
         },
     });
-    expect(response.status).toEqual(HTTP_FORBIDDEN);
+    expect(response.status).toEqual(HTTP.FORBIDDEN);
 });
 
 it('get requests page 1 limit 2', async () => {
@@ -199,7 +195,7 @@ it('get requests page 1 limit 2', async () => {
     );
 
     expect(response).toBeDefined();
-    expect(response.status).toEqual(HTTP_OK);
+    expect(response.status).toEqual(HTTP.OK);
 
     expect(response.data.pageCount).toEqual(1);
     expect(response.data.requests).toHaveLength(2);
@@ -222,7 +218,7 @@ it('get requests page 2 limit 1', async () => {
     );
 
     expect(response).toBeDefined();
-    expect(response.status).toEqual(HTTP_OK);
+    expect(response.status).toEqual(HTTP.OK);
     expect(response.data.pageCount).toEqual(2);
     expect(response.data.requests).toHaveLength(1);
     expectDbRequestMatchWithRequest(response.data.requests[0], request3);
@@ -242,7 +238,7 @@ it('get requests bad request', async () => {
             },
         },
     );
-    expect(response.status).toEqual(HTTP_BAD_REQUEST);
+    expect(response.status).toEqual(HTTP.BAD_REQUEST);
 });
 
 it('get requests invalid permissions', async () => {
@@ -260,5 +256,5 @@ it('get requests invalid permissions', async () => {
             },
         },
     );
-    expect(response.status).toEqual(HTTP_FORBIDDEN);
+    expect(response.status).toEqual(HTTP.FORBIDDEN);
 });

@@ -7,18 +7,26 @@ import PendingApproval from './views/pages/PendingApproval/PendingApproval';
 import SignupPage from './views/pages/SignupPage/SignupPage';
 import { useDoc } from './state/state';
 import { idTokenDoc } from './state/docs/idTokenDoc';
+import { userDoc } from './state/docs/userDoc';
 
 function App() {
     const [idToken] = useDoc(idTokenDoc);
+    const [user] = useDoc(userDoc);
 
+    function SignupPaths() {
+        return (
+            <Switch>
+                <Route component={SignupPage} />
+            </Switch>
+        );
+    }
     function AuthenticatedPaths() {
         return (
             <Switch>
-                <Route exact path='/signup' component={SignupPage} />
                 <Route path='/request' component={NewRequest} />
                 <Route path='/pending' component={PendingApproval} />
                 {/* Default path */}
-                <Route component={SignupPage} />
+                <Route component={NewRequest} />
             </Switch>
         );
     }
@@ -26,14 +34,25 @@ function App() {
     function UnauthenticatedPaths() {
         return (
             <Switch>
-                <Route exact path='/' component={LandingPage} />
-                {/* Default path */}
                 <Route component={LandingPage} />
             </Switch>
         );
     }
 
-    return <Router>{idToken ? <AuthenticatedPaths /> : <UnauthenticatedPaths />}</Router>;
+    function Paths() {
+        // Not authenticated with Firebase
+        if (!idToken) {
+            return UnauthenticatedPaths();
+        }
+        // Authenticated with Firebase but not submitted details
+        if (idToken && !user) {
+            return SignupPaths();
+        }
+        // Authenticated with Firebase and submitted details
+        return AuthenticatedPaths();
+    }
+
+    return <Router>{Paths()}</Router>;
 }
 
 export default App;
