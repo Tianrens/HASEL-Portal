@@ -1,5 +1,8 @@
 import express from 'express';
 import HTTP from './util/http_codes';
+import { getUser } from './util/userUtil';
+import { retrieveAllResources } from '../../db/dao/resourceDao';
+import { retrieveBookingsByResource } from '../../db/dao/bookingDao';
 
 const router = express.Router();
 
@@ -12,19 +15,31 @@ router.post('/', (req, res) => {
 });
 
 /** GET all resources */
-router.get('/', (req, res) => {
-    // TODO: GET all resources
-    console.log(req.originalUrl);
-
-    return res.status(HTTP.NOT_IMPLEMENTED).send('Unimplemented');
+router.get('/', async (req, res) => {
+    const resources = await retrieveAllResources();
+    return res.status(HTTP.OK).json(resources);
 });
 
 /** GET bookings for a resource */
-router.get('/booking', (req, res) => {
+router.get('/booking/:resourceId', getUser, async (req, res) => {
     // TODO: GET bookings for a resource
-    console.log(req.originalUrl);
+    const { resourceId } = req.params;
+    const { currentRequestId } = req.user;
 
-    return res.status(HTTP.NOT_IMPLEMENTED).send('Unimplemented');
+    // User can only view resource if they are allocated the resource or if they are ADMINs
+    if (
+        (currentRequestId?.status === 'ACTIVE' &&
+            currentRequestId?.allocatedResourceId === resourceId) ||
+        req.user.type === 'SUPERADMIN' ||
+        req.user.type === 'ADMIN'
+    ) {
+        // TODO: Probably need to limit retrieved bookings within a range as to not overload the client
+        const bookings = await retrieveBookingsByResource(resourceId);
+        return res.status(HTTP.OK).json(bookings);
+    }
+    return res
+        .status(HTTP.FORBIDDEN)
+        .send('No permission to view this resource');
 });
 
 /** PUT edit a resource */

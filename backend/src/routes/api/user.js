@@ -63,7 +63,7 @@ router.get('/info', async (req, res) => {
     const dbUser = await retrieveUserByAuthId(req.firebase.uid);
     if (!dbUser) {
         res.status(HTTP.NOT_FOUND);
-        return res.send('user has not signed up');
+        return res.send('User has not signed up');
     }
     return res.send(dbUser);
 });

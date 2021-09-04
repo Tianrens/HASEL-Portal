@@ -9,8 +9,10 @@ import {
     updateUser,
 } from '../userDao';
 import { User } from '../../schemas/userSchema';
+import { SignUpRequest } from '../../schemas/signUpRequestSchema';
 
 let mongo;
+let request1;
 let user1;
 let user2;
 let user3;
@@ -35,16 +37,32 @@ beforeAll(async () => {
  */
 beforeEach(async () => {
     const usersColl = await mongoose.connection.db.collection('users');
+    const signUpRequestsColl = await mongoose.connection.db.collection(
+        'signuprequests',
+    );
 
-    user1 = {
+    user1 = new User({
         email: 'user1@gmail.com',
-        currentRequestId: mongoose.Types.ObjectId('888888888888888888888888'),
         upi: 'dnut420',
         authUserId: '12345',
         firstName: 'Denise',
         lastName: 'Nuts',
         type: 'STUDENT',
-    };
+    });
+
+    request1 = new SignUpRequest({
+        userId: user1._id,
+        allocatedResourceId: mongoose.Types.ObjectId(
+            '666666666666666666666666',
+        ),
+        supervisorName: 'Reza Shahamiri',
+        comments: 'Need to use the deep learning machines for part 4 project.',
+        status: 'PENDING',
+        startDate: new Date(2021, 0, 21),
+        endDate: new Date(2021, 9, 19),
+    });
+
+    user1.currentRequestId = request1._id;
 
     user2 = {
         email: 'user2@gmail.com',
@@ -65,6 +83,7 @@ beforeEach(async () => {
     };
 
     await usersColl.insertMany([user1, user2]);
+    await signUpRequestsColl.insertOne(request1);
 });
 
 /**
@@ -85,7 +104,13 @@ afterAll(async () => {
 function expectDbUserMatchWithUser(dbUser, user) {
     expect(dbUser).toBeTruthy();
     expect(dbUser.email).toEqual(user.email);
-    expect(dbUser.currentRequestId).toEqual(user.currentRequestId);
+    if (dbUser.currentRequestId) {
+        // Should only run if the currentRequestId exists, in which case it should be populated
+        expect(dbUser.currentRequestId._id).toEqual(user.currentRequestId);
+    } else {
+        // Otherwise check if they are both empty
+        expect(dbUser.currentRequestId).toEqual(user.currentRequestId);
+    }
     expect(dbUser.upi).toEqual(user.upi);
     expect(dbUser.authUserId).toEqual(user.authUserId);
     expect(dbUser.firstName).toEqual(user.firstName);

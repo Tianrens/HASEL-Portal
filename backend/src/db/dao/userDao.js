@@ -20,11 +20,18 @@ async function updateUser(userId, newUserInfo) {
 }
 
 async function retrieveUserByAuthId(authId) {
-    return User.findOne({ authUserId: authId });
+    return User.findOne({ authUserId: authId }).populate('currentRequestId');
 }
 
 async function retrieveUserByType(userType) {
     return User.find({ type: userType });
 }
 
-export { createUser, retrieveAllUsers, retrieveUserById, updateUser, retrieveUserByAuthId, retrieveUserByType };
+export {
+    createUser,
+    retrieveAllUsers,
+    retrieveUserById,
+    updateUser,
+    retrieveUserByAuthId,
+    retrieveUserByType,
+};
