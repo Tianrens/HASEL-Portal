@@ -1,1 +1,1 @@
-export { sendEmail } from './sendEmail';
+export { sendNewRequestEmailToSuperAdmins } from './sendEmail';

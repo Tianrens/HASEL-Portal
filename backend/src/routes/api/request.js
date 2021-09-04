@@ -7,6 +7,7 @@ import {
     retrieveRequests,
     countRequests,
 } from '../../db/dao/signUpRequestDao';
+import { sendNewRequestEmailToSuperAdmins } from '../../email';
 
 const router = express.Router();
 
@@ -22,6 +23,14 @@ router.post('/', getUser, async (req, res) => {
             comments: req.body.comments,
             status: 'PENDING',
         });
+
+        if (process.env.NODE_ENV === 'production') {
+            sendNewRequestEmailToSuperAdmins(
+                signUpRequest,
+                `${req.protocol}://${req.get('host')}`,
+            );
+        }
+
         return res.status(HTTP.CREATED).json(signUpRequest);
     } catch (err) {
         return res.status(HTTP.BAD_REQUEST).json('Bad request');

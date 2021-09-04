@@ -2,6 +2,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import {
     createUser,
+    retrieveUserByType,
     retrieveAllUsers,
     retrieveUserByAuthId,
     retrieveUserById,
@@ -145,4 +146,12 @@ it('try to retrieve user with invalid auth id', async () => {
     const dbUser = await retrieveUserByAuthId('invalidAuthId');
 
     expect(dbUser).toBeNull();
+});
+
+it('try to retrieve user with type', async () => {
+    const studentUsers = await retrieveUserByType('STUDENT');
+
+    expect(studentUsers).toBeTruthy();
+    expect(studentUsers).toHaveLength(1);
+    expectDbUserMatchWithUser(studentUsers[0], user1);
 });

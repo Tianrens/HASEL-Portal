@@ -23,4 +23,8 @@ async function retrieveUserByAuthId(authId) {
     return User.findOne({ authUserId: authId });
 }
 
-export { createUser, retrieveAllUsers, retrieveUserById, updateUser, retrieveUserByAuthId };
+async function retrieveUserByType(userType) {
+    return User.find({ type: userType });
+}
+
+export { createUser, retrieveAllUsers, retrieveUserById, updateUser, retrieveUserByAuthId, retrieveUserByType };
