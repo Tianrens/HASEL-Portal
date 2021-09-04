@@ -1,25 +1,41 @@
 @import '../../../assets/colours';
-
-.container {
-    min-height: 2rem;
-    overflow: hidden;
-}
+@import '../../../assets/responsiveDesignHelpers';
 
 .text {
     color: $body;
-    width: 100%;
+    line-height: normal;
     text-align: center;
-    border-bottom: 1px solid #000;
-    line-height: 0.1em;
-    margin: 10px 0 20px;
+    overflow: hidden;
 }
-
 .text span {
-    background: #fff;
-    padding: 0 10px;
+    display: inline-block;
+    position: relative;
+}
+.text span:before,
+.text span:after {
+    content: '';
+    position: absolute;
+    height: 5px;
+    border-bottom: 1px solid black;
+    top: 0.45em;
+    width: 1000%;
+}
+.text span:before {
+    right: 100%;
+    margin-right: 15px;
+}
+.text span:after {
+    left: 100%;
+    margin-left: 15px;
 }
 
 .alignLeft {
     text-align: left;
     padding-left: 5vw;
+}
+
+@include responsive(mobile) {
+    .alignLeft {
+        padding-left: 0;
+    }
 }

@@ -29,9 +29,7 @@ const SignupPage = () => {
             <div className={styles.content}>
                 <h1 className={styles.header}>Finish setting up your HASEL lab account.</h1>
                 <div className={styles.accountDetailsContainer}>
-                    <StyledHeader bold left>
-                        Account Details
-                    </StyledHeader>
+                    <StyledHeader left>Account Details</StyledHeader>
                     <p className={styles.inputTitle}>UoA Email</p>
                     <p className={styles.uoaEmail}>{uoaEmail}</p>
                 </div>
