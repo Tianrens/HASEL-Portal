@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cd backend && npm ci --only=dev && npm ci && npm run build && cd ../frontend && npm ci --only=dev && npm ci && npm run build && cp -R build ../backend/dist/build && cd ..",
-    "start": "cd backend && npm start"
+    "start": "cd backend && npm start",
+    "clean": "cd backend && npm run clean && cd .. && cd frontend && npm run clean && cd .."
   },
   "repository": {
     "type": "git",
