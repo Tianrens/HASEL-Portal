@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import styles from './StyledButton.module.scss';
 
-export function StyledButton({ color, size, icon, onClick, children, type }) {
+export function StyledButton({ color, size, icon, onClick, children, type, form }) {
     return (
         <Button
             variant='contained'
@@ -11,6 +11,7 @@ export function StyledButton({ color, size, icon, onClick, children, type }) {
             className={`${styles.button} ${styles[color]}`}
             size={size}
             type={type}
+            form={form}
         >
             {children}
         </Button>

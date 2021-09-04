@@ -5,6 +5,7 @@ import LandingPage from './views/pages/LandingPage/LandingPage';
 import NewRequest from './views/pages/NewRequest/NewRequest';
 import PendingApproval from './views/pages/PendingApproval/PendingApproval';
 import SignupPage from './views/pages/SignupPage/SignupPage';
+import NewBooking from './views/pages/NewBooking/NewBooking';
 import { useDoc } from './state/state';
 import { idTokenDoc } from './state/docs/idTokenDoc';
 import { userDoc } from './state/docs/userDoc';
@@ -25,6 +26,7 @@ function App() {
             <Switch>
                 <Route path='/request' component={NewRequest} />
                 <Route path='/pending' component={PendingApproval} />
+                <Route path='/new-booking' component={NewBooking} />
                 {/* Default path */}
                 <Route component={NewRequest} />
             </Switch>
