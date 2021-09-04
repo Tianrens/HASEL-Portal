@@ -3,6 +3,7 @@ import http from 'http';
 import path from 'path';
 import mongoose from 'mongoose';
 import routes from './routes';
+import { expiringRequests } from './cron';
 
 const app = express();
 const server = http.createServer(app);
@@ -35,6 +36,8 @@ if (process.env.NODE_ENV === 'production') {
         res.sendFile(path.join(__dirname, 'build', 'index.html'));
     });
 }
+
+expiringRequests();
 
 server.listen(PORT, () => {
     console.log(`Server is running on PORT: ${PORT}`);

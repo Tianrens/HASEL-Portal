@@ -4,7 +4,7 @@ import { retrieveUserByType, retrieveUserById } from '../db/dao/userDao';
 
 require('dotenv').config();
 
-function sendEmail(
+export function sendEmail(
     recipientEmail,
     emailSubject,
     emailText = null,
