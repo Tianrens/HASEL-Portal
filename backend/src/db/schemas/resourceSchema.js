@@ -5,6 +5,7 @@ const ResourceSchema = mongoose.Schema;
 const resourceSchema = new ResourceSchema(
     {
         name: { type: String, required: true },
+        host: { type: String, required: true },
         location: { type: String, required: true },
         numGPUs: { type: Number, required: true },
         gpuDescription: { type: String, required: true },

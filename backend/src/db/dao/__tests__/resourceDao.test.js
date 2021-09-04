@@ -43,6 +43,7 @@ beforeEach(async () => {
 
     resource1 = new Resource({
         name: 'Machine 1',
+        host: '192.168.1.100',
         location: 'HASEL Lab',
         numGPUs: 2,
         gpuDescription: 'Nvidia GeForce RTX 2080',
@@ -52,6 +53,7 @@ beforeEach(async () => {
 
     resource2 = new Resource({
         name: 'Deep Learning Machine 3',
+        host: '192.168.1.101',
         location: 'Level 9 Building 405',
         numGPUs: 4,
         gpuDescription: 'Nvidia GeForce RTX 3080',
@@ -61,6 +63,7 @@ beforeEach(async () => {
 
     resource3 = {
         name: 'Deep Learning Machine 2',
+        host: '192.168.1.102',
         location: 'HASEL Lab',
         numGPUs: 3,
         gpuDescription: 'Nvidia GeForce RTX 3060 Ti',
