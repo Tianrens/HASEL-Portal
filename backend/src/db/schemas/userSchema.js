@@ -21,7 +21,10 @@ const userSchema = new UserSchema(
             type: String,
             required: true,
             enum: [
-                'STUDENT',
+                'UNDERGRAD',
+                'MASTERS',
+                'POSTGRAD',
+                'PHD',
                 'STAFF',
                 'ADMIN',
                 'SUPERADMIN',

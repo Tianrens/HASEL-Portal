@@ -6,16 +6,27 @@ import router from '../request';
 import firebaseAuth from '../../../firebase/auth';
 import { User } from '../../../db/schemas/userSchema';
 import HTTP from '../util/http_codes';
+import { SignUpRequest } from '../../../db/schemas/signUpRequestSchema';
+import { retrieveRequestById } from '../../../db/dao/signUpRequestDao';
 
 let mongo;
 let app;
 let server;
-let request1;
-let request2;
-let request3;
-let request4;
-let user1;
-let user2;
+let dummyRequestWithAllFieldsSet1;
+let dummyRequestWithAllFieldsSet2;
+let dummyRequestWithAllFieldsSet3;
+let studentUserRequest1;
+let studentUserRequest2;
+let academicUserRequest;
+let staffUserRequest;
+let requestApproval;
+let requestDeclined;
+let requestApprovalWithCustomRequestValidity;
+let requestApprovalWithNewResourceAllocation;
+let studentUser;
+let superAdminUser;
+let academicUser;
+let staffUser;
 
 const TOKEN_PASS = 'test';
 const TOKEN_FAIL = 'fail';
@@ -53,16 +64,16 @@ beforeEach(async () => {
     );
 
     // Need to use user constructor to obtain _id value
-    user1 = new User({
-        email: 'user1@gmail.com',
+    studentUser = new User({
+        email: 'studentUser@gmail.com',
         upi: 'dnut420',
         authUserId: 'test1',
         firstName: 'Denise',
         lastName: 'Nuts',
-        type: 'STUDENT',
+        type: 'PHD',
     });
 
-    user2 = new User({
+    superAdminUser = new User({
         email: 'rezabuff@gmail.com',
         upi: 'reza420',
         authUserId: 'test2',
@@ -71,7 +82,25 @@ beforeEach(async () => {
         type: 'SUPERADMIN',
     });
 
-    request1 = {
+    academicUser = new User({
+        email: 'academicUser@gmail.com',
+        upi: 'lbor789',
+        authUserId: 'test1',
+        firstName: 'Lemon',
+        lastName: 'Borat',
+        type: 'ACADEMIC',
+    });
+
+    staffUser = new User({
+        email: 'staffUser@gmail.com',
+        upi: 'pbul356',
+        authUserId: 'test1',
+        firstName: 'Pit',
+        lastName: 'Bull',
+        type: 'STAFF',
+    });
+
+    dummyRequestWithAllFieldsSet1 = {
         userId: mongoose.Types.ObjectId('888888888888888888888888'),
         allocatedResourceId: mongoose.Types.ObjectId(
             '666666666666666666666666',
@@ -83,7 +112,7 @@ beforeEach(async () => {
         endDate: new Date(2021, 9, 19),
     };
 
-    request2 = {
+    dummyRequestWithAllFieldsSet2 = {
         userId: mongoose.Types.ObjectId('999999999999999999999999'),
         allocatedResourceId: mongoose.Types.ObjectId(
             '555555555555555555555555',
@@ -95,7 +124,7 @@ beforeEach(async () => {
         endDate: new Date(2021, 9, 29),
     };
 
-    request3 = {
+    dummyRequestWithAllFieldsSet3 = {
         userId: mongoose.Types.ObjectId('111111111111111111111111'),
         allocatedResourceId: mongoose.Types.ObjectId(
             '555555555555555555555555',
@@ -107,8 +136,8 @@ beforeEach(async () => {
         endDate: new Date(2021, 9, 29),
     };
 
-    request4 = {
-        userId: user1._id,
+    studentUserRequest1 = {
+        userId: studentUser._id,
         allocatedResourceId: mongoose.Types.ObjectId(
             '444444444444444444444444',
         ),
@@ -116,8 +145,64 @@ beforeEach(async () => {
         status: 'PENDING', // status always pending on creation
     };
 
-    await usersColl.insertMany([user1, user2]);
-    await signUpRequestsColl.insertMany([request1, request2, request3]);
+    studentUserRequest2 = new SignUpRequest({
+        userId: studentUser._id,
+        allocatedResourceId: mongoose.Types.ObjectId(
+            '666666666666666666666666',
+        ),
+        supervisorName: 'Kelly Blincoe',
+        status: 'PENDING', // status always pending on creation
+    });
+
+    academicUserRequest = new SignUpRequest({
+        userId: academicUser._id,
+        allocatedResourceId: mongoose.Types.ObjectId(
+            '777777777777777777777777',
+        ),
+        status: 'PENDING', // status always pending on creation
+    });
+
+    staffUserRequest = new SignUpRequest({
+        userId: staffUser._id,
+        allocatedResourceId: mongoose.Types.ObjectId(
+            '777777777777777777777777',
+        ),
+        status: 'PENDING', // status always pending on creation
+    });
+
+    requestApproval = {
+        status: 'ACTIVE',
+    };
+
+    requestDeclined = {
+        status: 'DECLINED',
+    };
+
+    requestApprovalWithCustomRequestValidity = {
+        status: 'ACTIVE',
+        // The requestValidity specifies in months how long the request will be active for
+        requestValidity: 8,
+    };
+
+    requestApprovalWithNewResourceAllocation = {
+        status: 'ACTIVE',
+        allocatedResourceId: '888888888888888888888888',
+    };
+
+    await usersColl.insertMany([
+        studentUser,
+        superAdminUser,
+        academicUser,
+        staffUser,
+    ]);
+    await signUpRequestsColl.insertMany([
+        dummyRequestWithAllFieldsSet1,
+        dummyRequestWithAllFieldsSet2,
+        dummyRequestWithAllFieldsSet3,
+        studentUserRequest2,
+        academicUserRequest,
+        staffUserRequest,
+    ]);
 });
 
 /**
@@ -158,8 +243,27 @@ function validateStatus(status) {
     return status < 500; // Resolve only if the status code is less than 500
 }
 
+function datesAreTheSame(first, second) {
+    const firstDate = new Date(first);
+    const secondDate = new Date(second);
+
+    expect(firstDate.getFullYear()).toEqual(secondDate.getFullYear());
+    expect(firstDate.getMonth()).toEqual(secondDate.getMonth());
+    expect(firstDate.getDate()).toEqual(secondDate.getDate());
+    expect(firstDate.getHours()).toEqual(secondDate.getHours());
+    expect(firstDate.getMinutes()).toEqual(secondDate.getMinutes());
+}
+
+function monthDiffBetweenDates(date1, date2) {
+    let months;
+    months = (date2.getFullYear() - date1.getFullYear()) * 12;
+    months -= date1.getMonth();
+    months += date2.getMonth();
+    return months <= 0 ? 0 : months;
+}
+
 it('create request success', async () => {
-    const response = await axios.post(REQUEST_API_URL, request4, {
+    const response = await axios.post(REQUEST_API_URL, studentUserRequest1, {
         headers: {
             authorization: `Bearer ${TOKEN_PASS}1`,
         },
@@ -167,11 +271,11 @@ it('create request success', async () => {
 
     expect(response).toBeDefined();
     expect(response.status).toEqual(HTTP.CREATED);
-    expectDbRequestMatchWithRequest(response.data, request4);
+    expectDbRequestMatchWithRequest(response.data, studentUserRequest1);
 });
 
 it('create request bad token', async () => {
-    const response = await axios.post(REQUEST_API_URL, request4, {
+    const response = await axios.post(REQUEST_API_URL, studentUserRequest1, {
         validateStatus,
         headers: {
             authorization: `Bearer ${TOKEN_FAIL}`,
@@ -199,8 +303,14 @@ it('get requests page 1 limit 2', async () => {
 
     expect(response.data.pageCount).toEqual(1);
     expect(response.data.requests).toHaveLength(2);
-    expectDbRequestMatchWithRequest(response.data.requests[0], request2);
-    expectDbRequestMatchWithRequest(response.data.requests[1], request3);
+    expectDbRequestMatchWithRequest(
+        response.data.requests[0],
+        dummyRequestWithAllFieldsSet2,
+    );
+    expectDbRequestMatchWithRequest(
+        response.data.requests[1],
+        dummyRequestWithAllFieldsSet3,
+    );
 });
 
 it('get requests page 2 limit 1', async () => {
@@ -221,7 +331,10 @@ it('get requests page 2 limit 1', async () => {
     expect(response.status).toEqual(HTTP.OK);
     expect(response.data.pageCount).toEqual(2);
     expect(response.data.requests).toHaveLength(1);
-    expectDbRequestMatchWithRequest(response.data.requests[0], request3);
+    expectDbRequestMatchWithRequest(
+        response.data.requests[0],
+        dummyRequestWithAllFieldsSet3,
+    );
 });
 
 it('get requests bad request', async () => {
@@ -257,4 +370,219 @@ it('get requests invalid permissions', async () => {
         },
     );
     expect(response.status).toEqual(HTTP.FORBIDDEN);
+});
+
+it('approve PHD student request valid permissions', async () => {
+    const response = await axios.patch(
+        `${REQUEST_API_URL}/${studentUserRequest2._id}`,
+        requestApproval,
+        {
+            validateStatus,
+            headers: {
+                authorization: `Bearer ${TOKEN_PASS}2`,
+            },
+        },
+    );
+
+    const updatedRequest = await retrieveRequestById(studentUserRequest2._id);
+
+    expect(response.status).toEqual(HTTP.NO_CONTENT);
+    expect(updatedRequest.allocatedResourceId.toString()).toEqual(
+        '666666666666666666666666',
+    );
+    expect(updatedRequest.status).toEqual('ACTIVE');
+    datesAreTheSame(updatedRequest.startDate, Date.now());
+    expect(
+        monthDiffBetweenDates(updatedRequest.startDate, updatedRequest.endDate),
+    ).toEqual(12);
+});
+
+it('approve request invalid permissions', async () => {
+    const response = await axios.patch(
+        `${REQUEST_API_URL}/${studentUserRequest2._id}`,
+        requestApproval,
+        {
+            validateStatus,
+            headers: {
+                authorization: `Bearer ${TOKEN_PASS}1`,
+            },
+        },
+    );
+
+    const dbRequest = await retrieveRequestById(studentUserRequest2._id);
+    expect(response.status).toEqual(HTTP.FORBIDDEN);
+    expect(dbRequest.status).toEqual('PENDING');
+});
+
+it('decline request valid permissions', async () => {
+    const response = await axios.patch(
+        `${REQUEST_API_URL}/${studentUserRequest2._id}`,
+        requestDeclined,
+        {
+            validateStatus,
+            headers: {
+                authorization: `Bearer ${TOKEN_PASS}2`,
+            },
+        },
+    );
+
+    const updatedRequest = await retrieveRequestById(studentUserRequest2._id);
+
+    expect(response.status).toEqual(HTTP.NO_CONTENT);
+    expect(updatedRequest.status).toEqual('DECLINED');
+    expect(updatedRequest.startDate).toBeUndefined();
+    expect(updatedRequest.endDate).toBeUndefined();
+});
+
+it('approve ACADEMIC request valid permissions', async () => {
+    const response = await axios.patch(
+        `${REQUEST_API_URL}/${academicUserRequest._id}`,
+        requestApproval,
+        {
+            validateStatus,
+            headers: {
+                authorization: `Bearer ${TOKEN_PASS}2`,
+            },
+        },
+    );
+
+    const updatedRequest = await retrieveRequestById(academicUserRequest._id);
+
+    expect(response.status).toEqual(HTTP.NO_CONTENT);
+    expect(updatedRequest.allocatedResourceId.toString()).toEqual(
+        '777777777777777777777777',
+    );
+    expect(updatedRequest.status).toEqual('ACTIVE');
+    datesAreTheSame(updatedRequest.startDate, Date.now());
+    expect(updatedRequest.endDate).toBeUndefined();
+});
+
+it('approve STAFF request valid permissions', async () => {
+    const response = await axios.patch(
+        `${REQUEST_API_URL}/${staffUserRequest._id}`,
+        requestApprovalWithCustomRequestValidity,
+        {
+            validateStatus,
+            headers: {
+                authorization: `Bearer ${TOKEN_PASS}2`,
+            },
+        },
+    );
+
+    const updatedRequest = await retrieveRequestById(staffUserRequest._id);
+
+    expect(response.status).toEqual(HTTP.NO_CONTENT);
+    expect(updatedRequest.allocatedResourceId.toString()).toEqual(
+        '777777777777777777777777',
+    );
+    expect(updatedRequest.status).toEqual('ACTIVE');
+    datesAreTheSame(updatedRequest.startDate, Date.now());
+    expect(
+        monthDiffBetweenDates(updatedRequest.startDate, updatedRequest.endDate),
+    ).toEqual(8);
+});
+
+it('approve STAFF request valid permissions', async () => {
+    const response = await axios.patch(
+        `${REQUEST_API_URL}/${staffUserRequest._id}`,
+        requestApprovalWithCustomRequestValidity,
+        {
+            validateStatus,
+            headers: {
+                authorization: `Bearer ${TOKEN_PASS}2`,
+            },
+        },
+    );
+
+    const updatedRequest = await retrieveRequestById(staffUserRequest._id);
+
+    expect(response.status).toEqual(HTTP.NO_CONTENT);
+    expect(updatedRequest.allocatedResourceId.toString()).toEqual(
+        '777777777777777777777777',
+    );
+    expect(updatedRequest.status).toEqual('ACTIVE');
+    datesAreTheSame(updatedRequest.startDate, Date.now());
+    expect(
+        monthDiffBetweenDates(updatedRequest.startDate, updatedRequest.endDate),
+    ).toEqual(8);
+});
+
+it('approve PHD student request with different resource allocation', async () => {
+    const response = await axios.patch(
+        `${REQUEST_API_URL}/${studentUserRequest2._id}`,
+        requestApprovalWithNewResourceAllocation,
+        {
+            validateStatus,
+            headers: {
+                authorization: `Bearer ${TOKEN_PASS}2`,
+            },
+        },
+    );
+
+    const updatedRequest = await retrieveRequestById(studentUserRequest2._id);
+
+    expect(response.status).toEqual(HTTP.NO_CONTENT);
+    expect(updatedRequest.allocatedResourceId.toString()).toEqual(
+        '888888888888888888888888',
+    );
+    expect(updatedRequest.status).toEqual('ACTIVE');
+    datesAreTheSame(updatedRequest.startDate, Date.now());
+    expect(
+        monthDiffBetweenDates(updatedRequest.startDate, updatedRequest.endDate),
+    ).toEqual(12);
+});
+
+it('delete a request with valid permissions', async () => {
+    const response = await axios.delete(
+        `${REQUEST_API_URL}/${dummyRequestWithAllFieldsSet1._id}`,
+        {
+            validateStatus,
+            headers: {
+                authorization: `Bearer ${TOKEN_PASS}2`,
+            },
+        },
+    );
+
+    const deletedRequest = await retrieveRequestById(
+        dummyRequestWithAllFieldsSet1._id,
+    );
+
+    expect(response.status).toEqual(HTTP.NO_CONTENT);
+    expect(deletedRequest).toBeNull();
+});
+
+it('delete a request with invalid permissions', async () => {
+    const response = await axios.delete(
+        `${REQUEST_API_URL}/${dummyRequestWithAllFieldsSet1._id}`,
+        {
+            validateStatus,
+            headers: {
+                authorization: `Bearer ${TOKEN_PASS}1`,
+            },
+        },
+    );
+
+    const deletedRequest = await retrieveRequestById(
+        dummyRequestWithAllFieldsSet1._id,
+    );
+
+    expect(response.status).toEqual(HTTP.FORBIDDEN);
+    expectDbRequestMatchWithRequest(
+        deletedRequest,
+        dummyRequestWithAllFieldsSet1,
+    );
+});
+
+it('delete a request which does not exist', async () => {
+    const response = await axios.delete(
+        `${REQUEST_API_URL}/999999999999999999999999`,
+        {
+            validateStatus,
+            headers: {
+                authorization: `Bearer ${TOKEN_PASS}2`,
+            },
+        },
+    );
+
+    expect(response.status).toEqual(HTTP.NOT_FOUND);
 });

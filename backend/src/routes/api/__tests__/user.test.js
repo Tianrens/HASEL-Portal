@@ -57,7 +57,7 @@ beforeEach(async () => {
         firebaseToken: 'test', // needs to be 'test' if you want it to pass, 'fail' if you want it to fail for the firebase mock.
         firstName: 'Tofu',
         lastName: 'Pancake',
-        type: 'STUDENT',
+        type: 'MASTERS',
     };
 
     await usersColl.insertOne(user1);

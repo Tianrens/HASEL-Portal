@@ -2,14 +2,14 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import { addDays, subDays } from 'date-fns';
 import {
+    countRequests,
     createSignUpRequest,
     retrieveAllRequests,
-    retrieveRequests,
-    retrieveRequestById,
     retrieveExpiringRequests,
+    retrieveRequestById,
+    retrieveRequests,
     updateRequest,
     updateRequestStatus,
-    countRequests,
 } from '../signUpRequestDao';
 import { SignUpRequest } from '../../schemas/signUpRequestSchema';
 import { User } from '../../schemas/userSchema';
@@ -99,7 +99,7 @@ describe('non-time dependent tests', () => {
             authUserId: '12345',
             firstName: 'Denise',
             lastName: 'Nuts',
-            type: 'STUDENT',
+            type: 'UNDERGRAD',
         });
 
         request4 = {
@@ -124,7 +124,7 @@ describe('non-time dependent tests', () => {
         await mongoose.connection.db.dropCollection('signuprequests');
         await mongoose.connection.db.dropCollection('users');
     });
-    
+
     function expectDbRequestMatchWithRequest(dbRequest, request) {
         expect(dbRequest).toBeTruthy();
         expect(dbRequest.userId).toEqual(request.userId);
@@ -303,14 +303,18 @@ describe('time dependent tests', () => {
             endDate: addDays(new Date(), 100),
         };
 
-        await signUpRequestsColl.insertMany([expiredTest, expiringTest, nonExpiringTest]);
+        await signUpRequestsColl.insertMany([
+            expiredTest,
+            expiringTest,
+            nonExpiringTest,
+        ]);
     });
 
     afterEach(async () => {
         await mongoose.connection.db.dropCollection('signuprequests');
     });
 
-    it('retrieve expiring requests', async ()=> {
+    it('retrieve expiring requests', async () => {
         const expiringRequests = await retrieveExpiringRequests();
         expect(expiringRequests).toBeTruthy();
         expect(expiringRequests).toHaveLength(1);

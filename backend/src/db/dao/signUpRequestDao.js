@@ -1,4 +1,4 @@
-import { endOfDay, startOfDay, addDays } from 'date-fns';
+import { addDays, endOfDay, startOfDay } from 'date-fns';
 import { User } from '../schemas/userSchema';
 
 const { SignUpRequest } = require('../schemas/signUpRequestSchema');
@@ -31,7 +31,7 @@ async function retrieveRequests(status, page, limit) {
 
 /**
  * A request is expiring if it ends 7 days from now.
- * @returns 
+ * @returns
  */
 async function retrieveExpiringRequests() {
     return SignUpRequest.find({
@@ -55,6 +55,16 @@ async function updateRequest(requestId, newRequestInfo) {
     await SignUpRequest.updateOne({ _id: requestId }, newRequestInfo);
 }
 
+async function setRequestEndDate(requestId, endDate) {
+    const dbRequest = await SignUpRequest.findById(requestId);
+    dbRequest.endDate = endDate;
+    await dbRequest.save();
+}
+
+async function deleteRequest(requestId) {
+    await SignUpRequest.deleteOne({ _id: requestId });
+}
+
 export {
     createSignUpRequest,
     updateRequestStatus,
@@ -64,4 +74,6 @@ export {
     countRequests,
     retrieveRequestById,
     updateRequest,
+    setRequestEndDate,
+    deleteRequest,
 };

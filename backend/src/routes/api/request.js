@@ -2,14 +2,24 @@ import express from 'express';
 import { checkSuperAdmin, getUser } from './util/userUtil';
 import HTTP from './util/http_codes';
 import {
-    createSignUpRequest,
-    updateRequestStatus,
-    retrieveRequests,
     countRequests,
+    createSignUpRequest,
+    deleteRequest,
+    retrieveRequestById,
+    retrieveRequests,
+    setRequestEndDate,
+    updateRequest,
+    updateRequestStatus,
 } from '../../db/dao/signUpRequestDao';
+import { retrieveUserById } from '../../db/dao/userDao';
 import { sendNewRequestEmailToSuperAdmins } from '../../email';
 
 const router = express.Router();
+
+const UNDERGRAD_REQUEST_VALIDITY = 3;
+const MASTERS_REQUEST_VALIDITY = 6;
+const POSTGRAD_REQUEST_VALIDITY = 6;
+const PHD_REQUEST_VALIDITY = 12;
 
 const BASE_VALUE = 10;
 
@@ -57,39 +67,88 @@ router.get('/:status', getUser, checkSuperAdmin, async (req, res) => {
 });
 
 /** PATCH approve or deny request */
-router.patch('/', getUser, (req, res) => {
-    // TODO: PATCH approve or deny request
-    if (req.user.type !== 'SUPERADMIN') {
-        return res.status(HTTP.FORBIDDEN).send('Forbidden: SUPERADMINs only');
-    }
-
+router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
     // Status must be either ACTIVE or DECLINED
     if (
         !req.body.status ||
-        req.body.status !== 'ACTIVE' ||
-        req.body.status !== 'DECLINED'
+        (req.body.status !== 'ACTIVE' && req.body.status !== 'DECLINED')
     ) {
         return res.status(HTTP.BAD_REQUEST).send('Bad request');
     }
 
     try {
-        updateRequestStatus(req.body.requestId, req.body.status);
+        const { requestId } = req.params;
+        const request = await retrieveRequestById(requestId);
+
+        if (request === null) {
+            return res
+                .status(HTTP.NOT_FOUND)
+                .send(`Could not find request with id: ${requestId}`);
+        }
+        await updateRequestStatus(requestId, req.body.status);
+
+        if (req.body.status === 'ACTIVE') {
+            const requestUser = await retrieveUserById(request.userId);
+            const userType = requestUser.type;
+            let requestValidity;
+            if (userType === 'UNDERGRAD') {
+                requestValidity = UNDERGRAD_REQUEST_VALIDITY;
+            } else if (userType === 'MASTERS') {
+                requestValidity = MASTERS_REQUEST_VALIDITY;
+            } else if (userType === 'POSTGRAD') {
+                requestValidity = POSTGRAD_REQUEST_VALIDITY;
+            } else if (userType === 'PHD') {
+                requestValidity = PHD_REQUEST_VALIDITY;
+            } else if ('requestValidity' in req.body) {
+                // If a custom request duration is specified
+                // The requestValidity specifies in months how long the request will be active for
+                requestValidity = req.body.requestValidity;
+            }
+
+            const startDate = Date.now();
+            let { allocatedResourceId } = request;
+            if ('allocatedResourceId' in req.body) {
+                allocatedResourceId = req.body.allocatedResourceId;
+            }
+
+            await updateRequest(requestId, {
+                allocatedResourceId,
+                startDate,
+            });
+
+            const endDate = new Date(startDate);
+
+            if (requestValidity) {
+                await setRequestEndDate(
+                    requestId,
+                    endDate.setMonth(endDate.getMonth() + requestValidity),
+                );
+            }
+        }
     } catch (err) {
-        console.err(err);
+        console.log(err);
         return res.status(HTTP.BAD_REQUEST).send('Bad request');
     }
-
-    // TODO: Set start and end dates
 
     return res.status(HTTP.NO_CONTENT).send('Successful');
 });
 
 /** DELETE a request */
-router.delete('/', (req, res) => {
-    // TODO: DELETE a request
-    console.log(req.originalUrl);
+router.delete('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
+    try {
+        const { requestId } = req.params;
+        const request = await retrieveRequestById(requestId);
+        if (request === null) {
+            return res
+                .status(HTTP.NOT_FOUND)
+                .send(`Could not find request with id: ${requestId}`);
+        }
+        await deleteRequest(requestId);
+    } catch (err) {
+        return res.status(HTTP.BAD_REQUEST).json('Bad request');
+    }
 
-    return res.status(HTTP.NOT_IMPLEMENTED).send('Unimplemented');
+    return res.status(HTTP.NO_CONTENT).send('Successful');
 });
 
 export default router;

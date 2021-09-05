@@ -77,7 +77,7 @@ beforeEach(async () => {
         authUserId: '12345',
         firstName: 'Denise',
         lastName: 'Nuts',
-        type: 'STUDENT',
+        type: 'UNDERGRAD',
     });
 
     request1 = new SignUpRequest({

@@ -2,10 +2,10 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import {
     createUser,
-    retrieveUserByType,
     retrieveAllUsers,
     retrieveUserByAuthId,
     retrieveUserById,
+    retrieveUserByType,
     updateUser,
 } from '../userDao';
 import { User } from '../../schemas/userSchema';
@@ -47,7 +47,7 @@ beforeEach(async () => {
         authUserId: '12345',
         firstName: 'Denise',
         lastName: 'Nuts',
-        type: 'STUDENT',
+        type: 'UNDERGRAD',
     });
 
     request1 = new SignUpRequest({
@@ -174,7 +174,7 @@ it('try to retrieve user with invalid auth id', async () => {
 });
 
 it('try to retrieve user with type', async () => {
-    const studentUsers = await retrieveUserByType('STUDENT');
+    const studentUsers = await retrieveUserByType('UNDERGRAD');
 
     expect(studentUsers).toBeTruthy();
     expect(studentUsers).toHaveLength(1);
