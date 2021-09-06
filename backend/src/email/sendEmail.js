@@ -39,11 +39,12 @@ export async function sendNewRequestEmailToSuperAdmins(signUpRequest, url) {
         retrieveUserById(signUpRequest.userId),
         retrieveUserByType('SUPERADMIN'),
     ]).then(([user, superAdmins]) => {
-        const { firstName, lastName } = user;
+        const { firstName, lastName, type } = user;
 
         const emailSubject = `New Sign Up Request - ${firstName} ${lastName}`;
         const requestLink = `${url}/request/${signUpRequest._id}`;
-        const htmlContent = `<html><body>To view their request, click <a href=${requestLink}>here</a></body></html>`;
+        const htmlContent = `<html><body>An user of type ${type} has submitted a new sign up request. 
+        <br/><br/>To view their request, click <a href=${requestLink}>here</a></body></html>`;
 
         for (let i = 0; i < superAdmins.length; i += 1) {
             const superAdmin = superAdmins[i];
