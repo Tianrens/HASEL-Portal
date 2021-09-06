@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -6,21 +7,26 @@ import styles from './NewRequest.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import selectMenuProps from '../../../assets/selectMenuProps';
+import { authRequest } from '../../../hooks/util/authRequest';
+import { useCrud } from '../../../hooks/useCrud';
 
 const NewRequest = () => {
+    const history = useHistory();
+
     const [supervisor, setSupervisor] = useState('');
     const [reason, setReason] = useState('');
-    const [workstation, setWorkstation] = useState('');
+    const [workstation, setWorkstation] = useState(null);
 
-    const workstationNames = ['Zeus', 'Apollo', 'Athena'];
-
+    const workstations = useCrud('/api/resource').data;
     const showSupervisor = false;
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // send email
-        // call API
-        console.log(supervisor, reason, workstation);
+    
+    const handleSubmit = () => {
+        authRequest('/api/request', 'POST', {
+            allocatedResourceId: workstation,
+            supervisorName: supervisor,
+            comments: reason
+        });
+        history.push('/pending');
     };
 
     return (
@@ -60,9 +66,9 @@ const NewRequest = () => {
                         MenuProps={selectMenuProps}
                         onChange={(e) => setWorkstation(e.target.value)}
                     >
-                        {workstationNames.map((option) => (
-                            <MenuItem key={option} value={option}>
-                                {option}
+                        {workstations && workstations.map((option) => (
+                            <MenuItem key={option.name} value={option}>
+                                {option.name}
                             </MenuItem>
                         ))}
                     </Select>

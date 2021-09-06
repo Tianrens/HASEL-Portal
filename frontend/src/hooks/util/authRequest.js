@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { accessDoc } from '../state';
-import { idTokenDoc } from '../docs/idTokenDoc';
+import { accessDoc } from '../../state/state';
+import { idTokenDoc } from '../../state/docs/idTokenDoc';
 
 export async function authRequest(url, type, data) {
     const [idToken] = accessDoc(idTokenDoc);

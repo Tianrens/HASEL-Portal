@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDoc, accessDoc } from '../state';
-import { authRequest } from '../util/authRequest';
+import { authRequest } from '../../hooks/util/authRequest';
 import { idTokenDoc } from './idTokenDoc';
 
 // Define the name stored in the state
