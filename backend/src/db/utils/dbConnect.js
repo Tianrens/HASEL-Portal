@@ -5,7 +5,7 @@ const mongoUri = process.env.ATLAS_URI;
 export function connectToDatabase() {
     return mongoose.connect(
         mongoUri,
-        { useNewUrlParser: true, useUnifiedTopology: true },
+        { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
         (err) => {
             if (err) {
                 throw err;
