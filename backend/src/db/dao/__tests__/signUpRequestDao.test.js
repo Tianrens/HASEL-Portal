@@ -56,8 +56,17 @@ describe('non-time dependent tests', () => {
 
         const usersColl = await mongoose.connection.db.collection('users');
 
+        user1 = new User({
+            email: 'user1@gmail.com',
+            upi: 'dnut420',
+            authUserId: '12345',
+            firstName: 'Denise',
+            lastName: 'Nuts',
+            type: 'UNDERGRAD',
+        });
+
         request1 = {
-            userId: mongoose.Types.ObjectId('888888888888888888888888'),
+            userId: user1._id,
             allocatedResourceId: mongoose.Types.ObjectId(
                 '666666666666666666666666',
             ),
@@ -70,7 +79,7 @@ describe('non-time dependent tests', () => {
         };
 
         request2 = {
-            userId: mongoose.Types.ObjectId('999999999999999999999999'),
+            userId: user1._id,
             allocatedResourceId: mongoose.Types.ObjectId(
                 '555555555555555555555555',
             ),
@@ -82,7 +91,7 @@ describe('non-time dependent tests', () => {
         };
 
         request3 = {
-            userId: mongoose.Types.ObjectId('111111111111111111111111'),
+            userId: user1._id,
             allocatedResourceId: mongoose.Types.ObjectId(
                 '555555555555555555555555',
             ),
@@ -92,15 +101,6 @@ describe('non-time dependent tests', () => {
             startDate: new Date(2021, 0, 21),
             endDate: new Date(2021, 9, 29),
         };
-
-        user1 = new User({
-            email: 'user1@gmail.com',
-            upi: 'dnut420',
-            authUserId: '12345',
-            firstName: 'Denise',
-            lastName: 'Nuts',
-            type: 'UNDERGRAD',
-        });
 
         request4 = {
             userId: user1._id,
@@ -127,7 +127,9 @@ describe('non-time dependent tests', () => {
 
     function expectDbRequestMatchWithRequest(dbRequest, request) {
         expect(dbRequest).toBeTruthy();
-        expect(dbRequest.userId).toEqual(request.userId);
+
+        // Occurs if the userId is populated
+        expect(dbRequest.userId._id).toEqual(request.userId);
         expect(dbRequest.allocatedResourceId).toEqual(
             request.allocatedResourceId,
         );

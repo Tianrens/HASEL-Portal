@@ -15,6 +15,7 @@ let server;
 let dummyRequestWithAllFieldsSet1;
 let dummyRequestWithAllFieldsSet2;
 let dummyRequestWithAllFieldsSet3;
+let dummyRequestWithAllFieldsSet4;
 let studentUserRequest1;
 let studentUserRequest2;
 let academicUserRequest;
@@ -101,7 +102,7 @@ beforeEach(async () => {
     });
 
     dummyRequestWithAllFieldsSet1 = {
-        userId: mongoose.Types.ObjectId('888888888888888888888888'),
+        userId: studentUser._id,
         allocatedResourceId: mongoose.Types.ObjectId(
             '666666666666666666666666',
         ),
@@ -113,7 +114,7 @@ beforeEach(async () => {
     };
 
     dummyRequestWithAllFieldsSet2 = {
-        userId: mongoose.Types.ObjectId('999999999999999999999999'),
+        userId: studentUser._id,
         allocatedResourceId: mongoose.Types.ObjectId(
             '555555555555555555555555',
         ),
@@ -125,12 +126,24 @@ beforeEach(async () => {
     };
 
     dummyRequestWithAllFieldsSet3 = {
-        userId: mongoose.Types.ObjectId('111111111111111111111111'),
+        userId: studentUser._id,
         allocatedResourceId: mongoose.Types.ObjectId(
             '555555555555555555555555',
         ),
         supervisorName: 'Meads Andrew',
         comments: 'Need access to the LESAH Lab machines for PhD research',
+        status: 'ACTIVE',
+        startDate: new Date(2021, 0, 21),
+        endDate: new Date(2021, 9, 29),
+    };
+
+    dummyRequestWithAllFieldsSet4 = {
+        userId: studentUser._id,
+        allocatedResourceId: mongoose.Types.ObjectId(
+            '555555555555555555555555',
+        ),
+        supervisorName: 'Joey Car',
+        comments: 'Reasons',
         status: 'ACTIVE',
         startDate: new Date(2021, 0, 21),
         endDate: new Date(2021, 9, 29),
@@ -199,6 +212,7 @@ beforeEach(async () => {
         dummyRequestWithAllFieldsSet1,
         dummyRequestWithAllFieldsSet2,
         dummyRequestWithAllFieldsSet3,
+        dummyRequestWithAllFieldsSet4,
         studentUserRequest2,
         academicUserRequest,
         staffUserRequest,
@@ -224,9 +238,17 @@ afterAll(async () => {
 
 function expectDbRequestMatchWithRequest(responseRequest, requestRequest) {
     expect(responseRequest).toBeTruthy();
-    expect(responseRequest.userId.toString()).toEqual(
-        requestRequest.userId.toString(),
-    );
+    if (responseRequest.userId._id) {
+        // Populated
+        expect(responseRequest.userId._id.toString()).toEqual(
+            requestRequest.userId._id.toString(),
+        );
+    } else {
+        // Not populated
+        expect(responseRequest.userId.toString()).toEqual(
+            requestRequest.userId.toString(),
+        );
+    }
     expect(responseRequest.allocatedResourceId.toString()).toEqual(
         requestRequest.allocatedResourceId.toString(),
     );
@@ -301,7 +323,7 @@ it('get requests page 1 limit 2', async () => {
     expect(response).toBeDefined();
     expect(response.status).toEqual(HTTP.OK);
 
-    expect(response.data.pageCount).toEqual(1);
+    expect(response.data.pageCount).toEqual(2);
     expect(response.data.requests).toHaveLength(2);
     expectDbRequestMatchWithRequest(
         response.data.requests[0],
@@ -329,7 +351,7 @@ it('get requests page 2 limit 1', async () => {
 
     expect(response).toBeDefined();
     expect(response.status).toEqual(HTTP.OK);
-    expect(response.data.pageCount).toEqual(2);
+    expect(response.data.pageCount).toEqual(3);
     expect(response.data.requests).toHaveLength(1);
     expectDbRequestMatchWithRequest(
         response.data.requests[0],
@@ -337,21 +359,29 @@ it('get requests page 2 limit 1', async () => {
     );
 });
 
-it('get requests bad request', async () => {
-    const STATUS = 'PENDING';
-    const PAGE = 0;
-    const LIMIT = 1;
+it('get requests page 2 limit 2', async () => {
+    const STATUS = 'ACTIVE';
+    const PAGE = 2;
+    const LIMIT = 2;
 
     const response = await axios.get(
         `${REQUEST_API_URL}/${STATUS}/?page=${PAGE}&limit=${LIMIT}`,
         {
-            validateStatus,
             headers: {
                 authorization: `Bearer ${TOKEN_PASS}2`,
             },
         },
     );
-    expect(response.status).toEqual(HTTP.BAD_REQUEST);
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.OK);
+
+    expect(response.data.pageCount).toEqual(2);
+    expect(response.data.requests).toHaveLength(1);
+    expectDbRequestMatchWithRequest(
+        response.data.requests[0],
+        dummyRequestWithAllFieldsSet4,
+    );
 });
 
 it('get requests invalid permissions', async () => {
