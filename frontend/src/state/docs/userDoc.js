@@ -34,7 +34,9 @@ const UserState = () => {
 
     // Run every time the idToken changes
     useEffect(() => {
-        fetchUser();
+        if (idToken) {
+            fetchUser();
+        }
     }, [idToken]);
 
     return <></>;

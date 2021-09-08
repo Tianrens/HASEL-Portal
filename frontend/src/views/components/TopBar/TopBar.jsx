@@ -9,7 +9,7 @@ import { userDoc } from '../../../state/docs/userDoc';
 export default function TopBar() {
     const [user] = useDoc(userDoc);
     const userType = user?.type;
-    const isAdmin = user?.type === 'ADMIN' || user?.type === 'SUPER_ADMIN';
+    const isAdmin = user?.type === 'ADMIN' || user?.type === 'SUPERADMIN';
 
     return (
         <div className={styles.fillTopbarSpace}>

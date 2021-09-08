@@ -9,6 +9,7 @@ import NewBooking from './views/pages/NewBooking/NewBooking';
 import { useDoc } from './state/state';
 import { idTokenDoc } from './state/docs/idTokenDoc';
 import { userDoc } from './state/docs/userDoc';
+import ViewRequests from './views/pages/ViewRequests/ViewRequests';
 
 function App() {
     const [idToken] = useDoc(idTokenDoc);
@@ -27,6 +28,7 @@ function App() {
                 <Route path='/request' component={NewRequest} />
                 <Route path='/pending' component={PendingApproval} />
                 <Route path='/new-booking' component={NewBooking} />
+                <Route path='/view-requests' component={ViewRequests} />
                 {/* Default path */}
                 <Route component={NewRequest} />
             </Switch>

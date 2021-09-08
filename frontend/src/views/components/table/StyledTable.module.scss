@@ -1,0 +1,12 @@
+@import '../../../assets/colours';
+
+.headerCell {
+    background-color: $primaryBlue;
+    color: white;
+    align-items: right;
+    text-align: right;
+
+    &:first-of-type {
+        text-align: left;
+    }
+}

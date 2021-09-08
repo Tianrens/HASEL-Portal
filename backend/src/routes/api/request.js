@@ -58,6 +58,7 @@ router.get('/:status', getUser, checkSuperAdmin, async (req, res) => {
         const pageCount = Math.ceil(count / limit);
         const requests = await retrieveRequests(status, page, limit);
         return res.status(HTTP.OK).json({
+            count,
             pageCount,
             requests,
         });

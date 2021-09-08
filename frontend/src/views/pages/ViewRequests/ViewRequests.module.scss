@@ -1,0 +1,17 @@
+@import '../../../assets/colours';
+@import '../../../assets/responsiveDesignHelpers';
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    height: 100%;
+    margin: auto;
+}
+
+// Make name inputs appear in a column
+@include responsive(mobile) {
+    .container {
+        width: 100%;
+    }
+}
