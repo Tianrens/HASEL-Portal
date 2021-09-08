@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { StylesProvider } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core/styles';
 import { SnackbarProvider } from 'notistack';
+import theme from './assets/MaterialTheme';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './state/state';
@@ -13,7 +15,9 @@ ReactDOM.render(
         <StylesProvider injectFirst>
             <StateProvider>
                 <SnackbarProvider>
-                    <App />
+                    <ThemeProvider theme={theme}>
+                        <App />
+                    </ThemeProvider>
                 </SnackbarProvider>
             </StateProvider>
         </StylesProvider>
