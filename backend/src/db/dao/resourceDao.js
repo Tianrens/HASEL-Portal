@@ -14,6 +14,10 @@ async function retrieveAllResources() {
     return Resource.find({});
 }
 
+async function retrieveResourcebyId(resourceId) {
+    return Resource.findById(resourceId);
+}
+
 async function retrieveResourceOfUser(userId) {
     const user = await retrieveUserById(userId);
     const requestId = user.currentRequestId;
@@ -35,6 +39,7 @@ async function deleteResource(resourceId) {
 export {
     createResource,
     retrieveAllResources,
+    retrieveResourcebyId,
     retrieveResourceOfUser,
     deleteResource,
 };

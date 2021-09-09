@@ -1,8 +1,10 @@
 import express from 'express';
 import HTTP from './util/http_codes';
 import { getUser } from './util/userUtil';
-import { retrieveAllResources } from '../../db/dao/resourceDao';
+import { retrieveAllResources, retrieveResourcebyId } from '../../db/dao/resourceDao';
 import { retrieveBookingsByResource } from '../../db/dao/bookingDao';
+import { getBookingsByStatus } from './util/bookingUtil';
+import { userHasResourceViewPerms } from './util/userPerms';
 
 const router = express.Router();
 
@@ -20,26 +22,30 @@ router.get('/', async (req, res) => {
     return res.status(HTTP.OK).json(resources);
 });
 
-/** GET bookings for a resource */
-router.get('/booking/:resourceId', getUser, async (req, res) => {
-    // TODO: GET bookings for a resource
-    const { resourceId } = req.params;
-    const { currentRequestId } = req.user;
+/** GET resource details */
+router.get('/:resourceId', async (req, res) => {
+    const resource = await retrieveResourcebyId(req.params.resourceId);
+    return res.status(HTTP.OK).json(resource);
+});
 
-    // User can only view resource if they are allocated the resource or if they are ADMINs
-    if (
-        (currentRequestId?.status === 'ACTIVE' &&
-            currentRequestId?.allocatedResourceId === resourceId) ||
-        req.user.type === 'SUPERADMIN' ||
-        req.user.type === 'ADMIN'
-    ) {
-        // TODO: Probably need to limit retrieved bookings within a range as to not overload the client
-        const bookings = await retrieveBookingsByResource(resourceId);
-        return res.status(HTTP.OK).json(bookings);
+/** GET bookings for a resource. User can query for ACTIVE bookings */
+router.get('/booking/:resourceId', getUser, async (req, res) => {
+    const { query } = req;
+    const { resourceId } = req.params;
+
+    if (!userHasResourceViewPerms(req)) {
+        return res.status(HTTP.FORBIDDEN).send('No permission to view this resource');
     }
-    return res
-        .status(HTTP.FORBIDDEN)
-        .send('No permission to view this resource');
+
+    // TODO: Probably need to limit retrieved bookings within a range as to not overload the client
+    let bookings = await retrieveBookingsByResource(resourceId);
+    if (query.status) {
+        bookings = getBookingsByStatus(query.status, bookings);
+        if (!bookings) {
+            return res.status(HTTP.BAD_REQUEST).send('Bad query paramater');
+        }
+    }
+    return res.status(HTTP.OK).json(bookings);
 });
 
 /** PUT edit a resource */

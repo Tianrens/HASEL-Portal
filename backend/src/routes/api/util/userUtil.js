@@ -13,10 +13,14 @@ async function getUser(req, res, next) {
     return next();
 }
 
+function isAdmin(req) {
+    return req.user.type === 'SUPERADMIN' || req.user.type === 'ADMIN';
+}
+
 // Checks if the current user is an admin or above
 // Should always be called after getUser
 async function checkAdmin(req, res, next) {
-    if (req.user.type === 'SUPERADMIN' || req.user.type === 'ADMIN') {
+    if (isAdmin(req)) {
         return next();
     }
     return res.status(HTTP.FORBIDDEN).send('Forbidden: ADMINs only');
@@ -31,4 +35,4 @@ async function checkSuperAdmin(req, res, next) {
     return res.status(HTTP.FORBIDDEN).send('Forbidden: SUPERADMINs only');
 }
 
-export { getUser, checkAdmin, checkSuperAdmin };
+export { getUser, isAdmin, checkAdmin, checkSuperAdmin };

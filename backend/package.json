@@ -28,7 +28,8 @@
         "tunnel": "^0.0.6"
     },
     "jest": {
-        "testEnvironment": "node"
+        "testEnvironment": "node",
+        "modulePathIgnorePatterns": ["util"]
     },
     "devDependencies": {
         "@babel/cli": "^7.14.8",
