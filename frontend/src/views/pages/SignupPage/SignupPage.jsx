@@ -1,9 +1,8 @@
 import { React, useState } from 'react';
-import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import styles from './SignupPage.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
+import TextField from '../../components/TextField/CustomTextField';
 import StyledHeader from '../../components/text/StyledHeader';
 import HeroPageTemplate from '../../components/templates/HeroPageTemplate/HeroPageTemplate';
 import selectMenuProps from '../../../assets/selectMenuProps';
@@ -36,61 +35,47 @@ const SignupPage = () => {
 
                 <div>
                     <StyledHeader left>Personal Information</StyledHeader>
-                    <form autoComplete='off' onSubmit={handleSubmit}>
+                    <form className={styles.form} autoComplete='off' onSubmit={handleSubmit}>
                         <div className={styles.nameContainer}>
-                            <div className={styles.nameInput}>
-                                <p className={styles.inputTitle}>First Name</p>
-                                <TextField
-                                    required
-                                    variant='outlined'
-                                    fullWidth
-                                    placeholder='--'
-                                    className={styles.inputField}
-                                    defaultValue=''
-                                    onChange={(e) => setFirstName(e.target.value)}
-                                />
-                            </div>
-                            <div className={styles.nameInput}>
-                                <p className={styles.inputTitle}>Last Name</p>
-                                <TextField
-                                    required
-                                    variant='outlined'
-                                    fullWidth
-                                    placeholder='--'
-                                    className={styles.inputField}
-                                    defaultValue=''
-                                    onChange={(e) => setLastName(e.target.value)}
-                                />
-                            </div>
+                            <TextField
+                                title='First Name'
+                                placeholder='--'
+                                className={styles.inputField}
+                                defaultValue=''
+                                setValue={setFirstName}
+                            />
+                            <TextField
+                                title='Last Name'
+                                placeholder='--'
+                                className={styles.inputField}
+                                defaultValue=''
+                                setValue={setLastName}
+                            />
                         </div>
 
-                        <p className={styles.inputTitle}>UPI</p>
                         <TextField
-                            required
-                            variant='outlined'
-                            fullWidth
+                            title='UPI'
                             placeholder='e.g. abur970'
                             className={styles.inputField}
                             defaultValue=''
-                            onChange={(e) => setUpi(e.target.value)}
+                            setValue={setUpi}
                         />
 
-                        <p className={styles.inputTitle}>Account Type</p>
-                        <Select
-                            required
-                            fullWidth
-                            variant='outlined'
+                        <TextField
+                            title='Account Type'
+                            select
                             defaultValue=''
-                            MenuProps={selectMenuProps}
+                            SelectProps={{ MenuProps: selectMenuProps }}
                             className={styles.inputField}
-                            onChange={(e) => setAccountType(e.target.value)}
+                            setValue={setAccountType}
                         >
                             {accountTypes.map((option) => (
                                 <MenuItem key={option} value={option}>
                                     {option}
                                 </MenuItem>
                             ))}
-                        </Select>
+                        </TextField>
+
                         <div className={styles.buttonContainer}>
                             <StyledButton className={styles.button} type='submit'>
                                 Submit

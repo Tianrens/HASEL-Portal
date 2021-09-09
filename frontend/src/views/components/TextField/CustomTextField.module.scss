@@ -1,0 +1,16 @@
+@import '../../../assets/colours';
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.title {
+    color: $secondaryBlue;
+    margin: 0 0 0.3rem 0;
+}
+
+.asterisk {
+    color: red;
+}

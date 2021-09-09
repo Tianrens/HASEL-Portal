@@ -31,17 +31,18 @@
 .nameContainer {
     display: flex;
     flex-direction: row;
-}
-
-.nameInput {
-    width: 100%;
-    &:first-child {
-        margin-right: 1rem;
-    }
+    column-gap: 2rem;
+    row-gap: 2em;
 }
 
 .inputField {
     background-color: white;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2em;
 }
 
 .buttonContainer {

@@ -51,3 +51,7 @@
 :global(.MuiFormGroup-row) {
     column-gap: 2.5rem;
 }
+
+:global(.MuiFormLabel-root) {
+    color: $secondaryBlue !important;
+}

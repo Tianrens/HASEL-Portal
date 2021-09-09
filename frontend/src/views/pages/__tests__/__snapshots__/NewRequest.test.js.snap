@@ -242,46 +242,155 @@ Array [
         className="form"
         onSubmit={[Function]}
       >
-        <p
-          className="inputTitles"
-        >
-          Reasoning/Comments (optional)
-        </p>
         <div
-          className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+          className="container"
         >
-          <div
-            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-multiline MuiOutlinedInput-multiline"
-            onClick={[Function]}
+          <p
+            className="title"
           >
-            <textarea
-              aria-invalid={false}
-              autoFocus={false}
-              className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiOutlinedInput-inputMultiline"
-              disabled={false}
-              onAnimationStart={[Function]}
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              required={false}
-              rows={4}
-            />
-            <fieldset
-              aria-hidden={true}
-              className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
-              style={
-                Object {
-                  "paddingLeft": 8,
-                }
-              }
+            Supervisor Name
+            <span
+              className="asterisk"
             >
-              <legend
-                className="PrivateNotchedOutline-legend-2"
+               *
+            </span>
+          </p>
+          <div
+            className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+          >
+            <div
+              className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+              onClick={[Function]}
+            >
+              <input
+                aria-invalid={false}
+                autoFocus={false}
+                className="MuiInputBase-input MuiOutlinedInput-input"
+                disabled={false}
+                onAnimationStart={[Function]}
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                required={true}
+                type="text"
+              />
+              <fieldset
+                aria-hidden={true}
+                className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
                 style={
                   Object {
-                    "width": 0.01,
+                    "paddingLeft": 8,
                   }
                 }
+              >
+                <legend
+                  className="PrivateNotchedOutline-legend-2"
+                  style={
+                    Object {
+                      "width": 0.01,
+                    }
+                  }
+                >
+                  <span
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "&#8203;",
+                      }
+                    }
+                  />
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+        <div
+          className="container"
+        >
+          <p
+            className="title"
+          >
+            Reasoning/Comments
+            <span
+              className="asterisk"
+            />
+          </p>
+          <div
+            className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+          >
+            <div
+              className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-multiline MuiOutlinedInput-multiline"
+              onClick={[Function]}
+            >
+              <textarea
+                aria-invalid={false}
+                autoFocus={false}
+                className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiOutlinedInput-inputMultiline"
+                disabled={false}
+                onAnimationStart={[Function]}
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                required={false}
+                rows={4}
+              />
+              <fieldset
+                aria-hidden={true}
+                className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+                style={
+                  Object {
+                    "paddingLeft": 8,
+                  }
+                }
+              >
+                <legend
+                  className="PrivateNotchedOutline-legend-2"
+                  style={
+                    Object {
+                      "width": 0.01,
+                    }
+                  }
+                >
+                  <span
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "&#8203;",
+                      }
+                    }
+                  />
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+        <div
+          className="container"
+        >
+          <p
+            className="title"
+          >
+            Workstation (may be overridden)
+            <span
+              className="asterisk"
+            >
+               *
+            </span>
+          </p>
+          <div
+            className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+          >
+            <div
+              className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+              onClick={[Function]}
+            >
+              <div
+                aria-haspopup="listbox"
+                className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onMouseDown={[Function]}
+                role="button"
+                tabIndex={0}
               >
                 <span
                   dangerouslySetInnerHTML={
@@ -290,83 +399,55 @@ Array [
                     }
                   }
                 />
-              </legend>
-            </fieldset>
-          </div>
-        </div>
-        <p
-          className="inputTitles"
-        >
-          Workstation (may be overridden)
-        </p>
-        <div
-          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth"
-          onClick={[Function]}
-          required={true}
-        >
-          <div
-            aria-haspopup="listbox"
-            className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onMouseDown={[Function]}
-            role="button"
-            tabIndex={0}
-          >
-            <span
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "&#8203;",
-                }
-              }
-            />
-          </div>
-          <input
-            aria-hidden={true}
-            className="MuiSelect-nativeInput"
-            onAnimationStart={[Function]}
-            onChange={[Function]}
-            required={true}
-            tabIndex={-1}
-            value=""
-          />
-          <svg
-            aria-hidden={true}
-            className="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M7 10l5 5 5-5z"
-            />
-          </svg>
-          <fieldset
-            aria-hidden={true}
-            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
-            style={
-              Object {
-                "paddingLeft": 8,
-              }
-            }
-          >
-            <legend
-              className="PrivateNotchedOutline-legend-2"
-              style={
-                Object {
-                  "width": 0.01,
-                }
-              }
-            >
-              <span
-                dangerouslySetInnerHTML={
+              </div>
+              <input
+                aria-hidden={true}
+                autoFocus={false}
+                className="MuiSelect-nativeInput"
+                onAnimationStart={[Function]}
+                onChange={[Function]}
+                required={true}
+                tabIndex={-1}
+                value=""
+              />
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 10l5 5 5-5z"
+                />
+              </svg>
+              <fieldset
+                aria-hidden={true}
+                className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+                style={
                   Object {
-                    "__html": "&#8203;",
+                    "paddingLeft": 8,
                   }
                 }
-              />
-            </legend>
-          </fieldset>
+              >
+                <legend
+                  className="PrivateNotchedOutline-legend-2"
+                  style={
+                    Object {
+                      "width": 0.01,
+                    }
+                  }
+                >
+                  <span
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "&#8203;",
+                      }
+                    }
+                  />
+                </legend>
+              </fieldset>
+            </div>
+          </div>
         </div>
         <div
           className="buttonContainer"

@@ -48,26 +48,26 @@ const NewRequest = () => {
                 onSubmit={handleSubmit}
             >
                 <div className={styles.inputContainer}>
-                    <TextField label='Start Date' type='date' setValue={setStartDate} />
-                    <TextField label='Start Time' type='time' setValue={setStartTime} />
+                    <TextField title='Start Date' type='date' setValue={setStartDate} />
+                    <TextField title='Start Time' type='time' setValue={setStartTime} />
                 </div>
                 <div className={styles.inputContainer}>
-                    <TextField label='End Date' type='date' setValue={setEndDate} />
-                    <TextField label='End Time' type='time' setValue={setEndTime} />
+                    <TextField title='End Date' type='date' setValue={setEndDate} />
+                    <TextField title='End Time' type='time' setValue={setEndTime} />
                 </div>
                 <div className={styles.inputContainer}>
                     <FormControl>
                         <FormLabel>Select GPUs</FormLabel>
+                        <FormGroup row>
+                            {GPUList.map((GPU) => (
+                                <FormControlLabel
+                                    control={<Checkbox onChange={() => handleSelect(GPU)} />}
+                                    label={`GPU ${GPU}`}
+                                    key={GPU}
+                                />
+                            ))}
+                        </FormGroup>
                     </FormControl>
-                    <FormGroup row>
-                        {GPUList.map((GPU) => (
-                            <FormControlLabel
-                                control={<Checkbox onChange={() => handleSelect(GPU)} />}
-                                label={`GPU ${GPU}`}
-                                key={GPU}
-                            />
-                        ))}
-                    </FormGroup>
                 </div>
             </form>
             <Divider className={styles.divider} />

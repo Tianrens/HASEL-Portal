@@ -1,30 +1,30 @@
 import { React, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import styles from './NewRequest.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
+import TextField from '../../components/TextField/CustomTextField';
 import selectMenuProps from '../../../assets/selectMenuProps';
 import { authRequest } from '../../../hooks/util/authRequest';
 import { useCrud } from '../../../hooks/useCrud';
 
 const NewRequest = () => {
     const history = useHistory();
+    const workstations = useCrud('/api/resource').data ?? [];
 
     const [supervisor, setSupervisor] = useState('');
     const [reason, setReason] = useState('');
     const [workstation, setWorkstation] = useState(null);
 
-    const workstations = useCrud('/api/resource').data;
-    const showSupervisor = false;
-    
-    const handleSubmit = () => {
+    const showSupervisor = true; // TODO: Check if user is staff or student
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
         authRequest('/api/request', 'POST', {
             allocatedResourceId: workstation,
             supervisorName: supervisor,
-            comments: reason
+            comments: reason,
         });
         history.push('/pending');
     };
@@ -38,40 +38,32 @@ const NewRequest = () => {
                 <form autoComplete='off' className={styles.form} onSubmit={handleSubmit}>
                     {showSupervisor && (
                         <>
-                            <p className={styles.inputTitles}>Supervisor name</p>
-                            <TextField
-                                required
-                                fullWidth
-                                variant='outlined'
-                                onChange={(e) => setSupervisor(e.target.value)}
-                            />
+                            <TextField title='Supervisor Name' setValue={setSupervisor} />
                         </>
                     )}
 
-                    <p className={styles.inputTitles}>Reasoning/Comments (optional)</p>
                     <TextField
-                        variant='outlined'
-                        fullWidth
+                        title='Reasoning/Comments'
+                        notRequired
+                        setValue={setReason}
                         multiline
                         rows={4}
-                        onChange={(e) => setReason(e.target.value)}
                     />
 
-                    <p className={styles.inputTitles}>Workstation (may be overridden)</p>
-                    <Select
-                        required
+                    <TextField
+                        title='Workstation (may be overridden)'
+                        select
                         defaultValue=''
-                        fullWidth
-                        variant='outlined'
-                        MenuProps={selectMenuProps}
+                        SelectProps={{ MenuProps: selectMenuProps }}
                         onChange={(e) => setWorkstation(e.target.value)}
                     >
-                        {workstations && workstations.map((option) => (
+                        {workstations.map((option) => (
                             <MenuItem key={option.name} value={option}>
                                 {option.name}
                             </MenuItem>
                         ))}
-                    </Select>
+                    </TextField>
+
                     <div className={styles.buttonContainer}>
                         <StyledButton className={styles.button} type='submit'>
                             Request Access
