@@ -1,0 +1,78 @@
+@import '../../../assets/colours';
+@import '../../../assets/responsiveDesignHelpers';
+
+.container {
+    width: 100%;
+}
+
+.title {
+    color: $heading;
+}
+
+.content, .workstationHeader, .workstationPlaceholder, .bookingInfo, 
+.bookingInfoContent, .bookingInfoIcons {
+    display: flex;
+}
+
+.content {
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+.header {
+    flex-basis: 100%;
+}
+
+.workstationHeader {
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.workstationPlaceholder {
+    height: 20rem;
+    align-items: center;
+    justify-content: center;
+    background-color: lightgrey;
+}
+
+.bookingInfo {
+    justify-content: space-between;
+    padding: 1rem;
+    column-gap: 2rem;
+}
+
+.bookingInfoContent {
+    flex-basis: 100%;
+    justify-content: space-between;
+}
+
+.bookingInfoIcons {
+    align-items: center;
+}
+
+.bookingInfoIcon {
+    margin-left: 1rem;
+}
+
+@include responsive(tablet) {
+    .workstationHeader {
+        flex-direction: column;
+    }
+
+    .title {
+        font-size: x-large;
+    }
+
+    .header {
+        font-size: small;
+    }
+
+    .bookingInfo {
+        column-gap: 0;
+    }
+
+    .bookingInfoContent {
+        flex-direction: column;
+        row-gap: 1rem;
+    }
+}

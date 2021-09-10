@@ -8,6 +8,7 @@ import TextField from '../../components/TextField/CustomTextField';
 import BottomButtons from './BottomButtons';
 import { useCrud } from '../../../hooks/useCrud';
 import selectMenuProps from '../../../assets/selectMenuProps';
+import TitleAndValue from '../../components/text/TitleAndValue';
 
 const SingleRequest = () => {
     // TO DO: Get details from request
@@ -40,13 +41,6 @@ const SingleRequest = () => {
         const temp = input.replace(/\D/g, '');
         setValidityPeriod(temp);
     };
-
-    const TitleAndValue = ({ title, value }) => (
-        <div>
-            <p className={styles.title}>{title}</p>
-            <p className={styles.value}>{value}</p>
-        </div>
-    );
 
     useEffect(() => {
         const newDate = dayjs().add(validityPeriod, 'month').format('DD/MM/YYYY');

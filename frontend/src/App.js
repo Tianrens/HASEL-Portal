@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import LandingPage from './views/pages/LandingPage/LandingPage';
+import UserHomePage from './views/pages/UserHomepage/UserHomePage';
 import NewRequest from './views/pages/NewRequest/NewRequest';
 import PendingApproval from './views/pages/PendingApproval/PendingApproval';
 import SignupPage from './views/pages/SignupPage/SignupPage';
@@ -29,6 +30,7 @@ function App() {
                 <Route path='/request' component={NewRequest} />
                 <Route path='/pending' component={PendingApproval} />
                 <Route path='/new-booking' component={NewBooking} />
+                <Route path='/user-home' component={UserHomePage} />
                 <Route path='/view-requests' component={ViewRequests} />
                 <Route path='/single-request' component={SingleRequest} />
                 {/* Default path */}
