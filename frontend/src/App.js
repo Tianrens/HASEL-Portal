@@ -10,6 +10,7 @@ import { useDoc } from './state/state';
 import { idTokenDoc } from './state/docs/idTokenDoc';
 import { userDoc } from './state/docs/userDoc';
 import ViewRequests from './views/pages/ViewRequests/ViewRequests';
+import SingleRequest from './views/pages/SingleRequest/SingleRequest';
 
 function App() {
     const [idToken] = useDoc(idTokenDoc);
@@ -29,6 +30,7 @@ function App() {
                 <Route path='/pending' component={PendingApproval} />
                 <Route path='/new-booking' component={NewBooking} />
                 <Route path='/view-requests' component={ViewRequests} />
+                <Route path='/single-request' component={SingleRequest} />
                 {/* Default path */}
                 <Route component={NewRequest} />
             </Switch>

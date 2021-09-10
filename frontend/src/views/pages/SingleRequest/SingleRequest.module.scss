@@ -1,0 +1,67 @@
+@import '../../../assets/responsiveDesignHelpers';
+@import '../../../assets/colours';
+
+.header {
+    align-self: flex-start;
+    margin-bottom: 4rem;
+}
+
+.userInfoContainer,
+.requestDetailsContainer,
+.buttonContainer,
+.details {
+    width: 100%;
+    display: flex;
+}
+
+.userInfoContainer {
+    flex-direction: row;
+    justify-content: space-between;
+    column-gap: 5rem;
+}
+
+.requestDetailsContainer {
+    column-gap: 10rem;
+}
+
+.buttonContainer {
+    justify-content: space-between;
+}
+
+.buttonContainer > div {
+    display: flex;
+}
+
+.details {
+    flex-direction: column;
+    row-gap: 2em;
+}
+
+.divider {
+    width: 100%;
+    margin: 3rem 0;
+}
+
+.title {
+    color: $secondaryBlue;
+    margin: 0 0 0.3rem 0;
+}
+
+.value {
+    margin: 0;
+    font-size: 1.17rem;
+}
+
+@include responsive(tablet) {
+    .userInfoContainer,
+    .details,
+    .requestDetailsContainer {
+        flex-direction: column;
+        row-gap: 2rem;
+    }
+
+    .buttonContainer,
+    .buttonContainer > div {
+        flex-direction: column;
+    }
+}
