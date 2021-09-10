@@ -8,16 +8,16 @@ import TextField from '../../components/TextField/CustomTextField';
 import selectMenuProps from '../../../assets/selectMenuProps';
 import { authRequest } from '../../../hooks/util/authRequest';
 import { useCrud } from '../../../hooks/useCrud';
+import { supervisorNeeded } from '../../../config/accountTypes';
 
 const NewRequest = () => {
     const history = useHistory();
     const workstations = useCrud('/api/resource').data ?? [];
-
     const [supervisor, setSupervisor] = useState('');
     const [reason, setReason] = useState('');
     const [workstation, setWorkstation] = useState(null);
 
-    const showSupervisor = true; // TODO: Check if user is staff or student
+    const showSupervisor = supervisorNeeded();
 
     const handleSubmit = (event) => {
         event.preventDefault();

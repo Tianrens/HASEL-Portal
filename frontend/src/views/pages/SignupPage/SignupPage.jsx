@@ -7,8 +7,8 @@ import StyledHeader from '../../components/text/StyledHeader';
 import HeroPageTemplate from '../../components/templates/HeroPageTemplate/HeroPageTemplate';
 import selectMenuProps from '../../../assets/selectMenuProps';
 import { auth } from '../../../firebase';
-import accountTypes from './accountTypes';
 import { signUpUser } from '../../../state/docs/userDoc';
+import ACCOUNT_TYPE from '../../../config/accountTypes';
 
 const SignupPage = () => {
     const [firstName, setFirstName] = useState('');
@@ -20,7 +20,7 @@ const SignupPage = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await signUpUser(firstName, lastName, upi, accountType.toUpperCase());
+        await signUpUser(firstName, lastName, upi, accountType);
     };
 
     return (
@@ -69,9 +69,9 @@ const SignupPage = () => {
                             className={styles.inputField}
                             setValue={setAccountType}
                         >
-                            {accountTypes.map((option) => (
+                            {Object.keys(ACCOUNT_TYPE).map((option) => (
                                 <MenuItem key={option} value={option}>
-                                    {option}
+                                    {ACCOUNT_TYPE[option]}
                                 </MenuItem>
                             ))}
                         </TextField>
