@@ -16,7 +16,7 @@ const bookingSchema = new BookingSchema(
         },
         startTimestamp: { type: Date, required: true },
         endTimestamp: { type: Date, required: true },
-        numGPUs: { type: Number, required: true },
+        gpuIndices: [{ type: Number, required: true }],
     },
     {
         timestamps: {},

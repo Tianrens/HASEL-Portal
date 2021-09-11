@@ -60,7 +60,9 @@ beforeEach(async () => {
     const resourceColl = await mongoose.connection.db.collection('resources');
     const userColl = await mongoose.connection.db.collection('users');
     const bookingColl = await mongoose.connection.db.collection('bookings');
-    const signupRequestColl = await mongoose.connection.db.collection('signuprequests');
+    const signupRequestColl = await mongoose.connection.db.collection(
+        'signuprequests',
+    );
 
     Date.now = jest.fn(() => new Date(2021, 6, 17)); // Mock current time
 
@@ -97,7 +99,7 @@ beforeEach(async () => {
         authUserId: ADMIN_TOKEN,
         firstName: 'Ice',
         lastName: 'Cream',
-        type: 'ADMIN'
+        type: 'ADMIN',
     });
     undergradUser = new User({
         email: 'watermelon@gmail.com',
@@ -106,7 +108,7 @@ beforeEach(async () => {
         authUserId: UNDERGRAD_TOKEN,
         firstName: 'Water',
         lastName: 'Melon',
-        type: 'UNDERGRAD'
+        type: 'UNDERGRAD',
     });
 
     adminSignupRequest = new SignUpRequest({
@@ -130,30 +132,37 @@ beforeEach(async () => {
     adminUser.currentRequestId = adminSignupRequest._id;
     undergradUser.currentRequestId = undergradSignupRequest._id;
     await userColl.insertMany([adminUser, undergradUser]);
-    await signupRequestColl.insertMany([adminSignupRequest, undergradSignupRequest]);
+    await signupRequestColl.insertMany([
+        adminSignupRequest,
+        undergradSignupRequest,
+    ]);
 
     adminCurrentBooking = new Booking({
         resourceId: resource1._id,
         userId: adminUser._id,
         startTimestamp: new Date(2021, 6, 1),
         endTimestamp: new Date(2021, 7, 1),
-        numGPUs: 4,
+        gpuIndices: [0, 1, 2, 3],
     });
     adminFutureBooking = new Booking({
         resourceId: resource1._id,
         userId: adminUser._id,
         startTimestamp: new Date(2021, 8, 1),
         endTimestamp: new Date(2021, 9, 1),
-        numGPUs: 4,
+        gpuIndices: [0, 1, 2, 3],
     });
     undergradBooking = new Booking({
         resourceId: resource2._id,
         userId: undergradUser._id,
         startTimestamp: new Date(2021, 2, 1),
         endTimestamp: new Date(2021, 4, 1),
-        numGPUs: 5,
+        gpuIndices: [0, 1, 2, 3, 4],
     });
-    await bookingColl.insertMany([adminCurrentBooking, adminFutureBooking, undergradBooking]);
+    await bookingColl.insertMany([
+        adminCurrentBooking,
+        adminFutureBooking,
+        undergradBooking,
+    ]);
 });
 
 /**
@@ -177,6 +186,14 @@ afterAll(async () => {
     server.close();
 });
 
+// Needed as mongodb returns a MongoArray that cannot be compared conventionally
+function arraysAreTheSame(first, second) {
+    expect(first.length).toEqual(second.length);
+    for (let i = 0; i < first.length; i += 1) {
+        expect(first[i]).toEqual(second[i]);
+    }
+}
+
 function expectDbResourceMatchWithResource(responseResource, requestResource) {
     expect(responseResource).toBeTruthy();
     expect(responseResource.name).toEqual(requestResource.name);
@@ -195,15 +212,25 @@ function expectDbResourceMatchWithResource(responseResource, requestResource) {
 
 function expectDbBookingMatchWithBooking(responseBooking, requestBooking) {
     expect(responseBooking).toBeTruthy();
-    expect(responseBooking.resourceId.str).toEqual(requestBooking.resourceId.str);
+    expect(responseBooking.resourceId.str).toEqual(
+        requestBooking.resourceId.str,
+    );
     expect(responseBooking.userId.str).toEqual(requestBooking.userId.str);
-    expect(responseBooking.numGPUs).toEqual(requestBooking.numGPUs);
-    expect(responseBooking.startTimestamp).toEqual(requestBooking.startTimestamp.toISOString());
-    expect(responseBooking.endTimestamp).toEqual(requestBooking.endTimestamp.toISOString());
+    arraysAreTheSame(responseBooking.gpuIndices, requestBooking.gpuIndices);
+    expect(responseBooking.startTimestamp).toEqual(
+        requestBooking.startTimestamp.toISOString(),
+    );
+    expect(responseBooking.endTimestamp).toEqual(
+        requestBooking.endTimestamp.toISOString(),
+    );
 }
 
 it('Get resource details', async () => {
-    const response = await authRequest(`${RESOURCE_API_URL}/${resource2._id}`, 'GET', UNDERGRAD_TOKEN);
+    const response = await authRequest(
+        `${RESOURCE_API_URL}/${resource2._id}`,
+        'GET',
+        UNDERGRAD_TOKEN,
+    );
     expectDbResourceMatchWithResource(response.data, resource2);
 });
 
@@ -216,34 +243,58 @@ it('Get all resources', async () => {
 });
 
 it('Get bookings for a specified resource, user is admin', async () => {
-    const response = await authRequest(`${RESOURCE_API_URL}/booking/${resource1._id}`, 'GET', ADMIN_TOKEN);
+    const response = await authRequest(
+        `${RESOURCE_API_URL}/booking/${resource1._id}`,
+        'GET',
+        ADMIN_TOKEN,
+    );
     expectDbBookingMatchWithBooking(response.data[0], adminCurrentBooking);
     expectDbBookingMatchWithBooking(response.data[1], adminFutureBooking);
 });
 
 it('Get bookings for a specified resource but there are no bookings', async () => {
-    const response = await authRequest(`${RESOURCE_API_URL}/booking/${resource3._id}`, 'GET', ADMIN_TOKEN);
+    const response = await authRequest(
+        `${RESOURCE_API_URL}/booking/${resource3._id}`,
+        'GET',
+        ADMIN_TOKEN,
+    );
     expect(response.data).toEqual([]);
 });
 
 it('Get CURRENT + ONGOING bookings for a specified resource, user is admin', async () => {
-    const response = await authRequest(`${RESOURCE_API_URL}/booking/${resource1._id}?status=active`, 'GET', ADMIN_TOKEN);
+    const response = await authRequest(
+        `${RESOURCE_API_URL}/booking/${resource1._id}?status=active`,
+        'GET',
+        ADMIN_TOKEN,
+    );
     expectDbBookingMatchWithBooking(response.data[0], adminCurrentBooking);
     expectDbBookingMatchWithBooking(response.data[1], adminFutureBooking);
     expect(response.data).toHaveLength(2);
 });
 
 it('Get bookings with a bad request query param', async () => {
-    const response = await authRequest(`${RESOURCE_API_URL}/booking/${resource1._id}?status=helpme`, 'GET', ADMIN_TOKEN);
+    const response = await authRequest(
+        `${RESOURCE_API_URL}/booking/${resource1._id}?status=helpme`,
+        'GET',
+        ADMIN_TOKEN,
+    );
     expect(response.status).toEqual(HTTP.BAD_REQUEST);
 });
 
 it('Get bookings for a specified resource, user is NOT admin and resource belongs to user', async () => {
-    const response = await authRequest(`${RESOURCE_API_URL}/booking/${resource2._id}`, 'GET', UNDERGRAD_TOKEN);
+    const response = await authRequest(
+        `${RESOURCE_API_URL}/booking/${resource2._id}`,
+        'GET',
+        UNDERGRAD_TOKEN,
+    );
     expectDbBookingMatchWithBooking(response.data[0], undergradBooking);
 });
 
 it('Get bookings for a specified resource, user is NOT admin and resource DOES NOT belong to user', async () => {
-    const response = await authRequest(`${RESOURCE_API_URL}/booking/${resource1._id}`, 'GET', UNDERGRAD_TOKEN);
+    const response = await authRequest(
+        `${RESOURCE_API_URL}/booking/${resource1._id}`,
+        'GET',
+        UNDERGRAD_TOKEN,
+    );
     expect(response.status).toEqual(HTTP.FORBIDDEN);
 });
