@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { React } from 'react';
 import TextField from '@material-ui/core/TextField';
 import styles from './CustomTextField.module.scss';

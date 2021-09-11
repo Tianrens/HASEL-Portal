@@ -14,3 +14,13 @@ export async function authRequest(url, type, data) {
     });
     return response;
 }
+
+export async function authRequestLogError(url, type, data) {
+    try {
+        const response = await authRequest(url, type, data);
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+    return null;
+}

@@ -3,7 +3,7 @@ import Icon from '@material-ui/core/Icon';
 import { StyledButton } from '../../components/buttons/StyledButton';
 import styles from './SingleRequest.module.scss';
 
-const BottomButtons = ({ deleteHandler, submitHandler }) => (
+const BottomButtons = ({ onDelete, onDeny, onAccept }) => (
     <div className={styles.buttonContainer}>
         <div>
             <StyledButton
@@ -11,7 +11,7 @@ const BottomButtons = ({ deleteHandler, submitHandler }) => (
                 color='yellow'
                 icon={<Icon>delete</Icon>}
                 type='submit'
-                onClick={(e) => deleteHandler(e)}
+                onClick={onDelete}
             >
                 Delete
             </StyledButton>
@@ -22,7 +22,7 @@ const BottomButtons = ({ deleteHandler, submitHandler }) => (
                 color='red'
                 icon={<Icon>close</Icon>}
                 type='submit'
-                onClick={(e) => submitHandler(e)}
+                onClick={onDeny}
             >
                 Deny
             </StyledButton>
@@ -31,7 +31,7 @@ const BottomButtons = ({ deleteHandler, submitHandler }) => (
                 color='green'
                 icon={<Icon>done</Icon>}
                 type='submit'
-                onClick={(e) => submitHandler(e)}
+                onClick={onAccept}
             >
                 Accept
             </StyledButton>

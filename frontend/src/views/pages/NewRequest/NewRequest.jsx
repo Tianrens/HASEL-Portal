@@ -9,6 +9,7 @@ import selectMenuProps from '../../../assets/selectMenuProps';
 import { authRequest } from '../../../hooks/util/authRequest';
 import { useCrud } from '../../../hooks/useCrud';
 import { supervisorNeeded } from '../../../config/accountTypes';
+import { fetchUser } from '../../../state/docs/userDoc';
 
 const NewRequest = () => {
     const history = useHistory();
@@ -19,13 +20,14 @@ const NewRequest = () => {
 
     const showSupervisor = supervisorNeeded();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        authRequest('/api/request', 'POST', {
+        await authRequest('/api/request', 'POST', {
             allocatedResourceId: workstation,
             supervisorName: supervisor,
             comments: reason,
         });
+        fetchUser();
         history.push('/pending');
     };
 
@@ -58,7 +60,7 @@ const NewRequest = () => {
                         onChange={(e) => setWorkstation(e.target.value)}
                     >
                         {workstations.map((option) => (
-                            <MenuItem key={option.name} value={option}>
+                            <MenuItem key={option._id} value={option._id}>
                                 {option.name}
                             </MenuItem>
                         ))}

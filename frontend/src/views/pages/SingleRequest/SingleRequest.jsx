@@ -1,7 +1,9 @@
 import { React, useState, useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import dayjs from 'dayjs';
 import Divider from '@material-ui/core/Divider';
 import MenuItem from '@material-ui/core/MenuItem';
+import { useSnackbar } from 'notistack';
 import styles from './SingleRequest.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import TextField from '../../components/TextField/CustomTextField';
@@ -9,32 +11,59 @@ import BottomButtons from './BottomButtons';
 import { useCrud } from '../../../hooks/useCrud';
 import selectMenuProps from '../../../assets/selectMenuProps';
 import TitleAndValue from '../../components/text/TitleAndValue';
+import { getDisplayName, getValidityPeriod } from '../../../config/accountTypes';
+import { authRequestLogError } from '../../../hooks/util/authRequest';
 
 const SingleRequest = () => {
-    // TO DO: Get details from request
-    const userName = 'Aiden Burgess';
-    const accountType = 'Staff';
-    const receivedDate = '16/08/21';
-    const supervisorName = 'Emmanuel Baguia';
-    const reason =
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-    const [workstation, setWorkstation] = useState({
-        name: 'Athena',
-    });
-    const [validityPeriod, setValidityPeriod] = useState(6);
-
-    const workstations = useCrud('/api/resource').data;
-
-    const [validUntil, setValidUntil] = useState(null);
-
-    const handleSubmit = () => {
-        // TODO: Connect to Backend
-        console.log(workstation);
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    const history = useHistory();
+    const actionCallback = (message) => {
+        enqueueSnackbar(message, {
+            variant: 'success',
+            autoHideDuration: 3000,
+            onClose: closeSnackbar,
+        });
+        history.push('/requests');
     };
 
-    const handleDelete = () => {
-        // TODO: Connect to Backend
-        console.log(workstation);
+    const [workstation, setWorkstation] = useState();
+    const [validityPeriod, setValidityPeriod] = useState(0);
+    const [validUntil, setValidUntil] = useState(null);
+
+    const { requestId } = useParams();
+    const requestCallback = (data) => {
+        setWorkstation(data.allocatedResourceId);
+        setValidityPeriod(getValidityPeriod(data.userId.type));
+    };
+    const request = useCrud(
+        `/api/request/${requestId}`,
+        undefined,
+        undefined,
+        requestCallback,
+    ).data;
+    const workstations = useCrud('/api/resource').data;
+
+    const onAccept = async () => {
+        await authRequestLogError(`/api/request/${requestId}`, 'PATCH', {
+            status: 'ACTIVE',
+            requestValidity: validityPeriod,
+            allocatedResourceId: workstation,
+        });
+        actionCallback('Accepted Request');
+    };
+
+    const onDeny = async () => {
+        await authRequestLogError(`/api/request/${requestId}`, 'PATCH', {
+            status: 'DECLINED',
+            requestValidity: validityPeriod,
+            allocatedResourceId: workstation,
+        });
+        actionCallback('Denied Request');
+    };
+
+    const onDelete = async () => {
+        await authRequestLogError(`/api/request/${requestId}`, 'DELETE');
+        actionCallback('Deleted Request');
     };
 
     const handleValidity = (input) => {
@@ -49,34 +78,42 @@ const SingleRequest = () => {
 
     return (
         <TopBarPageTemplate>
-            {workstations && workstation && (
+            {workstations && workstation && request && (
                 <>
                     <h2 className={styles.header}>Workstation Access Request</h2>
                     <div className={styles.userInfoContainer}>
-                        <TitleAndValue title='Name' value={userName} />
-                        <TitleAndValue title='Account Type' value={accountType} />
-                        <TitleAndValue title='Application Received' value={receivedDate} />
+                        <TitleAndValue
+                            title='Name'
+                            value={`${request?.userId.firstName} ${request?.userId.lastName}`}
+                        />
+                        <TitleAndValue
+                            title='Account Type'
+                            value={getDisplayName(request?.userId.type)}
+                        />
+                        <TitleAndValue
+                            title='Application Received'
+                            value={dayjs(request?.createdAt).format('DD/MM/YYYY')}
+                        />
                     </div>
                     <Divider className={styles.divider} />
                     <div className={styles.requestDetailsContainer}>
                         <div className={styles.details}>
-                            <TitleAndValue title='Supervisor Name' value={supervisorName} />
-                            <TitleAndValue title='Comments' value={reason} />
+                            <TitleAndValue
+                                title='Supervisor Name'
+                                value={request?.supervisorName}
+                            />
+                            <TitleAndValue title='Comments' value={request?.comments} />
                         </div>
                         <div className={styles.details}>
                             <TextField
                                 title='Workstation'
                                 select
-                                defaultValue={
-                                    workstations[
-                                        workstations.findIndex((e) => e.name === workstation.name)
-                                    ]
-                                }
+                                defaultValue={workstation}
                                 SelectProps={{ MenuProps: selectMenuProps }}
                                 setValue={setWorkstation}
                             >
                                 {workstations.map((option) => (
-                                    <MenuItem key={option.name} value={option}>
+                                    <MenuItem key={option._id} value={option._id}>
                                         {option.name}
                                     </MenuItem>
                                 ))}
@@ -90,7 +127,7 @@ const SingleRequest = () => {
                         </div>
                     </div>
                     <Divider className={styles.divider} />
-                    <BottomButtons deleteHandler={handleDelete} submitHandler={handleSubmit} />
+                    <BottomButtons onAccept={onAccept} onDeny={onDeny} onDelete={onDelete} />
                 </>
             )}
         </TopBarPageTemplate>

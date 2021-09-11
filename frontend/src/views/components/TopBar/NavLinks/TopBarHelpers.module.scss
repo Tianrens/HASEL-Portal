@@ -3,6 +3,7 @@
 
 .wrapper {
     margin: 0px 10px;
+    align-self: flex-start;
 
     &:hover {
         background-color: $blackBgHoverColour;

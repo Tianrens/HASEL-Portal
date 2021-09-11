@@ -12,55 +12,94 @@ import { idTokenDoc } from './state/docs/idTokenDoc';
 import { userDoc } from './state/docs/userDoc';
 import ViewRequests from './views/pages/ViewRequests/ViewRequests';
 import SingleRequest from './views/pages/SingleRequest/SingleRequest';
+import { isAdminType, isSuperAdminType } from './config/accountTypes';
 
 function App() {
     const [idToken] = useDoc(idTokenDoc);
     const [user] = useDoc(userDoc);
 
-    function SignupPaths() {
-        return (
-            <Switch>
-                <Route component={SignupPage} />
-            </Switch>
-        );
-    }
-    function AuthenticatedPaths() {
-        return (
-            <Switch>
-                <Route path='/request' component={NewRequest} />
-                <Route path='/pending' component={PendingApproval} />
-                <Route path='/new-booking' component={NewBooking} />
-                <Route path='/user-home' component={UserHomePage} />
-                <Route path='/view-requests' component={ViewRequests} />
-                <Route path='/single-request' component={SingleRequest} />
-                {/* Default path */}
-                <Route component={NewRequest} />
-            </Switch>
-        );
-    }
+    const UnauthenticatedRoutes = () => (
+        <Switch>
+            <Route component={LandingPage} />
+        </Switch>
+    );
 
-    function UnauthenticatedPaths() {
-        return (
-            <Switch>
-                <Route component={LandingPage} />
-            </Switch>
-        );
-    }
+    const SignupRoutes = () => (
+        <Switch>
+            <Route component={SignupPage} />
+        </Switch>
+    );
 
-    function Paths() {
+    const SuperAdminRoutes = () => (
+        <Switch>
+            <Route exact path='/request/:requestId' component={SingleRequest} />
+            <Route exact path='/requests' component={ViewRequests} />
+            {/* TODO: Replace with admin homepage */}
+            <Route component={UserHomePage} />
+        </Switch>
+    );
+
+    const AdminRoutes = () => (
+        <Switch>
+            {/* TODO: Replace with admin homepage */}
+            <Route component={UserHomePage} />
+        </Switch>
+    );
+
+    const PendingApprovalRoutes = () => (
+        <Switch>
+            <Route component={PendingApproval} />
+        </Switch>
+    );
+
+    const NoWorkstationAccessRoutes = () => (
+        <Switch>
+            <Route component={NewRequest} />
+        </Switch>
+    );
+
+    const WorkstationAccessRoutes = () => (
+        <Switch>
+            <Route path='/' component={UserHomePage} />
+            <Route path='/new-booking' component={NewBooking} />
+            <Route component={UserHomePage} />
+        </Switch>
+    );
+
+    function Routes() {
         // Not authenticated with Firebase
         if (!idToken) {
-            return UnauthenticatedPaths();
+            return UnauthenticatedRoutes();
         }
         // Authenticated with Firebase but not submitted details
         if (idToken && !user) {
-            return SignupPaths();
+            return SignupRoutes();
         }
-        // Authenticated with Firebase and submitted details
-        return AuthenticatedPaths();
+        // User is super admin
+        if (isSuperAdminType(user?.type)) {
+            return SuperAdminRoutes();
+        }
+
+        // User is admin
+        if (isAdminType(user?.type)) {
+            return AdminRoutes();
+        }
+
+        // User is a regular user but has pending approval
+        if (user?.currentRequestId?.status === 'PENDING') {
+            return PendingApprovalRoutes();
+        }
+
+        // User is a regular user but does not have active approval
+        if (user?.currentRequestId?.status !== 'ACTIVE') {
+            return NoWorkstationAccessRoutes();
+        }
+
+        // User with workstation access
+        return WorkstationAccessRoutes();
     }
 
-    return <Router>{Paths()}</Router>;
+    return <Router>{Routes()}</Router>;
 }
 
 export default App;

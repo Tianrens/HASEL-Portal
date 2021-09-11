@@ -1,25 +1,27 @@
 import { useEffect, useState } from 'react';
 import { authRequest } from './util/authRequest';
 
-export function useCrud(baseUrl, initialState = null, idProp = '_id') {
+export function useCrud(baseUrl, initialState = null, idProp = '_id', requestCallback = () => {}) {
     const [data, setData] = useState(initialState);
     const [isLoading, setLoading] = useState(false);
     const [version, setVersion] = useState(0);
 
     useEffect(() => {
         setLoading(true);
-        async function fetchData() { 
+        async function fetchData() {
             await authRequest(baseUrl, 'GET')
-                .then(response => {
+                .then((response) => {
                     setLoading(false);
                     setData(response.data);
+                    requestCallback(response.data);
                 })
-                .catch(err => {
+                .catch((err) => {
                     setLoading(false);
                     console.log(`GET ERROR: ${err.message}`);
                 });
         }
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [baseUrl, version]);
 
     function reFetch() {
@@ -31,7 +33,7 @@ export function useCrud(baseUrl, initialState = null, idProp = '_id') {
             .then(() => {
                 setData(item);
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(`PUT ERROR: ${err.message}`);
             });
     }
@@ -41,18 +43,18 @@ export function useCrud(baseUrl, initialState = null, idProp = '_id') {
             .then(() => {
                 setData(item);
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(`PATCH ERROR: ${err.message}`);
             });
     }
 
     async function createData(item) {
         return authRequest(baseUrl, 'POST', item)
-            .then(response => {
+            .then((response) => {
                 const newItem = response.data;
                 setData(newItem);
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(`POST ERROR: ${err.message}`);
             });
     }
@@ -60,12 +62,20 @@ export function useCrud(baseUrl, initialState = null, idProp = '_id') {
     async function deleteData(id) {
         return authRequest(`${baseUrl}/${id}`, 'DELETE')
             .then(() => {
-                setData(data.filter(item => item[idProp] !== id));
+                setData(data.filter((item) => item[idProp] !== id));
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(`DELETE ERROR: ${err.message}`);
             });
     }
 
-    return { data, isLoading, reFetch, updateDataByReplacement, updateDataByModification, createData, deleteData };
+    return {
+        data,
+        isLoading,
+        reFetch,
+        updateDataByReplacement,
+        updateDataByModification,
+        createData,
+        deleteData,
+    };
 }

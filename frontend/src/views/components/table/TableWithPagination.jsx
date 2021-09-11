@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { TablePagination } from '@material-ui/core';
 import { React } from 'react';
 import usePagination from '../../../hooks/usePagination';

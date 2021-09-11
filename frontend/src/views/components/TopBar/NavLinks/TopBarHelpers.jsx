@@ -31,12 +31,12 @@ function AdminLinks() {
 
     const links = [
         {
-            title: 'Approvals',
-            link: '/approvals',
+            title: 'Requests',
+            link: '/requests',
             src: ApprovalsIcon,
             badge: numNewApprovals,
         },
-        { title: 'Resources', link: '/resources', src: WorkstationIcon },
+        { title: 'Workstations', link: '/workstations', src: WorkstationIcon },
         { title: 'View Users', link: '/users', src: ViewUsersIcon },
     ];
 
