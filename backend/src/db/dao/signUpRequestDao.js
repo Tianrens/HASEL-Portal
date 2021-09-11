@@ -49,7 +49,10 @@ async function countRequests(status) {
 }
 
 async function retrieveRequestById(requestId) {
-    return SignUpRequest.findById(requestId);
+    return SignUpRequest.findById(requestId).populate(
+        'userId',
+        'email upi firstName lastName type',
+    );
 }
 
 async function updateRequest(requestId, newRequestInfo) {

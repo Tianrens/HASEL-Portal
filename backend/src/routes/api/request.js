@@ -11,7 +11,6 @@ import {
     updateRequest,
     updateRequestStatus,
 } from '../../db/dao/signUpRequestDao';
-import { retrieveUserById } from '../../db/dao/userDao';
 import { sendNewRequestEmailToSuperAdmins } from '../../email';
 
 const router = express.Router();
@@ -48,7 +47,7 @@ router.post('/', getUser, async (req, res) => {
 });
 
 /** GET requests */
-router.get('/:status', getUser, checkSuperAdmin, async (req, res) => {
+router.get('/status/:status', getUser, checkSuperAdmin, async (req, res) => {
     const { status } = req.params;
     try {
         const page = parseInt(req.query.page, BASE_VALUE);
@@ -62,6 +61,17 @@ router.get('/:status', getUser, checkSuperAdmin, async (req, res) => {
             pageCount,
             requests,
         });
+    } catch (err) {
+        return res.status(HTTP.BAD_REQUEST).json('Bad request');
+    }
+});
+
+/** GET single request */
+router.get('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
+    try {
+        const { requestId } = req.params;
+        const request = await retrieveRequestById(requestId);
+        return res.status(HTTP.OK).json(request);
     } catch (err) {
         return res.status(HTTP.BAD_REQUEST).json('Bad request');
     }
@@ -89,7 +99,7 @@ router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
         await updateRequestStatus(requestId, req.body.status);
 
         if (req.body.status === 'ACTIVE') {
-            const requestUser = await retrieveUserById(request.userId);
+            const requestUser = request.userId;
             const userType = requestUser.type;
             let requestValidity;
             if (userType === 'UNDERGRAD') {

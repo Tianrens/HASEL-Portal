@@ -312,7 +312,7 @@ it('get requests page 1 limit 2', async () => {
     const LIMIT = 2;
 
     const response = await axios.get(
-        `${REQUEST_API_URL}/${STATUS}/?page=${PAGE}&limit=${LIMIT}`,
+        `${REQUEST_API_URL}/status/${STATUS}/?page=${PAGE}&limit=${LIMIT}`,
         {
             headers: {
                 authorization: `Bearer ${TOKEN_PASS}2`,
@@ -341,7 +341,7 @@ it('get requests page 2 limit 1', async () => {
     const LIMIT = 1;
 
     const response = await axios.get(
-        `${REQUEST_API_URL}/${STATUS}/?page=${PAGE}&limit=${LIMIT}`,
+        `${REQUEST_API_URL}/status/${STATUS}/?page=${PAGE}&limit=${LIMIT}`,
         {
             headers: {
                 authorization: `Bearer ${TOKEN_PASS}2`,
@@ -365,7 +365,7 @@ it('get requests page 2 limit 2', async () => {
     const LIMIT = 2;
 
     const response = await axios.get(
-        `${REQUEST_API_URL}/${STATUS}/?page=${PAGE}&limit=${LIMIT}`,
+        `${REQUEST_API_URL}/status/${STATUS}/?page=${PAGE}&limit=${LIMIT}`,
         {
             headers: {
                 authorization: `Bearer ${TOKEN_PASS}2`,
@@ -390,7 +390,7 @@ it('get requests invalid permissions', async () => {
     const LIMIT = 1;
 
     const response = await axios.get(
-        `${REQUEST_API_URL}/${STATUS}/?page=${PAGE}&limit=${LIMIT}`,
+        `${REQUEST_API_URL}/status/${STATUS}/?page=${PAGE}&limit=${LIMIT}`,
         {
             validateStatus,
             headers: {
@@ -400,6 +400,46 @@ it('get requests invalid permissions', async () => {
         },
     );
     expect(response.status).toEqual(HTTP.FORBIDDEN);
+});
+
+it('get single request', async () => {
+    const response = await axios.get(
+        `${REQUEST_API_URL}/${staffUserRequest._id}`,
+        {
+            validateStatus,
+            headers: {
+                // Token associated with Reza, who is a SUPERADMIN
+                authorization: `Bearer ${TOKEN_PASS}2`,
+            },
+        },
+    );
+    expect(response.status).toEqual(HTTP.OK);
+    expectDbRequestMatchWithRequest(response.data, staffUserRequest);
+});
+
+it('get single request invalid permissions', async () => {
+    const response = await axios.get(
+        `${REQUEST_API_URL}/${staffUserRequest._id}`,
+        {
+            validateStatus,
+            headers: {
+                // Token associated with Denise, who is not SUPERADMIN
+                authorization: `Bearer ${TOKEN_PASS}1`,
+            },
+        },
+    );
+    expect(response.status).toEqual(HTTP.FORBIDDEN);
+});
+
+it('get single request garbage request id', async () => {
+    const response = await axios.get(`${REQUEST_API_URL}/sadljasi`, {
+        validateStatus,
+        headers: {
+            // Token associated with Reza, who is a SUPERADMIN
+            authorization: `Bearer ${TOKEN_PASS}2`,
+        },
+    });
+    expect(response.status).toEqual(HTTP.BAD_REQUEST);
 });
 
 it('approve PHD student request valid permissions', async () => {
