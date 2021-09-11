@@ -30,18 +30,21 @@ async function retrieveRequests(status, page, limit) {
         .populate('userId', 'email upi firstName lastName type');
 }
 
-/**
- * A request is expiring if it ends 7 days from now.
- * @returns
- */
-async function retrieveExpiringRequests() {
+async function retrieveExpiringRequests(daysBefore) {
     return SignUpRequest.find({
         status: 'ACTIVE',
         endDate: {
-            $gte: startOfDay(addDays(new Date(), 7)), // 7 days in future
-            $lte: endOfDay(addDays(new Date(), 7)), // Does not cross to the next day
+            $gte: startOfDay(new Date()),
+            $lte: endOfDay(addDays(new Date(), daysBefore)), // Does not cross to the next day
         },
+        notifiedExpiring: { $in: [false, null] },
     }).populate('userId');
+}
+
+async function setRequestNotifiedExpiring(requestId, isNotified) {
+    const dbRequest = await SignUpRequest.findById(requestId);
+    dbRequest.notifiedExpiring = isNotified;
+    await dbRequest.save();
 }
 
 async function countRequests(status) {
@@ -75,6 +78,7 @@ export {
     retrieveAllRequests,
     retrieveRequests,
     retrieveExpiringRequests,
+    setRequestNotifiedExpiring,
     countRequests,
     retrieveRequestById,
     updateRequest,

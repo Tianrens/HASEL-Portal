@@ -23,6 +23,7 @@ const signUpRequestSchema = new SignUpRequestSchema(
         },
         startDate: Date,
         endDate: Date,
+        notifiedExpiring: { type: Boolean, default: false },
     },
     {
         timestamps: {},

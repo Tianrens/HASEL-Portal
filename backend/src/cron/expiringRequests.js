@@ -1,15 +1,17 @@
 import schedule from 'node-schedule';
-import { retrieveExpiringRequests } from '../db/dao/signUpRequestDao';
+import { retrieveExpiringRequests, setRequestNotifiedExpiring } from '../db/dao/signUpRequestDao';
 import { sendExpiringAccountEmail } from '../email';
 
-export async function emailExpiringRequests() {
-    const signUpRequests = await retrieveExpiringRequests();
+require('dotenv').config();
+
+export async function emailExpiringRequests(daysBefore) {
+    const signUpRequests = await retrieveExpiringRequests(daysBefore);
 
     signUpRequests.forEach((signUpRequest) => {
         const { email, upi } = signUpRequest.userId;
-        console.log(email);
 
         sendExpiringAccountEmail(email, upi);
+        setRequestNotifiedExpiring(signUpRequest._id, true);
     });
 }
 
@@ -20,6 +22,6 @@ export function expiringRequests() {
     rule.hour = 0; 
     rule.tz = 'Pacific/Auckland';
 
-    schedule.scheduleJob(rule, emailExpiringRequests);
+    schedule.scheduleJob(rule, () => {emailExpiringRequests(process.env.DAYS_BEFORE_ACCOUNT_EXPIRE);});
 }
 

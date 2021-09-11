@@ -8,6 +8,7 @@ import {
     retrieveExpiringRequests,
     retrieveRequestById,
     retrieveRequests,
+    setRequestNotifiedExpiring,
     updateRequest,
     updateRequestStatus,
 } from '../signUpRequestDao';
@@ -260,6 +261,7 @@ describe('non-time dependent tests', () => {
 
 describe('time dependent tests', () => {
     let expiredTest;
+    let notifiedExpiringTest;
     let expiringTest;
     let nonExpiringTest;
 
@@ -279,6 +281,19 @@ describe('time dependent tests', () => {
             status: 'EXPIRED',
             startDate: subDays(new Date(), 1),
             endDate: subDays(new Date(), 1),
+        };
+
+        notifiedExpiringTest = {
+            userId: mongoose.Types.ObjectId('999999999999999999999998'),
+            allocatedResourceId: mongoose.Types.ObjectId(
+                '555555555555555555555555',
+            ),
+            supervisorName: 'Andrew Meads',
+            comments: 'Need access to the HASEL Lab machines for PhD research',
+            status: 'ACTIVE',
+            startDate: subDays(new Date(), 1),
+            endDate: addDays(new Date(), 7),
+            notifiedExpiring: true,
         };
 
         expiringTest = {
@@ -307,6 +322,7 @@ describe('time dependent tests', () => {
 
         await signUpRequestsColl.insertMany([
             expiredTest,
+            notifiedExpiringTest,
             expiringTest,
             nonExpiringTest,
         ]);
@@ -317,10 +333,19 @@ describe('time dependent tests', () => {
     });
 
     it('retrieve expiring requests', async () => {
-        const expiringRequests = await retrieveExpiringRequests();
+        const expiringRequests = await retrieveExpiringRequests(7);
         expect(expiringRequests).toBeTruthy();
         expect(expiringRequests).toHaveLength(1);
 
         expect(expiringRequests[0]._id).toEqual(expiringTest._id);
+    });
+
+    it('is notified expiring', async () => {
+        const expiringRequests = await retrieveExpiringRequests(7);
+        await setRequestNotifiedExpiring(expiringRequests[0]._id, true);
+
+        const request = await SignUpRequest.findById(expiringRequests[0]._id);
+        expect(request).toBeTruthy();
+        expect(request.notifiedExpiring).toEqual(true);
     });
 });
