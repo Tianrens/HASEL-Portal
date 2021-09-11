@@ -8,6 +8,7 @@ import { User } from '../../../db/schemas/userSchema';
 import HTTP from '../util/http_codes';
 import { SignUpRequest } from '../../../db/schemas/signUpRequestSchema';
 import { retrieveRequestById } from '../../../db/dao/signUpRequestDao';
+import { Resource } from '../../../db/schemas/resourceSchema';
 
 let mongo;
 let app;
@@ -28,6 +29,10 @@ let studentUser;
 let superAdminUser;
 let academicUser;
 let staffUser;
+let resource1;
+let resource2;
+let resource3;
+let updatedResource;
 
 const TOKEN_PASS = 'test';
 const TOKEN_FAIL = 'fail';
@@ -63,6 +68,7 @@ beforeEach(async () => {
     const signUpRequestsColl = await mongoose.connection.db.collection(
         'signuprequests',
     );
+    const resourceColl = await mongoose.connection.db.collection('resources');
 
     // Need to use user constructor to obtain _id value
     studentUser = new User({
@@ -101,11 +107,46 @@ beforeEach(async () => {
         type: 'STAFF',
     });
 
+    resource1 = new Resource({
+        name: 'Machine 1',
+        host: '192.168.1.101',
+        location: 'HASEL Lab',
+        numGPUs: 2,
+        gpuDescription: 'Nvidia GeForce RTX 2080',
+        ramDescription: 'Kingston HyperX Predator 32GB',
+        cpuDescription: 'Intel Core i9 10900KF',
+    });
+    resource2 = new Resource({
+        name: 'Deep Learning Machine 3',
+        host: '192.168.1.100',
+        location: 'Level 9 Building 405',
+        numGPUs: 4,
+        gpuDescription: 'Nvidia GeForce RTX 3080',
+        ramDescription: 'Corsair Dominator Platinum RGB 32GB',
+        cpuDescription: 'Intel Xeon Silver 4210R',
+    });
+    resource3 = new Resource({
+        name: 'Deep Learning Machine 2',
+        host: '192.168.1.102',
+        location: 'HASEL Lab',
+        numGPUs: 3,
+        gpuDescription: 'Nvidia GeForce RTX 3060 Ti',
+        ramDescription: 'Kingston HyperX Predator 16GB',
+        cpuDescription: 'Intel Core i7-11700K 8 Core / 16 Thread',
+    });
+    updatedResource = new Resource({
+        name: 'Deep Learning Machine 3',
+        host: '192.168.1.104',
+        location: 'HASEL Lab',
+        numGPUs: 3,
+        gpuDescription: 'Nvidia GeForce RTX 3060 Ti',
+        ramDescription: 'Kingston HyperX Predator 16GB',
+        cpuDescription: 'Intel Core i7-11700K 8 Core / 16 Thread',
+    });
+
     dummyRequestWithAllFieldsSet1 = {
         userId: studentUser._id,
-        allocatedResourceId: mongoose.Types.ObjectId(
-            '666666666666666666666666',
-        ),
+        allocatedResourceId: resource1._id,
         supervisorName: 'Reza Shahamiri',
         comments: 'Need to use the deep learning machines for part 4 project.',
         status: 'PENDING',
@@ -115,9 +156,7 @@ beforeEach(async () => {
 
     dummyRequestWithAllFieldsSet2 = {
         userId: studentUser._id,
-        allocatedResourceId: mongoose.Types.ObjectId(
-            '555555555555555555555555',
-        ),
+        allocatedResourceId: resource2._id,
         supervisorName: 'Andrew Meads',
         comments: 'Need access to the HASEL Lab machines for PhD research',
         status: 'ACTIVE',
@@ -127,9 +166,7 @@ beforeEach(async () => {
 
     dummyRequestWithAllFieldsSet3 = {
         userId: studentUser._id,
-        allocatedResourceId: mongoose.Types.ObjectId(
-            '555555555555555555555555',
-        ),
+        allocatedResourceId: resource3._id,
         supervisorName: 'Meads Andrew',
         comments: 'Need access to the LESAH Lab machines for PhD research',
         status: 'ACTIVE',
@@ -139,9 +176,7 @@ beforeEach(async () => {
 
     dummyRequestWithAllFieldsSet4 = {
         userId: studentUser._id,
-        allocatedResourceId: mongoose.Types.ObjectId(
-            '555555555555555555555555',
-        ),
+        allocatedResourceId: resource1._id,
         supervisorName: 'Joey Car',
         comments: 'Reasons',
         status: 'ACTIVE',
@@ -151,35 +186,27 @@ beforeEach(async () => {
 
     studentUserRequest1 = {
         userId: studentUser._id,
-        allocatedResourceId: mongoose.Types.ObjectId(
-            '444444444444444444444444',
-        ),
+        allocatedResourceId: resource2._id,
         supervisorName: 'Nasser Giacaman',
         status: 'PENDING', // status always pending on creation
     };
 
     studentUserRequest2 = new SignUpRequest({
         userId: studentUser._id,
-        allocatedResourceId: mongoose.Types.ObjectId(
-            '666666666666666666666666',
-        ),
+        allocatedResourceId: resource3._id,
         supervisorName: 'Kelly Blincoe',
         status: 'PENDING', // status always pending on creation
     });
 
     academicUserRequest = new SignUpRequest({
         userId: academicUser._id,
-        allocatedResourceId: mongoose.Types.ObjectId(
-            '777777777777777777777777',
-        ),
+        allocatedResourceId: resource1._id,
         status: 'PENDING', // status always pending on creation
     });
 
     staffUserRequest = new SignUpRequest({
         userId: staffUser._id,
-        allocatedResourceId: mongoose.Types.ObjectId(
-            '777777777777777777777777',
-        ),
+        allocatedResourceId: resource2._id,
         status: 'PENDING', // status always pending on creation
     });
 
@@ -199,8 +226,15 @@ beforeEach(async () => {
 
     requestApprovalWithNewResourceAllocation = {
         status: 'ACTIVE',
-        allocatedResourceId: '888888888888888888888888',
+        allocatedResourceId: updatedResource,
     };
+
+    await resourceColl.insertMany([
+        resource1,
+        resource2,
+        resource3,
+        updatedResource,
+    ]);
 
     await usersColl.insertMany([
         studentUser,
@@ -458,7 +492,7 @@ it('approve PHD student request valid permissions', async () => {
 
     expect(response.status).toEqual(HTTP.NO_CONTENT);
     expect(updatedRequest.allocatedResourceId.toString()).toEqual(
-        '666666666666666666666666',
+        studentUserRequest2.allocatedResourceId.toString(),
     );
     expect(updatedRequest.status).toEqual('ACTIVE');
     datesAreTheSame(updatedRequest.startDate, Date.now());
@@ -520,7 +554,7 @@ it('approve ACADEMIC request valid permissions', async () => {
 
     expect(response.status).toEqual(HTTP.NO_CONTENT);
     expect(updatedRequest.allocatedResourceId.toString()).toEqual(
-        '777777777777777777777777',
+        academicUserRequest.allocatedResourceId.toString(),
     );
     expect(updatedRequest.status).toEqual('ACTIVE');
     datesAreTheSame(updatedRequest.startDate, Date.now());
@@ -543,7 +577,7 @@ it('approve STAFF request valid permissions', async () => {
 
     expect(response.status).toEqual(HTTP.NO_CONTENT);
     expect(updatedRequest.allocatedResourceId.toString()).toEqual(
-        '777777777777777777777777',
+        staffUserRequest.allocatedResourceId.toString(),
     );
     expect(updatedRequest.status).toEqual('ACTIVE');
     datesAreTheSame(updatedRequest.startDate, Date.now());
@@ -568,7 +602,7 @@ it('approve STAFF request valid permissions', async () => {
 
     expect(response.status).toEqual(HTTP.NO_CONTENT);
     expect(updatedRequest.allocatedResourceId.toString()).toEqual(
-        '777777777777777777777777',
+        staffUserRequest.allocatedResourceId.toString(),
     );
     expect(updatedRequest.status).toEqual('ACTIVE');
     datesAreTheSame(updatedRequest.startDate, Date.now());
@@ -593,7 +627,7 @@ it('approve PHD student request with different resource allocation', async () =>
 
     expect(response.status).toEqual(HTTP.NO_CONTENT);
     expect(updatedRequest.allocatedResourceId.toString()).toEqual(
-        '888888888888888888888888',
+        updatedResource._id.toString(),
     );
     expect(updatedRequest.status).toEqual('ACTIVE');
     datesAreTheSame(updatedRequest.startDate, Date.now());

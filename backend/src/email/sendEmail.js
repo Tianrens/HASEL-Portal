@@ -10,6 +10,10 @@ export function sendEmail(
     emailText = null,
     htmlContent = null,
 ) {
+    if (process.env.NODE_ENV !== 'production') {
+        return;
+    }
+
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {

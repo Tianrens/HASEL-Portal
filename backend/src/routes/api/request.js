@@ -11,7 +11,12 @@ import {
     updateRequest,
     updateRequestStatus,
 } from '../../db/dao/signUpRequestDao';
-import { sendNewRequestEmailToSuperAdmins } from '../../email';
+import { retrieveUserById } from '../../db/dao/userDao';
+import {
+    sendNewRequestEmailToSuperAdmins,
+    sendRequestApprovedEmail,
+    sendRequestDeniedEmail,
+} from '../../email';
 
 const router = express.Router();
 
@@ -33,12 +38,10 @@ router.post('/', getUser, async (req, res) => {
             status: 'PENDING',
         });
 
-        if (process.env.NODE_ENV === 'production') {
-            sendNewRequestEmailToSuperAdmins(
-                signUpRequest,
-                `${req.protocol}://${req.get('host')}`,
-            );
-        }
+        sendNewRequestEmailToSuperAdmins(
+            signUpRequest,
+            `${req.protocol}://${req.get('host')}`,
+        );
 
         return res.status(HTTP.CREATED).json(signUpRequest);
     } catch (err) {
@@ -89,7 +92,7 @@ router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
 
     try {
         const { requestId } = req.params;
-        const request = await retrieveRequestById(requestId);
+        let request = await retrieveRequestById(requestId);
 
         if (request === null) {
             return res
@@ -135,6 +138,12 @@ router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
                     endDate.setMonth(endDate.getMonth() + requestValidity),
                 );
             }
+
+            request = await retrieveRequestById(request._id);
+            sendRequestApprovedEmail(requestUser.email, request);
+        } else {
+            const requestUser = await retrieveUserById(request.userId);
+            sendRequestDeniedEmail(requestUser.email, request);
         }
     } catch (err) {
         console.log(err);
