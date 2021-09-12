@@ -4,12 +4,21 @@ import axios from 'axios';
 import express from 'express';
 import router from '../user';
 import firebaseAuth from '../../../firebase/auth';
+import { createSignUpRequest } from '../../../db/dao/signUpRequestDao';
+import { Resource } from '../../../db/schemas/resourceSchema';
+import { SignUpRequest } from '../../../db/schemas/signUpRequestSchema';
+import { User } from '../../../db/schemas/userSchema';
+import HTTP from '../util/http_codes';
+import { authRequest } from './util/authRequest';
 
 let mongo;
 let app;
 let server;
 let user1;
 let user2;
+let resource1;
+let request1;
+let request2;
 
 jest.mock('../../../firebase/index.js');
 const userApiUrl = 'http://localhost:3000/api/user';
@@ -39,28 +48,63 @@ beforeAll(async () => {
  */
 beforeEach(async () => {
     const usersColl = await mongoose.connection.db.createCollection('users');
+    const resourcesColl = await mongoose.connection.db.createCollection(
+        'resources',
+    );
+    await mongoose.connection.db.createCollection('signuprequests');
 
-    user1 = {
+    user1 = new User({
         email: 'hungrymilk@auckland.ac.nz',
-        currentRequestId: mongoose.Types.ObjectId('123456789012'),
         upi: 'hmi123',
-        authUserId: '12345', // This should be set in backend but we'll do this for testing purposes
+        authUserId: 'test1', // This should be set in backend but we'll do this for testing purposes
         firstName: 'Hungry',
         lastName: 'Milk',
-        type: 'ADMIN',
-    };
+        type: 'UNDERGRAD',
+    });
 
     user2 = {
         email: 'tofupancake@aucklanduni.ac.nz',
         currentRequestId: mongoose.Types.ObjectId('404040404040'),
         upi: 'tpa987',
-        firebaseToken: 'test', // needs to be 'test' if you want it to pass, 'fail' if you want it to fail for the firebase mock.
+        firebaseToken: 'test2', // needs to be 'test' if you want it to pass, 'fail' if you want it to fail for the firebase mock.
         firstName: 'Tofu',
         lastName: 'Pancake',
         type: 'MASTERS',
     };
 
-    await usersColl.insertOne(user1);
+    resource1 = new Resource({
+        name: 'Machine 1',
+        host: '192.168.1.100',
+        location: 'HASEL Lab',
+        numGPUs: 2,
+        gpuDescription: 'Nvidia GeForce RTX 2080',
+        ramDescription: 'Kingston HyperX Predator 32GB',
+        cpuDescription: 'Intel Core i9 10900KF',
+    });
+
+    request1 = new SignUpRequest({
+        userId: user1._id,
+        allocatedResourceId: resource1._id,
+        supervisorName: 'Reza Shahamiri',
+        comments: 'Need to use the deep learning machines for part 4 project.',
+        status: 'ACTIVE',
+        startDate: new Date(2021, 0, 21),
+        endDate: new Date(2021, 9, 29),
+    });
+
+    request2 = new SignUpRequest({
+        userId: user1._id,
+        allocatedResourceId: resource1._id,
+        supervisorName: 'Reza Shahamiri',
+        comments: 'Need to use the deep learning machines for part 4 project.',
+        status: 'DECLINED',
+        startDate: new Date(2021, 0, 21),
+        endDate: new Date(2021, 9, 29),
+    });
+
+    await usersColl.insertMany([user1]);
+    await resourcesColl.insertOne(resource1);
+    await createSignUpRequest(request1);
 });
 
 /**
@@ -68,6 +112,8 @@ beforeEach(async () => {
  */
 afterEach(async () => {
     await mongoose.connection.db.dropCollection('users');
+    await mongoose.connection.db.dropCollection('resources');
+    await mongoose.connection.db.dropCollection('signuprequests');
 });
 
 /**
@@ -88,13 +134,51 @@ function expectResponseUserSameAsRequestUser(responseUser, requestUser) {
     expect(responseUser.type).toEqual(requestUser.type);
 }
 
+function expectResponseResourceSameAsDbResource(responseResource, dbResource) {
+    expect(responseResource).toBeTruthy();
+    expect(responseResource.name).toEqual(dbResource.name);
+    expect(responseResource.location).toEqual(dbResource.location);
+    expect(responseResource.numGPUs).toEqual(dbResource.numGPUs);
+    expect(responseResource.gpuDescription).toEqual(dbResource.gpuDescription);
+    expect(responseResource.ramDescription).toEqual(dbResource.ramDescription);
+    expect(responseResource.cpuDescription).toEqual(dbResource.cpuDescription);
+}
+
 it('create user', async () => {
-    const response = await axios.post(userApiUrl, user2, {
-        headers: {
-            authorization: `Bearer ${user2.firebaseToken}`,
-        },
-    });
+    const response = await authRequest(
+        userApiUrl,
+        'POST',
+        user2.firebaseToken,
+        user2,
+    );
 
     expect(response).toBeDefined();
+    expect(response.status).toBe(HTTP.CREATED);
     expectResponseUserSameAsRequestUser(response.data, user2);
+});
+
+it("retrieve user's resource", async () => {
+    const response = await axios.get(`${userApiUrl}/resource`, {
+        headers: {
+            authorization: `Bearer ${user1.authUserId}`,
+        },
+    });
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.OK);
+    const userResource = response.data;
+
+    expectResponseResourceSameAsDbResource(userResource, resource1);
+});
+
+it("retrieve user's resource with declined request", async () => {
+    await createSignUpRequest(request2);
+
+    const response = await authRequest(
+        `${userApiUrl}/resource`,
+        'GET',
+        user1.authUserId,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.BAD_REQUEST);
 });

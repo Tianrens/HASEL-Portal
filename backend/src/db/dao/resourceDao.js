@@ -1,5 +1,5 @@
-import { retrieveUserById } from './userDao';
 import { retrieveRequestById } from './signUpRequestDao';
+import { retrieveUserById } from './userDao';
 
 const { Resource } = require('../schemas/resourceSchema');
 

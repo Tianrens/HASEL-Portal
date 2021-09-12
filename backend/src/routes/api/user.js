@@ -2,6 +2,8 @@ import express from 'express';
 import { createUser, retrieveUserByAuthId } from '../../db/dao/userDao';
 import findMissingParams from './util/findMissingParams';
 import HTTP from './util/http_codes';
+import { getUser } from './util/userUtil';
+import { retrieveResourceOfUser } from '../../db/dao/resourceDao';
 
 const router = express.Router();
 
@@ -69,11 +71,22 @@ router.get('/info', async (req, res) => {
 });
 
 /** GET user resource */
-router.get('/resource', (req, res) => {
-    // TODO: GET user resource
-    console.log(req.originalUrl);
+router.get('/resource', getUser, async (req, res) => {
+    let resource;
+    try {
+        resource = await retrieveResourceOfUser(req.user._id);
+        if (resource === null) {
+            return res
+                .status(HTTP.BAD_REQUEST)
+                .send(
+                    'User does not have an active request with an allocated resource',
+                );
+        }
+    } catch (err) {
+        return res.status(HTTP.BAD_REQUEST).json('Bad request');
+    }
 
-    return res.status(HTTP.NOT_IMPLEMENTED).send('Unimplemented');
+    return res.status(HTTP.OK).json(resource);
 });
 
 export default router;
