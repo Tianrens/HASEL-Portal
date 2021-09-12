@@ -1,0 +1,27 @@
+name: Node.js CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Deploy
+      working-directory: .
+      run: |
+          npm run clean
+          npm run build
+          cp /data/waterfall/secrets/.env /data/waterfall/secrets/serviceAccountKey.json /data/waterfall/actions-runner/_work/project-project-team-6/project-project-team-6/backend
