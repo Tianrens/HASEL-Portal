@@ -15,6 +15,8 @@ let mongo;
 let app;
 let server;
 let undergradUser;
+let mastersUser;
+let adminUser;
 let request1;
 let resource1;
 let existingBooking1;
@@ -69,6 +71,26 @@ beforeEach(async () => {
         lastName: 'Melon',
         type: 'UNDERGRAD',
     });
+
+    mastersUser = {
+        email: 'pineapple@gmail.com',
+        currentRequestId: null,
+        upi: 'papp695',
+        authUserId: 'test1',
+        firstName: 'Pine',
+        lastName: 'Apple',
+        type: 'MASTERS',
+    };
+
+    adminUser = {
+        email: 'admin@gmail.com',
+        currentRequestId: null,
+        upi: 'amin695',
+        authUserId: 'test2',
+        firstName: 'Ad',
+        lastName: 'Min',
+        type: 'ADMIN',
+    };
 
     resource1 = new Resource({
         name: 'Machine 1',
@@ -138,7 +160,7 @@ beforeEach(async () => {
         gpuIndices: [1],
     };
 
-    await usersColl.insertOne(undergradUser);
+    await usersColl.insertMany([undergradUser, mastersUser, adminUser]);
     await signUpRequestsColl.insertOne(request1);
     await resourceColl.insertOne(resource1);
     await bookingColl.insertMany([existingBooking1, existingBooking2]);
@@ -285,4 +307,60 @@ it('update booking invalid time', async () => {
     expect(response).toBeDefined();
     expect(response.status).toEqual(HTTP.BAD_REQUEST);
     arraysAreTheSame(dbBooking.gpuIndices, existingBooking2.gpuIndices);
+});
+
+it('delete booking with valid permissions', async () => {
+    const response = await authRequest(
+        `${BOOKING_API_URL}/${existingBooking2._id}`,
+        'DELETE',
+        UNDERGRAD_TOKEN,
+    );
+    const dbBooking = await retrieveBookingById(existingBooking2._id);
+
+    expect(response).toBeDefined();
+    expect(response.status).toBe(HTTP.NO_CONTENT);
+    expect(dbBooking).toBeNull();
+});
+
+it('delete a non-existent booking', async () => {
+    const response = await authRequest(
+        `${BOOKING_API_URL}/888888888888888888888888`,
+        'DELETE',
+        UNDERGRAD_TOKEN,
+    );
+
+    const bookings = await Booking.find({});
+
+    expect(response).toBeDefined();
+    expect(response.status).toBe(HTTP.NOT_FOUND);
+    expect(bookings).toHaveLength(2);
+});
+
+it('delete booking with invalid permissions', async () => {
+    const response = await authRequest(
+        `${BOOKING_API_URL}/${existingBooking2._id}`,
+        'DELETE',
+        'test1', // auth token does not belong to booking owner
+    );
+
+    const dbBooking = await retrieveBookingById(existingBooking2._id);
+
+    expect(response).toBeDefined();
+    expect(response.status).toBe(HTTP.FORBIDDEN);
+    expect(dbBooking).toBeTruthy();
+    expect(dbBooking).toBeDefined();
+});
+
+it('delete booking with admin permissions', async () => {
+    const response = await authRequest(
+        `${BOOKING_API_URL}/${existingBooking2._id}`,
+        'DELETE',
+        'test2', // auth token belongs to ADMIN
+    );
+
+    const dbBooking = await retrieveBookingById(existingBooking2._id);
+
+    expect(response).toBeDefined();
+    expect(response.status).toBe(HTTP.NO_CONTENT);
+    expect(dbBooking).toBeNull();
 });

@@ -4,10 +4,12 @@ import { userHasBookingPerms } from './util/userPerms';
 import { getUser, isAdmin } from './util/userUtil';
 import {
     createBooking,
+    deleteBooking,
     retrieveBookingById,
     updateBooking,
 } from '../../db/dao/bookingDao';
 import findMissingParams from './util/findMissingParams';
+import { retrieveUserByAuthId } from '../../db/dao/userDao';
 
 const router = express.Router();
 
@@ -87,11 +89,31 @@ router.put('/:bookingId', getUser, async (req, res) => {
 });
 
 /** DELETE a booking */
-router.delete('/', (req, res) => {
-    // TODO: DELETE a booking
-    console.log(req.originalUrl);
+router.delete('/:bookingId', getUser, async (req, res) => {
+    try {
+        const { bookingId } = req.params;
+        const booking = await retrieveBookingById(bookingId);
+        if (booking === null) {
+            return res
+                .status(HTTP.NOT_FOUND)
+                .send(`Could not find booking with id: ${bookingId}`);
+        }
 
-    return res.status(HTTP.NOT_IMPLEMENTED).send('Unimplemented');
+        const user = await retrieveUserByAuthId(req.firebase.uid);
+        if (!user._id.equals(booking.userId) && !isAdmin(req)) {
+            return res
+                .status(HTTP.FORBIDDEN)
+                .send(
+                    'Forbidden: User does not have permissions to delete the booking',
+                );
+        }
+
+        await deleteBooking(bookingId);
+    } catch (err) {
+        return res.status(HTTP.BAD_REQUEST).json('Bad request');
+    }
+
+    return res.status(HTTP.NO_CONTENT).send('Successful');
 });
 
 export default router;
