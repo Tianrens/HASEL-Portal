@@ -1,4 +1,5 @@
-import { isAdmin } from './userUtil';
+import { isAdmin, isSuperAdmin } from './userUtil';
+import HTTP from './http_codes';
 
 function resourceIsAllocatedToUser(currentRequest, resourceId) {
     return (
@@ -23,4 +24,12 @@ function userHasBookingPerms(req) {
     );
 }
 
-export { userHasResourceViewPerms, userHasBookingPerms };
+async function userHasRequestViewPerms(req, res, next) {
+    const { currentRequestId } = req.user; // Populated current request
+    if (currentRequestId?._id?.toString() === req.params.requestId || isSuperAdmin(req)) {
+        return next();
+    }
+    return res.status(HTTP.FORBIDDEN).send('Forbidden: user does not own request and is not SUPERADMIN');
+}
+
+export { userHasResourceViewPerms, userHasBookingPerms, userHasRequestViewPerms };

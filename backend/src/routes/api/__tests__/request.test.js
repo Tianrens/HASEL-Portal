@@ -78,6 +78,7 @@ beforeEach(async () => {
         firstName: 'Denise',
         lastName: 'Nuts',
         type: 'PHD',
+        currentRequestId: null
     });
 
     superAdminUser = new User({
@@ -184,12 +185,12 @@ beforeEach(async () => {
         endDate: new Date(2021, 9, 29),
     };
 
-    studentUserRequest1 = {
+    studentUserRequest1 = new SignUpRequest({
         userId: studentUser._id,
         allocatedResourceId: resource2._id,
         supervisorName: 'Nasser Giacaman',
         status: 'PENDING', // status always pending on creation
-    };
+    });
 
     studentUserRequest2 = new SignUpRequest({
         userId: studentUser._id,
@@ -229,6 +230,8 @@ beforeEach(async () => {
         allocatedResourceId: updatedResource,
     };
 
+    studentUser.currentRequestId = studentUserRequest1._id;
+
     await resourceColl.insertMany([
         resource1,
         resource2,
@@ -247,6 +250,7 @@ beforeEach(async () => {
         dummyRequestWithAllFieldsSet2,
         dummyRequestWithAllFieldsSet3,
         dummyRequestWithAllFieldsSet4,
+        studentUserRequest1,
         studentUserRequest2,
         academicUserRequest,
         staffUserRequest,
@@ -436,7 +440,22 @@ it('get requests invalid permissions', async () => {
     expect(response.status).toEqual(HTTP.FORBIDDEN);
 });
 
-it('get single request', async () => {
+it('get single request, request belongs to user', async () => {
+    const response = await axios.get(
+        `${REQUEST_API_URL}/${studentUserRequest1._id}`,
+        {
+            validateStatus,
+            headers: {
+                // Token associated with Denise. Request is associated with them
+                authorization: `Bearer ${TOKEN_PASS}1`,
+            },
+        },
+    );
+    expect(response.status).toEqual(HTTP.OK);
+    expectDbRequestMatchWithRequest(response.data, studentUserRequest1);
+});
+
+it('get single request, user is superadmin', async () => {
     const response = await axios.get(
         `${REQUEST_API_URL}/${staffUserRequest._id}`,
         {

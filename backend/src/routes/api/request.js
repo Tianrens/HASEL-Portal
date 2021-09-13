@@ -17,6 +17,7 @@ import {
     sendRequestApprovedEmail,
     sendRequestDeniedEmail,
 } from '../../email';
+import { userHasRequestViewPerms } from './util/userPerms';
 
 const router = express.Router();
 
@@ -70,9 +71,9 @@ router.get('/status/:status', getUser, checkSuperAdmin, async (req, res) => {
 });
 
 /** GET single request */
-router.get('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
+router.get('/:requestId', getUser, userHasRequestViewPerms, async (req, res) => {
+    const { requestId } = req.params;
     try {
-        const { requestId } = req.params;
         const request = await retrieveRequestById(requestId);
         return res.status(HTTP.OK).json(request);
     } catch (err) {

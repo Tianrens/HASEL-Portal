@@ -256,15 +256,15 @@ Array [
         >
           Supervisor Name: 
         </span>
-        Emmanuel Baguia
+        --
       </h3>
       <h3
         className="title"
       >
-        Reason:
+        Reasoning/Comments:
       </h3>
       <div
-        className="MuiFormControl-root MuiTextField-root reasonField"
+        className="MuiFormControl-root MuiTextField-root"
       >
         <div
           className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl MuiInputBase-multiline MuiOutlinedInput-multiline"
@@ -280,7 +280,6 @@ Array [
             aria-invalid={false}
             autoFocus={false}
             className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiOutlinedInput-inputMultiline"
-            defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
             disabled={false}
             onAnimationStart={[Function]}
             onBlur={[Function]}
@@ -289,6 +288,7 @@ Array [
             readOnly={true}
             required={false}
             rows={5}
+            value=""
           />
           <fieldset
             aria-hidden={true}
@@ -326,7 +326,7 @@ Array [
         >
           Workstation Requested: 
         </span>
-        ZEUS
+        --
       </h3>
     </div>
   </div>,

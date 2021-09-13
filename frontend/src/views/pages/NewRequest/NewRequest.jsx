@@ -5,27 +5,21 @@ import { StyledButton } from '../../components/buttons/StyledButton';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import TextField from '../../components/TextField/CustomTextField';
 import selectMenuProps from '../../../assets/selectMenuProps';
-import { authRequest } from '../../../hooks/util/authRequest';
 import { useCrud } from '../../../hooks/useCrud';
 import { supervisorNeeded } from '../../../config/accountTypes';
-import { fetchUser } from '../../../state/docs/userDoc';
+import { saveRequest } from './util/saveRequest';
 
 const NewRequest = () => {
     const workstations = useCrud('/api/resource').data ?? [];
     const [supervisor, setSupervisor] = useState('');
-    const [reason, setReason] = useState('');
+    const [comments, setComments] = useState('');
     const [workstation, setWorkstation] = useState(null);
 
     const showSupervisor = supervisorNeeded();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await authRequest('/api/request', 'POST', {
-            allocatedResourceId: workstation,
-            supervisorName: supervisor,
-            comments: reason,
-        });
-        fetchUser();
+        saveRequest(supervisor, workstation, comments);
     };
 
     return (
@@ -44,7 +38,7 @@ const NewRequest = () => {
                     <TextField
                         title='Reasoning/Comments'
                         notRequired
-                        setValue={setReason}
+                        setValue={setComments}
                         multiline
                         rows={4}
                     />
