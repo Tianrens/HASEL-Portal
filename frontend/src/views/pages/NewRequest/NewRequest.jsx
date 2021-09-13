@@ -1,5 +1,4 @@
 import { React, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import MenuItem from '@material-ui/core/MenuItem';
 import styles from './NewRequest.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
@@ -12,7 +11,6 @@ import { supervisorNeeded } from '../../../config/accountTypes';
 import { fetchUser } from '../../../state/docs/userDoc';
 
 const NewRequest = () => {
-    const history = useHistory();
     const workstations = useCrud('/api/resource').data ?? [];
     const [supervisor, setSupervisor] = useState('');
     const [reason, setReason] = useState('');
@@ -28,7 +26,6 @@ const NewRequest = () => {
             comments: reason,
         });
         fetchUser();
-        history.push('/pending');
     };
 
     return (

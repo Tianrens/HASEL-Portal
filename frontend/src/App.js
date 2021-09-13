@@ -60,8 +60,8 @@ function App() {
 
     const WorkstationAccessRoutes = () => (
         <Switch>
-            <Route path='/' component={UserHomePage} />
             <Route path='/new-booking' component={NewBooking} />
+            <Route path='/' component={UserHomePage} />
             <Route component={UserHomePage} />
         </Switch>
     );
