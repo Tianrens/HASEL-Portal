@@ -13,8 +13,10 @@ export async function createWorkstationUser(host, upi, daysInactive, expireDate)
 
     const addUserGroupResult = await execCommand(host, `sudo usermod -aG hasel-users ${upi}`);
 
+    const expirePasswordResult = await execCommand(host, `sudo passwd --expire ${upi}`);
+
     // status code is null if process was successful
-    if (addUserResult.code || changePasswordResult.code || addUserGroupResult.code) {
+    if (addUserResult.code || changePasswordResult.code || addUserGroupResult.code || expirePasswordResult.code) {
         const errorMessage = 'Error with creating workstation user account.';
         throw errorMessage;
     }
