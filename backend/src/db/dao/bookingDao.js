@@ -30,16 +30,28 @@ async function isBookingTimeValid(booking) {
     return numConflicts === 0;
 }
 
-async function createBooking(booking) {
-    if (!(await isBookingGPUValid(booking))) {
+function isBookingPeriodValid(booking) {
+    // Check if endTimestamp before startTimestamp
+    const start = new Date(booking.startTimestamp);
+    const end = new Date(booking.endTimestamp);
+    return start < end;
+}
+
+async function checkBookingValid(booking) {
+    if (!isBookingPeriodValid(booking)) {
+        throw new Error('End date is before the start date');
+    } else if (!(await isBookingGPUValid(booking))) {
         throw new Error('GPU indices were out of range');
     } else if (!(await isBookingTimeValid(booking))) {
         throw new Error('Booking had conflicting times');
-    } else {
-        const dbBooking = new Booking(booking);
-        await dbBooking.save();
-        return dbBooking;
     }
+}
+
+async function createBooking(booking) {
+    await checkBookingValid(booking);
+    const dbBooking = new Booking(booking);
+    await dbBooking.save();
+    return dbBooking;
 }
 
 async function retrieveAllBookings() {
@@ -68,13 +80,8 @@ async function updateBooking(bookingId, newBookingInfo) {
         gpuIndices: newBookingInfo.gpuIndices,
     };
 
-    if (!(await isBookingGPUValid(modifiedBooking))) {
-        throw new Error('GPU indices were out of range');
-    } else if (!(await isBookingTimeValid(modifiedBooking))) {
-        throw new Error('Booking had conflicting times');
-    } else {
-        await Booking.updateOne({ _id: bookingId }, newBookingInfo);
-    }
+    await checkBookingValid(modifiedBooking);
+    await Booking.updateOne({ _id: bookingId }, newBookingInfo);
 }
 
 async function deleteBooking(bookingId) {

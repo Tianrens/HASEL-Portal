@@ -17,6 +17,7 @@ let booking1;
 let booking2;
 let booking3;
 let invalidGPUBooking1;
+let invalidPeriodBooking;
 let invalidTimeBookings;
 let validTimeBookings;
 
@@ -82,6 +83,14 @@ beforeEach(async () => {
         startTimestamp: new Date('2021-08-21T09:58:00'),
         endTimestamp: new Date('2021-08-21T12:30:42'),
         gpuIndices: [2],
+    };
+
+    invalidPeriodBooking = {
+        resourceId: resource1._id,
+        userId: mongoose.Types.ObjectId('777777777777777777777777'),
+        startTimestamp: new Date('2021-08-13T12:00:00'),
+        endTimestamp: new Date('2021-08-13T11:00:00'),
+        gpuIndices: [1],
     };
 
     validTimeBookings = [
@@ -288,6 +297,15 @@ it('create new booking time conflict', async () => {
             // Do nothing as expected action
             expect(err.message).toBeTruthy();
         }
+    }
+});
+
+it('create new booking end before start', async () => {
+    expect.assertions(1);
+    try {
+        await createBooking(invalidPeriodBooking);
+    } catch (err) {
+        expect(err).toBeTruthy();
     }
 });
 
