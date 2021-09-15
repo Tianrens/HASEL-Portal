@@ -15,7 +15,7 @@ module.exports = {
         'linebreak-style': 0,
         'import/prefer-default-export': 0,
         'no-console': 'off',
-        indent: ['error', 4],
+        indent: ['error', 4, { SwitchCase: 1 }],
         'prettier/prettier': 0,
         quotes: [2, 'single', { avoidEscape: true }],
         semi: [2, 'always'],

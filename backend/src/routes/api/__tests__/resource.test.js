@@ -19,6 +19,7 @@ let resource2;
 let resource3;
 let adminUser;
 let undergradUser;
+let adminPastBooking;
 let adminCurrentBooking;
 let adminFutureBooking;
 let undergradBooking;
@@ -137,6 +138,13 @@ beforeEach(async () => {
         undergradSignupRequest,
     ]);
 
+    adminPastBooking = new Booking({
+        resourceId: resource1._id,
+        userId: adminUser._id,
+        startTimestamp: new Date(2020, 6, 1),
+        endTimestamp: new Date(2020, 7, 1),
+        gpuIndices: [0, 1, 2, 3],
+    });
     adminCurrentBooking = new Booking({
         resourceId: resource1._id,
         userId: adminUser._id,
@@ -159,6 +167,7 @@ beforeEach(async () => {
         gpuIndices: [0, 1, 2, 3, 4],
     });
     await bookingColl.insertMany([
+        adminPastBooking,
         adminCurrentBooking,
         adminFutureBooking,
         undergradBooking,
@@ -243,38 +252,154 @@ it('Get all resources', async () => {
 });
 
 it('Get bookings for a specified resource, user is admin', async () => {
+    const status = 'all';
+    const page = 1;
+    const limit = 10;
+
     const response = await authRequest(
-        `${RESOURCE_API_URL}/booking/${resource1._id}`,
+        `${RESOURCE_API_URL}/${resource1._id}/booking/${status}?page=${page}&limit=${limit}`,
         'GET',
         ADMIN_TOKEN,
     );
-    expectDbBookingMatchWithBooking(response.data[0], adminCurrentBooking);
-    expectDbBookingMatchWithBooking(response.data[1], adminFutureBooking);
+
+    expect(response.data.count).toEqual(3);
+    expect(response.data.pageCount).toEqual(1);
+    expectDbBookingMatchWithBooking(
+        response.data.bookings[0],
+        adminFutureBooking,
+    );
+    expectDbBookingMatchWithBooking(
+        response.data.bookings[1],
+        adminCurrentBooking,
+    );
+    expectDbBookingMatchWithBooking(
+        response.data.bookings[2],
+        adminPastBooking,
+    );
 });
 
 it('Get bookings for a specified resource but there are no bookings', async () => {
+    const status = 'all';
+    const page = 1;
+    const limit = 10;
+
     const response = await authRequest(
-        `${RESOURCE_API_URL}/booking/${resource3._id}`,
+        `${RESOURCE_API_URL}/${resource3._id}/booking/${status}?page=${page}&limit=${limit}`,
         'GET',
         ADMIN_TOKEN,
     );
-    expect(response.data).toEqual([]);
+
+    expect(response.data.bookings).toEqual([]);
 });
 
-it('Get CURRENT + ONGOING bookings for a specified resource, user is admin', async () => {
+it('Get CURRENT + ONGOING (ACTIVE) bookings for a specified resource, user is admin', async () => {
+    const status = 'active';
+    const page = 1;
+    const limit = 10;
+
     const response = await authRequest(
-        `${RESOURCE_API_URL}/booking/${resource1._id}?status=active`,
+        `${RESOURCE_API_URL}/${resource1._id}/booking/${status}?page=${page}&limit=${limit}`,
         'GET',
         ADMIN_TOKEN,
     );
-    expectDbBookingMatchWithBooking(response.data[0], adminCurrentBooking);
-    expectDbBookingMatchWithBooking(response.data[1], adminFutureBooking);
-    expect(response.data).toHaveLength(2);
+
+    expect(response.data.count).toEqual(2);
+    expect(response.data.pageCount).toEqual(1);
+    expectDbBookingMatchWithBooking(
+        response.data.bookings[0],
+        adminCurrentBooking,
+    );
+    expectDbBookingMatchWithBooking(
+        response.data.bookings[1],
+        adminFutureBooking,
+    );
+    expect(response.data.bookings).toHaveLength(2);
+});
+
+it('Get FUTURE bookings for a specified resource, user is admin', async () => {
+    const status = 'FUTURE';
+    const page = 1;
+    const limit = 10;
+
+    const response = await authRequest(
+        `${RESOURCE_API_URL}/${resource1._id}/booking/${status}?page=${page}&limit=${limit}`,
+        'GET',
+        ADMIN_TOKEN,
+    );
+
+    expect(response.data.count).toEqual(1);
+    expect(response.data.pageCount).toEqual(1);
+    expectDbBookingMatchWithBooking(
+        response.data.bookings[0],
+        adminFutureBooking,
+    );
+});
+
+it('Get CURRENT bookings for a specified resource, user is admin', async () => {
+    const status = 'CURRENT';
+    const page = 1;
+    const limit = 10;
+
+    const response = await authRequest(
+        `${RESOURCE_API_URL}/${resource1._id}/booking/${status}?page=${page}&limit=${limit}`,
+        'GET',
+        ADMIN_TOKEN,
+    );
+
+    expect(response.data.count).toEqual(1);
+    expect(response.data.pageCount).toEqual(1);
+    expectDbBookingMatchWithBooking(
+        response.data.bookings[0],
+        adminCurrentBooking,
+    );
+});
+
+it('Get PAST bookings for a specified resource, user is admin', async () => {
+    const status = 'PAST';
+    const page = 1;
+    const limit = 10;
+
+    const response = await authRequest(
+        `${RESOURCE_API_URL}/${resource1._id}/booking/${status}?page=${page}&limit=${limit}`,
+        'GET',
+        ADMIN_TOKEN,
+    );
+
+    expect(response.data.count).toEqual(1);
+    expect(response.data.pageCount).toEqual(1);
+    expectDbBookingMatchWithBooking(
+        response.data.bookings[0],
+        adminPastBooking,
+    );
+});
+
+it('Get bookings for a specified resource, page 2 limit 2', async () => {
+    const status = 'ALL';
+    const page = 2;
+    const limit = 2;
+
+    const response = await authRequest(
+        `${RESOURCE_API_URL}/${resource1._id}/booking/${status}?page=${page}&limit=${limit}`,
+        'GET',
+        ADMIN_TOKEN,
+    );
+
+    expect(response.data.count).toEqual(3);
+    expect(response.data.pageCount).toEqual(2);
+    expect(response.data.bookings).toHaveLength(1);
+    expectDbBookingMatchWithBooking(
+        response.data.bookings[0],
+        adminPastBooking,
+    );
 });
 
 it('Get bookings with a bad request query param', async () => {
+    const status = 'helpme';
+    const page = 1;
+    const limit = 10;
+
     const response = await authRequest(
-        `${RESOURCE_API_URL}/booking/${resource1._id}?status=helpme`,
+        `${RESOURCE_API_URL}/${resource1._id}/booking/${status}?page=${page}&limit=${limit}`,
         'GET',
         ADMIN_TOKEN,
     );
@@ -282,17 +407,30 @@ it('Get bookings with a bad request query param', async () => {
 });
 
 it('Get bookings for a specified resource, user is NOT admin and resource belongs to user', async () => {
+    const status = 'all';
+    const page = 1;
+    const limit = 10;
+
     const response = await authRequest(
-        `${RESOURCE_API_URL}/booking/${resource2._id}`,
+        `${RESOURCE_API_URL}/${resource2._id}/booking/${status}?page=${page}&limit=${limit}`,
         'GET',
         UNDERGRAD_TOKEN,
     );
-    expectDbBookingMatchWithBooking(response.data[0], undergradBooking);
+    expect(response.data.count).toEqual(1);
+    expect(response.data.pageCount).toEqual(1);
+    expectDbBookingMatchWithBooking(
+        response.data.bookings[0],
+        undergradBooking,
+    );
 });
 
 it('Get bookings for a specified resource, user is NOT admin and resource DOES NOT belong to user', async () => {
+    const status = 'all';
+    const page = 1;
+    const limit = 10;
+
     const response = await authRequest(
-        `${RESOURCE_API_URL}/booking/${resource1._id}`,
+        `${RESOURCE_API_URL}/${resource1._id}/booking/${status}?page=${page}&limit=${limit}`,
         'GET',
         UNDERGRAD_TOKEN,
     );

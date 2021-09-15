@@ -66,8 +66,57 @@ async function retrieveBookingsByUser(userId) {
     return Booking.find({ userId });
 }
 
-async function retrieveBookingsByResource(resourceId) {
-    return Booking.find({ resourceId });
+async function retrieveBookingsByResource(resourceId, page, limit, status) {
+    const currentTime = Date.now();
+    let startTimestampBoolean;
+    let endTimestampBoolean;
+    let sortObject;
+
+    switch (status.toUpperCase()) {
+        case 'ALL':
+            startTimestampBoolean = { $exists: true };
+            endTimestampBoolean = { $exists: true };
+            sortObject = { startTimestamp: -1 }; // latest first
+            break;
+        case 'ACTIVE': // currrent + ongoing
+            startTimestampBoolean = { $exists: true };
+            endTimestampBoolean = { $gte: currentTime };
+            sortObject = { startTimestamp: 1 }; // upcoming first
+            break;
+        case 'FUTURE':
+            startTimestampBoolean = { $gte: currentTime };
+            endTimestampBoolean = { $exists: true };
+            sortObject = { startTimestamp: 1 }; // upcoming first
+            break;
+        case 'CURRENT':
+            startTimestampBoolean = { $lte: currentTime };
+            endTimestampBoolean = { $gte: currentTime };
+            sortObject = { startTimestamp: 1 }; // upcoming first
+            break;
+        case 'PAST':
+            startTimestampBoolean = { $exists: true };
+            endTimestampBoolean = { $lte: currentTime };
+            sortObject = { endTimestamp: -1 }; // latest first
+            break;
+        default:
+            throw new Error('Invalid status parameter');
+    }
+    const bookings = await Booking.find({
+        resourceId,
+        startTimestamp: startTimestampBoolean,
+        endTimestamp: endTimestampBoolean,
+    })
+        .sort(sortObject)
+        .skip(page > 0 ? (page - 1) * limit : 0) // Skips start at 0, pages start at 1
+        .limit(limit);
+
+    const count = await Booking.countDocuments({
+        resourceId,
+        startTimestamp: startTimestampBoolean,
+        endTimestamp: endTimestampBoolean,
+    });
+
+    return { bookings, count };
 }
 
 async function updateBooking(bookingId, newBookingInfo) {

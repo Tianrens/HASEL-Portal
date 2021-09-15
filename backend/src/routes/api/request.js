@@ -26,7 +26,7 @@ const MASTERS_REQUEST_VALIDITY = 6;
 const POSTGRAD_REQUEST_VALIDITY = 6;
 const PHD_REQUEST_VALIDITY = 12;
 
-const BASE_VALUE = 10;
+const BASE_INT_VALUE = 10;
 
 /** POST new request */
 router.post('/', getUser, async (req, res) => {
@@ -54,8 +54,8 @@ router.post('/', getUser, async (req, res) => {
 router.get('/status/:status', getUser, checkSuperAdmin, async (req, res) => {
     const { status } = req.params;
     try {
-        const page = parseInt(req.query.page, BASE_VALUE);
-        const limit = parseInt(req.query.limit, BASE_VALUE);
+        const page = parseInt(req.query.page, BASE_INT_VALUE);
+        const limit = parseInt(req.query.limit, BASE_INT_VALUE);
 
         const count = await countRequests(status);
         const pageCount = Math.ceil(count / limit);
@@ -71,15 +71,20 @@ router.get('/status/:status', getUser, checkSuperAdmin, async (req, res) => {
 });
 
 /** GET single request */
-router.get('/:requestId', getUser, userHasRequestViewPerms, async (req, res) => {
-    const { requestId } = req.params;
-    try {
-        const request = await retrieveRequestById(requestId);
-        return res.status(HTTP.OK).json(request);
-    } catch (err) {
-        return res.status(HTTP.BAD_REQUEST).json('Bad request');
-    }
-});
+router.get(
+    '/:requestId',
+    getUser,
+    userHasRequestViewPerms,
+    async (req, res) => {
+        const { requestId } = req.params;
+        try {
+            const request = await retrieveRequestById(requestId);
+            return res.status(HTTP.OK).json(request);
+        } catch (err) {
+            return res.status(HTTP.BAD_REQUEST).json('Bad request');
+        }
+    },
+);
 
 /** PATCH approve or deny request */
 router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
