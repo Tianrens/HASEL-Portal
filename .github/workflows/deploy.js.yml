@@ -7,7 +7,7 @@ on:
 jobs:
   build:
 
-    runs-on: self-hosted
+    runs-on: [self-hosted, linux, X64, cd]
 
     strategy:
       matrix:
