@@ -11,6 +11,6 @@ const router = express.Router();
 router.use('/user', firebaseAuth, user);
 router.use('/request', firebaseAuth, request);
 router.use('/resource', firebaseAuth, resource);
-router.use('/booking', booking);
+router.use('/booking', firebaseAuth, booking);
 
 export default router;

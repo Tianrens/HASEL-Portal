@@ -9,7 +9,6 @@ import {
     updateBooking,
 } from '../../db/dao/bookingDao';
 import findMissingParams from './util/findMissingParams';
-import { retrieveUserByAuthId } from '../../db/dao/userDao';
 
 const router = express.Router();
 
@@ -56,6 +55,31 @@ router.get('/', (req, res) => {
     return res.status(HTTP.NOT_IMPLEMENTED).send('Unimplemented');
 });
 
+/** GET single booking by ID */
+router.get('/:id', getUser, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const booking = await retrieveBookingById(id);
+        if (booking === null) {
+            return res
+                .status(HTTP.NOT_FOUND)
+                .send(`Could not find booking with id: ${id}`);
+        }
+
+        if (!req.user._id.equals(booking.userId) && !isAdmin(req)) {
+            return res
+                .status(HTTP.FORBIDDEN)
+                .send(
+                    'Forbidden: User does not have permissions to get this booking',
+                );
+        }
+
+        return res.status(HTTP.OK).send(booking);
+    } catch (err) {
+        return res.status(HTTP.INTERNAL_SERVER_ERROR).json('Server error');
+    }
+});
+
 /** PUT edit a booking */
 router.put('/:bookingId', getUser, async (req, res) => {
     const { bookingId } = req.params;
@@ -98,9 +122,8 @@ router.delete('/:bookingId', getUser, async (req, res) => {
                 .status(HTTP.NOT_FOUND)
                 .send(`Could not find booking with id: ${bookingId}`);
         }
-
-        const user = await retrieveUserByAuthId(req.firebase.uid);
-        if (!user._id.equals(booking.userId) && !isAdmin(req)) {
+        
+        if (!req.user._id.equals(booking.userId) && !isAdmin(req)) {
             return res
                 .status(HTTP.FORBIDDEN)
                 .send(

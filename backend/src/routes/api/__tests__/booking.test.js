@@ -215,7 +215,9 @@ function expectDbBookingMatchWithBooking(responseBooking, requestBooking) {
         requestBooking.startTimestamp,
     );
     datesAreTheSame(responseBooking.endTimestamp, requestBooking.endTimestamp);
-    expect(responseBooking.gpuIndices).toEqual(requestBooking.gpuIndices);
+    expect(responseBooking.gpuIndices).toEqual(
+        requestBooking.gpuIndices.toObject(),
+    );
 }
 
 it('creates a valid booking', async () => {
@@ -226,9 +228,11 @@ it('creates a valid booking', async () => {
         validBooking,
     );
 
+    const dbBooking = await retrieveBookingById(response.data._id);
+
     expect(response).toBeDefined();
     expect(response.status).toEqual(HTTP.CREATED);
-    expectDbBookingMatchWithBooking(response.data, validBooking);
+    expectDbBookingMatchWithBooking(response.data, dbBooking);
 });
 
 it('creates a invalid time booking', async () => {
@@ -253,6 +257,52 @@ it('creates a invalid GPU booking', async () => {
 
     expect(response).toBeDefined();
     expect(response.status).toEqual(HTTP.BAD_REQUEST);
+});
+
+it('get existing booking by ID', async () => {
+    const response = await authRequest(
+        `${BOOKING_API_URL}/${existingBooking1._id}`,
+        'GET',
+        UNDERGRAD_TOKEN,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.OK);
+    expectDbBookingMatchWithBooking(response.data, existingBooking1);
+});
+
+it('get non-existing booking by ID', async () => {
+    const response = await authRequest(
+        `${BOOKING_API_URL}/696969696969696969696969`,
+        'GET',
+        UNDERGRAD_TOKEN,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.NOT_FOUND);
+});
+
+it('get booking by ID invalid permissions', async () => {
+    const response = await authRequest(
+        `${BOOKING_API_URL}/${existingBooking1._id}`,
+        'GET',
+        mastersUser.authUserId,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.FORBIDDEN);
+});
+
+it('get booking by ID valid ADMIN permissions', async () => {
+    const response = await authRequest(
+        `${BOOKING_API_URL}/${existingBooking1._id}`,
+        'GET',
+        adminUser.authUserId,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.OK);
+    expectDbBookingMatchWithBooking(response.data, existingBooking1);
 });
 
 it('creates a invalid resource booking', async () => {
