@@ -3,6 +3,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Divider from '@material-ui/core/Divider';
 import Icon from '@material-ui/core/Icon';
@@ -21,9 +22,15 @@ const NewRequest = () => {
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
     const [selectedGPUs, setGPUs] = useState([]);
+    const [noGPUSelected, setNoGPUSelected] = useState(true);
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        if (noGPUSelected) {
+            return;
+        }
+
         // TODO: Connect to Backend
         console.log(startDate, endDate, startTime, endTime, selectedGPUs);
     };
@@ -36,6 +43,7 @@ const NewRequest = () => {
             tempArray.splice(tempArray.indexOf(GPU), 1);
         }
         setGPUs(tempArray);
+        setNoGPUSelected(tempArray.length === 0);
     };
 
     return (
@@ -56,7 +64,7 @@ const NewRequest = () => {
                     <TextField title='End Time' type='time' setValue={setEndTime} />
                 </div>
                 <div className={styles.inputContainer}>
-                    <FormControl>
+                    <FormControl required error={noGPUSelected}>
                         <FormLabel>Select GPUs</FormLabel>
                         <FormGroup row>
                             {GPUList.map((GPU) => (
@@ -67,6 +75,7 @@ const NewRequest = () => {
                                 />
                             ))}
                         </FormGroup>
+                        {noGPUSelected && <FormHelperText>Select atleast 1 GPU</FormHelperText>}
                     </FormControl>
                 </div>
             </form>

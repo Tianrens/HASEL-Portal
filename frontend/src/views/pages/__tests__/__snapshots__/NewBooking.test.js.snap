@@ -500,9 +500,16 @@ Array [
           className="MuiFormControl-root"
         >
           <label
-            className="MuiFormLabel-root"
+            className="MuiFormLabel-root Mui-error Mui-required"
           >
             Select GPUs
+            <span
+              aria-hidden={true}
+              className="MuiFormLabel-asterisk Mui-error"
+            >
+               
+              *
+            </span>
           </label>
           <div
             className="MuiFormGroup-root MuiFormGroup-row"
@@ -649,6 +656,11 @@ Array [
               </span>
             </label>
           </div>
+          <p
+            className="MuiFormHelperText-root Mui-error Mui-required"
+          >
+            Select atleast 1 GPU
+          </p>
         </div>
       </div>
     </form>
