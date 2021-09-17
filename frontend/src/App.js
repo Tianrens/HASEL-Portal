@@ -13,6 +13,7 @@ import { userDoc } from './state/docs/userDoc';
 import ViewRequests from './views/pages/ViewRequests/ViewRequests';
 import SingleRequest from './views/pages/SingleRequest/SingleRequest';
 import { isAdminType, isSuperAdminType } from './config/accountTypes';
+import ViewWorkstations from './views/pages/ViewWorkstations/ViewWorkstations';
 
 function App() {
     const [idToken] = useDoc(idTokenDoc);
@@ -34,15 +35,13 @@ function App() {
         <Switch>
             <Route exact path='/request/:requestId' component={SingleRequest} />
             <Route exact path='/requests' component={ViewRequests} />
-            {/* TODO: Replace with admin homepage */}
-            <Route component={UserHomePage} />
+            <Route component={ViewWorkstations} />
         </Switch>
     );
 
     const AdminRoutes = () => (
         <Switch>
-            {/* TODO: Replace with admin homepage */}
-            <Route component={UserHomePage} />
+            <Route component={ViewWorkstations} />
         </Switch>
     );
 
