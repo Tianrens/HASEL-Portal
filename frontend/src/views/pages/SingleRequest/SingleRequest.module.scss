@@ -8,7 +8,6 @@
 
 .userInfoContainer,
 .requestDetailsContainer,
-.buttonContainer,
 .details {
     width: 100%;
     display: flex;
@@ -22,14 +21,6 @@
 
 .requestDetailsContainer {
     column-gap: 10rem;
-}
-
-.buttonContainer {
-    justify-content: space-between;
-}
-
-.buttonContainer > div {
-    display: flex;
 }
 
 .details {
@@ -48,10 +39,5 @@
     .requestDetailsContainer {
         flex-direction: column;
         row-gap: 2rem;
-    }
-
-    .buttonContainer,
-    .buttonContainer > div {
-        flex-direction: column;
     }
 }

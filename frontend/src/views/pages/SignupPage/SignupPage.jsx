@@ -77,9 +77,7 @@ const SignupPage = () => {
                         </TextField>
 
                         <div className={styles.buttonContainer}>
-                            <StyledButton className={styles.button} type='submit'>
-                                Submit
-                            </StyledButton>
+                            <StyledButton type='submit'>Submit</StyledButton>
                         </div>
                     </form>
                 </div>

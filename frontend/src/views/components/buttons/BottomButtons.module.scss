@@ -1,0 +1,23 @@
+@import '../../../assets/responsiveDesignHelpers';
+@import '../../../assets/colours';
+
+.buttonContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    & > div {
+        display: flex;
+    }
+}
+
+.divider {
+    width: 100%;
+    margin: 3rem 0;
+}
+
+@include responsive(tablet) {
+    .buttonContainer,
+    .buttonContainer > div {
+        flex-direction: column;
+    }
+}

@@ -58,9 +58,7 @@ const NewRequest = () => {
                     </TextField>
 
                     <div className={styles.buttonContainer}>
-                        <StyledButton className={styles.button} type='submit'>
-                            Request Access
-                        </StyledButton>
+                        <StyledButton type='submit'>Request Access</StyledButton>
                     </div>
                 </form>
             </div>

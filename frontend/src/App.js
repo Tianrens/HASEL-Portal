@@ -13,6 +13,7 @@ import { userDoc } from './state/docs/userDoc';
 import ViewRequests from './views/pages/ViewRequests/ViewRequests';
 import SingleRequest from './views/pages/SingleRequest/SingleRequest';
 import { isAdminType, isSuperAdminType } from './config/accountTypes';
+import EditBooking from './views/pages/EditBooking/EditBooking';
 import ViewWorkstations from './views/pages/ViewWorkstations/ViewWorkstations';
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
 
     const SuperAdminRoutes = () => (
         <Switch>
+            <Route exact path='/booking/:bookingId' component={EditBooking} />
             <Route exact path='/request/:requestId' component={SingleRequest} />
             <Route exact path='/requests' component={ViewRequests} />
             <Route component={ViewWorkstations} />
@@ -41,6 +43,7 @@ function App() {
 
     const AdminRoutes = () => (
         <Switch>
+            <Route exact path='/booking/:bookingId' component={EditBooking} />
             <Route component={ViewWorkstations} />
         </Switch>
     );
@@ -59,6 +62,7 @@ function App() {
 
     const WorkstationAccessRoutes = () => (
         <Switch>
+            <Route exact path='/booking/:bookingId' component={EditBooking} />
             <Route path='/new-booking' component={NewBooking} />
             <Route path='/' component={UserHomePage} />
             <Route component={UserHomePage} />

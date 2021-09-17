@@ -7,12 +7,12 @@ import { useSnackbar } from 'notistack';
 import styles from './SingleRequest.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import TextField from '../../components/TextField/CustomTextField';
-import BottomButtons from './BottomButtons';
 import { useCrud } from '../../../hooks/useCrud';
 import selectMenuProps from '../../../assets/selectMenuProps';
 import TitleAndValue from '../../components/text/TitleAndValue';
 import { getDisplayName, getValidityPeriod } from '../../../config/accountTypes';
 import { authRequestLogError } from '../../../hooks/util/authRequest';
+import BottomButtons from '../../components/buttons/BottomButtons';
 
 const SingleRequest = () => {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();

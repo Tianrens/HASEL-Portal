@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`New Booking page renders properly 1`] = `
+exports[`Edit Booking page renders properly 1`] = `
 Array [
   <div
     className="fillTopbarSpace"
@@ -232,7 +232,7 @@ Array [
     <h2
       className="header"
     >
-      Create Booking - 
+      Edit Booking - 
     </h2>
     <form
       autoComplete="off"
@@ -588,41 +588,115 @@ Array [
     <hr
       className="MuiDivider-root divider"
     />
-    <div>
-      <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained button green"
-        disabled={false}
-        onBlur={[Function]}
-        onClick={[Function]}
-        onDragLeave={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onMouseDown={[Function]}
-        onMouseLeave={[Function]}
-        onMouseUp={[Function]}
-        onTouchEnd={[Function]}
-        onTouchMove={[Function]}
-        onTouchStart={[Function]}
-        tabIndex={0}
-        type="submit"
-      >
-        <span
-          className="MuiButton-label"
+    <div
+      className="buttonContainer"
+    >
+      <div>
+        <button
+          className="MuiButtonBase-root MuiButton-root MuiButton-contained button yellow"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="submit"
         >
           <span
-            className="MuiButton-startIcon MuiButton-iconSizeMedium"
+            className="MuiButton-label"
           >
             <span
-              aria-hidden={true}
-              className="material-icons MuiIcon-root"
+              className="MuiButton-startIcon MuiButton-iconSizeMedium"
             >
-              done
+              <span
+                aria-hidden={true}
+                className="material-icons MuiIcon-root"
+              >
+                delete
+              </span>
             </span>
+            Delete
           </span>
-          Confirm
-        </span>
-      </button>
+        </button>
+      </div>
+      <div>
+        <button
+          className="MuiButtonBase-root MuiButton-root MuiButton-contained button red"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="submit"
+        >
+          <span
+            className="MuiButton-label"
+          >
+            <span
+              className="MuiButton-startIcon MuiButton-iconSizeMedium"
+            >
+              <span
+                aria-hidden={true}
+                className="material-icons MuiIcon-root"
+              >
+                close
+              </span>
+            </span>
+            Cancel
+          </span>
+        </button>
+        <button
+          className="MuiButtonBase-root MuiButton-root MuiButton-contained button green Mui-disabled Mui-disabled"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={-1}
+          type="submit"
+        >
+          <span
+            className="MuiButton-label"
+          >
+            <span
+              className="MuiButton-startIcon MuiButton-iconSizeMedium"
+            >
+              <span
+                aria-hidden={true}
+                className="material-icons MuiIcon-root"
+              >
+                done
+              </span>
+            </span>
+            Confirm Changes
+          </span>
+        </button>
+      </div>
     </div>
   </div>,
 ]
