@@ -9,9 +9,9 @@ const signUpRequestSchema = new SignUpRequestSchema(
             ref: 'User',
             required: true,
         },
-        allocatedResourceId: {
+        allocatedWorkstationId: {
             type: SignUpRequestSchema.Types.ObjectId,
-            ref: 'Resource',
+            ref: 'Workstation',
             required: true,
         },
         supervisorName: String,

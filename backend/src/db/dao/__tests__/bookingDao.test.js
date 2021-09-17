@@ -4,16 +4,16 @@ import {
     createBooking,
     deleteBooking,
     retrieveAllBookings,
-    retrieveBookingsByResource,
     retrieveBookingsByUser,
+    retrieveBookingsByWorkstation,
     updateBooking,
 } from '../bookingDao';
-import { Resource } from '../../schemas/resourceSchema';
+import { Workstation } from '../../schemas/workstationSchema';
 import { Booking } from '../../schemas/bookingSchema';
 
 let mongo;
 let originalDateFunction;
-let resource1;
+let workstation1;
 let booking1;
 let booking2;
 let booking3;
@@ -45,11 +45,13 @@ beforeAll(async () => {
  */
 beforeEach(async () => {
     const bookingsColl = await mongoose.connection.db.collection('bookings');
-    const resourcesColl = await mongoose.connection.db.collection('resources');
+    const workstationsColl = await mongoose.connection.db.collection(
+        'workstations',
+    );
 
     Date.now = jest.fn(() => new Date('2021-08-17T09:00:00')); // Mock current time
 
-    resource1 = new Resource({
+    workstation1 = new Workstation({
         name: 'Machine 1',
         host: '192.168.1.100',
         location: 'HASEL Lab',
@@ -60,7 +62,7 @@ beforeEach(async () => {
     });
 
     booking1 = {
-        resourceId: resource1._id,
+        workstationId: workstation1._id,
         userId: mongoose.Types.ObjectId('888888888888888888888888'),
         startTimestamp: new Date('2021-08-17T08:00:00'),
         endTimestamp: new Date('2021-08-17T12:00:00'),
@@ -68,7 +70,7 @@ beforeEach(async () => {
     };
 
     booking2 = {
-        resourceId: resource1._id,
+        workstationId: workstation1._id,
         userId: mongoose.Types.ObjectId('777777777777777777777777'),
         startTimestamp: new Date('2021-08-13T12:00:00'),
         endTimestamp: new Date('2021-08-13T15:00:00'),
@@ -76,7 +78,7 @@ beforeEach(async () => {
     };
 
     booking3 = {
-        resourceId: resource1._id,
+        workstationId: workstation1._id,
         userId: mongoose.Types.ObjectId('777777777777777777777777'),
         startTimestamp: new Date('2021-09-13T12:00:00'),
         endTimestamp: new Date('2021-09-13T15:00:00'),
@@ -84,7 +86,7 @@ beforeEach(async () => {
     };
 
     validGenericBooking = {
-        resourceId: resource1._id,
+        workstationId: workstation1._id,
         userId: mongoose.Types.ObjectId('999999999999999999999999'),
         startTimestamp: new Date('2021-08-13T09:58:00'),
         endTimestamp: new Date('2021-08-13T12:30:42'),
@@ -92,7 +94,7 @@ beforeEach(async () => {
     };
 
     invalidGPUBooking = {
-        resourceId: resource1._id,
+        workstationId: workstation1._id,
         userId: mongoose.Types.ObjectId('999999999999999999999999'),
         startTimestamp: new Date('2021-08-21T09:58:00'),
         endTimestamp: new Date('2021-08-21T12:30:42'),
@@ -100,7 +102,7 @@ beforeEach(async () => {
     };
 
     invalidPeriodBooking = {
-        resourceId: resource1._id,
+        workstationId: workstation1._id,
         userId: mongoose.Types.ObjectId('777777777777777777777777'),
         startTimestamp: new Date('2021-08-13T12:00:00'),
         endTimestamp: new Date('2021-08-13T11:00:00'),
@@ -113,7 +115,7 @@ beforeEach(async () => {
         // endTimestamp: new Date('2021-08-13T15:00:00'),
         // GPU1:   □□□□■■■■■■■■■
         {
-            resourceId: resource1._id,
+            workstationId: workstation1._id,
             userId: mongoose.Types.ObjectId('777777777777777777777777'),
             startTimestamp: new Date('2021-08-13T11:00:00'),
             endTimestamp: new Date('2021-08-13T12:00:00'),
@@ -121,7 +123,7 @@ beforeEach(async () => {
         },
         // GPU1:       ■■■■■■■■■□□□□
         {
-            resourceId: resource1._id,
+            workstationId: workstation1._id,
             userId: mongoose.Types.ObjectId('777777777777777777777777'),
             startTimestamp: new Date('2021-08-13T15:00:00'),
             endTimestamp: new Date('2021-08-13T16:00:00'),
@@ -130,7 +132,7 @@ beforeEach(async () => {
         // GPU0:              □□□□
         // GPU1:       ■■■■■■■■■
         {
-            resourceId: resource1._id,
+            workstationId: workstation1._id,
             userId: mongoose.Types.ObjectId('777777777777777777777777'),
             startTimestamp: new Date('2021-08-13T14:00:00'),
             endTimestamp: new Date('2021-08-13T16:00:00'),
@@ -139,7 +141,7 @@ beforeEach(async () => {
         // GPU0:                □□□□
         // GPU1:       ■■■■■■■■■□□□□
         {
-            resourceId: resource1._id,
+            workstationId: workstation1._id,
             userId: mongoose.Types.ObjectId('777777777777777777777777'),
             startTimestamp: new Date('2021-08-13T15:00:00'),
             endTimestamp: new Date('2021-08-13T16:00:00'),
@@ -151,7 +153,7 @@ beforeEach(async () => {
         // GPU0:       ■■■■■■■■■□□□□
         // GPU1:       ■■■■■■■■■
         {
-            resourceId: resource1._id,
+            workstationId: workstation1._id,
             userId: mongoose.Types.ObjectId('888888888888888888888888'),
             startTimestamp: new Date('2021-08-17T12:00:00'),
             endTimestamp: new Date('2021-08-17T15:00:00'),
@@ -166,7 +168,7 @@ beforeEach(async () => {
         // GPU1:       ■■■■■■■■■
         //           □□□□
         {
-            resourceId: resource1._id,
+            workstationId: workstation1._id,
             userId: mongoose.Types.ObjectId('777777777777777777777777'),
             startTimestamp: new Date('2021-08-13T11:00:00'),
             endTimestamp: new Date('2021-08-13T13:00:00'),
@@ -175,7 +177,7 @@ beforeEach(async () => {
         // GPU1:       ■■■■■■■■■
         //                    □□□□
         {
-            resourceId: resource1._id,
+            workstationId: workstation1._id,
             userId: mongoose.Types.ObjectId('777777777777777777777777'),
             startTimestamp: new Date('2021-08-13T14:00:00'),
             endTimestamp: new Date('2021-08-13T16:00:00'),
@@ -184,7 +186,7 @@ beforeEach(async () => {
         // GPU1:       ■■■■■■■■■
         //                □□□□
         {
-            resourceId: resource1._id,
+            workstationId: workstation1._id,
             userId: mongoose.Types.ObjectId('777777777777777777777777'),
             startTimestamp: new Date('2021-08-13T13:00:00'),
             endTimestamp: new Date('2021-08-13T14:00:00'),
@@ -193,7 +195,7 @@ beforeEach(async () => {
         // GPU1:       ■■■■■■■■■
         //            □□□□□□□□□□□□
         {
-            resourceId: resource1._id,
+            workstationId: workstation1._id,
             userId: mongoose.Types.ObjectId('777777777777777777777777'),
             startTimestamp: new Date('2021-08-13T11:00:00'),
             endTimestamp: new Date('2021-08-13T16:00:00'),
@@ -202,7 +204,7 @@ beforeEach(async () => {
         // GPU1:       ■■■■■■■■■
         //             □□□□□□□□□
         {
-            resourceId: resource1._id,
+            workstationId: workstation1._id,
             userId: mongoose.Types.ObjectId('777777777777777777777777'),
             startTimestamp: new Date('2021-08-13T12:00:00'),
             endTimestamp: new Date('2021-08-13T15:00:00'),
@@ -212,7 +214,7 @@ beforeEach(async () => {
         // GPU1:       ■■■■■■■■■
         //           □□□□
         {
-            resourceId: resource1._id,
+            workstationId: workstation1._id,
             userId: mongoose.Types.ObjectId('777777777777777777777777'),
             startTimestamp: new Date('2021-08-13T11:00:00'),
             endTimestamp: new Date('2021-08-13T13:00:00'),
@@ -226,7 +228,7 @@ beforeEach(async () => {
         // GPU1:       ■■■■■■■■■
         //           □□□□
         {
-            resourceId: resource1._id,
+            workstationId: workstation1._id,
             userId: mongoose.Types.ObjectId('888888888888888888888888'),
             startTimestamp: new Date('2021-08-17T07:00:00'),
             endTimestamp: new Date('2021-08-17T09:00:00'),
@@ -234,7 +236,7 @@ beforeEach(async () => {
         },
     ];
 
-    await resourcesColl.insertOne(resource1);
+    await workstationsColl.insertOne(workstation1);
     await bookingsColl.insertMany([booking1, booking2, booking3]);
 });
 
@@ -243,7 +245,7 @@ beforeEach(async () => {
  */
 afterEach(async () => {
     await mongoose.connection.db.dropCollection('bookings');
-    await mongoose.connection.db.dropCollection('resources');
+    await mongoose.connection.db.dropCollection('workstations');
 
     Date.now = originalDateFunction;
 });
@@ -258,7 +260,7 @@ afterAll(async () => {
 
 function expectDbBookingMatchWithBooking(dbBooking, booking) {
     expect(dbBooking).toBeTruthy();
-    expect(dbBooking.resourceId).toEqual(booking.resourceId);
+    expect(dbBooking.workstationId).toEqual(booking.workstationId);
     expect(dbBooking.userId).toEqual(booking.userId);
     expect(dbBooking.startTimestamp).toEqual(booking.startTimestamp);
     expect(dbBooking.endTimestamp).toEqual(booking.endTimestamp);
@@ -334,12 +336,12 @@ it("retrieve user's bookings", async () => {
     expectDbBookingMatchWithBooking(bookings[0], booking1);
 });
 
-it('retrieve all bookings for a resource', async () => {
+it('retrieve all bookings for a workstation', async () => {
     const page = 1;
     const limit = 3;
     const status = 'all';
-    const data = await retrieveBookingsByResource(
-        booking1.resourceId,
+    const data = await retrieveBookingsByWorkstation(
+        booking1.workstationId,
         page,
         limit,
         status,
@@ -353,12 +355,12 @@ it('retrieve all bookings for a resource', async () => {
     expectDbBookingMatchWithBooking(data.bookings[2], booking2);
 });
 
-it('retrieve active bookings for a resource', async () => {
+it('retrieve active bookings for a workstation', async () => {
     const page = 1;
     const limit = 3;
     const status = 'active';
-    const data = await retrieveBookingsByResource(
-        booking1.resourceId,
+    const data = await retrieveBookingsByWorkstation(
+        booking1.workstationId,
         page,
         limit,
         status,
@@ -371,12 +373,12 @@ it('retrieve active bookings for a resource', async () => {
     expectDbBookingMatchWithBooking(data.bookings[1], booking3);
 });
 
-it('retrieve future bookings for a resource', async () => {
+it('retrieve future bookings for a workstation', async () => {
     const page = 1;
     const limit = 3;
     const status = 'future';
-    const data = await retrieveBookingsByResource(
-        booking1.resourceId,
+    const data = await retrieveBookingsByWorkstation(
+        booking1.workstationId,
         page,
         limit,
         status,
@@ -388,12 +390,12 @@ it('retrieve future bookings for a resource', async () => {
     expectDbBookingMatchWithBooking(data.bookings[0], booking3);
 });
 
-it('retrieve current bookings for a resource', async () => {
+it('retrieve current bookings for a workstation', async () => {
     const page = 1;
     const limit = 3;
     const status = 'current';
-    const data = await retrieveBookingsByResource(
-        booking1.resourceId,
+    const data = await retrieveBookingsByWorkstation(
+        booking1.workstationId,
         page,
         limit,
         status,
@@ -405,12 +407,12 @@ it('retrieve current bookings for a resource', async () => {
     expectDbBookingMatchWithBooking(data.bookings[0], booking1);
 });
 
-it('retrieve past bookings for a resource', async () => {
+it('retrieve past bookings for a workstation', async () => {
     const page = 1;
     const limit = 3;
     const status = 'past';
-    const data = await retrieveBookingsByResource(
-        booking1.resourceId,
+    const data = await retrieveBookingsByWorkstation(
+        booking1.workstationId,
         page,
         limit,
         status,
@@ -422,12 +424,12 @@ it('retrieve past bookings for a resource', async () => {
     expectDbBookingMatchWithBooking(data.bookings[0], booking2);
 });
 
-it('retrieve all bookings for a resource page 2 limit 2', async () => {
+it('retrieve all bookings for a workstation page 2 limit 2', async () => {
     const page = 2;
     const limit = 2;
     const status = 'all';
-    const data = await retrieveBookingsByResource(
-        booking1.resourceId,
+    const data = await retrieveBookingsByWorkstation(
+        booking1.workstationId,
         page,
         limit,
         status,
@@ -445,8 +447,8 @@ it('retrieve bookings invalid status', async () => {
     const limit = 2;
     const status = 'invalid';
     try {
-        await retrieveBookingsByResource(
-            booking1.resourceId,
+        await retrieveBookingsByWorkstation(
+            booking1.workstationId,
             page,
             limit,
             status,
@@ -466,7 +468,7 @@ it('update booking info', async () => {
     const dbBooking = await Booking.findById(booking2._id);
 
     expect(dbBooking).toBeTruthy();
-    expect(dbBooking.resourceId).toEqual(booking2.resourceId);
+    expect(dbBooking.workstationId).toEqual(booking2.workstationId);
     expect(dbBooking.userId).toEqual(booking2.userId);
     expect(dbBooking.startTimestamp).toEqual(
         updatedBooking2Info.startTimestamp,
@@ -487,7 +489,7 @@ it('update booking time agreement', async () => {
     const dbBooking = await Booking.findById(booking2._id);
 
     expect(dbBooking).toBeTruthy();
-    expect(dbBooking.resourceId).toEqual(booking2.resourceId);
+    expect(dbBooking.workstationId).toEqual(booking2.workstationId);
     expect(dbBooking.userId).toEqual(booking2.userId);
     expect(dbBooking.startTimestamp).toEqual(
         updatedBooking2Info.startTimestamp,
@@ -514,7 +516,7 @@ it('update booking time conflict', async () => {
     const dbBooking = await Booking.findById(booking2._id);
 
     expect(dbBooking).toBeTruthy();
-    expect(dbBooking.resourceId).toEqual(booking2.resourceId);
+    expect(dbBooking.workstationId).toEqual(booking2.workstationId);
     expect(dbBooking.userId).toEqual(booking2.userId);
     expect(dbBooking.startTimestamp).toEqual(booking2.startTimestamp);
     expect(dbBooking.endTimestamp).toEqual(booking2.endTimestamp);

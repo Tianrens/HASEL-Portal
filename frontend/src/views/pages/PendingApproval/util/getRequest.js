@@ -5,11 +5,13 @@ import { userDoc } from '../../../../state/docs/userDoc';
 export async function getRequest() {
     const [user] = accessDoc(userDoc);
     const request = await authRequest(`/api/request/${user.currentRequestId._id}`);
-    const resource = await authRequest(`/api/resource/${request.data.allocatedResourceId}`);
+    const workstation = await authRequest(
+        `/api/workstation/${request.data.allocatedWorkstationId}`,
+    );
 
     return {
         supervisorName: request.data.supervisorName,
-        comments : request.data.comments,
-        workstation: resource.data,
+        comments: request.data.comments,
+        workstation: workstation.data,
     };
-};
+}

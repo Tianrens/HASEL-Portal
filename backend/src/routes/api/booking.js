@@ -15,7 +15,7 @@ const router = express.Router();
 /** POST add a new booking */
 router.post('/', getUser, async (req, res) => {
     const expectedParams = [
-        'resourceId',
+        'workstationId',
         'startTimestamp',
         'endTimestamp',
         'gpuIndices',
@@ -25,12 +25,12 @@ router.post('/', getUser, async (req, res) => {
         return res.status(HTTP.BAD_REQUEST).send(missingParams);
     }
 
-    // User can only book resource that matches signup request
+    // User can only book workstation that matches signup request
     // Request must also be ACTIVE
     if (userHasBookingPerms(req)) {
         try {
             const booking = await createBooking({
-                resourceId: req.body.resourceId,
+                workstationId: req.body.workstationId,
                 userId: req.user._id,
                 startTimestamp: req.body.startTimestamp,
                 endTimestamp: req.body.endTimestamp,
@@ -44,7 +44,7 @@ router.post('/', getUser, async (req, res) => {
 
     return res
         .status(HTTP.FORBIDDEN)
-        .send('No permission to book this resource');
+        .send('No permission to book this workstation');
 });
 
 /** GET all bookings */
@@ -92,7 +92,7 @@ router.put('/:bookingId', getUser, async (req, res) => {
 
     // Get booking to check userId
     const booking = await retrieveBookingById(bookingId);
-    // User can only edit resource if they own the booking, or they are ADMINs
+    // User can only edit workstation if they own the booking, or they are ADMINs
     if (booking.userId !== req.user._id || isAdmin(req)) {
         try {
             // Only able to edit timmestamps and GPU counts

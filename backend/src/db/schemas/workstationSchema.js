@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
-const ResourceSchema = mongoose.Schema;
+const WorkstationSchema = mongoose.Schema;
 
-const resourceSchema = new ResourceSchema(
+const workstationSchema = new WorkstationSchema(
     {
         name: { type: String, required: true },
         host: { type: String, required: true },
@@ -17,6 +17,6 @@ const resourceSchema = new ResourceSchema(
     },
 );
 
-const Resource = mongoose.model('Resource', resourceSchema);
+const Workstation = mongoose.model('Workstation', workstationSchema);
 
-export { Resource };
+export { Workstation };

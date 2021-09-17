@@ -3,7 +3,7 @@ import { createUser, retrieveUserByAuthId } from '../../db/dao/userDao';
 import findMissingParams from './util/findMissingParams';
 import HTTP from './util/http_codes';
 import { getUser } from './util/userUtil';
-import { retrieveResourceOfUser } from '../../db/dao/resourceDao';
+import { retrieveWorkstationOfUser } from '../../db/dao/workstationDao';
 
 const router = express.Router();
 
@@ -70,23 +70,23 @@ router.get('/info', async (req, res) => {
     return res.send(dbUser);
 });
 
-/** GET user resource */
-router.get('/resource', getUser, async (req, res) => {
-    let resource;
+/** GET user workstation */
+router.get('/workstation', getUser, async (req, res) => {
+    let workstation;
     try {
-        resource = await retrieveResourceOfUser(req.user._id);
-        if (resource === null) {
+        workstation = await retrieveWorkstationOfUser(req.user._id);
+        if (workstation === null) {
             return res
                 .status(HTTP.BAD_REQUEST)
                 .send(
-                    'User does not have an active request with an allocated resource',
+                    'User does not have an active request with an allocated workstation',
                 );
         }
     } catch (err) {
         return res.status(HTTP.BAD_REQUEST).json('Bad request');
     }
 
-    return res.status(HTTP.OK).json(resource);
+    return res.status(HTTP.OK).json(workstation);
 });
 
 export default router;

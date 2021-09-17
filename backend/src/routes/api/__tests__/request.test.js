@@ -8,7 +8,7 @@ import { User } from '../../../db/schemas/userSchema';
 import HTTP from '../util/http_codes';
 import { SignUpRequest } from '../../../db/schemas/signUpRequestSchema';
 import { retrieveRequestById } from '../../../db/dao/signUpRequestDao';
-import { Resource } from '../../../db/schemas/resourceSchema';
+import { Workstation } from '../../../db/schemas/workstationSchema';
 
 let mongo;
 let app;
@@ -24,15 +24,15 @@ let staffUserRequest;
 let requestApproval;
 let requestDeclined;
 let requestApprovalWithCustomRequestValidity;
-let requestApprovalWithNewResourceAllocation;
+let requestApprovalWithNewWorkstationAllocation;
 let studentUser;
 let superAdminUser;
 let academicUser;
 let staffUser;
-let resource1;
-let resource2;
-let resource3;
-let updatedResource;
+let workstation1;
+let workstation2;
+let workstation3;
+let updatedWorkstation;
 
 const TOKEN_PASS = 'test';
 const TOKEN_FAIL = 'fail';
@@ -68,7 +68,9 @@ beforeEach(async () => {
     const signUpRequestsColl = await mongoose.connection.db.collection(
         'signuprequests',
     );
-    const resourceColl = await mongoose.connection.db.collection('resources');
+    const workstationColl = await mongoose.connection.db.collection(
+        'workstations',
+    );
 
     // Need to use user constructor to obtain _id value
     studentUser = new User({
@@ -78,7 +80,7 @@ beforeEach(async () => {
         firstName: 'Denise',
         lastName: 'Nuts',
         type: 'PHD',
-        currentRequestId: null
+        currentRequestId: null,
     });
 
     superAdminUser = new User({
@@ -108,7 +110,7 @@ beforeEach(async () => {
         type: 'STAFF',
     });
 
-    resource1 = new Resource({
+    workstation1 = new Workstation({
         name: 'Machine 1',
         host: '192.168.1.101',
         location: 'HASEL Lab',
@@ -117,7 +119,7 @@ beforeEach(async () => {
         ramDescription: 'Kingston HyperX Predator 32GB',
         cpuDescription: 'Intel Core i9 10900KF',
     });
-    resource2 = new Resource({
+    workstation2 = new Workstation({
         name: 'Deep Learning Machine 3',
         host: '192.168.1.100',
         location: 'Level 9 Building 405',
@@ -126,7 +128,7 @@ beforeEach(async () => {
         ramDescription: 'Corsair Dominator Platinum RGB 32GB',
         cpuDescription: 'Intel Xeon Silver 4210R',
     });
-    resource3 = new Resource({
+    workstation3 = new Workstation({
         name: 'Deep Learning Machine 2',
         host: '192.168.1.102',
         location: 'HASEL Lab',
@@ -135,7 +137,7 @@ beforeEach(async () => {
         ramDescription: 'Kingston HyperX Predator 16GB',
         cpuDescription: 'Intel Core i7-11700K 8 Core / 16 Thread',
     });
-    updatedResource = new Resource({
+    updatedWorkstation = new Workstation({
         name: 'Deep Learning Machine 3',
         host: '192.168.1.104',
         location: 'HASEL Lab',
@@ -147,7 +149,7 @@ beforeEach(async () => {
 
     dummyRequestWithAllFieldsSet1 = {
         userId: studentUser._id,
-        allocatedResourceId: resource1._id,
+        allocatedWorkstationId: workstation1._id,
         supervisorName: 'Reza Shahamiri',
         comments: 'Need to use the deep learning machines for part 4 project.',
         status: 'PENDING',
@@ -157,7 +159,7 @@ beforeEach(async () => {
 
     dummyRequestWithAllFieldsSet2 = {
         userId: studentUser._id,
-        allocatedResourceId: resource2._id,
+        allocatedWorkstationId: workstation2._id,
         supervisorName: 'Andrew Meads',
         comments: 'Need access to the HASEL Lab machines for PhD research',
         status: 'ACTIVE',
@@ -167,7 +169,7 @@ beforeEach(async () => {
 
     dummyRequestWithAllFieldsSet3 = {
         userId: studentUser._id,
-        allocatedResourceId: resource3._id,
+        allocatedWorkstationId: workstation3._id,
         supervisorName: 'Meads Andrew',
         comments: 'Need access to the LESAH Lab machines for PhD research',
         status: 'ACTIVE',
@@ -177,7 +179,7 @@ beforeEach(async () => {
 
     dummyRequestWithAllFieldsSet4 = {
         userId: studentUser._id,
-        allocatedResourceId: resource1._id,
+        allocatedWorkstationId: workstation1._id,
         supervisorName: 'Joey Car',
         comments: 'Reasons',
         status: 'ACTIVE',
@@ -187,27 +189,27 @@ beforeEach(async () => {
 
     studentUserRequest1 = new SignUpRequest({
         userId: studentUser._id,
-        allocatedResourceId: resource2._id,
+        allocatedWorkstationId: workstation2._id,
         supervisorName: 'Nasser Giacaman',
         status: 'PENDING', // status always pending on creation
     });
 
     studentUserRequest2 = new SignUpRequest({
         userId: studentUser._id,
-        allocatedResourceId: resource3._id,
+        allocatedWorkstationId: workstation3._id,
         supervisorName: 'Kelly Blincoe',
         status: 'PENDING', // status always pending on creation
     });
 
     academicUserRequest = new SignUpRequest({
         userId: academicUser._id,
-        allocatedResourceId: resource1._id,
+        allocatedWorkstationId: workstation1._id,
         status: 'PENDING', // status always pending on creation
     });
 
     staffUserRequest = new SignUpRequest({
         userId: staffUser._id,
-        allocatedResourceId: resource2._id,
+        allocatedWorkstationId: workstation2._id,
         status: 'PENDING', // status always pending on creation
     });
 
@@ -225,18 +227,18 @@ beforeEach(async () => {
         requestValidity: 8,
     };
 
-    requestApprovalWithNewResourceAllocation = {
+    requestApprovalWithNewWorkstationAllocation = {
         status: 'ACTIVE',
-        allocatedResourceId: updatedResource,
+        allocatedWorkstationId: updatedWorkstation,
     };
 
     studentUser.currentRequestId = studentUserRequest1._id;
 
-    await resourceColl.insertMany([
-        resource1,
-        resource2,
-        resource3,
-        updatedResource,
+    await workstationColl.insertMany([
+        workstation1,
+        workstation2,
+        workstation3,
+        updatedWorkstation,
     ]);
 
     await usersColl.insertMany([
@@ -287,8 +289,8 @@ function expectDbRequestMatchWithRequest(responseRequest, requestRequest) {
             requestRequest.userId.toString(),
         );
     }
-    expect(responseRequest.allocatedResourceId.toString()).toEqual(
-        requestRequest.allocatedResourceId.toString(),
+    expect(responseRequest.allocatedWorkstationId.toString()).toEqual(
+        requestRequest.allocatedWorkstationId.toString(),
     );
     expect(responseRequest.supervisorName).toEqual(
         requestRequest.supervisorName,
@@ -510,8 +512,8 @@ it('approve PHD student request valid permissions', async () => {
     const updatedRequest = await retrieveRequestById(studentUserRequest2._id);
 
     expect(response.status).toEqual(HTTP.NO_CONTENT);
-    expect(updatedRequest.allocatedResourceId.toString()).toEqual(
-        studentUserRequest2.allocatedResourceId.toString(),
+    expect(updatedRequest.allocatedWorkstationId.toString()).toEqual(
+        studentUserRequest2.allocatedWorkstationId.toString(),
     );
     expect(updatedRequest.status).toEqual('ACTIVE');
     datesAreTheSame(updatedRequest.startDate, Date.now());
@@ -572,8 +574,8 @@ it('approve ACADEMIC request valid permissions', async () => {
     const updatedRequest = await retrieveRequestById(academicUserRequest._id);
 
     expect(response.status).toEqual(HTTP.NO_CONTENT);
-    expect(updatedRequest.allocatedResourceId.toString()).toEqual(
-        academicUserRequest.allocatedResourceId.toString(),
+    expect(updatedRequest.allocatedWorkstationId.toString()).toEqual(
+        academicUserRequest.allocatedWorkstationId.toString(),
     );
     expect(updatedRequest.status).toEqual('ACTIVE');
     datesAreTheSame(updatedRequest.startDate, Date.now());
@@ -595,8 +597,8 @@ it('approve STAFF request valid permissions', async () => {
     const updatedRequest = await retrieveRequestById(staffUserRequest._id);
 
     expect(response.status).toEqual(HTTP.NO_CONTENT);
-    expect(updatedRequest.allocatedResourceId.toString()).toEqual(
-        staffUserRequest.allocatedResourceId.toString(),
+    expect(updatedRequest.allocatedWorkstationId.toString()).toEqual(
+        staffUserRequest.allocatedWorkstationId.toString(),
     );
     expect(updatedRequest.status).toEqual('ACTIVE');
     datesAreTheSame(updatedRequest.startDate, Date.now());
@@ -620,8 +622,8 @@ it('approve STAFF request valid permissions', async () => {
     const updatedRequest = await retrieveRequestById(staffUserRequest._id);
 
     expect(response.status).toEqual(HTTP.NO_CONTENT);
-    expect(updatedRequest.allocatedResourceId.toString()).toEqual(
-        staffUserRequest.allocatedResourceId.toString(),
+    expect(updatedRequest.allocatedWorkstationId.toString()).toEqual(
+        staffUserRequest.allocatedWorkstationId.toString(),
     );
     expect(updatedRequest.status).toEqual('ACTIVE');
     datesAreTheSame(updatedRequest.startDate, Date.now());
@@ -630,10 +632,10 @@ it('approve STAFF request valid permissions', async () => {
     ).toEqual(8);
 });
 
-it('approve PHD student request with different resource allocation', async () => {
+it('approve PHD student request with different workstation allocation', async () => {
     const response = await axios.patch(
         `${REQUEST_API_URL}/${studentUserRequest2._id}`,
-        requestApprovalWithNewResourceAllocation,
+        requestApprovalWithNewWorkstationAllocation,
         {
             validateStatus,
             headers: {
@@ -645,8 +647,8 @@ it('approve PHD student request with different resource allocation', async () =>
     const updatedRequest = await retrieveRequestById(studentUserRequest2._id);
 
     expect(response.status).toEqual(HTTP.NO_CONTENT);
-    expect(updatedRequest.allocatedResourceId.toString()).toEqual(
-        updatedResource._id.toString(),
+    expect(updatedRequest.allocatedWorkstationId.toString()).toEqual(
+        updatedWorkstation._id.toString(),
     );
     expect(updatedRequest.status).toEqual('ACTIVE');
     datesAreTheSame(updatedRequest.startDate, Date.now());

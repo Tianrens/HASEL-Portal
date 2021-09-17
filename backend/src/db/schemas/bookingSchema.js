@@ -4,9 +4,9 @@ const BookingSchema = mongoose.Schema;
 
 const bookingSchema = new BookingSchema(
     {
-        resourceId: {
+        workstationId: {
             type: BookingSchema.Types.ObjectId,
-            ref: 'Resource',
+            ref: 'Workstation',
             required: true,
         },
         userId: {

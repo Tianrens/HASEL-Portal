@@ -68,7 +68,7 @@ describe('non-time dependent tests', () => {
 
         request1 = {
             userId: user1._id,
-            allocatedResourceId: mongoose.Types.ObjectId(
+            allocatedWorkstationId: mongoose.Types.ObjectId(
                 '666666666666666666666666',
             ),
             supervisorName: 'Reza Shahamiri',
@@ -81,7 +81,7 @@ describe('non-time dependent tests', () => {
 
         request2 = {
             userId: user1._id,
-            allocatedResourceId: mongoose.Types.ObjectId(
+            allocatedWorkstationId: mongoose.Types.ObjectId(
                 '555555555555555555555555',
             ),
             supervisorName: 'Andrew Meads',
@@ -93,7 +93,7 @@ describe('non-time dependent tests', () => {
 
         request3 = {
             userId: user1._id,
-            allocatedResourceId: mongoose.Types.ObjectId(
+            allocatedWorkstationId: mongoose.Types.ObjectId(
                 '555555555555555555555555',
             ),
             supervisorName: 'Meads Andrew',
@@ -105,7 +105,7 @@ describe('non-time dependent tests', () => {
 
         request4 = {
             userId: user1._id,
-            allocatedResourceId: mongoose.Types.ObjectId(
+            allocatedWorkstationId: mongoose.Types.ObjectId(
                 '444444444444444444444444',
             ),
             supervisorName: 'Nasser Giacaman',
@@ -131,8 +131,8 @@ describe('non-time dependent tests', () => {
 
         // Occurs if the userId is populated
         expect(dbRequest.userId._id).toEqual(request.userId);
-        expect(dbRequest.allocatedResourceId).toEqual(
-            request.allocatedResourceId,
+        expect(dbRequest.allocatedWorkstationId).toEqual(
+            request.allocatedWorkstationId,
         );
         expect(dbRequest.supervisorName).toEqual(request.supervisorName);
         if (request.comments) {
@@ -222,8 +222,8 @@ describe('non-time dependent tests', () => {
 
         expect(dbRequest).toBeTruthy();
         expect(dbRequest.userId).toEqual(request1.userId);
-        expect(dbRequest.allocatedResourceId).toEqual(
-            request1.allocatedResourceId,
+        expect(dbRequest.allocatedWorkstationId).toEqual(
+            request1.allocatedWorkstationId,
         );
         expect(dbRequest.supervisorName).toBe(request1.supervisorName);
         expect(dbRequest.comments).toBe(request1.comments);
@@ -234,7 +234,7 @@ describe('non-time dependent tests', () => {
 
     it('update request info', async () => {
         const updatedRequest2Info = {
-            allocatedResourceId: mongoose.Types.ObjectId(
+            allocatedWorkstationId: mongoose.Types.ObjectId(
                 '222222222222222222222222',
             ),
             status: 'PENDING',
@@ -248,8 +248,8 @@ describe('non-time dependent tests', () => {
 
         expect(dbRequest).toBeTruthy();
         expect(dbRequest.userId).toEqual(request2.userId);
-        expect(dbRequest.allocatedResourceId).toEqual(
-            updatedRequest2Info.allocatedResourceId,
+        expect(dbRequest.allocatedWorkstationId).toEqual(
+            updatedRequest2Info.allocatedWorkstationId,
         );
         expect(dbRequest.supervisorName).toBe(request2.supervisorName);
         expect(dbRequest.comments).toBe(request2.comments);
@@ -272,7 +272,7 @@ describe('time dependent tests', () => {
 
         expiredTest = {
             userId: mongoose.Types.ObjectId('888888888888888888888888'),
-            allocatedResourceId: mongoose.Types.ObjectId(
+            allocatedWorkstationId: mongoose.Types.ObjectId(
                 '666666666666666666666666',
             ),
             supervisorName: 'Reza Shahamiri',
@@ -285,7 +285,7 @@ describe('time dependent tests', () => {
 
         notifiedExpiringTest = {
             userId: mongoose.Types.ObjectId('999999999999999999999998'),
-            allocatedResourceId: mongoose.Types.ObjectId(
+            allocatedWorkstationId: mongoose.Types.ObjectId(
                 '555555555555555555555555',
             ),
             supervisorName: 'Andrew Meads',
@@ -298,7 +298,7 @@ describe('time dependent tests', () => {
 
         expiringTest = {
             userId: mongoose.Types.ObjectId('999999999999999999999999'),
-            allocatedResourceId: mongoose.Types.ObjectId(
+            allocatedWorkstationId: mongoose.Types.ObjectId(
                 '555555555555555555555555',
             ),
             supervisorName: 'Andrew Meads',
@@ -310,7 +310,7 @@ describe('time dependent tests', () => {
 
         nonExpiringTest = {
             userId: mongoose.Types.ObjectId('111111111111111111111111'),
-            allocatedResourceId: mongoose.Types.ObjectId(
+            allocatedWorkstationId: mongoose.Types.ObjectId(
                 '555555555555555555555555',
             ),
             supervisorName: 'Meads Andrew',

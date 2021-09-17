@@ -5,7 +5,7 @@ import express from 'express';
 import router from '../user';
 import firebaseAuth from '../../../firebase/auth';
 import { createSignUpRequest } from '../../../db/dao/signUpRequestDao';
-import { Resource } from '../../../db/schemas/resourceSchema';
+import { Workstation } from '../../../db/schemas/workstationSchema';
 import { SignUpRequest } from '../../../db/schemas/signUpRequestSchema';
 import { User } from '../../../db/schemas/userSchema';
 import HTTP from '../util/http_codes';
@@ -16,7 +16,7 @@ let app;
 let server;
 let user1;
 let user2;
-let resource1;
+let workstation1;
 let request1;
 let request2;
 
@@ -48,8 +48,8 @@ beforeAll(async () => {
  */
 beforeEach(async () => {
     const usersColl = await mongoose.connection.db.createCollection('users');
-    const resourcesColl = await mongoose.connection.db.createCollection(
-        'resources',
+    const workstationsColl = await mongoose.connection.db.createCollection(
+        'workstations',
     );
     await mongoose.connection.db.createCollection('signuprequests');
 
@@ -72,7 +72,7 @@ beforeEach(async () => {
         type: 'MASTERS',
     };
 
-    resource1 = new Resource({
+    workstation1 = new Workstation({
         name: 'Machine 1',
         host: '192.168.1.100',
         location: 'HASEL Lab',
@@ -84,7 +84,7 @@ beforeEach(async () => {
 
     request1 = new SignUpRequest({
         userId: user1._id,
-        allocatedResourceId: resource1._id,
+        allocatedWorkstationId: workstation1._id,
         supervisorName: 'Reza Shahamiri',
         comments: 'Need to use the deep learning machines for part 4 project.',
         status: 'ACTIVE',
@@ -94,7 +94,7 @@ beforeEach(async () => {
 
     request2 = new SignUpRequest({
         userId: user1._id,
-        allocatedResourceId: resource1._id,
+        allocatedWorkstationId: workstation1._id,
         supervisorName: 'Reza Shahamiri',
         comments: 'Need to use the deep learning machines for part 4 project.',
         status: 'DECLINED',
@@ -103,7 +103,7 @@ beforeEach(async () => {
     });
 
     await usersColl.insertMany([user1]);
-    await resourcesColl.insertOne(resource1);
+    await workstationsColl.insertOne(workstation1);
     await createSignUpRequest(request1);
 });
 
@@ -112,7 +112,7 @@ beforeEach(async () => {
  */
 afterEach(async () => {
     await mongoose.connection.db.dropCollection('users');
-    await mongoose.connection.db.dropCollection('resources');
+    await mongoose.connection.db.dropCollection('workstations');
     await mongoose.connection.db.dropCollection('signuprequests');
 });
 
@@ -134,14 +134,23 @@ function expectResponseUserSameAsRequestUser(responseUser, requestUser) {
     expect(responseUser.type).toEqual(requestUser.type);
 }
 
-function expectResponseResourceSameAsDbResource(responseResource, dbResource) {
-    expect(responseResource).toBeTruthy();
-    expect(responseResource.name).toEqual(dbResource.name);
-    expect(responseResource.location).toEqual(dbResource.location);
-    expect(responseResource.numGPUs).toEqual(dbResource.numGPUs);
-    expect(responseResource.gpuDescription).toEqual(dbResource.gpuDescription);
-    expect(responseResource.ramDescription).toEqual(dbResource.ramDescription);
-    expect(responseResource.cpuDescription).toEqual(dbResource.cpuDescription);
+function expectResponseWorkstationSameAsDbWorkstation(
+    responseWorkstation,
+    dbWorkstation,
+) {
+    expect(responseWorkstation).toBeTruthy();
+    expect(responseWorkstation.name).toEqual(dbWorkstation.name);
+    expect(responseWorkstation.location).toEqual(dbWorkstation.location);
+    expect(responseWorkstation.numGPUs).toEqual(dbWorkstation.numGPUs);
+    expect(responseWorkstation.gpuDescription).toEqual(
+        dbWorkstation.gpuDescription,
+    );
+    expect(responseWorkstation.ramDescription).toEqual(
+        dbWorkstation.ramDescription,
+    );
+    expect(responseWorkstation.cpuDescription).toEqual(
+        dbWorkstation.cpuDescription,
+    );
 }
 
 it('create user', async () => {
@@ -157,24 +166,24 @@ it('create user', async () => {
     expectResponseUserSameAsRequestUser(response.data, user2);
 });
 
-it("retrieve user's resource", async () => {
-    const response = await axios.get(`${userApiUrl}/resource`, {
+it("retrieve user's workstation", async () => {
+    const response = await axios.get(`${userApiUrl}/workstation`, {
         headers: {
             authorization: `Bearer ${user1.authUserId}`,
         },
     });
     expect(response).toBeDefined();
     expect(response.status).toEqual(HTTP.OK);
-    const userResource = response.data;
+    const userWorkstation = response.data;
 
-    expectResponseResourceSameAsDbResource(userResource, resource1);
+    expectResponseWorkstationSameAsDbWorkstation(userWorkstation, workstation1);
 });
 
-it("retrieve user's resource with declined request", async () => {
+it("retrieve user's workstation with declined request", async () => {
     await createSignUpRequest(request2);
 
     const response = await authRequest(
-        `${userApiUrl}/resource`,
+        `${userApiUrl}/workstation`,
         'GET',
         user1.authUserId,
     );

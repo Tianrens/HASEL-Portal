@@ -4,13 +4,13 @@ import { fetchUser } from '../../../../state/docs/userDoc';
 
 export async function saveRequest(supervisor, workstation, comments) {
     const res = await authRequest('/api/request', 'POST', {
-        allocatedResourceId: workstation,
+        allocatedWorkstationId: workstation,
         supervisorName: supervisor,
-        comments
+        comments,
     });
-    
+
     if (res.status === HTTP.CREATED) {
         await fetchUser();
     }
     // TODO: what if request creation fails?
-};
+}

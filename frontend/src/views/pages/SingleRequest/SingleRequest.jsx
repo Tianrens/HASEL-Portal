@@ -1,5 +1,5 @@
-import { React, useState, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { React, useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import Divider from '@material-ui/core/Divider';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -32,7 +32,7 @@ const SingleRequest = () => {
 
     const { requestId } = useParams();
     const requestCallback = (data) => {
-        setWorkstation(data.allocatedResourceId);
+        setWorkstation(data.allocatedWorkstationId);
         setValidityPeriod(getValidityPeriod(data.userId.type));
     };
     const request = useCrud(
@@ -41,13 +41,13 @@ const SingleRequest = () => {
         undefined,
         requestCallback,
     ).data;
-    const workstations = useCrud('/api/resource').data;
+    const workstations = useCrud('/api/workstation').data;
 
     const onAccept = async () => {
         await authRequestLogError(`/api/request/${requestId}`, 'PATCH', {
             status: 'ACTIVE',
             requestValidity: validityPeriod,
-            allocatedResourceId: workstation,
+            allocatedWorkstationId: workstation,
         });
         actionCallback('Accepted Request');
     };
@@ -56,7 +56,7 @@ const SingleRequest = () => {
         await authRequestLogError(`/api/request/${requestId}`, 'PATCH', {
             status: 'DECLINED',
             requestValidity: validityPeriod,
-            allocatedResourceId: workstation,
+            allocatedWorkstationId: workstation,
         });
         actionCallback('Denied Request');
     };

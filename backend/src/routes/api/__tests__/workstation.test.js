@@ -1,10 +1,10 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import express from 'express';
-import router from '../resource';
+import router from '../workstation';
 import firebaseAuth from '../../../firebase/auth';
 import { authRequest } from './util/authRequest';
-import { Resource } from '../../../db/schemas/resourceSchema';
+import { Workstation } from '../../../db/schemas/workstationSchema';
 import { User } from '../../../db/schemas/userSchema';
 import { SignUpRequest } from '../../../db/schemas/signUpRequestSchema';
 import { Booking } from '../../../db/schemas/bookingSchema';
@@ -14,9 +14,9 @@ let mongo;
 let app;
 let server;
 let originalDateFunction;
-let resource1;
-let resource2;
-let resource3;
+let workstation1;
+let workstation2;
+let workstation3;
 let adminUser;
 let undergradUser;
 let adminPastBooking;
@@ -30,7 +30,7 @@ const ADMIN_TOKEN = 'test';
 const UNDERGRAD_TOKEN = 'test2';
 
 jest.mock('../../../firebase/index.js');
-const RESOURCE_API_URL = 'http://localhost:3000/api/resource';
+const WORKSTATION_API_URL = 'http://localhost:3000/api/workstation';
 
 /**
  * Before all tests, create an in-memory MongoDB instance so we don't have to test on a real database,
@@ -48,7 +48,7 @@ beforeAll(async () => {
 
     app = express();
     app.use(express.json());
-    app.use('/api/resource', firebaseAuth, router);
+    app.use('/api/workstation', firebaseAuth, router);
     server = app.listen(3000);
 
     originalDateFunction = Date.now;
@@ -58,7 +58,9 @@ beforeAll(async () => {
  * Before each test, intialize the database with some data
  */
 beforeEach(async () => {
-    const resourceColl = await mongoose.connection.db.collection('resources');
+    const workstationColl = await mongoose.connection.db.collection(
+        'workstations',
+    );
     const userColl = await mongoose.connection.db.collection('users');
     const bookingColl = await mongoose.connection.db.collection('bookings');
     const signupRequestColl = await mongoose.connection.db.collection(
@@ -67,7 +69,7 @@ beforeEach(async () => {
 
     Date.now = jest.fn(() => new Date(2021, 6, 17)); // Mock current time
 
-    resource1 = new Resource({
+    workstation1 = new Workstation({
         name: 'Machine 1',
         location: 'HASEL Lab',
         numGPUs: 2,
@@ -75,7 +77,7 @@ beforeEach(async () => {
         ramDescription: 'Kingston HyperX Predator 32GB',
         cpuDescription: 'Intel Core i9 10900KF',
     });
-    resource2 = new Resource({
+    workstation2 = new Workstation({
         name: 'Deep Learning Machine 3',
         location: 'Level 9 Building 405',
         numGPUs: 4,
@@ -83,7 +85,7 @@ beforeEach(async () => {
         ramDescription: 'Corsair Dominator Platinum RGB 32GB',
         cpuDescription: 'Intel Xeon Silver 4210R',
     });
-    resource3 = new Resource({
+    workstation3 = new Workstation({
         name: 'Deep Learning Machine 2',
         location: 'HASEL Lab',
         numGPUs: 3,
@@ -91,7 +93,11 @@ beforeEach(async () => {
         ramDescription: 'Kingston HyperX Predator 16GB',
         cpuDescription: 'Intel Core i7-11700K 8 Core / 16 Thread',
     });
-    await resourceColl.insertMany([resource1, resource2, resource3]);
+    await workstationColl.insertMany([
+        workstation1,
+        workstation2,
+        workstation3,
+    ]);
 
     adminUser = new User({
         email: 'icecream@gmail.com',
@@ -114,7 +120,7 @@ beforeEach(async () => {
 
     adminSignupRequest = new SignUpRequest({
         userId: adminUser._id,
-        allocatedResourceId: resource1._id,
+        allocatedWorkstationId: workstation1._id,
         supervisorName: '',
         comments: '',
         status: 'ACTIVE',
@@ -123,7 +129,7 @@ beforeEach(async () => {
     });
     undergradSignupRequest = new SignUpRequest({
         userId: undergradUser._id,
-        allocatedResourceId: resource2._id,
+        allocatedWorkstationId: workstation2._id,
         supervisorName: '',
         comments: '',
         status: 'ACTIVE',
@@ -139,28 +145,28 @@ beforeEach(async () => {
     ]);
 
     adminPastBooking = new Booking({
-        resourceId: resource1._id,
+        workstationId: workstation1._id,
         userId: adminUser._id,
         startTimestamp: new Date(2020, 6, 1),
         endTimestamp: new Date(2020, 7, 1),
         gpuIndices: [0, 1, 2, 3],
     });
     adminCurrentBooking = new Booking({
-        resourceId: resource1._id,
+        workstationId: workstation1._id,
         userId: adminUser._id,
         startTimestamp: new Date(2021, 6, 1),
         endTimestamp: new Date(2021, 7, 1),
         gpuIndices: [0, 1, 2, 3],
     });
     adminFutureBooking = new Booking({
-        resourceId: resource1._id,
+        workstationId: workstation1._id,
         userId: adminUser._id,
         startTimestamp: new Date(2021, 8, 1),
         endTimestamp: new Date(2021, 9, 1),
         gpuIndices: [0, 1, 2, 3],
     });
     undergradBooking = new Booking({
-        resourceId: resource2._id,
+        workstationId: workstation2._id,
         userId: undergradUser._id,
         startTimestamp: new Date(2021, 2, 1),
         endTimestamp: new Date(2021, 4, 1),
@@ -178,7 +184,7 @@ beforeEach(async () => {
  * After each test, clear the database entirely
  */
 afterEach(async () => {
-    await mongoose.connection.db.dropCollection('resources');
+    await mongoose.connection.db.dropCollection('workstations');
     await mongoose.connection.db.dropCollection('users');
     await mongoose.connection.db.dropCollection('bookings');
     await mongoose.connection.db.dropCollection('signuprequests');
@@ -203,26 +209,29 @@ function arraysAreTheSame(first, second) {
     }
 }
 
-function expectDbResourceMatchWithResource(responseResource, requestResource) {
-    expect(responseResource).toBeTruthy();
-    expect(responseResource.name).toEqual(requestResource.name);
-    expect(responseResource.location).toEqual(requestResource.location);
-    expect(responseResource.numGPUs).toEqual(requestResource.numGPUs);
-    expect(responseResource.gpuDescription).toEqual(
-        requestResource.gpuDescription,
+function expectDbWorkstationMatchWithWorkstation(
+    responseWorkstation,
+    requestWorkstation,
+) {
+    expect(responseWorkstation).toBeTruthy();
+    expect(responseWorkstation.name).toEqual(requestWorkstation.name);
+    expect(responseWorkstation.location).toEqual(requestWorkstation.location);
+    expect(responseWorkstation.numGPUs).toEqual(requestWorkstation.numGPUs);
+    expect(responseWorkstation.gpuDescription).toEqual(
+        requestWorkstation.gpuDescription,
     );
-    expect(responseResource.ramDescription).toEqual(
-        requestResource.ramDescription,
+    expect(responseWorkstation.ramDescription).toEqual(
+        requestWorkstation.ramDescription,
     );
-    expect(responseResource.cpuDescription).toEqual(
-        requestResource.cpuDescription,
+    expect(responseWorkstation.cpuDescription).toEqual(
+        requestWorkstation.cpuDescription,
     );
 }
 
 function expectDbBookingMatchWithBooking(responseBooking, requestBooking) {
     expect(responseBooking).toBeTruthy();
-    expect(responseBooking.resourceId.str).toEqual(
-        requestBooking.resourceId.str,
+    expect(responseBooking.workstationId.str).toEqual(
+        requestBooking.workstationId.str,
     );
     expect(responseBooking.userId.str).toEqual(requestBooking.userId.str);
     arraysAreTheSame(responseBooking.gpuIndices, requestBooking.gpuIndices);
@@ -234,30 +243,30 @@ function expectDbBookingMatchWithBooking(responseBooking, requestBooking) {
     );
 }
 
-it('Get resource details', async () => {
+it('Get workstation details', async () => {
     const response = await authRequest(
-        `${RESOURCE_API_URL}/${resource2._id}`,
+        `${WORKSTATION_API_URL}/${workstation2._id}`,
         'GET',
         UNDERGRAD_TOKEN,
     );
-    expectDbResourceMatchWithResource(response.data, resource2);
+    expectDbWorkstationMatchWithWorkstation(response.data, workstation2);
 });
 
-it('Get all resources', async () => {
-    const response = await authRequest(RESOURCE_API_URL, 'GET', ADMIN_TOKEN);
+it('Get all workstations', async () => {
+    const response = await authRequest(WORKSTATION_API_URL, 'GET', ADMIN_TOKEN);
 
-    expectDbResourceMatchWithResource(response.data[0], resource1);
-    expectDbResourceMatchWithResource(response.data[1], resource2);
-    expectDbResourceMatchWithResource(response.data[2], resource3);
+    expectDbWorkstationMatchWithWorkstation(response.data[0], workstation1);
+    expectDbWorkstationMatchWithWorkstation(response.data[1], workstation2);
+    expectDbWorkstationMatchWithWorkstation(response.data[2], workstation3);
 });
 
-it('Get bookings for a specified resource, user is admin', async () => {
+it('Get bookings for a specified workstation, user is admin', async () => {
     const status = 'all';
     const page = 1;
     const limit = 10;
 
     const response = await authRequest(
-        `${RESOURCE_API_URL}/${resource1._id}/booking/${status}?page=${page}&limit=${limit}`,
+        `${WORKSTATION_API_URL}/${workstation1._id}/booking/${status}?page=${page}&limit=${limit}`,
         'GET',
         ADMIN_TOKEN,
     );
@@ -278,13 +287,13 @@ it('Get bookings for a specified resource, user is admin', async () => {
     );
 });
 
-it('Get bookings for a specified resource but there are no bookings', async () => {
+it('Get bookings for a specified workstation but there are no bookings', async () => {
     const status = 'all';
     const page = 1;
     const limit = 10;
 
     const response = await authRequest(
-        `${RESOURCE_API_URL}/${resource3._id}/booking/${status}?page=${page}&limit=${limit}`,
+        `${WORKSTATION_API_URL}/${workstation3._id}/booking/${status}?page=${page}&limit=${limit}`,
         'GET',
         ADMIN_TOKEN,
     );
@@ -292,13 +301,13 @@ it('Get bookings for a specified resource but there are no bookings', async () =
     expect(response.data.bookings).toEqual([]);
 });
 
-it('Get CURRENT + ONGOING (ACTIVE) bookings for a specified resource, user is admin', async () => {
+it('Get CURRENT + ONGOING (ACTIVE) bookings for a specified workstation, user is admin', async () => {
     const status = 'active';
     const page = 1;
     const limit = 10;
 
     const response = await authRequest(
-        `${RESOURCE_API_URL}/${resource1._id}/booking/${status}?page=${page}&limit=${limit}`,
+        `${WORKSTATION_API_URL}/${workstation1._id}/booking/${status}?page=${page}&limit=${limit}`,
         'GET',
         ADMIN_TOKEN,
     );
@@ -316,13 +325,13 @@ it('Get CURRENT + ONGOING (ACTIVE) bookings for a specified resource, user is ad
     expect(response.data.bookings).toHaveLength(2);
 });
 
-it('Get FUTURE bookings for a specified resource, user is admin', async () => {
+it('Get FUTURE bookings for a specified workstation, user is admin', async () => {
     const status = 'FUTURE';
     const page = 1;
     const limit = 10;
 
     const response = await authRequest(
-        `${RESOURCE_API_URL}/${resource1._id}/booking/${status}?page=${page}&limit=${limit}`,
+        `${WORKSTATION_API_URL}/${workstation1._id}/booking/${status}?page=${page}&limit=${limit}`,
         'GET',
         ADMIN_TOKEN,
     );
@@ -335,13 +344,13 @@ it('Get FUTURE bookings for a specified resource, user is admin', async () => {
     );
 });
 
-it('Get CURRENT bookings for a specified resource, user is admin', async () => {
+it('Get CURRENT bookings for a specified workstation, user is admin', async () => {
     const status = 'CURRENT';
     const page = 1;
     const limit = 10;
 
     const response = await authRequest(
-        `${RESOURCE_API_URL}/${resource1._id}/booking/${status}?page=${page}&limit=${limit}`,
+        `${WORKSTATION_API_URL}/${workstation1._id}/booking/${status}?page=${page}&limit=${limit}`,
         'GET',
         ADMIN_TOKEN,
     );
@@ -354,13 +363,13 @@ it('Get CURRENT bookings for a specified resource, user is admin', async () => {
     );
 });
 
-it('Get PAST bookings for a specified resource, user is admin', async () => {
+it('Get PAST bookings for a specified workstation, user is admin', async () => {
     const status = 'PAST';
     const page = 1;
     const limit = 10;
 
     const response = await authRequest(
-        `${RESOURCE_API_URL}/${resource1._id}/booking/${status}?page=${page}&limit=${limit}`,
+        `${WORKSTATION_API_URL}/${workstation1._id}/booking/${status}?page=${page}&limit=${limit}`,
         'GET',
         ADMIN_TOKEN,
     );
@@ -373,13 +382,13 @@ it('Get PAST bookings for a specified resource, user is admin', async () => {
     );
 });
 
-it('Get bookings for a specified resource, page 2 limit 2', async () => {
+it('Get bookings for a specified workstation, page 2 limit 2', async () => {
     const status = 'ALL';
     const page = 2;
     const limit = 2;
 
     const response = await authRequest(
-        `${RESOURCE_API_URL}/${resource1._id}/booking/${status}?page=${page}&limit=${limit}`,
+        `${WORKSTATION_API_URL}/${workstation1._id}/booking/${status}?page=${page}&limit=${limit}`,
         'GET',
         ADMIN_TOKEN,
     );
@@ -399,20 +408,20 @@ it('Get bookings with a bad request query param', async () => {
     const limit = 10;
 
     const response = await authRequest(
-        `${RESOURCE_API_URL}/${resource1._id}/booking/${status}?page=${page}&limit=${limit}`,
+        `${WORKSTATION_API_URL}/${workstation1._id}/booking/${status}?page=${page}&limit=${limit}`,
         'GET',
         ADMIN_TOKEN,
     );
     expect(response.status).toEqual(HTTP.BAD_REQUEST);
 });
 
-it('Get bookings for a specified resource, user is NOT admin and resource belongs to user', async () => {
+it('Get bookings for a specified workstation, user is NOT admin and workstation belongs to user', async () => {
     const status = 'all';
     const page = 1;
     const limit = 10;
 
     const response = await authRequest(
-        `${RESOURCE_API_URL}/${resource2._id}/booking/${status}?page=${page}&limit=${limit}`,
+        `${WORKSTATION_API_URL}/${workstation2._id}/booking/${status}?page=${page}&limit=${limit}`,
         'GET',
         UNDERGRAD_TOKEN,
     );
@@ -424,13 +433,13 @@ it('Get bookings for a specified resource, user is NOT admin and resource belong
     );
 });
 
-it('Get bookings for a specified resource, user is NOT admin and resource DOES NOT belong to user', async () => {
+it('Get bookings for a specified workstation, user is NOT admin and workstation DOES NOT belong to user', async () => {
     const status = 'all';
     const page = 1;
     const limit = 10;
 
     const response = await authRequest(
-        `${RESOURCE_API_URL}/${resource1._id}/booking/${status}?page=${page}&limit=${limit}`,
+        `${WORKSTATION_API_URL}/${workstation1._id}/booking/${status}?page=${page}&limit=${limit}`,
         'GET',
         UNDERGRAD_TOKEN,
     );

@@ -10,7 +10,7 @@ import { supervisorNeeded } from '../../../config/accountTypes';
 import { saveRequest } from './util/saveRequest';
 
 const NewRequest = () => {
-    const workstations = useCrud('/api/resource').data ?? [];
+    const workstations = useCrud('/api/workstation').data ?? [];
     const [supervisor, setSupervisor] = useState('');
     const [comments, setComments] = useState('');
     const [workstation, setWorkstation] = useState(null);

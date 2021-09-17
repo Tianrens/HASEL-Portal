@@ -33,7 +33,7 @@ router.post('/', getUser, async (req, res) => {
     try {
         const signUpRequest = await createSignUpRequest({
             userId: req.user._id,
-            allocatedResourceId: req.body.allocatedResourceId,
+            allocatedWorkstationId: req.body.allocatedWorkstationId,
             supervisorName: req.body.supervisorName,
             comments: req.body.comments,
             status: 'PENDING',
@@ -126,13 +126,13 @@ router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
             }
 
             const startDate = Date.now();
-            let { allocatedResourceId } = request;
-            if ('allocatedResourceId' in req.body) {
-                allocatedResourceId = req.body.allocatedResourceId;
+            let { allocatedWorkstationId } = request;
+            if ('allocatedWorkstationId' in req.body) {
+                allocatedWorkstationId = req.body.allocatedWorkstationId;
             }
 
             await updateRequest(requestId, {
-                allocatedResourceId,
+                allocatedWorkstationId,
                 startDate,
             });
 

@@ -1,16 +1,18 @@
 import { sendEmail } from './sendEmail';
 import { retrieveUserById } from '../db/dao/userDao';
-import { retrieveResourcebyId } from '../db/dao/resourceDao';
+import { retrieveWorkstationById } from '../db/dao/workstationDao';
 
 export async function sendRequestApprovedEmail(recipientEmail, request) {
     const emailSubject = 'Hasel Lab Request Approved';
 
     const user = await retrieveUserById(request.userId);
-    const resource = await retrieveResourcebyId(request.allocatedResourceId);
+    const workstation = await retrieveWorkstationById(
+        request.allocatedWorkstationId,
+    );
     const username = user.upi;
     const password = process.env.DEFAULT_HASEL_PASSWORD;
-    const resourceName = resource.name;
-    const { host } = resource;
+    const workstationName = workstation.name;
+    const { host } = workstation;
     const { startDate, endDate } = request;
 
     let datePeriod = '';
@@ -25,7 +27,7 @@ export async function sendRequestApprovedEmail(recipientEmail, request) {
     }
 
     const message =
-        `Your Hasel Lab Request for ${resourceName} from ${datePeriod} has ` +
+        `Your Hasel Lab Request for ${workstationName} from ${datePeriod} has ` +
         'been approved. Your login details are below: ' +
         `\n\nhost: ${host} \nusername: ${username}\npassword: ${password}`;
 

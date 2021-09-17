@@ -2,46 +2,46 @@ import express from 'express';
 import HTTP from './util/http_codes';
 import { getUser } from './util/userUtil';
 import {
-    retrieveAllResources,
-    retrieveResourcebyId,
-} from '../../db/dao/resourceDao';
-import { retrieveBookingsByResource } from '../../db/dao/bookingDao';
-import { userHasResourceViewPerms } from './util/userPerms';
+    retrieveAllWorkstations,
+    retrieveWorkstationById,
+} from '../../db/dao/workstationDao';
+import { retrieveBookingsByWorkstation } from '../../db/dao/bookingDao';
+import { userHasWorkstationViewPerms } from './util/userPerms';
 
 const router = express.Router();
 const BASE_INT_VALUE = 10;
 
-/** POST add a new resource */
+/** POST add a new workstation */
 router.post('/', (req, res) => {
-    // TODO: POST add a new resource
+    // TODO: POST add a new workstation
     console.log(req.originalUrl);
 
     return res.status(HTTP.NOT_IMPLEMENTED).send('Unimplemented');
 });
 
-/** GET all resources
- * GET /api/resource
- * @returns The resources in the database
+/** GET all workstations
+ * GET /api/workstation
+ * @returns The workstations in the database
  */
 router.get('/', async (req, res) => {
-    const resources = await retrieveAllResources();
-    return res.status(HTTP.OK).json(resources);
+    const workstations = await retrieveAllWorkstations();
+    return res.status(HTTP.OK).json(workstations);
 });
 
-/** GET resource details
- * GET /api/resource/${resourceId}
- * @param   resourceId  The resource to query
- * @returns The resource specified
+/** GET workstation details
+ * GET /api/workstation/${workstationId}
+ * @param   workstationId  The workstation to query
+ * @returns The workstation specified
  */
-router.get('/:resourceId', async (req, res) => {
-    const resource = await retrieveResourcebyId(req.params.resourceId);
-    return res.status(HTTP.OK).json(resource);
+router.get('/:workstationId', async (req, res) => {
+    const workstation = await retrieveWorkstationById(req.params.workstationId);
+    return res.status(HTTP.OK).json(workstation);
 });
 
-/** GET bookings for a resource.
+/** GET bookings for a workstation.
  * User can query for ACTIVE, FUTURE, CURRENT and PAST bookings statuses
- * GET /api/resource/${resourceId}/booking/${status}?page=${page}&limit=${limit}
- * @param   resourceId  The resource to query
+ * GET /api/workstation/${workstationId}/booking/${status}?page=${page}&limit=${limit}
+ * @param   workstationId  The workstation to query
  * @param   status      The status to query, one of ACTIVE, FUTURE, CURRENT or PAST
  * @query   page        The page number specified
  * @query   limit       The number of bookings in a page
@@ -49,7 +49,7 @@ router.get('/:resourceId', async (req, res) => {
  * @returns pageCount   The number of pages in the database
  * @returns bookings    The bookings specified
  */
-router.get('/:resourceId/booking/:status', getUser, async (req, res) => {
+router.get('/:workstationId/booking/:status', getUser, async (req, res) => {
     const page = parseInt(req.query.page, BASE_INT_VALUE);
     const limit = parseInt(req.query.limit, BASE_INT_VALUE);
     if (Number.isNaN(page) || Number.isNaN(limit)) {
@@ -58,17 +58,17 @@ router.get('/:resourceId/booking/:status', getUser, async (req, res) => {
             .send('The page or limit was not a number');
     }
 
-    const { resourceId, status } = req.params;
+    const { workstationId, status } = req.params;
 
-    if (!userHasResourceViewPerms(req)) {
+    if (!userHasWorkstationViewPerms(req)) {
         return res
             .status(HTTP.FORBIDDEN)
-            .send('No permission to view this resource');
+            .send('No permission to view this workstation');
     }
 
     try {
-        const { bookings, count } = await retrieveBookingsByResource(
-            resourceId,
+        const { bookings, count } = await retrieveBookingsByWorkstation(
+            workstationId,
             page,
             limit,
             status,
@@ -80,17 +80,17 @@ router.get('/:resourceId/booking/:status', getUser, async (req, res) => {
     }
 });
 
-/** PUT edit a resource */
+/** PUT edit a workstation */
 router.put('/', (req, res) => {
-    // TODO: PUT edit a resource
+    // TODO: PUT edit a workstation
     console.log(req.originalUrl);
 
     return res.status(HTTP.NOT_IMPLEMENTED).send('Unimplemented');
 });
 
-/** DELETE a resource */
+/** DELETE a workstation */
 router.delete('/', (req, res) => {
-    // TODO: DELETE a resource
+    // TODO: DELETE a workstation
     console.log(req.originalUrl);
 
     return res.status(HTTP.NOT_IMPLEMENTED).send('Unimplemented');

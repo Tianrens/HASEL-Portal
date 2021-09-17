@@ -52,7 +52,7 @@ beforeEach(async () => {
 
     request1 = new SignUpRequest({
         userId: user1._id,
-        allocatedResourceId: mongoose.Types.ObjectId(
+        allocatedWorkstationId: mongoose.Types.ObjectId(
             '666666666666666666666666',
         ),
         supervisorName: 'Reza Shahamiri',

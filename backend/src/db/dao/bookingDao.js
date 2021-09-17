@@ -1,13 +1,13 @@
 const { Booking } = require('../schemas/bookingSchema');
-const { Resource } = require('../schemas/resourceSchema');
+const { Workstation } = require('../schemas/workstationSchema');
 
 async function isBookingGPUValid(booking) {
     // Check if booked GPUs are valid
-    const resource = await Resource.findById(booking.resourceId);
+    const workstation = await Workstation.findById(booking.workstationId);
     for (let i = 0; i < booking.gpuIndices.length; i += 1) {
         if (
             booking.gpuIndices[i] < 0 ||
-            booking.gpuIndices[i] >= resource.numGPUs
+            booking.gpuIndices[i] >= workstation.numGPUs
         ) {
             // Booking indexes were out of range
             return false;
@@ -20,7 +20,7 @@ async function isBookingTimeValid(booking) {
     // Check if booking has no conflicts
     const numConflicts = await Booking.count({
         _id: { $ne: booking._id },
-        resourceId: booking.resourceId,
+        workstationId: booking.workstationId,
         gpuIndices: { $in: booking.gpuIndices },
         startTimestamp: { $lt: booking.endTimestamp },
         endTimestamp: { $gt: booking.startTimestamp },
@@ -66,7 +66,12 @@ async function retrieveBookingsByUser(userId) {
     return Booking.find({ userId });
 }
 
-async function retrieveBookingsByResource(resourceId, page, limit, status) {
+async function retrieveBookingsByWorkstation(
+    workstationId,
+    page,
+    limit,
+    status,
+) {
     const currentTime = Date.now();
     let startTimestampBoolean;
     let endTimestampBoolean;
@@ -102,7 +107,7 @@ async function retrieveBookingsByResource(resourceId, page, limit, status) {
             throw new Error('Invalid status parameter');
     }
     const bookings = await Booking.find({
-        resourceId,
+        workstationId,
         startTimestamp: startTimestampBoolean,
         endTimestamp: endTimestampBoolean,
     })
@@ -111,7 +116,7 @@ async function retrieveBookingsByResource(resourceId, page, limit, status) {
         .limit(limit);
 
     const count = await Booking.countDocuments({
-        resourceId,
+        workstationId,
         startTimestamp: startTimestampBoolean,
         endTimestamp: endTimestampBoolean,
     });
@@ -123,7 +128,7 @@ async function updateBooking(bookingId, newBookingInfo) {
     const originalBooking = await Booking.findById(bookingId);
     const modifiedBooking = {
         _id: originalBooking._id,
-        resourceId: originalBooking.resourceId,
+        workstationId: originalBooking.workstationId,
         startTimestamp: newBookingInfo.startTimestamp,
         endTimestamp: newBookingInfo.endTimestamp,
         gpuIndices: newBookingInfo.gpuIndices,
@@ -142,7 +147,7 @@ export {
     retrieveAllBookings,
     retrieveBookingById,
     retrieveBookingsByUser,
-    retrieveBookingsByResource,
+    retrieveBookingsByWorkstation,
     updateBooking,
     deleteBooking,
 };

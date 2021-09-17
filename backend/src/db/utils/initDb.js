@@ -7,6 +7,6 @@ export async function initDb() {
     await connectToDatabase();
     if (process.env.NODE_ENV !== 'production') {
         await initDummyData();
-        console.log('Added 3 dummy resources to the database');
+        console.log('Added 3 dummy workstations to the database');
     }
 }

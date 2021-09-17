@@ -14,7 +14,7 @@ import TextField from '../../components/TextField/CustomTextField';
 
 const NewRequest = () => {
     const userWorkstation = 'ZEUS'; // TODO - Get from User Info
-    const numGPUs = 3; // TODO - Get from Resource Info
+    const numGPUs = 3; // TODO - Get from Workstation Info
     const GPUList = Array.from(Array(numGPUs).keys());
 
     const [startDate, setStartDate] = useState('');

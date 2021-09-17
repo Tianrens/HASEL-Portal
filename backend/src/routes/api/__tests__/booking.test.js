@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import express from 'express';
 import router from '../booking';
 import firebaseAuth from '../../../firebase/auth';
-import { Resource } from '../../../db/schemas/resourceSchema';
+import { Workstation } from '../../../db/schemas/workstationSchema';
 import { User } from '../../../db/schemas/userSchema';
 import { SignUpRequest } from '../../../db/schemas/signUpRequestSchema';
 import { Booking } from '../../../db/schemas/bookingSchema';
@@ -18,13 +18,13 @@ let undergradUser;
 let mastersUser;
 let adminUser;
 let request1;
-let resource1;
+let workstation1;
 let existingBooking1;
 let existingBooking2;
 let validBooking;
 let invalidTimeBooking;
 let invalidGPUBooking;
-let invalidResourceBooking;
+let invalidWorkstationBooking;
 
 jest.mock('../../../firebase/index.js');
 const BOOKING_API_URL = 'http://localhost:3000/api/booking';
@@ -59,7 +59,9 @@ beforeEach(async () => {
     const signUpRequestsColl = await mongoose.connection.db.collection(
         'signuprequests',
     );
-    const resourceColl = await mongoose.connection.db.collection('resources');
+    const workstationColl = await mongoose.connection.db.collection(
+        'workstations',
+    );
     const bookingColl = await mongoose.connection.db.collection('bookings');
 
     undergradUser = new User({
@@ -92,7 +94,7 @@ beforeEach(async () => {
         type: 'ADMIN',
     };
 
-    resource1 = new Resource({
+    workstation1 = new Workstation({
         name: 'Machine 1',
         host: '192.168.1.100',
         location: 'HASEL Lab',
@@ -104,7 +106,7 @@ beforeEach(async () => {
 
     request1 = new SignUpRequest({
         userId: undergradUser._id,
-        allocatedResourceId: resource1._id,
+        allocatedWorkstationId: workstation1._id,
         supervisorName: 'Reza Shahamiri',
         comments: 'Need to use the deep learning machines for part 4 project.',
         status: 'ACTIVE',
@@ -114,7 +116,7 @@ beforeEach(async () => {
     undergradUser.currentRequestId = request1._id;
 
     existingBooking1 = new Booking({
-        resourceId: resource1._id,
+        workstationId: workstation1._id,
         userId: undergradUser._id,
         startTimestamp: new Date('2021-08-13T12:00:00'),
         endTimestamp: new Date('2021-08-13T15:00:00'),
@@ -122,7 +124,7 @@ beforeEach(async () => {
     });
 
     existingBooking2 = new Booking({
-        resourceId: resource1._id,
+        workstationId: workstation1._id,
         userId: undergradUser._id,
         startTimestamp: new Date('2021-08-15T12:00:00'),
         endTimestamp: new Date('2021-08-15T15:00:00'),
@@ -131,7 +133,7 @@ beforeEach(async () => {
 
     // GPU1:   □□□□■■■■■■■■■
     validBooking = {
-        resourceId: resource1._id,
+        workstationId: workstation1._id,
         startTimestamp: new Date('2021-08-13T11:00:00'),
         endTimestamp: new Date('2021-08-13T12:00:00'),
         gpuIndices: [1],
@@ -140,21 +142,21 @@ beforeEach(async () => {
     // GPU1:       ■■■■■■■■■
     //           □□□□
     invalidTimeBooking = {
-        resourceId: resource1._id,
+        workstationId: workstation1._id,
         startTimestamp: new Date('2021-08-13T11:00:00'),
         endTimestamp: new Date('2021-08-13T13:00:00'),
         gpuIndices: [1],
     };
 
     invalidGPUBooking = {
-        resourceId: resource1._id,
+        workstationId: workstation1._id,
         startTimestamp: new Date('2021-08-21T09:58:00'),
         endTimestamp: new Date('2021-08-21T12:30:42'),
         gpuIndices: [2],
     };
 
-    invalidResourceBooking = {
-        resourceId: mongoose.Types.ObjectId('555555555555555555555555'),
+    invalidWorkstationBooking = {
+        workstationId: mongoose.Types.ObjectId('555555555555555555555555'),
         startTimestamp: new Date('2021-08-13T11:00:00'),
         endTimestamp: new Date('2021-08-13T12:00:00'),
         gpuIndices: [1],
@@ -162,7 +164,7 @@ beforeEach(async () => {
 
     await usersColl.insertMany([undergradUser, mastersUser, adminUser]);
     await signUpRequestsColl.insertOne(request1);
-    await resourceColl.insertOne(resource1);
+    await workstationColl.insertOne(workstation1);
     await bookingColl.insertMany([existingBooking1, existingBooking2]);
 });
 
@@ -170,7 +172,7 @@ beforeEach(async () => {
  * After each test, clear the database entirely
  */
 afterEach(async () => {
-    await mongoose.connection.db.dropCollection('resources');
+    await mongoose.connection.db.dropCollection('workstations');
     await mongoose.connection.db.dropCollection('users');
     await mongoose.connection.db.dropCollection('bookings');
     await mongoose.connection.db.dropCollection('signuprequests');
@@ -206,8 +208,8 @@ function datesAreTheSame(first, second) {
 
 function expectDbBookingMatchWithBooking(responseBooking, requestBooking) {
     expect(responseBooking).toBeTruthy();
-    expect(responseBooking.resourceId.toString()).toEqual(
-        requestBooking.resourceId.toString(),
+    expect(responseBooking.workstationId.toString()).toEqual(
+        requestBooking.workstationId.toString(),
     );
     expect(responseBooking.userId).toBeDefined();
     datesAreTheSame(
@@ -310,7 +312,7 @@ it('creates a invalid resource booking', async () => {
         BOOKING_API_URL,
         'POST',
         UNDERGRAD_TOKEN,
-        invalidResourceBooking,
+        invalidWorkstationBooking,
     );
 
     expect(response).toBeDefined();

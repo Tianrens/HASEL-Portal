@@ -1,20 +1,20 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import {
-    createResource,
-    deleteResource,
-    retrieveAllResources,
-    retrieveResourceOfUser,
-} from '../resourceDao';
-import { Resource } from '../../schemas/resourceSchema';
+    createWorkstation,
+    deleteWorkstation,
+    retrieveAllWorkstations,
+    retrieveWorkstationOfUser,
+} from '../workstationDao';
+import { Workstation } from '../../schemas/workstationSchema';
 import { createSignUpRequest } from '../signUpRequestDao';
 import { User } from '../../schemas/userSchema';
 import { SignUpRequest } from '../../schemas/signUpRequestSchema';
 
 let mongo;
-let resource1;
-let resource2;
-let resource3;
+let workstation1;
+let workstation2;
+let workstation3;
 let request1;
 let request2;
 let user1;
@@ -37,11 +37,13 @@ beforeAll(async () => {
  * Before each test, intialize the database with some data
  */
 beforeEach(async () => {
-    const resourcesColl = await mongoose.connection.db.collection('resources');
+    const workstationsColl = await mongoose.connection.db.collection(
+        'workstations',
+    );
     await mongoose.connection.db.collection('signuprequests');
     const usersColl = await mongoose.connection.db.collection('users');
 
-    resource1 = new Resource({
+    workstation1 = new Workstation({
         name: 'Machine 1',
         host: '192.168.1.100',
         location: 'HASEL Lab',
@@ -51,7 +53,7 @@ beforeEach(async () => {
         cpuDescription: 'Intel Core i9 10900KF',
     });
 
-    resource2 = new Resource({
+    workstation2 = new Workstation({
         name: 'Deep Learning Machine 3',
         host: '192.168.1.101',
         location: 'Level 9 Building 405',
@@ -61,7 +63,7 @@ beforeEach(async () => {
         cpuDescription: 'Intel Xeon Silver 4210R',
     });
 
-    resource3 = {
+    workstation3 = {
         name: 'Deep Learning Machine 2',
         host: '192.168.1.102',
         location: 'HASEL Lab',
@@ -82,7 +84,7 @@ beforeEach(async () => {
 
     request1 = new SignUpRequest({
         userId: user1._id,
-        allocatedResourceId: resource2._id,
+        allocatedWorkstationId: workstation2._id,
         supervisorName: 'Reza Shahamiri',
         comments: 'Need to use the deep learning machines for part 4 project.',
         status: 'ACTIVE',
@@ -92,7 +94,7 @@ beforeEach(async () => {
 
     request2 = new SignUpRequest({
         userId: user1._id,
-        allocatedResourceId: resource1._id,
+        allocatedWorkstationId: workstation1._id,
         supervisorName: 'Reza Shahamiri',
         comments: 'Need to use the deep learning machines for part 4 project.',
         status: 'DECLINED',
@@ -100,7 +102,7 @@ beforeEach(async () => {
         endDate: new Date(2021, 9, 29),
     });
 
-    await resourcesColl.insertMany([resource1, resource2]);
+    await workstationsColl.insertMany([workstation1, workstation2]);
     await usersColl.insertOne(user1);
     await createSignUpRequest(request1);
 });
@@ -109,7 +111,7 @@ beforeEach(async () => {
  * After each test, clear the database entirely
  */
 afterEach(async () => {
-    await mongoose.connection.db.dropCollection('resources');
+    await mongoose.connection.db.dropCollection('workstations');
     await mongoose.connection.db.dropCollection('users');
     await mongoose.connection.db.dropCollection('signuprequests');
 });
@@ -122,52 +124,52 @@ afterAll(async () => {
     await mongo.stop();
 });
 
-function expectDbResourceMatchWithResource(dbResource, resource) {
-    expect(dbResource).toBeTruthy();
-    expect(dbResource.name).toEqual(resource.name);
-    expect(dbResource.location).toEqual(resource.location);
-    expect(dbResource.numGPUs).toEqual(resource.numGPUs);
-    expect(dbResource.gpuDescription).toEqual(resource.gpuDescription);
-    expect(dbResource.ramDescription).toEqual(resource.ramDescription);
-    expect(dbResource.cpuDescription).toEqual(resource.cpuDescription);
+function expectDbWorkstationMatchWithWorkstation(dbWorkstation, workstation) {
+    expect(dbWorkstation).toBeTruthy();
+    expect(dbWorkstation.name).toEqual(workstation.name);
+    expect(dbWorkstation.location).toEqual(workstation.location);
+    expect(dbWorkstation.numGPUs).toEqual(workstation.numGPUs);
+    expect(dbWorkstation.gpuDescription).toEqual(workstation.gpuDescription);
+    expect(dbWorkstation.ramDescription).toEqual(workstation.ramDescription);
+    expect(dbWorkstation.cpuDescription).toEqual(workstation.cpuDescription);
 }
 
-it('get all resources', async () => {
-    const resources = await retrieveAllResources();
+it('get all workstations', async () => {
+    const workstations = await retrieveAllWorkstations();
 
-    expect(resources).toBeTruthy();
-    expect(resources).toHaveLength(2);
+    expect(workstations).toBeTruthy();
+    expect(workstations).toHaveLength(2);
 
-    expectDbResourceMatchWithResource(resources[0], resource1);
-    expectDbResourceMatchWithResource(resources[1], resource2);
+    expectDbWorkstationMatchWithWorkstation(workstations[0], workstation1);
+    expectDbWorkstationMatchWithWorkstation(workstations[1], workstation2);
 });
 
-it('create new resource', async () => {
-    const newResource = await createResource(resource3);
-    const dbResource = await Resource.findById(newResource._id);
+it('create new workstation', async () => {
+    const newWorkstation = await createWorkstation(workstation3);
+    const dbWorkstation = await Workstation.findById(newWorkstation._id);
 
-    expectDbResourceMatchWithResource(dbResource, resource3);
+    expectDbWorkstationMatchWithWorkstation(dbWorkstation, workstation3);
 });
 
-it("retrieve user's resource", async () => {
-    const userResource = await retrieveResourceOfUser(user1._id);
+it("retrieve user's workstation", async () => {
+    const userWorkstation = await retrieveWorkstationOfUser(user1._id);
 
-    expectDbResourceMatchWithResource(userResource, resource2);
+    expectDbWorkstationMatchWithWorkstation(userWorkstation, workstation2);
 });
 
-it("retrieve user's resource with declined request", async () => {
+it("retrieve user's workstation with declined request", async () => {
     await createSignUpRequest(request2);
-    const userResource = await retrieveResourceOfUser(user1._id);
+    const userWorkstation = await retrieveWorkstationOfUser(user1._id);
 
-    expect(userResource).toBeNull();
+    expect(userWorkstation).toBeNull();
 });
 
-it('delete resource', async () => {
-    await deleteResource(resource2._id);
-    const resources = await Resource.find({});
+it('delete workstation', async () => {
+    await deleteWorkstation(workstation2._id);
+    const workstations = await Workstation.find({});
 
-    expect(resources).toBeTruthy();
-    expect(resources).toHaveLength(1);
+    expect(workstations).toBeTruthy();
+    expect(workstations).toHaveLength(1);
 
-    expectDbResourceMatchWithResource(resources[0], resource1);
+    expectDbWorkstationMatchWithWorkstation(workstations[0], workstation1);
 });
