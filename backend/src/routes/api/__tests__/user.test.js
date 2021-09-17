@@ -14,6 +14,8 @@ import { authRequest } from './util/authRequest';
 let mongo;
 let app;
 let server;
+let adminUser;
+let superAdminUser;
 let user1;
 let user2;
 let workstation1;
@@ -72,6 +74,24 @@ beforeEach(async () => {
         type: 'MASTERS',
     };
 
+    adminUser = new User({
+        email: 'admin@auckland.ac.nz',
+        upi: 'abc123',
+        authUserId: 'test3', // This should be set in backend but we'll do this for testing purposes
+        firstName: 'Mike',
+        lastName: 'Rotch',
+        type: 'ADMIN',
+    });
+
+    superAdminUser = new User({
+        email: 'superadmin@auckland.ac.nz',
+        upi: 'cde123',
+        authUserId: 'test4', // This should be set in backend but we'll do this for testing purposes
+        firstName: 'Mike',
+        lastName: 'Hunt',
+        type: 'SUPERADMIN',
+    });
+
     workstation1 = new Workstation({
         name: 'Machine 1',
         host: '192.168.1.100',
@@ -102,7 +122,7 @@ beforeEach(async () => {
         endDate: new Date(2021, 9, 29),
     });
 
-    await usersColl.insertMany([user1]);
+    await usersColl.insertMany([user1, adminUser, superAdminUser]);
     await workstationsColl.insertOne(workstation1);
     await createSignUpRequest(request1);
 });
@@ -164,6 +184,41 @@ it('create user', async () => {
     expect(response).toBeDefined();
     expect(response.status).toBe(HTTP.CREATED);
     expectResponseUserSameAsRequestUser(response.data, user2);
+});
+
+it('get user by id admin', async () => {
+    const response = await authRequest(
+        `${userApiUrl}/${user1._id}`,
+        'GET',
+        adminUser.authUserId,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toBe(HTTP.OK);
+    expectResponseUserSameAsRequestUser(response.data, user1);
+});
+
+it('get user by id superadmin', async () => {
+    const response = await authRequest(
+        `${userApiUrl}/${user1._id}`,
+        'GET',
+        superAdminUser.authUserId,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toBe(HTTP.OK);
+    expectResponseUserSameAsRequestUser(response.data, user1);
+});
+
+it('get user by id forbidden', async () => {
+    const response = await authRequest(
+        `${userApiUrl}/${user1._id}`,
+        'GET',
+        user1.authUserId,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toBe(HTTP.FORBIDDEN);
 });
 
 it("retrieve user's workstation", async () => {

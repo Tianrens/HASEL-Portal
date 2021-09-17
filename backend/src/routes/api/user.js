@@ -1,8 +1,12 @@
 import express from 'express';
-import { createUser, retrieveUserByAuthId } from '../../db/dao/userDao';
+import {
+    createUser,
+    retrieveUserByAuthId,
+    retrieveUserById,
+} from '../../db/dao/userDao';
 import findMissingParams from './util/findMissingParams';
 import HTTP from './util/http_codes';
-import { getUser } from './util/userUtil';
+import { getUser, checkAdmin } from './util/userUtil';
 import { retrieveWorkstationOfUser } from '../../db/dao/workstationDao';
 
 const router = express.Router();
@@ -37,7 +41,7 @@ router.post('/', async (req, res) => {
 });
 
 /** GET all users */
-router.get('/', (req, res) => {
+router.get('/', getUser, checkAdmin, async (req, res) => {
     // TODO: GET all users
     console.log(req.originalUrl);
 
@@ -87,6 +91,16 @@ router.get('/workstation', getUser, async (req, res) => {
     }
 
     return res.status(HTTP.OK).json(workstation);
+});
+
+/** GET user by id
+ * GET /api/user/${userId}
+ * @param   userId  The user to query
+ * @returns The user specified
+ */
+router.get('/:userId', getUser, checkAdmin, async (req, res) => {
+    const user = await retrieveUserById(req.params.userId);
+    return res.status(HTTP.OK).json(user);
 });
 
 export default router;
