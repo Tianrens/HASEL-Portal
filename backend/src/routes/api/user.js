@@ -100,6 +100,9 @@ router.get('/workstation', getUser, async (req, res) => {
  */
 router.get('/:userId', getUser, checkAdmin, async (req, res) => {
     const user = await retrieveUserById(req.params.userId);
+    if (!user) {
+        return res.status(HTTP.NOT_FOUND).send('User does not exist');
+    }
     return res.status(HTTP.OK).json(user);
 });
 

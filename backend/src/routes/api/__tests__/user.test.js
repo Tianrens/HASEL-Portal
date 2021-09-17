@@ -221,6 +221,17 @@ it('get user by id forbidden', async () => {
     expect(response.status).toBe(HTTP.FORBIDDEN);
 });
 
+it('get non existent user by id', async () => {
+    const response = await authRequest(
+        `${userApiUrl}/adhjskdshkjk`,
+        'GET',
+        adminUser.authUserId,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toBe(HTTP.NOT_FOUND);
+});
+
 it("retrieve user's workstation", async () => {
     const response = await axios.get(`${userApiUrl}/workstation`, {
         headers: {
