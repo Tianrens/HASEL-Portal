@@ -42,17 +42,24 @@ function userHasWorkstationViewPerms(req, res, next) {
         .send('No permission to view this workstation');
 }
 
+// Should be called after getBooking, if booking exists in db
 function userHasBookingPerms(req, res, next) {
     const { currentRequestId } = req.user; // Populated current request
-    if (
-        workstationIsAllocatedToUser(
-            currentRequestId,
-            req.body.workstationId,
-        ) ||
-        isAdmin(req)
-    ) {
+    if (!req.booking) {
+        // There is no booking in db currently
+        if (
+            workstationIsAllocatedToUser(
+                currentRequestId,
+                req.body.workstationId,
+            ) ||
+            isAdmin(req)
+        ) {
+            return next();
+        }
+    } else if (req.user._id.equals(req.booking.userId) || isAdmin(req)) {
         return next();
     }
+
     return res
         .status(HTTP.FORBIDDEN)
         .send('No permission to view this workstation');

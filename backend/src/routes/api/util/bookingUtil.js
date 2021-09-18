@@ -9,8 +9,9 @@ async function getBooking(req, res, next) {
             .status(HTTP.NOT_FOUND)
             .send(`Could not find booking with id: ${bookingId}`);
     }
+
     req.booking = booking;
     return next();
-};
+}
 
 export { getBooking };
