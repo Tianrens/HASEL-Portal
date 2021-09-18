@@ -1,22 +1,55 @@
 import express from 'express';
 import HTTP from './util/http_codes';
-import { getUser } from './util/userUtil';
+import { getUser, isAdmin } from './util/userUtil';
 import {
+    createWorkstation,
     retrieveAllWorkstations,
     retrieveWorkstationById,
 } from '../../db/dao/workstationDao';
 import { retrieveBookingsByWorkstation } from '../../db/dao/bookingDao';
 import { userHasWorkstationViewPerms } from './util/userPerms';
+import findMissingParams from './util/findMissingParams';
 
 const router = express.Router();
 const BASE_INT_VALUE = 10;
 
 /** POST add a new workstation */
-router.post('/', (req, res) => {
-    // TODO: POST add a new workstation
-    console.log(req.originalUrl);
+router.post('/', getUser, async (req, res) => {
+    const expectedParams = [
+        'name',
+        'host',
+        'location',
+        'numGPUs',
+        'gpuDescription',
+        'ramDescription',
+        'cpuDescription',
+    ];
 
-    return res.status(HTTP.NOT_IMPLEMENTED).send('Unimplemented');
+    const missingParams = findMissingParams(req.body, expectedParams);
+    if (missingParams) {
+        return res.status(HTTP.BAD_REQUEST).send(missingParams);
+    }
+    // Only admins can add a new workstation
+    if (isAdmin(req)) {
+        try {
+            const workstation = await createWorkstation({
+                name: req.body.name,
+                host: req.body.host,
+                location: req.body.location,
+                numGPUs: req.body.numGPUs,
+                gpuDescription: req.body.gpuDescription,
+                ramDescription: req.body.ramDescription,
+                cpuDescription: req.body.cpuDescription,
+            });
+            return res.status(HTTP.CREATED).json(workstation);
+        } catch (err) {
+            return res.status(HTTP.INTERNAL_SERVER_ERROR).send(err.message);
+        }
+    }
+
+    return res
+        .status(HTTP.FORBIDDEN)
+        .send('User does not have permissions to add a new workstation');
 });
 
 /** GET all workstations

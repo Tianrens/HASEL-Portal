@@ -17,6 +17,7 @@ let originalDateFunction;
 let workstation1;
 let workstation2;
 let workstation3;
+let workstation4;
 let adminUser;
 let undergradUser;
 let adminPastBooking;
@@ -93,6 +94,15 @@ beforeEach(async () => {
         ramDescription: 'Kingston HyperX Predator 16GB',
         cpuDescription: 'Intel Core i7-11700K 8 Core / 16 Thread',
     });
+    workstation4 = {
+        name: 'Deep Learning Machine 4',
+        host: '10.104.144.52',
+        location: 'HASEL Lab',
+        numGPUs: 4,
+        gpuDescription: 'Nvidia GeForce RTX 3080',
+        ramDescription: 'Corsair Dominator Platinum RGB 32GB',
+        cpuDescription: 'Intel Xeon Silver 4210R',
+    };
     await workstationColl.insertMany([
         workstation1,
         workstation2,
@@ -242,6 +252,54 @@ function expectDbBookingMatchWithBooking(responseBooking, requestBooking) {
         requestBooking.endTimestamp.toISOString(),
     );
 }
+
+it('create new workstation valid permissions', async () => {
+    const response = await authRequest(
+        WORKSTATION_API_URL,
+        'POST',
+        ADMIN_TOKEN,
+        workstation4,
+    );
+
+    const workstations = await Workstation.find({});
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.CREATED);
+    expectDbWorkstationMatchWithWorkstation(response.data, workstation4);
+    expect(workstations.length).toEqual(4);
+});
+
+it('create new workstation invalid permissions', async () => {
+    const response = await authRequest(
+        WORKSTATION_API_URL,
+        'POST',
+        UNDERGRAD_TOKEN,
+        workstation4,
+    );
+
+    const workstations = await Workstation.find({});
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.FORBIDDEN);
+    expect(workstations.length).toEqual(3);
+});
+
+it('create new workstation with missing params', async () => {
+    delete workstation4.host;
+
+    const response = await authRequest(
+        WORKSTATION_API_URL,
+        'POST',
+        UNDERGRAD_TOKEN,
+        workstation4,
+    );
+
+    const workstations = await Workstation.find({});
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.BAD_REQUEST);
+    expect(workstations.length).toEqual(3);
+});
 
 it('Get workstation details', async () => {
     const response = await authRequest(
