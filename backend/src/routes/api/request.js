@@ -1,5 +1,5 @@
 import express from 'express';
-import { checkSuperAdmin, getUser } from './util/userUtil';
+import { getUser } from './util/userUtil';
 import HTTP from './util/http_codes';
 import {
     countRequests,
@@ -17,7 +17,7 @@ import {
     sendRequestApprovedEmail,
     sendRequestDeniedEmail,
 } from '../../email';
-import { userHasRequestViewPerms } from './util/userPerms';
+import { checkSuperAdmin, userHasRequestViewPerms } from './util/userPerms';
 
 const router = express.Router();
 

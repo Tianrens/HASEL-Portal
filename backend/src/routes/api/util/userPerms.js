@@ -8,24 +8,54 @@ function workstationIsAllocatedToUser(currentRequest, workstationId) {
     );
 }
 
-function userHasWorkstationViewPerms(req) {
+// Checks if the current user is an admin or above
+// Should always be called after getUser
+async function checkAdmin(req, res, next) {
+    if (isAdmin(req)) {
+        return next();
+    }
+    return res.status(HTTP.FORBIDDEN).send('Forbidden: ADMINs only');
+}
+
+// Checks if the current user is a superadmin
+// Should always be called after getUser
+async function checkSuperAdmin(req, res, next) {
+    if (isSuperAdmin(req)) {
+        return next();
+    }
+    return res.status(HTTP.FORBIDDEN).send('Forbidden: SUPERADMINs only');
+}
+
+function userHasWorkstationViewPerms(req, res, next) {
     const { currentRequestId } = req.user; // Populated current request
-    return (
+    if (
         workstationIsAllocatedToUser(
             currentRequestId,
             req.params.workstationId,
-        ) || isAdmin(req)
-    );
+        ) ||
+        isAdmin(req)
+    ) {
+        return next();
+    }
+    return res
+        .status(HTTP.FORBIDDEN)
+        .send('No permission to view this workstation');
 }
 
-function userHasBookingPerms(req) {
+function userHasBookingPerms(req, res, next) {
     const { currentRequestId } = req.user; // Populated current request
-    return (
+    if (
         workstationIsAllocatedToUser(
             currentRequestId,
             req.body.workstationId,
-        ) || isAdmin(req)
-    );
+        ) ||
+        isAdmin(req)
+    ) {
+        return next();
+    }
+    return res
+        .status(HTTP.FORBIDDEN)
+        .send('No permission to view this workstation');
 }
 
 async function userHasRequestViewPerms(req, res, next) {
@@ -42,6 +72,8 @@ async function userHasRequestViewPerms(req, res, next) {
 }
 
 export {
+    checkAdmin,
+    checkSuperAdmin,
     userHasWorkstationViewPerms,
     userHasBookingPerms,
     userHasRequestViewPerms,

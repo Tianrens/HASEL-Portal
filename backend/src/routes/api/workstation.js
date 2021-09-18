@@ -80,36 +80,35 @@ router.get('/:workstationId', async (req, res) => {
  * @returns pageCount   The number of pages in the database
  * @returns bookings    The bookings specified
  */
-router.get('/:workstationId/booking/:status', getUser, async (req, res) => {
-    const page = parseInt(req.query.page, BASE_INT_VALUE);
-    const limit = parseInt(req.query.limit, BASE_INT_VALUE);
-    if (Number.isNaN(page) || Number.isNaN(limit)) {
-        return res
-            .status(HTTP.BAD_REQUEST)
-            .send('The page or limit was not a number');
-    }
+router.get(
+    '/:workstationId/booking/:status',
+    getUser,
+    userHasWorkstationViewPerms,
+    async (req, res) => {
+        const page = parseInt(req.query.page, BASE_INT_VALUE);
+        const limit = parseInt(req.query.limit, BASE_INT_VALUE);
+        if (Number.isNaN(page) || Number.isNaN(limit)) {
+            return res
+                .status(HTTP.BAD_REQUEST)
+                .send('The page or limit was not a number');
+        }
 
-    const { workstationId, status } = req.params;
+        const { workstationId, status } = req.params;
 
-    if (!userHasWorkstationViewPerms(req)) {
-        return res
-            .status(HTTP.FORBIDDEN)
-            .send('No permission to view this workstation');
-    }
-
-    try {
-        const { bookings, count } = await retrieveBookingsByWorkstation(
-            workstationId,
-            page,
-            limit,
-            status,
-        );
-        const pageCount = Math.ceil(count / limit);
-        return res.status(HTTP.OK).json({ count, pageCount, bookings });
-    } catch (err) {
-        return res.status(HTTP.BAD_REQUEST).send(err.message);
-    }
-});
+        try {
+            const { bookings, count } = await retrieveBookingsByWorkstation(
+                workstationId,
+                page,
+                limit,
+                status,
+            );
+            const pageCount = Math.ceil(count / limit);
+            return res.status(HTTP.OK).json({ count, pageCount, bookings });
+        } catch (err) {
+            return res.status(HTTP.BAD_REQUEST).send(err.message);
+        }
+    },
+);
 
 /** PUT edit a workstation */
 router.put('/', (req, res) => {

@@ -6,7 +6,8 @@ import {
 } from '../../db/dao/userDao';
 import { checkCorrectParams } from './util/checkCorrectParams';
 import HTTP from './util/http_codes';
-import { getUser, checkAdmin } from './util/userUtil';
+import { getUser } from './util/userUtil';
+import { checkAdmin } from './util/userPerms';
 import { retrieveWorkstationOfUser } from '../../db/dao/workstationDao';
 
 const router = express.Router();

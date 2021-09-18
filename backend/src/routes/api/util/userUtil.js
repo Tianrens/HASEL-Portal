@@ -21,22 +21,4 @@ function isSuperAdmin(req) {
     return req.user.type === 'SUPERADMIN';
 }
 
-// Checks if the current user is an admin or above
-// Should always be called after getUser
-async function checkAdmin(req, res, next) {
-    if (isAdmin(req)) {
-        return next();
-    }
-    return res.status(HTTP.FORBIDDEN).send('Forbidden: ADMINs only');
-}
-
-// Checks if the current user is a superadmin
-// Should always be called after getUser
-async function checkSuperAdmin(req, res, next) {
-    if (isSuperAdmin(req)) {
-        return next();
-    }
-    return res.status(HTTP.FORBIDDEN).send('Forbidden: SUPERADMINs only');
-}
-
-export { getUser, isAdmin, isSuperAdmin,checkAdmin, checkSuperAdmin };
+export { getUser, isAdmin, isSuperAdmin };
