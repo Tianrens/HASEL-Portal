@@ -4,7 +4,7 @@ import {
     retrieveUserByAuthId,
     retrieveUserById,
 } from '../../db/dao/userDao';
-import findMissingParams from './util/findMissingParams';
+import { checkCorrectParams } from './util/checkCorrectParams';
 import HTTP from './util/http_codes';
 import { getUser, checkAdmin } from './util/userUtil';
 import { retrieveWorkstationOfUser } from '../../db/dao/workstationDao';
@@ -12,33 +12,29 @@ import { retrieveWorkstationOfUser } from '../../db/dao/workstationDao';
 const router = express.Router();
 
 /** POST a new user from Firebase */
-router.post('/', async (req, res) => {
-    let dbUser = await retrieveUserByAuthId(req.firebase.uid);
+router.post(
+    '/',
+    checkCorrectParams(['upi', 'firstName', 'lastName', 'type']),
+    async (req, res) => {
+        let dbUser = await retrieveUserByAuthId(req.firebase.uid);
 
-    if (dbUser) {
-        res.status(HTTP.BAD_REQUEST);
-        return res.send('account already exists');
-    }
+        if (dbUser) {
+            res.status(HTTP.BAD_REQUEST);
+            return res.send('account already exists');
+        }
 
-    const expectedParams = ['upi', 'firstName', 'lastName', 'type'];
-    const missingParams = findMissingParams(req.body, expectedParams);
-    if (missingParams) {
-        res.status(HTTP.BAD_REQUEST);
-        res.send(missingParams);
-        return res;
-    }
+        dbUser = await createUser({
+            email: req.firebase.email,
+            upi: req.body.upi,
+            authUserId: req.firebase.uid,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            type: req.body.type,
+        });
 
-    dbUser = await createUser({
-        email: req.firebase.email,
-        upi: req.body.upi,
-        authUserId: req.firebase.uid,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        type: req.body.type,
-    });
-
-    return res.status(HTTP.CREATED).json(dbUser);
-});
+        return res.status(HTTP.CREATED).json(dbUser);
+    },
+);
 
 /** GET all users */
 router.get('/', getUser, checkAdmin, async (req, res) => {

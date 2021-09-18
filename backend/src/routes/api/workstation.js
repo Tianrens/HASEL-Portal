@@ -8,14 +8,16 @@ import {
 } from '../../db/dao/workstationDao';
 import { retrieveBookingsByWorkstation } from '../../db/dao/bookingDao';
 import { userHasWorkstationViewPerms } from './util/userPerms';
-import findMissingParams from './util/findMissingParams';
+import { checkCorrectParams } from './util/checkCorrectParams';
 
 const router = express.Router();
 const BASE_INT_VALUE = 10;
 
-/** POST add a new workstation */
-router.post('/', getUser, async (req, res) => {
-    const expectedParams = [
+/** POST add a new workstation. Only admins can add a new workstation. */
+router.post(
+    '/',
+    getUser,
+    checkCorrectParams([
         'name',
         'host',
         'location',
@@ -23,34 +25,30 @@ router.post('/', getUser, async (req, res) => {
         'gpuDescription',
         'ramDescription',
         'cpuDescription',
-    ];
-
-    const missingParams = findMissingParams(req.body, expectedParams);
-    if (missingParams) {
-        return res.status(HTTP.BAD_REQUEST).send(missingParams);
-    }
-    // Only admins can add a new workstation
-    if (isAdmin(req)) {
-        try {
-            const workstation = await createWorkstation({
-                name: req.body.name,
-                host: req.body.host,
-                location: req.body.location,
-                numGPUs: req.body.numGPUs,
-                gpuDescription: req.body.gpuDescription,
-                ramDescription: req.body.ramDescription,
-                cpuDescription: req.body.cpuDescription,
-            });
-            return res.status(HTTP.CREATED).json(workstation);
-        } catch (err) {
-            return res.status(HTTP.INTERNAL_SERVER_ERROR).send(err.message);
+    ]),
+    async (req, res) => {
+        if (isAdmin(req)) {
+            try {
+                const workstation = await createWorkstation({
+                    name: req.body.name,
+                    host: req.body.host,
+                    location: req.body.location,
+                    numGPUs: req.body.numGPUs,
+                    gpuDescription: req.body.gpuDescription,
+                    ramDescription: req.body.ramDescription,
+                    cpuDescription: req.body.cpuDescription,
+                });
+                return res.status(HTTP.CREATED).json(workstation);
+            } catch (err) {
+                return res.status(HTTP.INTERNAL_SERVER_ERROR).send(err.message);
+            }
         }
-    }
 
-    return res
-        .status(HTTP.FORBIDDEN)
-        .send('User does not have permissions to add a new workstation');
-});
+        return res
+            .status(HTTP.FORBIDDEN)
+            .send('User does not have permissions to add a new workstation');
+    },
+);
 
 /** GET all workstations
  * GET /api/workstation

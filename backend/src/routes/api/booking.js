@@ -8,44 +8,37 @@ import {
     retrieveBookingById,
     updateBooking,
 } from '../../db/dao/bookingDao';
-import findMissingParams from './util/findMissingParams';
+import { checkCorrectParams } from './util/checkCorrectParams';
 
 const router = express.Router();
 
-/** POST add a new booking */
-router.post('/', getUser, async (req, res) => {
-    const expectedParams = [
-        'workstationId',
-        'startTimestamp',
-        'endTimestamp',
-        'gpuIndices',
-    ];
-    const missingParams = findMissingParams(req.body, expectedParams);
-    if (missingParams) {
-        return res.status(HTTP.BAD_REQUEST).send(missingParams);
-    }
-
-    // User can only book workstation that matches signup request
-    // Request must also be ACTIVE
-    if (userHasBookingPerms(req)) {
-        try {
-            const booking = await createBooking({
-                workstationId: req.body.workstationId,
-                userId: req.user._id,
-                startTimestamp: req.body.startTimestamp,
-                endTimestamp: req.body.endTimestamp,
-                gpuIndices: req.body.gpuIndices,
-            });
-            return res.status(HTTP.CREATED).json(booking);
-        } catch (err) {
-            return res.status(HTTP.BAD_REQUEST).send(err.message);
+/** POST add a new booking. User can only book workstation that matches signup request.
+ * Request must also be ACTIVE */
+router.post(
+    '/',
+    getUser,
+    checkCorrectParams(['workstationId','startTimestamp','endTimestamp','gpuIndices']),
+    async (req, res) => {
+        if (userHasBookingPerms(req)) {
+            try {
+                const booking = await createBooking({
+                    workstationId: req.body.workstationId,
+                    userId: req.user._id,
+                    startTimestamp: req.body.startTimestamp,
+                    endTimestamp: req.body.endTimestamp,
+                    gpuIndices: req.body.gpuIndices,
+                });
+                return res.status(HTTP.CREATED).json(booking);
+            } catch (err) {
+                return res.status(HTTP.BAD_REQUEST).send(err.message);
+            }
         }
-    }
 
-    return res
-        .status(HTTP.FORBIDDEN)
-        .send('No permission to book this workstation');
-});
+        return res
+            .status(HTTP.FORBIDDEN)
+            .send('No permission to book this workstation');
+    },
+);
 
 /** GET all bookings */
 router.get('/', (req, res) => {
@@ -81,36 +74,35 @@ router.get('/:id', getUser, async (req, res) => {
 });
 
 /** PUT edit a booking */
-router.put('/:bookingId', getUser, async (req, res) => {
-    const { bookingId } = req.params;
+router.put(
+    '/:bookingId',
+    getUser,
+    checkCorrectParams(['startTimestamp', 'endTimestamp', 'gpuIndices']),
+    async (req, res) => {
+        const { bookingId } = req.params;
 
-    const expectedParams = ['startTimestamp', 'endTimestamp', 'gpuIndices'];
-    const missingParams = findMissingParams(req.body, expectedParams);
-    if (missingParams) {
-        return res.status(HTTP.BAD_REQUEST).send(missingParams);
-    }
-
-    // Get booking to check userId
-    const booking = await retrieveBookingById(bookingId);
-    // User can only edit workstation if they own the booking, or they are ADMINs
-    if (booking.userId !== req.user._id || isAdmin(req)) {
-        try {
-            // Only able to edit timmestamps and GPU counts
-            await updateBooking(bookingId, {
-                startTimestamp: req.body.startTimestamp,
-                endTimestamp: req.body.endTimestamp,
-                gpuIndices: req.body.gpuIndices,
-            });
-            return res.status(HTTP.NO_CONTENT).send('Successfully updated');
-        } catch (err) {
-            return res.status(HTTP.BAD_REQUEST).send(err.message);
+        // Get booking to check userId
+        const booking = await retrieveBookingById(bookingId);
+        // User can only edit workstation if they own the booking, or they are ADMINs
+        if (booking.userId !== req.user._id || isAdmin(req)) {
+            try {
+                // Only able to edit timmestamps and GPU counts
+                await updateBooking(bookingId, {
+                    startTimestamp: req.body.startTimestamp,
+                    endTimestamp: req.body.endTimestamp,
+                    gpuIndices: req.body.gpuIndices,
+                });
+                return res.status(HTTP.NO_CONTENT).send('Successfully updated');
+            } catch (err) {
+                return res.status(HTTP.BAD_REQUEST).send(err.message);
+            }
         }
-    }
 
-    return res
-        .status(HTTP.FORBIDDEN)
-        .send('No permission to edit this booking');
-});
+        return res
+            .status(HTTP.FORBIDDEN)
+            .send('No permission to edit this booking');
+    },
+);
 
 /** DELETE a booking */
 router.delete('/:bookingId', getUser, async (req, res) => {
@@ -122,7 +114,7 @@ router.delete('/:bookingId', getUser, async (req, res) => {
                 .status(HTTP.NOT_FOUND)
                 .send(`Could not find booking with id: ${bookingId}`);
         }
-        
+
         if (!req.user._id.equals(booking.userId) && !isAdmin(req)) {
             return res
                 .status(HTTP.FORBIDDEN)
