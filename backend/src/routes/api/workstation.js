@@ -5,10 +5,12 @@ import {
     createWorkstation,
     retrieveAllWorkstations,
     retrieveWorkstationById,
+    deleteWorkstation,
 } from '../../db/dao/workstationDao';
 import { retrieveBookingsByWorkstation } from '../../db/dao/bookingDao';
-import { userHasWorkstationViewPerms } from './util/userPerms';
+import { checkAdmin, userHasWorkstationViewPerms } from './util/userPerms';
 import { checkCorrectParams } from './util/checkCorrectParams';
+import { getWorkstation } from './util/workstationUtil';
 
 const router = express.Router();
 const BASE_INT_VALUE = 10;
@@ -119,11 +121,15 @@ router.put('/', (req, res) => {
 });
 
 /** DELETE a workstation */
-router.delete('/', (req, res) => {
-    // TODO: DELETE a workstation
-    console.log(req.originalUrl);
-
-    return res.status(HTTP.NOT_IMPLEMENTED).send('Unimplemented');
+router.delete('/:workstationId', getUser, checkAdmin, getWorkstation, async (req, res) => {
+    const { workstation } = req;
+    
+    try {
+        await deleteWorkstation(workstation._id);
+        return res.status(HTTP.OK).send();
+    } catch (err) {
+        return res.status(HTTP.INTERNAL_SERVER_ERROR).send(err.message);
+    }
 });
 
 export default router;

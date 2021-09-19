@@ -503,3 +503,48 @@ it('Get bookings for a specified workstation, user is NOT admin and workstation 
     );
     expect(response.status).toEqual(HTTP.FORBIDDEN);
 });
+
+it('delete workstation that exists as admin', async () => {
+    const response = await authRequest(
+        `${WORKSTATION_API_URL}/${workstation1._id}`,
+        'DELETE',
+        ADMIN_TOKEN,
+    );
+
+    expect(response.status).toEqual(HTTP.OK);
+
+    const workstations = await Workstation.find({});
+
+    expect(response).toBeDefined();
+    expect(workstations.length).toEqual(2);
+});
+
+it('delete workstation that exists as a non admin', async () => {
+    const response = await authRequest(
+        `${WORKSTATION_API_URL}/${workstation1._id}`,
+        'DELETE',
+        UNDERGRAD_TOKEN,
+    );
+
+    expect(response.status).toEqual(HTTP.FORBIDDEN);
+
+    const workstations = await Workstation.find({});
+
+    expect(response).toBeDefined();
+    expect(workstations.length).toEqual(3);
+});
+
+it('delete workstation that does not exists as admin', async () => {
+    const response = await authRequest(
+        `${WORKSTATION_API_URL}/555555555553555555455355`,
+        'DELETE',
+        ADMIN_TOKEN,
+    );
+
+    expect(response.status).toEqual(HTTP.NOT_FOUND);
+
+    const workstations = await Workstation.find({});
+
+    expect(response).toBeDefined();
+    expect(workstations.length).toEqual(3);
+});
