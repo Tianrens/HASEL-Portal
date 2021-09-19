@@ -4,7 +4,7 @@ import usePagination from '../../../hooks/usePagination';
 import StyledTable from './StyledTable';
 
 const TableWithPagination = ({ endpoint, rowProp, ...props }) => {
-    const rowsPerPage = 10;
+    const rowsPerPage = 2;
     const { data, total, isLoading, page, setPage } = usePagination(endpoint, [], rowsPerPage);
     const handleChangePage = (event, newPage) => {
         setPage(newPage);

@@ -10,10 +10,12 @@ import {
 } from '../bookingDao';
 import { Workstation } from '../../schemas/workstationSchema';
 import { Booking } from '../../schemas/bookingSchema';
+import { User } from '../../schemas/userSchema';
 
 let mongo;
 let originalDateFunction;
 let workstation1;
+let user1;
 let booking1;
 let booking2;
 let booking3;
@@ -48,6 +50,7 @@ beforeEach(async () => {
     const workstationsColl = await mongoose.connection.db.collection(
         'workstations',
     );
+    const usersColl = await mongoose.connection.db.collection('users');
 
     Date.now = jest.fn(() => new Date('2021-08-17T09:00:00')); // Mock current time
 
@@ -60,10 +63,20 @@ beforeEach(async () => {
         ramDescription: 'Kingston HyperX Predator 32GB',
         cpuDescription: 'Intel Core i9 10900KF',
     });
+    
+    user1 = new User({
+        email: 'admin@gmail.com',
+        currentRequestId: null,
+        upi: 'amin695',
+        authUserId: 'test2',
+        firstName: 'Ad',
+        lastName: 'Min',
+        type: 'ADMIN',
+    });
 
     booking1 = {
         workstationId: workstation1._id,
-        userId: mongoose.Types.ObjectId('888888888888888888888888'),
+        userId: user1._id,
         startTimestamp: new Date('2021-08-17T08:00:00'),
         endTimestamp: new Date('2021-08-17T12:00:00'),
         gpuIndices: [0, 1],
@@ -71,7 +84,7 @@ beforeEach(async () => {
 
     booking2 = {
         workstationId: workstation1._id,
-        userId: mongoose.Types.ObjectId('777777777777777777777777'),
+        userId: user1._id,
         startTimestamp: new Date('2021-08-13T12:00:00'),
         endTimestamp: new Date('2021-08-13T15:00:00'),
         gpuIndices: [1],
@@ -79,7 +92,7 @@ beforeEach(async () => {
 
     booking3 = {
         workstationId: workstation1._id,
-        userId: mongoose.Types.ObjectId('777777777777777777777777'),
+        userId: user1._id,
         startTimestamp: new Date('2021-09-13T12:00:00'),
         endTimestamp: new Date('2021-09-13T15:00:00'),
         gpuIndices: [1],
@@ -87,7 +100,7 @@ beforeEach(async () => {
 
     validGenericBooking = {
         workstationId: workstation1._id,
-        userId: mongoose.Types.ObjectId('999999999999999999999999'),
+        userId: user1._id,
         startTimestamp: new Date('2021-08-13T09:58:00'),
         endTimestamp: new Date('2021-08-13T12:30:42'),
         gpuIndices: [0],
@@ -95,7 +108,7 @@ beforeEach(async () => {
 
     invalidGPUBooking = {
         workstationId: workstation1._id,
-        userId: mongoose.Types.ObjectId('999999999999999999999999'),
+        userId: user1._id,
         startTimestamp: new Date('2021-08-21T09:58:00'),
         endTimestamp: new Date('2021-08-21T12:30:42'),
         gpuIndices: [2],
@@ -103,7 +116,7 @@ beforeEach(async () => {
 
     invalidPeriodBooking = {
         workstationId: workstation1._id,
-        userId: mongoose.Types.ObjectId('777777777777777777777777'),
+        userId: user1._id,
         startTimestamp: new Date('2021-08-13T12:00:00'),
         endTimestamp: new Date('2021-08-13T11:00:00'),
         gpuIndices: [1],
@@ -116,7 +129,7 @@ beforeEach(async () => {
         // GPU1:   □□□□■■■■■■■■■
         {
             workstationId: workstation1._id,
-            userId: mongoose.Types.ObjectId('777777777777777777777777'),
+            userId: user1._id,
             startTimestamp: new Date('2021-08-13T11:00:00'),
             endTimestamp: new Date('2021-08-13T12:00:00'),
             gpuIndices: [1],
@@ -124,7 +137,7 @@ beforeEach(async () => {
         // GPU1:       ■■■■■■■■■□□□□
         {
             workstationId: workstation1._id,
-            userId: mongoose.Types.ObjectId('777777777777777777777777'),
+            userId: user1._id,
             startTimestamp: new Date('2021-08-13T15:00:00'),
             endTimestamp: new Date('2021-08-13T16:00:00'),
             gpuIndices: [1],
@@ -133,7 +146,7 @@ beforeEach(async () => {
         // GPU1:       ■■■■■■■■■
         {
             workstationId: workstation1._id,
-            userId: mongoose.Types.ObjectId('777777777777777777777777'),
+            userId: user1._id,
             startTimestamp: new Date('2021-08-13T14:00:00'),
             endTimestamp: new Date('2021-08-13T16:00:00'),
             gpuIndices: [0],
@@ -142,7 +155,7 @@ beforeEach(async () => {
         // GPU1:       ■■■■■■■■■□□□□
         {
             workstationId: workstation1._id,
-            userId: mongoose.Types.ObjectId('777777777777777777777777'),
+            userId: user1._id,
             startTimestamp: new Date('2021-08-13T15:00:00'),
             endTimestamp: new Date('2021-08-13T16:00:00'),
             gpuIndices: [0, 1],
@@ -154,7 +167,7 @@ beforeEach(async () => {
         // GPU1:       ■■■■■■■■■
         {
             workstationId: workstation1._id,
-            userId: mongoose.Types.ObjectId('888888888888888888888888'),
+            userId: user1._id,
             startTimestamp: new Date('2021-08-17T12:00:00'),
             endTimestamp: new Date('2021-08-17T15:00:00'),
             gpuIndices: [0],
@@ -169,7 +182,7 @@ beforeEach(async () => {
         //           □□□□
         {
             workstationId: workstation1._id,
-            userId: mongoose.Types.ObjectId('777777777777777777777777'),
+            userId: user1._id,
             startTimestamp: new Date('2021-08-13T11:00:00'),
             endTimestamp: new Date('2021-08-13T13:00:00'),
             gpuIndices: [1],
@@ -178,7 +191,7 @@ beforeEach(async () => {
         //                    □□□□
         {
             workstationId: workstation1._id,
-            userId: mongoose.Types.ObjectId('777777777777777777777777'),
+            userId: user1._id,
             startTimestamp: new Date('2021-08-13T14:00:00'),
             endTimestamp: new Date('2021-08-13T16:00:00'),
             gpuIndices: [1],
@@ -187,7 +200,7 @@ beforeEach(async () => {
         //                □□□□
         {
             workstationId: workstation1._id,
-            userId: mongoose.Types.ObjectId('777777777777777777777777'),
+            userId: user1._id,
             startTimestamp: new Date('2021-08-13T13:00:00'),
             endTimestamp: new Date('2021-08-13T14:00:00'),
             gpuIndices: [1],
@@ -196,7 +209,7 @@ beforeEach(async () => {
         //            □□□□□□□□□□□□
         {
             workstationId: workstation1._id,
-            userId: mongoose.Types.ObjectId('777777777777777777777777'),
+            userId: user1._id,
             startTimestamp: new Date('2021-08-13T11:00:00'),
             endTimestamp: new Date('2021-08-13T16:00:00'),
             gpuIndices: [1],
@@ -205,7 +218,7 @@ beforeEach(async () => {
         //             □□□□□□□□□
         {
             workstationId: workstation1._id,
-            userId: mongoose.Types.ObjectId('777777777777777777777777'),
+            userId: user1._id,
             startTimestamp: new Date('2021-08-13T12:00:00'),
             endTimestamp: new Date('2021-08-13T15:00:00'),
             gpuIndices: [1],
@@ -215,7 +228,7 @@ beforeEach(async () => {
         //           □□□□
         {
             workstationId: workstation1._id,
-            userId: mongoose.Types.ObjectId('777777777777777777777777'),
+            userId: user1._id,
             startTimestamp: new Date('2021-08-13T11:00:00'),
             endTimestamp: new Date('2021-08-13T13:00:00'),
             gpuIndices: [0, 1],
@@ -229,13 +242,14 @@ beforeEach(async () => {
         //           □□□□
         {
             workstationId: workstation1._id,
-            userId: mongoose.Types.ObjectId('888888888888888888888888'),
+            userId: user1._id,
             startTimestamp: new Date('2021-08-17T07:00:00'),
             endTimestamp: new Date('2021-08-17T09:00:00'),
             gpuIndices: [1],
         },
     ];
 
+    await usersColl.insertOne(user1);
     await workstationsColl.insertOne(workstation1);
     await bookingsColl.insertMany([booking1, booking2, booking3]);
 });
@@ -246,6 +260,7 @@ beforeEach(async () => {
 afterEach(async () => {
     await mongoose.connection.db.dropCollection('bookings');
     await mongoose.connection.db.dropCollection('workstations');
+    await mongoose.connection.db.dropCollection('users');
 
     Date.now = originalDateFunction;
 });
@@ -261,7 +276,17 @@ afterAll(async () => {
 function expectDbBookingMatchWithBooking(dbBooking, booking) {
     expect(dbBooking).toBeTruthy();
     expect(dbBooking.workstationId).toEqual(booking.workstationId);
-    expect(dbBooking.userId).toEqual(booking.userId);
+    if (dbBooking.userId?._id) {
+        // Populated
+        expect(dbBooking.userId._id.toString()).toEqual(
+            booking.userId._id.toString(),
+        );
+    } else {
+        // Not populated
+        expect(dbBooking.userId.toString()).toEqual(
+            booking.userId.toString(),
+        );
+    }
     expect(dbBooking.startTimestamp).toEqual(booking.startTimestamp);
     expect(dbBooking.endTimestamp).toEqual(booking.endTimestamp);
     expect(dbBooking.gpuIndices.toObject()).toEqual(booking.gpuIndices);
@@ -332,8 +357,10 @@ it("retrieve user's bookings", async () => {
     const bookings = await retrieveBookingsByUser(booking1.userId);
 
     expect(bookings).toBeTruthy();
-    expect(bookings).toHaveLength(1);
+    expect(bookings).toHaveLength(3);
     expectDbBookingMatchWithBooking(bookings[0], booking1);
+    expectDbBookingMatchWithBooking(bookings[1], booking2);
+    expectDbBookingMatchWithBooking(bookings[2], booking3);
 });
 
 it('retrieve all bookings for a workstation', async () => {

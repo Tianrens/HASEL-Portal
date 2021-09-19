@@ -73,6 +73,7 @@ router.get('/:workstationId', async (req, res) => {
 
 /** GET bookings for a workstation.
  * User can query for ACTIVE, FUTURE, CURRENT and PAST bookings statuses
+ * userId is populated
  * GET /api/workstation/${workstationId}/booking/${status}?page=${page}&limit=${limit}
  * @param   workstationId  The workstation to query
  * @param   status      The status to query, one of ACTIVE, FUTURE, CURRENT or PAST

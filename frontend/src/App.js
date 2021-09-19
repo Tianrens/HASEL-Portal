@@ -17,6 +17,7 @@ import SingleRequest from './views/pages/SingleRequest/SingleRequest';
 import { isAdminType, isSuperAdminType } from './config/accountTypes';
 import EditBooking from './views/pages/EditBooking/EditBooking';
 import ViewWorkstations from './views/pages/ViewWorkstations/ViewWorkstations';
+import ViewWorkstationBookings from './views/pages/ViewWorkstationBookings/ViewWorkstationBookings';
 
 function App() {
     const [idToken] = useDoc(idTokenDoc);
@@ -39,6 +40,7 @@ function App() {
             <Route exact path='/booking/:bookingId' component={EditBooking} />
             <Route exact path='/request/:requestId' component={SingleRequest} />
             <Route exact path='/requests' component={ViewRequests} />
+            <Route exact path='/workstation/:workstationId/booking' component={ViewWorkstationBookings} />
             <Route exact path='/users/:userId' component={ViewProfile} />
             <Route exact path='/user' component={ProfilePage} />
             <Route component={ViewWorkstations} />
@@ -50,6 +52,7 @@ function App() {
             <Route exact path='/user' component={ProfilePage} />
             <Route exact path='/users/:userId' component={ViewProfile} />
             <Route exact path='/booking/:bookingId' component={EditBooking} />
+            <Route exact path='/workstation/:workstationId/booking' component={ViewWorkstationBookings} />
             <Route component={ViewWorkstations} />
         </Switch>
     );

@@ -5,7 +5,7 @@ exports[`Styled Table renders properly 1`] = `
   className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
 >
   <table
-    className="MuiTable-root"
+    className="MuiTable-root table"
     role={null}
   >
     <thead

@@ -8,7 +8,7 @@ import {
     Paper,
 } from '@material-ui/core';
 import { React } from 'react';
-import { headerCell } from './StyledTable.module.scss';
+import { headerCell, table } from './StyledTable.module.scss';
 
 const HeaderTableCell = ({ children }) => <TableCell className={headerCell}>{children}</TableCell>;
 
@@ -29,7 +29,7 @@ const columnsCreator = (columns) => {
 
 const StyledTable = ({ rows, columns, rowFactory }) => (
     <TableContainer component={Paper}>
-        <Table>
+        <Table className={table}>
             <TableHead>
                 <TableRow>{columnsCreator(columns)}</TableRow>
             </TableHead>

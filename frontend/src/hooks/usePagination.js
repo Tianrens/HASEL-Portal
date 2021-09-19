@@ -10,7 +10,7 @@ export default function usePagination(baseUrl, initialState = null, numPerPage =
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            await authRequest(`${baseUrl}?limit=${numPerPage}&page=${page}`, 'GET')
+            await authRequest(`${baseUrl}?limit=${numPerPage}&page=${page + 1}`, 'GET')
                 .then((response) => {
                     setData(response.data);
                     setTotal(response.data.count);

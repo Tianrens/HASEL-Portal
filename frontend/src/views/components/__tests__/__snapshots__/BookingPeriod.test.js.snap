@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BookingPeriod renders properly 1`] = `
+<span>
+  Wed 06/10/21 06:46 PM  -  Sun 10/10/21 06:46 PM
+</span>
+`;
