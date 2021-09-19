@@ -6,6 +6,9 @@ const { NodeSSH } = require('node-ssh');
  * @returns
  */
 export async function execCommand(host, command) {
+    if (process.env.NODE_ENV !== 'production') {
+        return false;
+    }
     const hasSudo = command.includes('sudo');
 
     const ssh = new NodeSSH();
@@ -14,7 +17,9 @@ export async function execCommand(host, command) {
         username: process.env.SSH_USERNAME,
         password: process.env.SSH_PASSWORD,
     });
-    const sudoOptions = hasSudo ? { execOptions: { pty: true }, stdin: `${process.env.SSH_PASSWORD}\n` } : {};
+    const sudoOptions = hasSudo
+        ? { execOptions: { pty: true }, stdin: `${process.env.SSH_PASSWORD}\n` }
+        : {};
     const result = await ssh.execCommand(command, sudoOptions);
     ssh.dispose();
 

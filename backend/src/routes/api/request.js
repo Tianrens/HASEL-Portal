@@ -1,4 +1,5 @@
 import express from 'express';
+import { SSHError } from 'node-ssh';
 import { getUser } from './util/userUtil';
 import HTTP from './util/http_codes';
 import {
@@ -18,6 +19,8 @@ import {
     sendRequestDeniedEmail,
 } from '../../email';
 import { checkSuperAdmin, userHasRequestViewPerms } from './util/userPerms';
+import { createWorkstationUser, deleteWorkstationUser } from '../../ssh';
+import { retrieveWorkstationById } from '../../db/dao/workstationDao';
 
 const router = express.Router();
 
@@ -96,22 +99,25 @@ router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
         return res.status(HTTP.BAD_REQUEST).send('Bad request');
     }
 
+    const { requestId } = req.params;
+    let request = await retrieveRequestById(requestId);
+
+    if (!request) {
+        return res
+            .status(HTTP.NOT_FOUND)
+            .send(`Could not find request with id: ${requestId}`);
+    }
+
     try {
-        const { requestId } = req.params;
-        let request = await retrieveRequestById(requestId);
-
-        if (request === null) {
-            return res
-                .status(HTTP.NOT_FOUND)
-                .send(`Could not find request with id: ${requestId}`);
-        }
-        await updateRequestStatus(requestId, req.body.status);
-
         if (req.body.status === 'ACTIVE') {
             const requestUser = request.userId;
             const userType = requestUser.type;
             let requestValidity;
-            if (userType === 'UNDERGRAD') {
+            if ('requestValidity' in req.body) {
+                // If a custom request duration is specified
+                // The requestValidity specifies in months how long the request will be active for
+                requestValidity = req.body.requestValidity;
+            } else if (userType === 'UNDERGRAD') {
                 requestValidity = UNDERGRAD_REQUEST_VALIDITY;
             } else if (userType === 'MASTERS') {
                 requestValidity = MASTERS_REQUEST_VALIDITY;
@@ -119,41 +125,57 @@ router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
                 requestValidity = POSTGRAD_REQUEST_VALIDITY;
             } else if (userType === 'PHD') {
                 requestValidity = PHD_REQUEST_VALIDITY;
-            } else if ('requestValidity' in req.body) {
-                // If a custom request duration is specified
-                // The requestValidity specifies in months how long the request will be active for
-                requestValidity = req.body.requestValidity;
             }
 
             const startDate = Date.now();
+            const endDate = new Date(startDate);
+            endDate.setMonth(endDate.getMonth() + requestValidity);
+            let expireDateString;
+            if (requestValidity) {
+                [expireDateString] = endDate.toISOString().split('T');
+            } else {
+                expireDateString = '';
+            }
+
             let { allocatedWorkstationId } = request;
             if ('allocatedWorkstationId' in req.body) {
                 allocatedWorkstationId = req.body.allocatedWorkstationId;
             }
+            const workstation = await retrieveWorkstationById(
+                allocatedWorkstationId,
+            );
 
+            // Need to create the workstation user first to ensure that if an error occurs,
+            // database is not affected
+            await createWorkstationUser(
+                workstation.host,
+                request.userId.upi,
+                -1,
+                expireDateString,
+            );
+
+            // Update database
             await updateRequest(requestId, {
                 allocatedWorkstationId,
                 startDate,
             });
 
-            const endDate = new Date(startDate);
-
+            await updateRequestStatus(requestId, req.body.status);
             if (requestValidity) {
-                await setRequestEndDate(
-                    requestId,
-                    endDate.setMonth(endDate.getMonth() + requestValidity),
-                );
+                await setRequestEndDate(requestId, endDate);
             }
-
             request = await retrieveRequestById(request._id);
             sendRequestApprovedEmail(requestUser.email, request);
         } else {
             const requestUser = await retrieveUserById(request.userId);
+            await updateRequestStatus(requestId, req.body.status);
             sendRequestDeniedEmail(requestUser.email, request);
         }
     } catch (err) {
-        console.log(err);
-        return res.status(HTTP.BAD_REQUEST).send('Bad request');
+        if (err instanceof SSHError) {
+            return res.status(HTTP.INTERNAL_SERVER_ERROR).json(err);
+        }
+        return res.status(HTTP.BAD_REQUEST).json(err);
     }
 
     return res.status(HTTP.NO_CONTENT).send('Successful');
@@ -169,9 +191,23 @@ router.delete('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
                 .status(HTTP.NOT_FOUND)
                 .send(`Could not find request with id: ${requestId}`);
         }
+        const workstation = await retrieveWorkstationById(
+            request.allocatedWorkstationId,
+        );
+
+        // TODO: Need to check whether EXPIRED users also still have their account
+        // Need to delete the workstation user first to ensure that if an error occurs,
+        // database is not affected
+        if (request.status === 'ACTIVE') {
+            await deleteWorkstationUser(workstation.host, request.userId.upi);
+        }
+        // Update database
         await deleteRequest(requestId);
     } catch (err) {
-        return res.status(HTTP.BAD_REQUEST).json('Bad request');
+        if (err instanceof SSHError) {
+            return res.status(HTTP.INTERNAL_SERVER_ERROR).json(err);
+        }
+        return res.status(HTTP.BAD_REQUEST).json(err);
     }
 
     return res.status(HTTP.NO_CONTENT).send('Successful');

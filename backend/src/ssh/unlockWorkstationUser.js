@@ -1,3 +1,4 @@
+import { SSHError } from 'node-ssh';
 import { execCommand } from '.';
 
 /**
@@ -10,6 +11,6 @@ export async function unlockWorkstationUser(host, upi) {
     // status code is null if process was successful
     if (result.code) {
         const errorMessage = 'Error unlocking user account.';
-        throw errorMessage;
+        throw new SSHError(errorMessage);
     }
 }
