@@ -18,7 +18,7 @@
     height: 5px;
     border-bottom: 1px solid black;
     top: 0.45em;
-    width: 1000%;
+    width: 100vw;
 }
 .text span:before {
     right: 100%;
@@ -32,6 +32,16 @@
 .alignLeft {
     text-align: left;
     padding-left: 5vw;
+}
+
+.subHeader {
+    font-size: 1.2rem;
+    color: $heading;
+}
+
+.subHeader span:before,
+.subHeader span:after {
+    border-bottom: 1px solid $subHeading;
 }
 
 @include responsive(mobile) {

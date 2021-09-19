@@ -242,7 +242,7 @@ Array [
             className="container"
           >
             <h2
-              className="text alignLeft"
+              className="text alignLeft "
             >
               <span>
                 Workstation Overview

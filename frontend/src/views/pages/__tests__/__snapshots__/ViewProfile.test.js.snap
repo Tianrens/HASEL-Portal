@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Pending Approval Page renders properly 1`] = `
+exports[`Edit Booking page renders properly 1`] = `
 Array [
   <div
     className="fillTopbarSpace"
@@ -228,107 +228,6 @@ Array [
   </div>,
   <div
     className="content"
-  >
-    <div
-      className="container"
-    >
-      <h1
-        className="header"
-      >
-        Sit tight, your account is awaiting approval.
-      </h1>
-      <div
-        className="container"
-      >
-        <h2
-          className="text  "
-        >
-          <span>
-            Your Application
-          </span>
-        </h2>
-      </div>
-      <h3
-        className="value"
-      >
-        <span
-          className="title"
-        >
-          Supervisor Name: 
-        </span>
-        --
-      </h3>
-      <h3
-        className="title"
-      >
-        Reasoning/Comments:
-      </h3>
-      <div
-        className="MuiFormControl-root MuiTextField-root"
-      >
-        <div
-          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl MuiInputBase-multiline MuiOutlinedInput-multiline"
-          onClick={[Function]}
-          style={
-            Object {
-              "fontSize": "1.17rem",
-              "lineHeight": "1.8rem",
-            }
-          }
-        >
-          <textarea
-            aria-invalid={false}
-            autoFocus={false}
-            className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiOutlinedInput-inputMultiline"
-            disabled={false}
-            onAnimationStart={[Function]}
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            readOnly={true}
-            required={false}
-            rows={5}
-            value=""
-          />
-          <fieldset
-            aria-hidden={true}
-            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
-            style={
-              Object {
-                "paddingLeft": 8,
-              }
-            }
-          >
-            <legend
-              className="PrivateNotchedOutline-legend-2"
-              style={
-                Object {
-                  "width": 0.01,
-                }
-              }
-            >
-              <span
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "&#8203;",
-                  }
-                }
-              />
-            </legend>
-          </fieldset>
-        </div>
-      </div>
-      <h3
-        className="value"
-      >
-        <span
-          className="title"
-        >
-          Workstation Requested: 
-        </span>
-        --
-      </h3>
-    </div>
-  </div>,
+  />,
 ]
 `;

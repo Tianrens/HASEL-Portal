@@ -10,12 +10,14 @@ import {
 } from '../userDao';
 import { User } from '../../schemas/userSchema';
 import { SignUpRequest } from '../../schemas/signUpRequestSchema';
+import { Workstation } from '../../schemas/workstationSchema';
 
 let mongo;
 let request1;
 let user1;
 let user2;
 let user3;
+let workstation1;
 
 /**
  * Before all tests, create an in-memory MongoDB instance so we don't have to test on a real database,
@@ -40,6 +42,9 @@ beforeEach(async () => {
     const signUpRequestsColl = await mongoose.connection.db.collection(
         'signuprequests',
     );
+    const workstationsColl = await mongoose.connection.db.collection(
+        'workstations',
+    );
 
     user1 = new User({
         email: 'user1@gmail.com',
@@ -62,7 +67,18 @@ beforeEach(async () => {
         endDate: new Date(2021, 9, 19),
     });
 
+    workstation1 = new Workstation({
+        name: 'Machine 1',
+        host: '192.168.1.100',
+        location: 'HASEL Lab',
+        numGPUs: 2,
+        gpuDescription: 'Nvidia GeForce RTX 2080',
+        ramDescription: 'Kingston HyperX Predator 32GB',
+        cpuDescription: 'Intel Core i9 10900KF',
+    });
+
     user1.currentRequestId = request1._id;
+    request1.allocatedWorkstationId = workstation1._id;
 
     user2 = {
         email: 'user2@gmail.com',
@@ -84,6 +100,7 @@ beforeEach(async () => {
 
     await usersColl.insertMany([user1, user2]);
     await signUpRequestsColl.insertOne(request1);
+    await workstationsColl.insertOne(workstation1);
 });
 
 /**

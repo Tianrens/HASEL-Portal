@@ -25,7 +25,7 @@ exports[`Signup page renders properly 1`] = `
             className="container"
           >
             <h2
-              className="text alignLeft"
+              className="text alignLeft "
             >
               <span>
                 Account Details
@@ -48,7 +48,7 @@ exports[`Signup page renders properly 1`] = `
             className="container"
           >
             <h2
-              className="text alignLeft"
+              className="text alignLeft "
             >
               <span>
                 Personal Information

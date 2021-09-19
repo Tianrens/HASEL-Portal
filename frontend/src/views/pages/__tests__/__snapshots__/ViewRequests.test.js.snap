@@ -237,7 +237,7 @@ Array [
           className="container"
         >
           <h2
-            className="text alignLeft"
+            className="text alignLeft "
           >
             <span>
               Pending Requests
@@ -384,7 +384,7 @@ Array [
           className="container"
         >
           <h2
-            className="text alignLeft"
+            className="text alignLeft "
           >
             <span>
               Approved Requests
@@ -531,7 +531,7 @@ Array [
           className="container"
         >
           <h2
-            className="text alignLeft"
+            className="text alignLeft "
           >
             <span>
               Denied Requests

@@ -1,0 +1,51 @@
+@import '../../../assets/responsiveDesignHelpers';
+
+.container {
+    width: 100%;
+}
+
+.detailsContainer,
+.userInfoContainer,
+.workstationHeader,
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.detailsContainer {
+    flex-direction: column;
+}
+
+.userInfoContainer {
+    justify-content: space-between;
+    column-gap: 5rem;
+    margin: 0.5rem 0 2.5rem 0;
+}
+
+.userInfoContainer > div {
+    flex: 1 0;
+}
+
+.workstationHeader {
+    justify-content: space-between;
+}
+
+.header {
+    flex-basis: 100%;
+}
+
+.buttonContainer {
+    flex-direction: column;
+    margin-top: 2rem;
+    align-items: center;
+}
+
+@include responsive(tablet) {
+    .userInfoContainer {
+        flex-direction: column;
+        row-gap: 2rem;
+    }
+    .spacer {
+        display: none;
+    }
+}

@@ -4,7 +4,7 @@ import HTTP from './http_codes';
 function workstationIsAllocatedToUser(currentRequest, workstationId) {
     return (
         currentRequest?.status === 'ACTIVE' &&
-        currentRequest?.allocatedWorkstationId.toString() === workstationId
+        currentRequest?.allocatedWorkstationId._id.toString() === workstationId
     );
 }
 

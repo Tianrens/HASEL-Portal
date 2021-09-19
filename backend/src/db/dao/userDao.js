@@ -12,7 +12,11 @@ async function retrieveAllUsers() {
 }
 
 async function retrieveUserById(userId) {
-    return User.findById(userId);
+    return User.findById(userId).populate({
+        path: 'currentRequestId',
+        // also populate the workstation
+        populate: { path: 'allocatedWorkstationId' },
+    });
 }
 
 async function updateUser(userId, newUserInfo) {
@@ -20,7 +24,11 @@ async function updateUser(userId, newUserInfo) {
 }
 
 async function retrieveUserByAuthId(authId) {
-    return User.findOne({ authUserId: authId }).populate('currentRequestId');
+    return User.findOne({ authUserId: authId }).populate({
+        path: 'currentRequestId',
+        // also populate the workstation
+        populate: { path: 'allocatedWorkstationId' },
+    });
 }
 
 async function retrieveUserByType(userType) {

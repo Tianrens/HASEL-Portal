@@ -7,6 +7,8 @@ import NewRequest from './views/pages/NewRequest/NewRequest';
 import PendingApproval from './views/pages/PendingApproval/PendingApproval';
 import SignupPage from './views/pages/SignupPage/SignupPage';
 import NewBooking from './views/pages/NewBooking/NewBooking';
+import ProfilePage from './views/pages/ProfilePage/ProfilePage';
+import ViewProfile from './views/pages/ProfilePage/ViewProfile';
 import { useDoc } from './state/state';
 import { idTokenDoc } from './state/docs/idTokenDoc';
 import { userDoc } from './state/docs/userDoc';
@@ -37,12 +39,16 @@ function App() {
             <Route exact path='/booking/:bookingId' component={EditBooking} />
             <Route exact path='/request/:requestId' component={SingleRequest} />
             <Route exact path='/requests' component={ViewRequests} />
+            <Route exact path='/users/:userId' component={ViewProfile} />
+            <Route exact path='/user' component={ProfilePage} />
             <Route component={ViewWorkstations} />
         </Switch>
     );
 
     const AdminRoutes = () => (
         <Switch>
+            <Route exact path='/user' component={ProfilePage} />
+            <Route exact path='/users/:userId' component={ViewProfile} />
             <Route exact path='/booking/:bookingId' component={EditBooking} />
             <Route component={ViewWorkstations} />
         </Switch>
@@ -50,12 +56,14 @@ function App() {
 
     const PendingApprovalRoutes = () => (
         <Switch>
+            <Route exact path='/user' component={ProfilePage} />
             <Route component={PendingApproval} />
         </Switch>
     );
 
     const NoWorkstationAccessRoutes = () => (
         <Switch>
+            <Route exact path='/user' component={ProfilePage} />
             <Route component={NewRequest} />
         </Switch>
     );
@@ -64,6 +72,7 @@ function App() {
         <Switch>
             <Route exact path='/booking/:bookingId' component={EditBooking} />
             <Route path='/new-booking' component={NewBooking} />
+            <Route exact path='/user' component={ProfilePage} />
             <Route path='/' component={UserHomePage} />
             <Route component={UserHomePage} />
         </Switch>

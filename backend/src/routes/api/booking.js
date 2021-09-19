@@ -19,21 +19,18 @@ router.post(
     '/',
     getUser,
     userHasBookingPerms,
-    checkCorrectParams([
-        'startTimestamp',
-        'endTimestamp',
-        'gpuIndices',
-    ]),
+    checkCorrectParams(['startTimestamp', 'endTimestamp', 'gpuIndices']),
     async (req, res) => {
         const user = await retrieveUserByAuthId(req.user.authUserId);
         try {
             const booking = await createBooking({
-                workstationId: user.currentRequestId.allocatedWorkstationId,
+                workstationId: user.currentRequestId.allocatedWorkstationId._id,
                 userId: req.user._id,
                 startTimestamp: req.body.startTimestamp,
                 endTimestamp: req.body.endTimestamp,
                 gpuIndices: req.body.gpuIndices,
             });
+
             return res.status(HTTP.CREATED).json(booking);
         } catch (err) {
             return res.status(HTTP.BAD_REQUEST).send(err.message);

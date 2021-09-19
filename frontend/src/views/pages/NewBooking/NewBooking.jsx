@@ -6,14 +6,17 @@ import { header } from './NewBooking.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import BookingForm from '../../components/forms/BookingForm';
-import { useCrud } from '../../../hooks/useCrud';
+import { useDoc } from '../../../state/state';
+import { userDoc } from '../../../state/docs/userDoc';
 import { authRequest } from '../../../hooks/util/authRequest';
 
 const NewBooking = () => {
+    const [user] = useDoc(userDoc);
+
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const history = useHistory();
 
-    const userWorkstation = useCrud('/api/user/workstation').data;
+    const userWorkstation = user?.currentRequestId?.allocatedWorkstationId;
     const userWorkstationName = userWorkstation?.name;
     const workstationId = userWorkstation?._id;
     const numGPUs = userWorkstation?.numGPUs;
