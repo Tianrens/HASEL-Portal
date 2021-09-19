@@ -28,11 +28,11 @@ Array [
           className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
         >
           <div
-            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+            className="MuiInputBase-root MuiOutlinedInput-root Mui-error Mui-error MuiInputBase-fullWidth MuiInputBase-formControl"
             onClick={[Function]}
           >
             <input
-              aria-invalid={false}
+              aria-invalid={true}
               autoFocus={false}
               className="MuiInputBase-input MuiOutlinedInput-input"
               disabled={false}
@@ -71,7 +71,11 @@ Array [
               </legend>
             </fieldset>
           </div>
-          
+          <p
+            className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required"
+          >
+            Start time must be after current time
+          </p>
         </div>
       </div>
       <div
@@ -91,11 +95,11 @@ Array [
           className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
         >
           <div
-            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+            className="MuiInputBase-root MuiOutlinedInput-root Mui-error Mui-error MuiInputBase-fullWidth MuiInputBase-formControl"
             onClick={[Function]}
           >
             <input
-              aria-invalid={false}
+              aria-invalid={true}
               autoFocus={false}
               className="MuiInputBase-input MuiOutlinedInput-input"
               disabled={false}
@@ -157,11 +161,11 @@ Array [
           className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
         >
           <div
-            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+            className="MuiInputBase-root MuiOutlinedInput-root Mui-error Mui-error MuiInputBase-fullWidth MuiInputBase-formControl"
             onClick={[Function]}
           >
             <input
-              aria-invalid={false}
+              aria-invalid={true}
               autoFocus={false}
               className="MuiInputBase-input MuiOutlinedInput-input"
               disabled={false}
@@ -200,7 +204,17 @@ Array [
               </legend>
             </fieldset>
           </div>
-          
+          <p
+            className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required"
+          >
+            <span
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "&#8203;",
+                }
+              }
+            />
+          </p>
         </div>
       </div>
       <div
@@ -220,11 +234,11 @@ Array [
           className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
         >
           <div
-            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+            className="MuiInputBase-root MuiOutlinedInput-root Mui-error Mui-error MuiInputBase-fullWidth MuiInputBase-formControl"
             onClick={[Function]}
           >
             <input
-              aria-invalid={false}
+              aria-invalid={true}
               autoFocus={false}
               className="MuiInputBase-input MuiOutlinedInput-input"
               disabled={false}

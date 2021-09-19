@@ -260,11 +260,11 @@ Array [
             className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
           >
             <div
-              className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+              className="MuiInputBase-root MuiOutlinedInput-root Mui-error Mui-error MuiInputBase-fullWidth MuiInputBase-formControl"
               onClick={[Function]}
             >
               <input
-                aria-invalid={false}
+                aria-invalid={true}
                 autoFocus={false}
                 className="MuiInputBase-input MuiOutlinedInput-input"
                 disabled={false}
@@ -303,7 +303,11 @@ Array [
                 </legend>
               </fieldset>
             </div>
-            
+            <p
+              className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required"
+            >
+              Start time must be after current time
+            </p>
           </div>
         </div>
         <div
@@ -323,11 +327,11 @@ Array [
             className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
           >
             <div
-              className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+              className="MuiInputBase-root MuiOutlinedInput-root Mui-error Mui-error MuiInputBase-fullWidth MuiInputBase-formControl"
               onClick={[Function]}
             >
               <input
-                aria-invalid={false}
+                aria-invalid={true}
                 autoFocus={false}
                 className="MuiInputBase-input MuiOutlinedInput-input"
                 disabled={false}
@@ -389,11 +393,11 @@ Array [
             className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
           >
             <div
-              className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+              className="MuiInputBase-root MuiOutlinedInput-root Mui-error Mui-error MuiInputBase-fullWidth MuiInputBase-formControl"
               onClick={[Function]}
             >
               <input
-                aria-invalid={false}
+                aria-invalid={true}
                 autoFocus={false}
                 className="MuiInputBase-input MuiOutlinedInput-input"
                 disabled={false}
@@ -432,7 +436,17 @@ Array [
                 </legend>
               </fieldset>
             </div>
-            
+            <p
+              className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required"
+            >
+              <span
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#8203;",
+                  }
+                }
+              />
+            </p>
           </div>
         </div>
         <div
@@ -452,11 +466,11 @@ Array [
             className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
           >
             <div
-              className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+              className="MuiInputBase-root MuiOutlinedInput-root Mui-error Mui-error MuiInputBase-fullWidth MuiInputBase-formControl"
               onClick={[Function]}
             >
               <input
-                aria-invalid={false}
+                aria-invalid={true}
                 autoFocus={false}
                 className="MuiInputBase-input MuiOutlinedInput-input"
                 disabled={false}
@@ -652,9 +666,11 @@ Array [
     <hr
       className="MuiDivider-root divider"
     />
-    <div>
+    <div
+      className="buttonContainer"
+    >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-contained button green"
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained button red"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -669,6 +685,40 @@ Array [
         onTouchMove={[Function]}
         onTouchStart={[Function]}
         tabIndex={0}
+        type="button"
+      >
+        <span
+          className="MuiButton-label"
+        >
+          <span
+            className="MuiButton-startIcon MuiButton-iconSizeMedium"
+          >
+            <span
+              aria-hidden={true}
+              className="material-icons MuiIcon-root"
+            >
+              close
+            </span>
+          </span>
+          Cancel
+        </span>
+      </button>
+      <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained button green Mui-disabled Mui-disabled"
+        disabled={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={-1}
         type="submit"
       >
         <span

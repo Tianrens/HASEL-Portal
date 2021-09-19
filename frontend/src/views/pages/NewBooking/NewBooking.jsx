@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Icon from '@material-ui/core/Icon';
 import { useSnackbar } from 'notistack';
-import { header } from './NewBooking.module.scss';
+import { header, buttonContainer } from './NewBooking.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import BookingForm from '../../components/forms/BookingForm';
@@ -62,12 +62,20 @@ const NewBooking = () => {
         <TopBarPageTemplate>
             <h2 className={header}>Create Booking - {userWorkstationName}</h2>
             <BookingForm updateBookingState={updateState} numGPUs={numGPUs} />
-            <div>
+            <div className={buttonContainer}>
+                <StyledButton
+                    color='red'
+                    icon={<Icon>close</Icon>}
+                    onClick={() => history.goBack()}
+                >
+                    Cancel
+                </StyledButton>
                 <StyledButton
                     color='green'
                     icon={<Icon>done</Icon>}
                     type='submit'
                     onClick={submitBooking}
+                    disabled={error}
                 >
                     Confirm
                 </StyledButton>

@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { React, useEffect, useState } from 'react';
 import {
     Checkbox,
@@ -23,8 +24,17 @@ const BookingForm = ({ updateBookingState, numGPUs, data }) => {
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
     const [selectedGPUs, setGPUs] = useState(data?.gpuIndices ?? []);
+    const [isActive, setActive] = useState(false);
     const noGPUSelected = selectedGPUs.length === 0;
-    const timingInvalid = getTimestamp(startDate, startTime) > getTimestamp(endDate, endTime);
+    const startBeforeEnd = getTimestamp(startDate, startTime) > getTimestamp(endDate, endTime);
+    const startBeforeNow = !data && getTimestamp(startDate, startTime) < dayjs().valueOf();
+    const timingInvalid = startBeforeEnd || startBeforeNow;
+    // eslint-disable-next-line no-nested-ternary
+    const errorMessage = startBeforeEnd
+        ? 'Start time must be before end time'
+        : startBeforeNow
+        ? 'Start time must be after current time'
+        : ' ';
 
     const handleSelect = (event, GPU) => {
         if (event.target.checked) {
@@ -34,12 +44,16 @@ const BookingForm = ({ updateBookingState, numGPUs, data }) => {
         }
     };
     useEffect(() => {
+        // Set start times to current time
+        setStartDate(dayjs().format('YYYY-MM-DD'));
+        setStartTime(dayjs().add(1, 'm').format('HH:mm'));
         if (data) {
             setStartDate(dayjs(data.startTimestamp).format('YYYY-MM-DD'));
             setStartTime(dayjs(data.startTimestamp).format('HH:mm'));
             setEndDate(dayjs(data.endTimestamp).format('YYYY-MM-DD'));
             setEndTime(dayjs(data.endTimestamp).format('HH:mm'));
             setGPUs(data.gpuIndices);
+            setActive(dayjs(data.startTimestamp).valueOf() < dayjs().valueOf());
         }
     }, [data]);
 
@@ -72,7 +86,8 @@ const BookingForm = ({ updateBookingState, numGPUs, data }) => {
                         value={startDate}
                         setValue={setStartDate}
                         error={timingInvalid}
-                        helperText={timingInvalid ? 'Start time must be before end time' : ''}
+                        helperText={errorMessage}
+                        disabled={isActive}
                     />
                     <TextField
                         title='Start Time'
@@ -80,6 +95,7 @@ const BookingForm = ({ updateBookingState, numGPUs, data }) => {
                         value={startTime}
                         error={timingInvalid}
                         setValue={setStartTime}
+                        disabled={isActive}
                     />
                 </div>
                 <div className={styles.inputContainer}>
@@ -90,7 +106,7 @@ const BookingForm = ({ updateBookingState, numGPUs, data }) => {
                         value={endDate}
                         setValue={setEndDate}
                         // For nicer alignment on desktop mode
-                        helperText={timingInvalid ? ' ' : ''}
+                        helperText={' '}
                     />
                     <TextField
                         title='End Time'
