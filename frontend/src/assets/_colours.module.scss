@@ -3,6 +3,8 @@ $secondaryBlue: #0080a7;
 $green: #43a047;
 $red: #d32f2f;
 $yellow: #fbc02d;
+$gray: #afafaf;
+$disabled: dimgray;
 $blackGradient: linear-gradient(
     135deg,
     rgb(29, 29, 29) 0%,
@@ -17,3 +19,10 @@ $blackPatternBgColor: #363636;
 $heading: #747778;
 $subHeading: lightgray;
 $body: #4a4c4c;
+
+:export {
+    primaryBlue: $primaryBlue;
+    secondaryBlue: $secondaryBlue;
+    green: $green;
+    gray: $gray;
+}

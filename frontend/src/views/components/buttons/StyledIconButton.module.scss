@@ -1,0 +1,13 @@
+@import './StyledButton.module';
+
+.iconButton {
+    @extend .button;
+    border-radius: 100px;
+    min-height: 1.5em;
+    margin: 0.2em;
+    padding: 0.2em 0.2em;
+}
+
+.disabled {
+    border-color: $disabled;
+}

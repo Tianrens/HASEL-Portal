@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LandingPage from './views/pages/LandingPage/LandingPage';
 import UserHomePage from './views/pages/UserHomepage/UserHomePage';
 import NewRequest from './views/pages/NewRequest/NewRequest';

@@ -1,16 +1,17 @@
-import { React, useState, useEffect } from 'react';
+import { React, useEffect, useState } from 'react';
 import {
-    FormGroup,
-    FormControl,
-    FormLabel,
-    FormControlLabel,
-    Divider,
     Checkbox,
+    Divider,
+    FormControl,
+    FormControlLabel,
+    FormGroup,
     FormHelperText,
+    FormLabel,
 } from '@material-ui/core';
 import dayjs from 'dayjs';
 import styles from './BookingForm.module.scss';
 import TextField from '../TextField/CustomTextField';
+import GpuBookingGanttZoomable from '../gpuBookingGantt/GpuBookingGanttZoomable';
 
 const getTimestamp = (date, time) => dayjs(`${date}T${time}:00`).valueOf();
 
@@ -121,7 +122,9 @@ const BookingForm = ({ updateBookingState, numGPUs, data }) => {
                 </div>
             </form>
             <Divider className={styles.divider} />
-            <div className={styles.chartContainer}>CHART PLACEHOLDER</div>
+            <div className={styles.gantt}>
+                <GpuBookingGanttZoomable />
+            </div>
             <Divider className={styles.divider} />
         </>
     );

@@ -1,4 +1,4 @@
-@import '../../../assets/colours';
+@import '../../../assets/colours.module';
 @import '../../../assets/responsiveDesignHelpers';
 
 .container {
@@ -9,8 +9,12 @@
     color: $heading;
 }
 
-.content, .workstationHeader, .workstationPlaceholder, .bookingInfo, 
-.bookingInfoContent, .bookingInfoIcons {
+.content,
+.workstationHeader,
+.workstationPlaceholder,
+.bookingInfo,
+.bookingInfoContent,
+.bookingInfoIcons {
     display: flex;
 }
 
@@ -26,13 +30,6 @@
 .workstationHeader {
     flex-direction: row;
     justify-content: space-between;
-}
-
-.workstationPlaceholder {
-    height: 20rem;
-    align-items: center;
-    justify-content: center;
-    background-color: lightgrey;
 }
 
 .bookingInfo {

@@ -1,5 +1,5 @@
 @import '../../../assets/responsiveDesignHelpers';
-@import '../../../assets/colours';
+@import '../../../assets/colours.module';
 
 .form {
     display: flex;
@@ -27,6 +27,10 @@
 .divider {
     width: 100%;
     margin: 3rem 0;
+}
+
+.gantt {
+    max-width: 100%;
 }
 
 @include responsive(tablet) {

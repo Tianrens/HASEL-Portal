@@ -1,4 +1,4 @@
-@import '../../../assets/colours';
+@import '../../../assets/colours.module';
 
 @mixin theme($theme: $primaryBlue) {
     background-color: $theme;
