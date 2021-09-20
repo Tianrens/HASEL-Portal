@@ -28,7 +28,7 @@ function UserHomePage() {
             `/api/workstation/${workstationId}/booking/ACTIVE?page=1&limit=1000`,
         );
         const allBookings = response.data.bookings;
-        const userBookingData = allBookings.filter((booking) => booking.userId === user._id);
+        const userBookingData = allBookings.filter((booking) => booking.userId._id === user._id);
         setBookingsData(allBookings);
         setUserBookings(userBookingData);
     }, [user._id, workstationId]);

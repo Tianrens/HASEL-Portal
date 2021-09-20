@@ -36,6 +36,7 @@
     justify-content: space-between;
     padding: 1rem;
     column-gap: 2rem;
+    border: 1px solid $subHeading;
 }
 
 .bookingInfoContent {
@@ -45,6 +46,10 @@
 
 .bookingInfoIcons {
     align-items: center;
+}
+
+.bookingInfoContent > div {
+    flex: 1 0;
 }
 
 .bookingInfoIcon {
@@ -71,5 +76,10 @@
     .bookingInfoContent {
         flex-direction: column;
         row-gap: 1rem;
+    }
+
+    .bookingInfoIcons {
+        flex-direction: column;
+        justify-content: space-around;
     }
 }
