@@ -1,16 +1,18 @@
-import { retrieveWorkstationById } from '../db/dao/workstationDao';
+import { retrieveUserById } from '../db/dao/userDao';
 import { sendEmail } from './sendEmail';
 
 export async function sendRequestDeniedEmail(recipientEmail, request) {
-    const emailSubject = 'Hasel Lab Request Denied';
-    const workstation = await retrieveWorkstationById(
-        request.allocatedWorkstationId,
-    );
-    const workstationName = workstation.name;
+    const emailSubject = 'Hasel Portal Request Denied';
+    const user = await retrieveUserById(request.userId);
+    const {firstName} = user;
+
 
     const message =
-        `Your Hasel Lab Request for ${workstationName} has been denied. ` +
-        'Please submit another request or talk to a Hasel lab technician';
+        `Hi ${firstName},\n\n` +
+        'Your Hasel Portal Request has been denied.\n\n' +
+        'Best regards,\n' +
+        'Hasel Portal Team';
 
+    console.log(message);
     sendEmail(recipientEmail, emailSubject, message);
 }
