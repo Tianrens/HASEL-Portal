@@ -4,3 +4,5 @@ export { createWorkstationUser } from './createWorkstationUser';
 export { deleteWorkstationUser } from './deleteWorkstationUser';
 export { lockWorkstationUser } from './lockWorkstationUser';
 export { unlockWorkstationUser } from './unlockWorkstationUser';
+export { getLockedUsers } from './getLockedUsers';
+export { checkUserExists } from './checkUserExists';
