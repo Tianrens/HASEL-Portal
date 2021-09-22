@@ -1,11 +1,13 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import {
+    countUsers,
     createUser,
     retrieveAllUsers,
     retrieveUserByAuthId,
     retrieveUserById,
     retrieveUserByType,
+    retrieveUsers,
     updateUser,
 } from '../userDao';
 import { User } from '../../schemas/userSchema';
@@ -196,4 +198,73 @@ it('try to retrieve user with type', async () => {
     expect(studentUsers).toBeTruthy();
     expect(studentUsers).toHaveLength(1);
     expectDbUserMatchWithUser(studentUsers[0], user1);
+});
+
+it('count all users', async () => {
+    const count = await countUsers();
+
+    expect(count).toBeTruthy();
+    expect(count).toEqual(2);
+});
+
+it('count all users when there are no users', async () => {
+    const usersColl = mongoose.connection.db.collection('users');
+    usersColl.deleteMany();
+
+    const count = await countUsers();
+
+    expect(count).toEqual(0);
+});
+
+it('retrieve all users', async () => {
+    const page = 1;
+    const limit = 3;
+
+    const users = await retrieveUsers(page, limit);
+
+    expect(users).toBeTruthy();
+    expect(users).toHaveLength(2);
+
+    expectDbUserMatchWithUser(users[0], user2);
+    expectDbUserMatchWithUser(users[1], user1);
+});
+
+it ('retrieve users with pagination', async () => {
+    let page = 1;
+    const limit = 1;
+
+    const firstPageUsers = await retrieveUsers(page, limit);
+    
+    expect(firstPageUsers).toBeTruthy();
+    expect(firstPageUsers).toHaveLength(1);
+    expectDbUserMatchWithUser(firstPageUsers[0], user2);
+
+    page = 2;
+    const secondPageUsers = await retrieveUsers(page, limit);
+
+    expect(secondPageUsers).toBeTruthy();
+    expect(secondPageUsers).toHaveLength(1);
+    expectDbUserMatchWithUser(secondPageUsers[0], user1);
+});
+
+it ('retrieve users with page more than the maximum number of pages', async () => {
+    const page = 3;
+    const limit = 2;
+
+    const users = await retrieveUsers(page, limit);
+
+    expect(users).toHaveLength(0);
+});
+
+it('retrieve users with a larger limit than the amount of users', async () => {
+    const page = 1;
+    const limit = 5;
+
+    const users = await retrieveUsers(page, limit);
+
+    expect(users).toBeTruthy();
+    expect(users).toHaveLength(2);
+
+    expectDbUserMatchWithUser(users[0], user2);
+    expectDbUserMatchWithUser(users[1], user1);
 });

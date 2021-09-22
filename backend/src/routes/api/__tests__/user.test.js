@@ -257,3 +257,124 @@ it("retrieve user's workstation with declined request", async () => {
     expect(response).toBeDefined();
     expect(response.status).toEqual(HTTP.BAD_REQUEST);
 });
+
+it('retrieve all users with admin', async() => {
+    const page = 1;
+    const limit = 3;
+
+    const response = await authRequest(
+        `${userApiUrl}/?page=${page}&limit=${limit}`,
+        'GET',
+        adminUser.authUserId
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.OK);
+
+    expect(response.data.pageCount).toEqual(1);
+    expect(response.data.users).toHaveLength(3);
+    expectResponseUserSameAsRequestUser(response.data.users[0], superAdminUser);
+    expectResponseUserSameAsRequestUser(response.data.users[1], user1);
+    expectResponseUserSameAsRequestUser(response.data.users[2], adminUser);
+});
+
+it('retrieve all users with superadmin', async() => {
+    const page = 1;
+    const limit = 3;
+
+    const response = await authRequest(
+        `${userApiUrl}/?page=${page}&limit=${limit}`,
+        'GET',
+        superAdminUser.authUserId
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.OK);
+
+    expect(response.data.pageCount).toEqual(1);
+    expect(response.data.users).toHaveLength(3);
+    expectResponseUserSameAsRequestUser(response.data.users[0], superAdminUser);
+    expectResponseUserSameAsRequestUser(response.data.users[1], user1);
+    expectResponseUserSameAsRequestUser(response.data.users[2], adminUser);
+});
+
+it('retrieve all users with invalid permissions', async() => {
+    const page = 1;
+    const limit = 3;
+
+    const response = await authRequest(
+        `${userApiUrl}/?page=${page}&limit=${limit}`,
+        'GET',
+        user1.authUserId
+    );
+
+    expect(response.status).toEqual(HTTP.FORBIDDEN);
+});
+
+it('retrieve users with pagination', async () => {
+    let page = 1;
+    const limit = 2;
+
+    const firstPageResponse = await authRequest(
+        `${userApiUrl}/?page=${page}&limit=${limit}`,
+        'GET',
+        adminUser.authUserId
+    );
+
+    expect(firstPageResponse).toBeDefined();
+    expect(firstPageResponse.status).toEqual(HTTP.OK);
+
+    expect(firstPageResponse.data.pageCount).toEqual(2);
+    expect(firstPageResponse.data.users).toHaveLength(2);
+    expectResponseUserSameAsRequestUser(firstPageResponse.data.users[0], superAdminUser);
+    expectResponseUserSameAsRequestUser(firstPageResponse.data.users[1], user1);
+
+    page = 2;
+    const secondPageResponse = await authRequest(
+        `${userApiUrl}/?page=${page}&limit=${limit}`,
+        'GET',
+        adminUser.authUserId
+    );
+
+    expect(secondPageResponse).toBeDefined();
+    expect(secondPageResponse.status).toEqual(HTTP.OK);
+
+    expect(secondPageResponse.data.pageCount).toEqual(2);
+    expect(secondPageResponse.data.users).toHaveLength(1);
+    expectResponseUserSameAsRequestUser(secondPageResponse.data.users[0], adminUser);
+});
+
+it('retrieve users with page more than the maximum number of pages', async () => {
+    const page = 3;
+    const limit = 2;
+
+    const response = await authRequest(
+        `${userApiUrl}/?page=${page}&limit=${limit}`,
+        'GET',
+        adminUser.authUserId
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.OK);
+    expect(response.data.users).toHaveLength(0);
+});
+
+it('retrieve users with a larger limit than the amount of users', async () => {
+    const page = 1;
+    const limit = 5;
+
+    const response = await authRequest(
+        `${userApiUrl}/?page=${page}&limit=${limit}`,
+        'GET',
+        adminUser.authUserId
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.OK);
+
+    expect(response.data.pageCount).toEqual(1);
+    expect(response.data.users).toHaveLength(3);
+    expectResponseUserSameAsRequestUser(response.data.users[0], superAdminUser);
+    expectResponseUserSameAsRequestUser(response.data.users[1], user1);
+    expectResponseUserSameAsRequestUser(response.data.users[2], adminUser); 
+});

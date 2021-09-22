@@ -1,8 +1,10 @@
 import express from 'express';
 import {
+    countUsers,
     createUser,
     retrieveUserByAuthId,
     retrieveUserById,
+    retrieveUsers,
 } from '../../db/dao/userDao';
 import { checkCorrectParams } from './util/checkCorrectParams';
 import HTTP from './util/http_codes';
@@ -11,6 +13,8 @@ import { checkAdmin } from './util/userPerms';
 import { retrieveWorkstationOfUser } from '../../db/dao/workstationDao';
 
 const router = express.Router();
+
+const BASE_INT_VALUE = 10;
 
 /** POST a new user from Firebase */
 router.post(
@@ -39,10 +43,22 @@ router.post(
 
 /** GET all users */
 router.get('/', getUser, checkAdmin, async (req, res) => {
-    // TODO: GET all users
-    console.log(req.originalUrl);
+    try {
+        const page = parseInt(req.query.page, BASE_INT_VALUE);
+        const limit = parseInt(req.query.limit, BASE_INT_VALUE);
 
-    return res.status(HTTP.NOT_IMPLEMENTED).send('Unimplemented');
+        const count = await countUsers();
+        const pageCount = Math.ceil(count / limit);
+        const users = await retrieveUsers(page, limit);
+        
+        return res.status(HTTP.OK).json({
+            count,
+            pageCount,
+            users,
+        });
+    } catch (err) {
+        return res.status(HTTP.BAD_REQUEST).json('Bad request');
+    }
 });
 
 /** PUT edit Firebase information */

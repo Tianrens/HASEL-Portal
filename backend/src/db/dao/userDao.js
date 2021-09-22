@@ -1,5 +1,9 @@
 import { User } from '../schemas/userSchema';
 
+async function countUsers() {
+    return User.countDocuments();
+}
+
 async function createUser(user) {
     const dbUser = new User(user);
     await dbUser.save();
@@ -9,6 +13,13 @@ async function createUser(user) {
 
 async function retrieveAllUsers() {
     return User.find({});
+}
+
+async function retrieveUsers(page, limit) {
+    return User.find()
+        .sort({ lastName: 1 }) // sort alphabetically by last name
+        .skip(page > 0 ? (page - 1) * limit : 0)
+        .limit(limit);
 }
 
 async function retrieveUserById(userId) {
@@ -36,9 +47,11 @@ async function retrieveUserByType(userType) {
 }
 
 export {
+    countUsers,
     createUser,
     retrieveAllUsers,
     retrieveUserById,
+    retrieveUsers,
     updateUser,
     retrieveUserByAuthId,
     retrieveUserByType,

@@ -13,6 +13,5 @@ export async function sendRequestDeniedEmail(recipientEmail, request) {
         'Best regards,\n' +
         'Hasel Portal Team';
 
-    console.log(message);
     sendEmail(recipientEmail, emailSubject, message);
 }
