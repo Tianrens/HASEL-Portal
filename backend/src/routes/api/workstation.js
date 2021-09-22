@@ -5,6 +5,7 @@ import {
     createWorkstation,
     retrieveAllWorkstations,
     retrieveWorkstationById,
+    updateWorkstation,
     deleteWorkstation,
 } from '../../db/dao/workstationDao';
 import { retrieveBookingsByWorkstation } from '../../db/dao/bookingDao';
@@ -114,23 +115,59 @@ router.get(
 );
 
 /** PUT edit a workstation */
-router.put('/', (req, res) => {
-    // TODO: PUT edit a workstation
-    console.log(req.originalUrl);
+router.put(
+    '/:workstationId',
+    getUser,
+    checkAdmin,
+    getWorkstation,
+    checkCorrectParams([
+        'name',
+        'host',
+        'location',
+        'numGPUs',
+        'gpuDescription',
+        'ramDescription',
+        'cpuDescription',
+    ]),
+    async (req, res) => {
+        const { workstationId } = req.params;
 
-    return res.status(HTTP.NOT_IMPLEMENTED).send('Unimplemented');
-});
+        const newWorkstation = {
+            name: req.body.name,
+            host: req.body.host,
+            location: req.body.location,
+            numGPUs: req.body.numGPUs,
+            gpuDescription: req.body.gpuDescription,
+            ramDescription: req.body.ramDescription,
+            cpuDescription: req.body.cpuDescription,
+        };
+
+        try {
+            await updateWorkstation(workstationId, newWorkstation);
+        } catch (err) {
+            return res.status(HTTP.INTERNAL_SERVER_ERROR).send(err.message);
+        }
+
+        return res.status(HTTP.NO_CONTENT).send('Successful');
+    },
+);
 
 /** DELETE a workstation */
-router.delete('/:workstationId', getUser, checkAdmin, getWorkstation, async (req, res) => {
-    const { workstation } = req;
-    
-    try {
-        await deleteWorkstation(workstation._id);
-        return res.status(HTTP.OK).send();
-    } catch (err) {
-        return res.status(HTTP.INTERNAL_SERVER_ERROR).send(err.message);
-    }
-});
+router.delete(
+    '/:workstationId',
+    getUser,
+    checkAdmin,
+    getWorkstation,
+    async (req, res) => {
+        const { workstation } = req;
+
+        try {
+            await deleteWorkstation(workstation._id);
+            return res.status(HTTP.NO_CONTENT).send();
+        } catch (err) {
+            return res.status(HTTP.INTERNAL_SERVER_ERROR).send(err.message);
+        }
+    },
+);
 
 export default router;

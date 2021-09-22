@@ -253,6 +253,17 @@ function expectDbBookingMatchWithBooking(responseBooking, requestBooking) {
     );
 }
 
+function expectWorkstationUpdatedCorrectly(originalWorkstation, newWorkstation, updatedWorkstation) {
+    expect(originalWorkstation._id).toEqual(updatedWorkstation._id);
+    expect(updatedWorkstation.name).toEqual(newWorkstation.name);
+    expect(updatedWorkstation.host).toEqual(newWorkstation.host);
+    expect(updatedWorkstation.location).toEqual(newWorkstation.location);
+    expect(updatedWorkstation.numGPUs).toEqual(newWorkstation.numGPUs);
+    expect(updatedWorkstation.gpuDescription).toEqual(newWorkstation.gpuDescription);
+    expect(updatedWorkstation.ramDescription).toEqual(newWorkstation.ramDescription);
+    expect(updatedWorkstation.cpuDescription).toEqual(newWorkstation.cpuDescription);
+}
+
 it('create new workstation valid permissions', async () => {
     const response = await authRequest(
         WORKSTATION_API_URL,
@@ -504,6 +515,69 @@ it('Get bookings for a specified workstation, user is NOT admin and workstation 
     expect(response.status).toEqual(HTTP.FORBIDDEN);
 });
 
+it('update workstation as admin', async () => {
+    const newWorkstation = workstation4;
+    const response = await authRequest(
+        `${WORKSTATION_API_URL}/${workstation1._id}`,
+        'PUT',
+        ADMIN_TOKEN,
+        newWorkstation,
+    );
+
+    expect(response.status).toEqual(HTTP.NO_CONTENT);
+    expect(response).toBeDefined();
+
+    const updatedWorkstation = await Workstation.findById(workstation1._id);
+    expectWorkstationUpdatedCorrectly(workstation1, newWorkstation, updatedWorkstation);
+
+    const workstations = await Workstation.find({});
+    expect(workstations.length).toEqual(3);
+});
+
+it('update workstation as non-admin', async () => {
+    const newWorkstation = workstation4;
+    const response = await authRequest(
+        `${WORKSTATION_API_URL}/${workstation1._id}`,
+        'PUT',
+        UNDERGRAD_TOKEN,
+        newWorkstation,
+    );
+
+    expect(response.status).toEqual(HTTP.FORBIDDEN);
+    expect(response).toBeDefined();
+
+    const workstations = await Workstation.find({});
+    expect(workstations.length).toEqual(3);
+
+    const updatedWorkstation = await Workstation.findById(workstation1._id);
+    expectDbWorkstationMatchWithWorkstation(workstation1, updatedWorkstation);
+});
+
+it('does not update non existing workstation as admin', async () => {
+    const newWorkstation = new Workstation({
+        name: 'Should not exist',
+        host: 'Should not exist',
+        location: 'Should not exist',
+        numGPUs: 0,
+        gpuDescription: 'Should not exist',
+        ramDescription: 'Should not exist',
+        cpuDescription: 'Should not exist',
+    });
+
+    const response = await authRequest(
+        `${WORKSTATION_API_URL}/${workstation1._id}`,
+        'PUT',
+        ADMIN_TOKEN,
+        newWorkstation,
+    );
+
+    expect(response.status).toEqual(HTTP.BAD_REQUEST);
+    expect(response).toBeDefined();
+
+    const workstations = await Workstation.find({});
+    expect(workstations.length).toEqual(3);
+});
+
 it('delete workstation that exists as admin', async () => {
     const response = await authRequest(
         `${WORKSTATION_API_URL}/${workstation1._id}`,
@@ -511,7 +585,7 @@ it('delete workstation that exists as admin', async () => {
         ADMIN_TOKEN,
     );
 
-    expect(response.status).toEqual(HTTP.OK);
+    expect(response.status).toEqual(HTTP.NO_CONTENT);
 
     const workstations = await Workstation.find({});
 

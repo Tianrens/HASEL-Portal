@@ -32,6 +32,10 @@ async function retrieveWorkstationOfUser(userId) {
     return null;
 }
 
+async function updateWorkstation(workstationId, newWorkstation) {
+    await Workstation.findByIdAndUpdate(workstationId, newWorkstation, { new: true, useFindAndModify: false });
+}
+
 async function deleteWorkstation(workstationId) {
     await Workstation.deleteOne({ _id: workstationId });
 }
@@ -41,5 +45,6 @@ export {
     retrieveAllWorkstations,
     retrieveWorkstationById,
     retrieveWorkstationOfUser,
+    updateWorkstation,
     deleteWorkstation,
 };

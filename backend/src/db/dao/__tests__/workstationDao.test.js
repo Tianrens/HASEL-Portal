@@ -5,6 +5,7 @@ import {
     deleteWorkstation,
     retrieveAllWorkstations,
     retrieveWorkstationOfUser,
+    updateWorkstation,
 } from '../workstationDao';
 import { Workstation } from '../../schemas/workstationSchema';
 import { createSignUpRequest } from '../signUpRequestDao';
@@ -164,6 +165,23 @@ it("retrieve user's workstation with declined request", async () => {
     expect(userWorkstation).toBeNull();
 });
 
+it('update workstation', async () => {
+    const newWorkstation = {
+        name: 'Deep Learning Machine 3',
+        host: '192.168.1.101',
+        location: 'Level 9 Building 405',
+        numGPUs: 4,
+        gpuDescription: 'Nvidia GeForce RTX 3080',
+        ramDescription: 'Corsair Dominator Platinum RGB 32GB',
+        cpuDescription: 'Intel Xeon Silver 4210R',
+    };
+
+    await updateWorkstation(workstation1._id, newWorkstation);
+
+    const updatedWorkstation = await Workstation.findById(workstation1._id);
+    expectDbWorkstationMatchWithWorkstation(updatedWorkstation, newWorkstation);
+});
+
 it('delete workstation', async () => {
     await deleteWorkstation(workstation2._id);
     const workstations = await Workstation.find({});
@@ -172,4 +190,7 @@ it('delete workstation', async () => {
     expect(workstations).toHaveLength(1);
 
     expectDbWorkstationMatchWithWorkstation(workstations[0], workstation1);
+
+    const deletedWorkstation = await Workstation.findById(workstation2._id);
+    expect(deletedWorkstation).toBeNull();
 });
