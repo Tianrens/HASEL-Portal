@@ -9,7 +9,6 @@ import {
     updateBooking,
 } from '../../db/dao/bookingDao';
 import { checkCorrectParams } from './util/checkCorrectParams';
-import { retrieveUserByAuthId } from '../../db/dao/userDao';
 
 const router = express.Router();
 
@@ -19,12 +18,11 @@ router.post(
     '/',
     getUser,
     userHasBookingPerms,
-    checkCorrectParams(['startTimestamp', 'endTimestamp', 'gpuIndices']),
+    checkCorrectParams(['workstationId', 'startTimestamp', 'endTimestamp', 'gpuIndices']),
     async (req, res) => {
-        const user = await retrieveUserByAuthId(req.user.authUserId);
         try {
             const booking = await createBooking({
-                workstationId: user.currentRequestId.allocatedWorkstationId._id,
+                workstationId: req.body.workstationId,
                 userId: req.user._id,
                 startTimestamp: req.body.startTimestamp,
                 endTimestamp: req.body.endTimestamp,
