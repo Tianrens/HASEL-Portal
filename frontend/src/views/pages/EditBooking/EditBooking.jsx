@@ -3,16 +3,12 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import { useCrud } from '../../../hooks/useCrud';
-import { useDoc } from '../../../state/state';
-import { userDoc } from '../../../state/docs/userDoc';
 import { header } from './EditBooking.module.scss';
 import BottomButtons from '../../components/buttons/BottomButtons';
 import { authRequest } from '../../../hooks/util/authRequest';
 import BookingForm from '../../components/forms/BookingForm';
 
 const EditBooking = () => {
-    const [user] = useDoc(userDoc);
-
     const [bookingState, setBookingState] = useState({});
     const [error, setError] = useState(true);
 
@@ -38,7 +34,7 @@ const EditBooking = () => {
     const { bookingId } = useParams();
     const booking = useCrud(`/api/booking/${bookingId}`).data;
 
-    const userWorkstation = user?.currentRequestId?.allocatedWorkstationId;
+    const userWorkstation = useCrud(`/api/workstation/${booking ? booking?.workstationId : ''}`).data; // avoids sending null to backend
     const userWorkstationName = userWorkstation?.name;
     const numGPUs = userWorkstation?.numGPUs;
 

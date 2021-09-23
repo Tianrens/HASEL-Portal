@@ -52,7 +52,7 @@ function UserHomePage() {
                             <StyledButton
                                 type='submit'
                                 icon={<Icon>add</Icon>}
-                                onClick={() => history.push('/new-booking')}
+                                onClick={() => history.push(`/new-booking/workstation/${workstationId}`)}
                             >
                                 Create Booking
                             </StyledButton>

@@ -37,6 +37,7 @@ function App() {
 
     const SuperAdminRoutes = () => (
         <Switch>
+            <Route path='/new-booking/workstation/:workstationId' component={NewBooking} />
             <Route exact path='/booking/:bookingId' component={EditBooking} />
             <Route exact path='/request/:requestId' component={SingleRequest} />
             <Route exact path='/requests' component={ViewRequests} />
@@ -51,6 +52,7 @@ function App() {
         <Switch>
             <Route exact path='/user' component={ProfilePage} />
             <Route exact path='/users/:userId' component={ViewProfile} />
+            <Route path='/new-booking/workstation/:workstationId' component={NewBooking} />
             <Route exact path='/booking/:bookingId' component={EditBooking} />
             <Route exact path='/workstation/:workstationId/booking' component={ViewWorkstationBookings} />
             <Route component={ViewWorkstations} />
@@ -74,7 +76,7 @@ function App() {
     const WorkstationAccessRoutes = () => (
         <Switch>
             <Route exact path='/booking/:bookingId' component={EditBooking} />
-            <Route path='/new-booking' component={NewBooking} />
+            <Route path='/new-booking/workstation/:workstationId' component={NewBooking} />
             <Route exact path='/user' component={ProfilePage} />
             <Route path='/' component={UserHomePage} />
             <Route component={UserHomePage} />

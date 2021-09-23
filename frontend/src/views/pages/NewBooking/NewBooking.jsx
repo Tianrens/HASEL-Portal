@@ -1,25 +1,25 @@
 import { React, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import Icon from '@material-ui/core/Icon';
 import { useSnackbar } from 'notistack';
 import { header, buttonContainer } from './NewBooking.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import BookingForm from '../../components/forms/BookingForm';
-import { useDoc } from '../../../state/state';
-import { userDoc } from '../../../state/docs/userDoc';
 import { authRequest } from '../../../hooks/util/authRequest';
+import { useCrud } from '../../../hooks/useCrud';
 
 const NewBooking = () => {
-    const [user] = useDoc(userDoc);
+    const { workstationId } = useParams();
 
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const history = useHistory();
 
-    const userWorkstation = user?.currentRequestId?.allocatedWorkstationId;
+    const userWorkstation = useCrud(`/api/workstation/${workstationId}`).data;
+
     const userWorkstationName = userWorkstation?.name;
-    const workstationId = userWorkstation?._id;
     const numGPUs = userWorkstation?.numGPUs;
+
     const [bookingState, setBookingState] = useState({});
     const [error, setError] = useState(true);
 
