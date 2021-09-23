@@ -3,8 +3,7 @@ import { React } from 'react';
 import usePagination from '../../../hooks/usePagination';
 import StyledTable from './StyledTable';
 
-const TableWithPagination = ({ endpoint, rowProp, ...props }) => {
-    const rowsPerPage = 2;
+const TableWithPagination = ({ endpoint, rowProp, rowsPerPage = 10, ...props }) => {
     const { data, total, isLoading, page, setPage } = usePagination(endpoint, [], rowsPerPage);
     const handleChangePage = (event, newPage) => {
         setPage(newPage);

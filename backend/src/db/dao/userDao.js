@@ -19,7 +19,8 @@ async function retrieveUsers(page, limit) {
     return User.find()
         .sort({ lastName: 1 }) // sort alphabetically by last name
         .skip(page > 0 ? (page - 1) * limit : 0)
-        .limit(limit);
+        .limit(limit)
+        .populate('currentRequestId');
 }
 
 async function retrieveUserById(userId) {

@@ -50,7 +50,7 @@ router.get('/', getUser, checkAdmin, async (req, res) => {
         const count = await countUsers();
         const pageCount = Math.ceil(count / limit);
         const users = await retrieveUsers(page, limit);
-        
+
         return res.status(HTTP.OK).json({
             count,
             pageCount,
