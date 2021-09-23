@@ -15,14 +15,19 @@ export function sendEmail(
     }
 
     const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.EMAIL_ADDRESS,
-            pass: process.env.EMAIL_PASSWORD,
+        service: process.env.EMAIL_SERVICE,
+        secure: false,
+        port: 25,
+        tls: {
+            rejectUnauthorized: false,
         },
     });
 
     const mailOptions = {
+        from: {
+            name: process.env.EMAIL_NAME,
+            address: process.env.EMAIL_ADDRESS,
+        },
         to: recipientEmail,
         subject: emailSubject,
         text: emailText,
