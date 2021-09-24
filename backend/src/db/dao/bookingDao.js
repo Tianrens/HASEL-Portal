@@ -18,7 +18,7 @@ async function isBookingGPUValid(booking) {
 
 async function isBookingTimeValid(booking) {
     // Check if booking has no conflicts
-    const numConflicts = await Booking.count({
+    const numConflicts = await Booking.countDocuments({
         _id: { $ne: booking._id },
         workstationId: booking.workstationId,
         gpuIndices: { $in: booking.gpuIndices },

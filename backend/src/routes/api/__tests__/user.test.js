@@ -49,11 +49,11 @@ beforeAll(async () => {
  * Before each test, intialize the database with some data
  */
 beforeEach(async () => {
-    const usersColl = await mongoose.connection.db.createCollection('users');
-    const workstationsColl = await mongoose.connection.db.createCollection(
+    const usersColl = await mongoose.connection.db.collection('users');
+    const workstationsColl = await mongoose.connection.db.collection(
         'workstations',
     );
-    await mongoose.connection.db.createCollection('signuprequests');
+    await mongoose.connection.db.collection('signuprequests');
 
     user1 = new User({
         email: 'hungrymilk@auckland.ac.nz',
@@ -258,14 +258,14 @@ it("retrieve user's workstation with declined request", async () => {
     expect(response.status).toEqual(HTTP.BAD_REQUEST);
 });
 
-it('retrieve all users with admin', async() => {
+it('retrieve all users with admin', async () => {
     const page = 1;
     const limit = 3;
 
     const response = await authRequest(
         `${userApiUrl}/?page=${page}&limit=${limit}`,
         'GET',
-        adminUser.authUserId
+        adminUser.authUserId,
     );
 
     expect(response).toBeDefined();
@@ -278,14 +278,14 @@ it('retrieve all users with admin', async() => {
     expectResponseUserSameAsRequestUser(response.data.users[2], adminUser);
 });
 
-it('retrieve all users with superadmin', async() => {
+it('retrieve all users with superadmin', async () => {
     const page = 1;
     const limit = 3;
 
     const response = await authRequest(
         `${userApiUrl}/?page=${page}&limit=${limit}`,
         'GET',
-        superAdminUser.authUserId
+        superAdminUser.authUserId,
     );
 
     expect(response).toBeDefined();
@@ -298,14 +298,14 @@ it('retrieve all users with superadmin', async() => {
     expectResponseUserSameAsRequestUser(response.data.users[2], adminUser);
 });
 
-it('retrieve all users with invalid permissions', async() => {
+it('retrieve all users with invalid permissions', async () => {
     const page = 1;
     const limit = 3;
 
     const response = await authRequest(
         `${userApiUrl}/?page=${page}&limit=${limit}`,
         'GET',
-        user1.authUserId
+        user1.authUserId,
     );
 
     expect(response.status).toEqual(HTTP.FORBIDDEN);
@@ -318,7 +318,7 @@ it('retrieve users with pagination', async () => {
     const firstPageResponse = await authRequest(
         `${userApiUrl}/?page=${page}&limit=${limit}`,
         'GET',
-        adminUser.authUserId
+        adminUser.authUserId,
     );
 
     expect(firstPageResponse).toBeDefined();
@@ -326,14 +326,17 @@ it('retrieve users with pagination', async () => {
 
     expect(firstPageResponse.data.pageCount).toEqual(2);
     expect(firstPageResponse.data.users).toHaveLength(2);
-    expectResponseUserSameAsRequestUser(firstPageResponse.data.users[0], superAdminUser);
+    expectResponseUserSameAsRequestUser(
+        firstPageResponse.data.users[0],
+        superAdminUser,
+    );
     expectResponseUserSameAsRequestUser(firstPageResponse.data.users[1], user1);
 
     page = 2;
     const secondPageResponse = await authRequest(
         `${userApiUrl}/?page=${page}&limit=${limit}`,
         'GET',
-        adminUser.authUserId
+        adminUser.authUserId,
     );
 
     expect(secondPageResponse).toBeDefined();
@@ -341,7 +344,10 @@ it('retrieve users with pagination', async () => {
 
     expect(secondPageResponse.data.pageCount).toEqual(2);
     expect(secondPageResponse.data.users).toHaveLength(1);
-    expectResponseUserSameAsRequestUser(secondPageResponse.data.users[0], adminUser);
+    expectResponseUserSameAsRequestUser(
+        secondPageResponse.data.users[0],
+        adminUser,
+    );
 });
 
 it('retrieve users with page more than the maximum number of pages', async () => {
@@ -351,7 +357,7 @@ it('retrieve users with page more than the maximum number of pages', async () =>
     const response = await authRequest(
         `${userApiUrl}/?page=${page}&limit=${limit}`,
         'GET',
-        adminUser.authUserId
+        adminUser.authUserId,
     );
 
     expect(response).toBeDefined();
@@ -366,7 +372,7 @@ it('retrieve users with a larger limit than the amount of users', async () => {
     const response = await authRequest(
         `${userApiUrl}/?page=${page}&limit=${limit}`,
         'GET',
-        adminUser.authUserId
+        adminUser.authUserId,
     );
 
     expect(response).toBeDefined();
@@ -376,5 +382,5 @@ it('retrieve users with a larger limit than the amount of users', async () => {
     expect(response.data.users).toHaveLength(3);
     expectResponseUserSameAsRequestUser(response.data.users[0], superAdminUser);
     expectResponseUserSameAsRequestUser(response.data.users[1], user1);
-    expectResponseUserSameAsRequestUser(response.data.users[2], adminUser); 
+    expectResponseUserSameAsRequestUser(response.data.users[2], adminUser);
 });
