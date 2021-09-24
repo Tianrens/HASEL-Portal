@@ -61,7 +61,11 @@ const NewBooking = () => {
     return (
         <TopBarPageTemplate>
             <h2 className={header}>Create Booking - {userWorkstationName}</h2>
-            <BookingForm updateBookingState={updateState} numGPUs={numGPUs} />
+            <BookingForm
+                updateBookingState={updateState}
+                numGPUs={numGPUs}
+                workstationId={workstationId}
+            />
             <div className={buttonContainer}>
                 <StyledButton
                     color='red'

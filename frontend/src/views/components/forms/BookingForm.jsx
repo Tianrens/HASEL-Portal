@@ -16,7 +16,7 @@ import GpuBookingGanttZoomable from '../gpuBookingGantt/GpuBookingGanttZoomable'
 
 const getTimestamp = (date, time) => dayjs(`${date}T${time}:00`).valueOf();
 
-const BookingForm = ({ updateBookingState, numGPUs, data }) => {
+const BookingForm = ({ updateBookingState, numGPUs, data, workstationId }) => {
     const GPUList = Array.from(Array(numGPUs).keys());
 
     const [startDate, setStartDate] = useState('');
@@ -139,7 +139,17 @@ const BookingForm = ({ updateBookingState, numGPUs, data }) => {
             </form>
             <Divider className={styles.divider} />
             <div className={styles.gantt}>
-                <GpuBookingGanttZoomable />
+                <GpuBookingGanttZoomable
+                    workstationId={workstationId}
+                    currentBookingData={{
+                        id: data?._id,
+                        startTimestamp: new Date(getTimestamp(startDate, startTime)),
+                        endTimestamp: new Date(getTimestamp(endDate, endTime)),
+                        gpuIndices: selectedGPUs,
+                        noGPUSelected,
+                        timingInvalid,
+                    }}
+                />
             </div>
             <Divider className={styles.divider} />
         </>

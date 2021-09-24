@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Icon from '@material-ui/core/Icon';
 import GpuBookingGantt from './GpuBookingGantt';
 import styles from './GpuBookingGanttZoomable.module.scss';
 import { StyledIconButton } from '../buttons/StyledIconButton';
+import { authRequest } from '../../../hooks/util/authRequest';
+import { useDoc } from '../../../state/state';
+import { userDoc } from '../../../state/docs/userDoc';
 
-export default function GpuBookingGanttZoomable({
-    bookingData,
-    resourceData,
-    thisUsersId,
-    myBookingColour,
-}) {
+export default function GpuBookingGanttZoomable({ workstationId, currentBookingData }) {
+    const [user] = useDoc(userDoc);
+    const [workstation, setWorkstation] = useState(null);
+    const [bookingsData, setBookingsData] = useState(null);
+
     // Zoom levels are inverse, so smaller numbers means the chart is zoomed further in
     const zoomLevels = [1, 3, 6, 12];
     const [zoomIdx, setZoomIdx] = useState(2);
@@ -27,27 +29,45 @@ export default function GpuBookingGanttZoomable({
     const isZoomInDisabled = zoomIdx === 0;
     const isZoomOutDisabled = zoomIdx === zoomLevels.length - 1;
 
+    useEffect(() => {
+        const getAndSetValues = async () => {
+            const workstationResponse = await authRequest(
+                `/api/workstation/${workstationId || ''}`,
+            );
+            const bookingResponse = await authRequest(
+                `/api/workstation/${workstationId}/booking/ACTIVE?page=1&limit=1000`,
+            );
+            const allBookings = bookingResponse.data.bookings;
+            setBookingsData(allBookings);
+            setWorkstation(workstationResponse.data);
+        };
+        getAndSetValues();
+    }, [workstationId]);
+
     return (
-        <div>
-            <GpuBookingGantt
-                bookingData={bookingData}
-                resourceData={resourceData}
-                thisUsersId={thisUsersId}
-                myBookingColour={myBookingColour}
-                zoomLevel={zoomLevels[zoomIdx]}
-            />
-            <div className={styles.buttonsContainer}>
-                <StyledIconButton
-                    icon={<Icon>zoom_in</Icon>}
-                    onClick={handleIncrementZoom}
-                    disabled={isZoomInDisabled}
+        workstation &&
+        bookingsData && (
+            <div>
+                <GpuBookingGantt
+                    bookingData={bookingsData}
+                    currentBookingData={currentBookingData}
+                    numGPUs={workstation.numGPUs}
+                    thisUsersId={user._id}
+                    zoomLevel={zoomLevels[zoomIdx]}
                 />
-                <StyledIconButton
-                    icon={<Icon>zoom_out</Icon>}
-                    onClick={handleDecrementZoom}
-                    disabled={isZoomOutDisabled}
-                />
+                <div className={styles.buttonsContainer}>
+                    <StyledIconButton
+                        icon={<Icon>zoom_in</Icon>}
+                        onClick={handleIncrementZoom}
+                        disabled={isZoomInDisabled}
+                    />
+                    <StyledIconButton
+                        icon={<Icon>zoom_out</Icon>}
+                        onClick={handleDecrementZoom}
+                        disabled={isZoomOutDisabled}
+                    />
+                </div>
             </div>
-        </div>
+        )
     );
 }

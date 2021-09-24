@@ -560,73 +560,7 @@ Array [
   />,
   <div
     className="gantt"
-  >
-    <div>
-      <div />
-      <div
-        className="buttonsContainer"
-      >
-        <button
-          className="MuiButtonBase-root MuiIconButton-root iconButton undefined "
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={0}
-          type="button"
-        >
-          <span
-            className="MuiIconButton-label"
-          >
-            <span
-              aria-hidden={true}
-              className="material-icons MuiIcon-root"
-            >
-              zoom_in
-            </span>
-          </span>
-        </button>
-        <button
-          className="MuiButtonBase-root MuiIconButton-root iconButton undefined "
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={0}
-          type="button"
-        >
-          <span
-            className="MuiIconButton-label"
-          >
-            <span
-              aria-hidden={true}
-              className="material-icons MuiIcon-root"
-            >
-              zoom_out
-            </span>
-          </span>
-        </button>
-      </div>
-    </div>
-  </div>,
+  />,
   <hr
     className="MuiDivider-root divider"
   />,

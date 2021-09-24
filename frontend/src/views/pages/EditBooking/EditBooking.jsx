@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
@@ -11,6 +11,10 @@ import BookingForm from '../../components/forms/BookingForm';
 const EditBooking = () => {
     const [bookingState, setBookingState] = useState({});
     const [error, setError] = useState(true);
+    const [userWorkstation, setUserWorkstation] = useState(null);
+
+    const userWorkstationName = userWorkstation?.name;
+    const numGPUs = userWorkstation?.numGPUs;
 
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const history = useHistory();
@@ -33,10 +37,6 @@ const EditBooking = () => {
 
     const { bookingId } = useParams();
     const booking = useCrud(`/api/booking/${bookingId}`).data;
-
-    const userWorkstation = useCrud(`/api/workstation/${booking ? booking?.workstationId : ''}`).data; // avoids sending null to backend
-    const userWorkstationName = userWorkstation?.name;
-    const numGPUs = userWorkstation?.numGPUs;
 
     const onDelete = async () => {
         try {
@@ -66,17 +66,30 @@ const EditBooking = () => {
         }
     };
 
+    useEffect(() => {
+        const getAndSetValues = async () => {
+            const workstationResponse = await authRequest(
+                `/api/workstation/${booking ? booking?.workstationId : ''}`,
+            );
+            setUserWorkstation(workstationResponse.data);
+        };
+        getAndSetValues();
+    }, [booking]);
+
     return (
         <TopBarPageTemplate>
             <h2 className={header}>Edit Booking - {userWorkstationName}</h2>
-            <BookingForm
-                updateBookingState={(newBookingState, isError) => {
-                    setError(isError);
-                    setBookingState(newBookingState);
-                }}
-                numGPUs={numGPUs}
-                data={booking}
-            />
+            {userWorkstation && (
+                <BookingForm
+                    updateBookingState={(newBookingState, isError) => {
+                        setError(isError);
+                        setBookingState(newBookingState);
+                    }}
+                    numGPUs={numGPUs}
+                    data={booking}
+                    workstationId={userWorkstation._id}
+                />
+            )}
             <BottomButtons
                 onDelete={onDelete}
                 onAccept={onAcceptChanges}

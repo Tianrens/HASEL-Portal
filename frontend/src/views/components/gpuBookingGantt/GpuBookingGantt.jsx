@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import React from 'react';
 import { DayMarkers, GanttComponent, Inject } from '@syncfusion/ej2-react-gantt';
 import './GpuBookingGanttMaterialTheme.css';
@@ -7,28 +8,30 @@ import { formatBookingData, formatResourceData } from './BookingGanttDataFormatt
 
 export default function GpuBookingGantt({
     bookingData,
-    resourceData,
+    currentBookingData,
+    numGPUs,
     thisUsersId,
-    myBookingColour = colours.green,
     zoomLevel = 6,
 }) {
-    const formattedBookingData = formatBookingData(bookingData, thisUsersId);
-    const formattedResourceData = formatResourceData(resourceData);
-
+    const formattedBookingData = formatBookingData({
+        bookingData,
+        currentBookingData,
+        thisUsersId,
+    });
+    const formattedResourceData = formatResourceData(numGPUs);
     // If user owns the task, colour that task differently
     const queryTaskbarInfo = (args) => {
-        if (args.data.taskData.myBooking) {
-            // eslint-disable-next-line no-param-reassign
-            args.taskbarBgColor = myBookingColour;
+        if (args.data.taskData.currentBooking) {
+            args.taskbarBgColor = colours.green;
+        } else if (args.data.taskData.myBooking) {
+            args.taskbarBgColor = colours.secondaryBlue;
         } else {
-            // eslint-disable-next-line no-param-reassign
             args.taskbarBgColor = colours.gray;
         }
     };
 
     // Disable the expanding feature
     const expanding = (args) => {
-        // eslint-disable-next-line no-param-reassign
         args.cancel = true;
     };
 
@@ -40,6 +43,7 @@ export default function GpuBookingGantt({
         child: 'subtasks',
         resourceInfo: 'gpuIndices',
         myBooking: 'myBooking',
+        currentBooking: 'currentBooking',
     };
 
     const dayWorkingTime = [{ from: 0, to: 24 }];
@@ -71,7 +75,6 @@ export default function GpuBookingGantt({
         name: 'gpuName',
     };
 
-    // eslint-disable-next-line no-unused-vars
     const tooltipTemplate = (props) => (
         <div>
             Start Time: {dayjs(props.startTimestamp).format('ddd DD/MM/YYYY HH:mm')}

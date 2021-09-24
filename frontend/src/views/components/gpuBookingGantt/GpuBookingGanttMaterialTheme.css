@@ -565,6 +565,7 @@
     font-weight: normal;
     line-height: 1;
     text-transform: none;
+    width: 0px !important;
 }
 .e-avatar {
     align-content: center;
@@ -35436,7 +35437,7 @@ input:focus
     color: #000;
 }
 .e-treegrid .e-rowcell.e-treerowcell {
-    padding-left: 18px;
+    padding-left: 21px;
 }
 .e-treegrid .e-rtl .e-treegridcollapse {
     transform: scale(-1);
