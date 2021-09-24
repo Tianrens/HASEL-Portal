@@ -32,6 +32,7 @@ export async function sendRequestApprovedEmail(recipientEmail, request) {
         `<li>Default password: ${password}</li>` +
         `<li>Access valid until: ${endDateFormatted}</li></ul></br>` +
         'You will be prompted to change your password on your first login.<br/><br/>' +
+        'If you already have an account on the workstation, your password will not be changed.<br/><br/>' + 
         'Let us know by replying to this email if you have any questions.<br/><br/>' +
         'Best regards,<br/>' +
         'Hasel Portal Team</body></html>';

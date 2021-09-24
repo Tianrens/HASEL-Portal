@@ -43,6 +43,10 @@ async function retrieveUserByAuthId(authId) {
     });
 }
 
+async function retrieveUserByUpi(upi) {
+    return User.findOne({ upi });
+}
+
 async function retrieveUserByType(userType) {
     return User.find({ type: userType });
 }
@@ -56,4 +60,5 @@ export {
     updateUser,
     retrieveUserByAuthId,
     retrieveUserByType,
+    retrieveUserByUpi,
 };

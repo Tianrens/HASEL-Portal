@@ -1,5 +1,5 @@
 import { SSHError } from 'node-ssh';
-import { execCommand } from '.';
+import { checkUserExists, execCommand, lockWorkstationUser } from '.';
 
 /**
  * @param {string} host ip address of machine to ssh into
@@ -13,6 +13,11 @@ export async function createWorkstationUser(
     daysInactive,
     expireDate,
 ) {
+    const userExists = await checkUserExists(host, upi);
+    if (userExists) {
+        return;
+    }
+
     const addUserResult = await execCommand(
         host,
         `sudo useradd -m ${upi} -f ${daysInactive} -e ${expireDate}`,
@@ -43,4 +48,6 @@ export async function createWorkstationUser(
         const errorMessage = `Error with creating workstation user account.\nCodes: ${addUserResult.code} ${changePasswordResult.code} ${addUserGroupResult.code} ${expirePasswordResult.code}`;
         throw new SSHError(errorMessage);
     }
+
+    lockWorkstationUser(host, upi);
 }

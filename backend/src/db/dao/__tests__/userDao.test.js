@@ -7,6 +7,7 @@ import {
     retrieveUserByAuthId,
     retrieveUserById,
     retrieveUserByType,
+    retrieveUserByUpi,
     retrieveUsers,
     updateUser,
 } from '../userDao';
@@ -267,4 +268,11 @@ it('retrieve users with a larger limit than the amount of users', async () => {
 
     expectDbUserMatchWithUser(users[0], user2);
     expectDbUserMatchWithUser(users[1], user1);
+});
+
+it('retrieve user by upi', async () => {
+    const user = await retrieveUserByUpi('pbip069');
+
+    expect(user).toBeTruthy();
+    expectDbUserMatchWithUser(user, user2);
 });
