@@ -6,6 +6,7 @@ import {
     retrieveAllBookings,
     retrieveBookingsByUser,
     retrieveBookingsByWorkstation,
+    retrieveBookingsByWorkstationForGantt,
     updateBooking,
 } from '../bookingDao';
 import { Workstation } from '../../schemas/workstationSchema';
@@ -63,7 +64,7 @@ beforeEach(async () => {
         ramDescription: 'Kingston HyperX Predator 32GB',
         cpuDescription: 'Intel Core i9 10900KF',
     });
-    
+
     user1 = new User({
         email: 'admin@gmail.com',
         currentRequestId: null,
@@ -283,9 +284,7 @@ function expectDbBookingMatchWithBooking(dbBooking, booking) {
         );
     } else {
         // Not populated
-        expect(dbBooking.userId.toString()).toEqual(
-            booking.userId.toString(),
-        );
+        expect(dbBooking.userId.toString()).toEqual(booking.userId.toString());
     }
     expect(dbBooking.startTimestamp).toEqual(booking.startTimestamp);
     expect(dbBooking.endTimestamp).toEqual(booking.endTimestamp);
@@ -361,6 +360,17 @@ it("retrieve user's bookings", async () => {
     expectDbBookingMatchWithBooking(bookings[0], booking1);
     expectDbBookingMatchWithBooking(bookings[1], booking2);
     expectDbBookingMatchWithBooking(bookings[2], booking3);
+});
+
+it('retrieve bookings for a workstation for Gantt chart', async () => {
+    const bookings = await retrieveBookingsByWorkstationForGantt(
+        booking1.workstationId,
+    );
+
+    expect(bookings).toBeTruthy();
+    expect(bookings).toHaveLength(2);
+    expectDbBookingMatchWithBooking(bookings[0], booking1);
+    expectDbBookingMatchWithBooking(bookings[1], booking3);
 });
 
 it('retrieve all bookings for a workstation', async () => {

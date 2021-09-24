@@ -8,7 +8,10 @@ import {
     updateWorkstation,
     deleteWorkstation,
 } from '../../db/dao/workstationDao';
-import { retrieveBookingsByWorkstation } from '../../db/dao/bookingDao';
+import {
+    retrieveBookingsByWorkstation,
+    retrieveBookingsByWorkstationForGantt,
+} from '../../db/dao/bookingDao';
 import { checkAdmin, userHasWorkstationViewPerms } from './util/userPerms';
 import { checkCorrectParams } from './util/checkCorrectParams';
 import { getWorkstation } from './util/workstationUtil';
@@ -73,6 +76,31 @@ router.get('/:workstationId', async (req, res) => {
 });
 
 /** GET bookings for a workstation.
+ * Mainly for Gantt chart use
+ * Only gets bookings 1 month in the future
+ * userId is populated
+ * GET /api/workstation/${workstationId}/booking
+ * @returns The workstation bookings 1 month into the future
+ */
+router.get(
+    '/:workstationId/booking',
+    getUser,
+    userHasWorkstationViewPerms,
+    async (req, res) => {
+        const { workstationId } = req.params;
+
+        try {
+            const bookings = await retrieveBookingsByWorkstationForGantt(
+                workstationId,
+            );
+            return res.status(HTTP.OK).json(bookings);
+        } catch (err) {
+            return res.status(HTTP.BAD_REQUEST).send(err.message);
+        }
+    },
+);
+
+/** GET bookings for a workstation with pagination.
  * User can query for ACTIVE, FUTURE, CURRENT and PAST bookings statuses
  * userId is populated
  * GET /api/workstation/${workstationId}/booking/${status}?page=${page}&limit=${limit}

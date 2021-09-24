@@ -1,3 +1,5 @@
+import { addMonths } from 'date-fns';
+
 const { Booking } = require('../schemas/bookingSchema');
 const { Workstation } = require('../schemas/workstationSchema');
 
@@ -64,6 +66,19 @@ async function retrieveBookingById(bookingId) {
 
 async function retrieveBookingsByUser(userId) {
     return Booking.find({ userId });
+}
+
+async function retrieveBookingsByWorkstationForGantt(workstationId) {
+    const currentTime = Date.now();
+    const endTime = addMonths(currentTime, 1);
+
+    const bookings = await Booking.find({
+        workstationId,
+        startTimestamp: { $lte: endTime },
+        endTimestamp: { $gte: currentTime },
+    }).populate('userId', 'firstName lastName');
+
+    return bookings;
 }
 
 async function retrieveBookingsByWorkstation(
@@ -148,6 +163,7 @@ export {
     retrieveAllBookings,
     retrieveBookingById,
     retrieveBookingsByUser,
+    retrieveBookingsByWorkstationForGantt,
     retrieveBookingsByWorkstation,
     updateBooking,
     deleteBooking,

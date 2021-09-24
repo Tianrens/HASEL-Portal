@@ -34,12 +34,13 @@ export default function GpuBookingGanttZoomable({ workstationId, currentBookingD
             const workstationResponse = await authRequest(
                 `/api/workstation/${workstationId || ''}`,
             );
-            const bookingResponse = await authRequest(
-                `/api/workstation/${workstationId}/booking/ACTIVE?page=1&limit=1000`,
-            );
-            const allBookings = bookingResponse.data.bookings;
-            setBookingsData(allBookings);
-            setWorkstation(workstationResponse.data);
+            const bookingResponse = await authRequest(`/api/workstation/${workstationId}/booking`);
+            const allBookings = bookingResponse.data;
+            // Need a short delay so that the gantt chart renders correctly
+            setTimeout(() => {
+                setBookingsData(allBookings);
+                setWorkstation(workstationResponse.data);
+            }, 10);
         };
         getAndSetValues();
     }, [workstationId]);

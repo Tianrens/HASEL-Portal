@@ -253,15 +253,25 @@ function expectDbBookingMatchWithBooking(responseBooking, requestBooking) {
     );
 }
 
-function expectWorkstationUpdatedCorrectly(originalWorkstation, newWorkstation, updatedWorkstation) {
+function expectWorkstationUpdatedCorrectly(
+    originalWorkstation,
+    newWorkstation,
+    updatedWorkstation,
+) {
     expect(originalWorkstation._id).toEqual(updatedWorkstation._id);
     expect(updatedWorkstation.name).toEqual(newWorkstation.name);
     expect(updatedWorkstation.host).toEqual(newWorkstation.host);
     expect(updatedWorkstation.location).toEqual(newWorkstation.location);
     expect(updatedWorkstation.numGPUs).toEqual(newWorkstation.numGPUs);
-    expect(updatedWorkstation.gpuDescription).toEqual(newWorkstation.gpuDescription);
-    expect(updatedWorkstation.ramDescription).toEqual(newWorkstation.ramDescription);
-    expect(updatedWorkstation.cpuDescription).toEqual(newWorkstation.cpuDescription);
+    expect(updatedWorkstation.gpuDescription).toEqual(
+        newWorkstation.gpuDescription,
+    );
+    expect(updatedWorkstation.ramDescription).toEqual(
+        newWorkstation.ramDescription,
+    );
+    expect(updatedWorkstation.cpuDescription).toEqual(
+        newWorkstation.cpuDescription,
+    );
 }
 
 it('create new workstation valid permissions', async () => {
@@ -327,6 +337,18 @@ it('Get all workstations', async () => {
     expectDbWorkstationMatchWithWorkstation(response.data[0], workstation1);
     expectDbWorkstationMatchWithWorkstation(response.data[1], workstation2);
     expectDbWorkstationMatchWithWorkstation(response.data[2], workstation3);
+});
+
+it('Get bookings for a specified workstation for Gantt chart', async () => {
+    const response = await authRequest(
+        `${WORKSTATION_API_URL}/${workstation1._id}/booking`,
+        'GET',
+        ADMIN_TOKEN,
+    );
+
+    expect(response.data).toHaveLength(1);
+    // Admin future booking is too far in the future
+    expectDbBookingMatchWithBooking(response.data[0], adminCurrentBooking);
 });
 
 it('Get bookings for a specified workstation, user is admin', async () => {
@@ -528,7 +550,11 @@ it('update workstation as admin', async () => {
     expect(response).toBeDefined();
 
     const updatedWorkstation = await Workstation.findById(workstation1._id);
-    expectWorkstationUpdatedCorrectly(workstation1, newWorkstation, updatedWorkstation);
+    expectWorkstationUpdatedCorrectly(
+        workstation1,
+        newWorkstation,
+        updatedWorkstation,
+    );
 
     const workstations = await Workstation.find({});
     expect(workstations.length).toEqual(3);
