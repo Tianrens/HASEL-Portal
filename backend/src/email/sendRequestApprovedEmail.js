@@ -33,7 +33,7 @@ export async function sendRequestApprovedEmail(recipientEmail, request) {
         `<li>Access valid until: ${endDateFormatted}</li></ul></br>` +
         'You will be prompted to change your password on your first login.<br/><br/>' +
         'Let us know by replying to this email if you have any questions.<br/><br/>' +
-        'Best regards,</br>' +
+        'Best regards,<br/>' +
         'Hasel Portal Team</body></html>';
 
     sendEmail(recipientEmail, emailSubject, null, message);
