@@ -1,4 +1,4 @@
-import { React, useCallback, useEffect, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Icon } from '@material-ui/core';
 import { useDoc } from '../../../state/state';
@@ -20,19 +20,20 @@ function UserHomePage() {
     const [bookingsData, setBookingsData] = useState([]);
     const [userBookings, setUserBookings] = useState([]);
 
-    const getAndSetValues = useCallback(async () => {
-        const response = await authRequest(
-            `/api/workstation/${workstation._id}/booking/ACTIVE?page=1&limit=1000`,
-        );
-        const allBookings = response.data.bookings;
-        const userBookingData = allBookings.filter((booking) => booking.userId._id === user._id);
-        setBookingsData(allBookings);
-        setUserBookings(userBookingData);
-    }, [user._id, workstation._id]);
-
     useEffect(() => {
+        const getAndSetValues = async () => {
+            const response = await authRequest(
+                `/api/workstation/${workstation._id}/booking/ACTIVE?page=1&limit=1000`,
+            );
+            const allBookings = response.data.bookings;
+            const userBookingData = allBookings.filter(
+                (booking) => booking.userId._id === user._id,
+            );
+            setBookingsData(allBookings);
+            setUserBookings(userBookingData);
+        };
         getAndSetValues();
-    }, [getAndSetValues]);
+    }, [user._id, workstation._id]);
 
     return (
         <TopBarPageTemplate>
@@ -61,7 +62,7 @@ function UserHomePage() {
                         <div className={styles.header}>
                             <StyledHeader left>Your Bookings Summary</StyledHeader>
                         </div>
-                        <BookingSummary bookings={userBookings} refetchBookings={getAndSetValues} />
+                        <BookingSummary bookings={userBookings} />
                     </div>
                 )}
             </div>

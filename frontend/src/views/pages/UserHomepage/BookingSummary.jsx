@@ -1,43 +1,13 @@
 import { React } from 'react';
 import dayjs from 'dayjs';
 import { useHistory } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
-import { Delete, Edit } from '@material-ui/icons';
+import { Edit } from '@material-ui/icons';
 import { IconButton, Paper } from '@material-ui/core';
 import styles from './UserHomePage.module.scss';
 import TitleAndValue from '../../components/text/TitleAndValue';
-import { authRequest } from '../../../hooks/util/authRequest';
 
-function BookingSummary({ bookings, refetchBookings }) {
+function BookingSummary({ bookings }) {
     const history = useHistory();
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
-    const successCallback = (message) => {
-        enqueueSnackbar(message, {
-            variant: 'success',
-            autoHideDuration: 3000,
-            onClose: closeSnackbar,
-        });
-        history.push('/');
-    };
-
-    const errorCallback = (message) => {
-        enqueueSnackbar(message, {
-            variant: 'error',
-            autoHideDuration: 3000,
-            onClose: closeSnackbar,
-        });
-    };
-
-    const deleteHandler = async (id) => {
-        try {
-            await authRequest(`/api/booking/${id}`, 'DELETE');
-            successCallback('Booking deleted');
-            refetchBookings();
-        } catch (err) {
-            errorCallback(err.message);
-        }
-    };
 
     return bookings.map((booking) => {
         const t1 = dayjs(booking.startTimestamp).format('ddd DD/MM/YYYY h:mm A');
@@ -57,12 +27,6 @@ function BookingSummary({ bookings, refetchBookings }) {
                         onClick={() => history.push(`/booking/${booking._id}`)}
                     >
                         <Edit />
-                    </IconButton>
-                    <IconButton
-                        className={styles.bookingInfoIcon}
-                        onClick={() => deleteHandler(booking._id)}
-                    >
-                        <Delete />
                     </IconButton>
                 </div>
             </Paper>
