@@ -152,6 +152,22 @@ function expectResponseUserSameAsRequestUser(responseUser, requestUser) {
     expect(responseUser.firstName).toEqual(requestUser.firstName);
     expect(responseUser.lastName).toEqual(requestUser.lastName);
     expect(responseUser.type).toEqual(requestUser.type);
+
+    if (requestUser.currentRequestId && responseUser.currentRequestId) {
+        expect(responseUser.currentRequestId).toEqual(
+            requestUser.currentRequestId,
+        );
+    }
+}
+
+function checkSuccessfulUserTypeChange(newUser, oldUser, newType) {
+    expect(newUser.email).toEqual(oldUser.email);
+    expect(newUser.upi).toEqual(oldUser.upi);
+    expect(newUser.authUserId).toEqual(oldUser.authUserId);
+    expect(newUser.firstName).toEqual(oldUser.firstName);
+    expect(newUser.lastName).toEqual(oldUser.lastName);
+    expect(newUser.currentBooking).toEqual(oldUser.currentRequestId);
+    expect(newUser.type).toEqual(newType);
 }
 
 function expectResponseWorkstationSameAsDbWorkstation(
@@ -184,6 +200,19 @@ it('create user', async () => {
     expect(response).toBeDefined();
     expect(response.status).toBe(HTTP.CREATED);
     expectResponseUserSameAsRequestUser(response.data, user2);
+});
+
+it('create user with invalid type', async () => {
+    user2.type = 'INVALID';
+    const response = await authRequest(
+        userApiUrl,
+        'POST',
+        user2.firebaseToken,
+        user2,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toBe(HTTP.BAD_REQUEST);
 });
 
 it('get user by id admin', async () => {
@@ -309,6 +338,89 @@ it('retrieve all users with invalid permissions', async () => {
     );
 
     expect(response.status).toEqual(HTTP.FORBIDDEN);
+});
+
+it('update user type valid permissions', async () => {
+    const updatedUser1Type = {
+        type: 'ACADEMIC',
+    };
+
+    const response = await authRequest(
+        `${userApiUrl}/${user1._id}`,
+        'PATCH',
+        adminUser.authUserId,
+        updatedUser1Type,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.NO_CONTENT);
+
+    const dbUser = await User.findById(user1._id);
+
+    expect(dbUser).toBeTruthy();
+    checkSuccessfulUserTypeChange(dbUser, user1, updatedUser1Type.type);
+});
+
+it('update user type - type not included', async () => {
+    const updatedUser1Info = {
+        upi: 'ueti345',
+    };
+
+    const response = await authRequest(
+        `${userApiUrl}/${user1._id}`,
+        'PATCH',
+        adminUser.authUserId,
+        updatedUser1Info,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.BAD_REQUEST);
+
+    const dbUser = await User.findById(user1._id);
+
+    expect(dbUser).toBeTruthy();
+    expect(dbUser.upi).toEqual(user1.upi);
+});
+
+it('update user type invalid permissions', async () => {
+    const updatedUser1Info = {
+        type: 'ACADEMIC',
+    };
+
+    const response = await authRequest(
+        `${userApiUrl}/${user1._id}`,
+        'PATCH',
+        user1.authUserId,
+        updatedUser1Info,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.FORBIDDEN);
+
+    const dbUser = await User.findById(user1._id);
+
+    expectResponseUserSameAsRequestUser(dbUser, user1);
+});
+
+it('update user type - invalid type', async () => {
+    const updatedUser1Type = {
+        type: 'INVALID',
+    };
+
+    const response = await authRequest(
+        `${userApiUrl}/${user1._id}`,
+        'PATCH',
+        adminUser.authUserId,
+        updatedUser1Type,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.BAD_REQUEST);
+
+    const dbUser = await User.findById(user1._id);
+
+    expect(dbUser).toBeTruthy();
+    expectResponseUserSameAsRequestUser(dbUser, user1);
 });
 
 it('retrieve users with pagination', async () => {

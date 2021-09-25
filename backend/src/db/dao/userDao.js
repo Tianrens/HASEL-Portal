@@ -32,7 +32,9 @@ async function retrieveUserById(userId) {
 }
 
 async function updateUser(userId, newUserInfo) {
-    await User.updateOne({ _id: userId }, newUserInfo);
+    await User.updateOne({ _id: userId }, newUserInfo, {
+        runValidators: true,
+    });
 }
 
 async function retrieveUserByAuthId(authId) {

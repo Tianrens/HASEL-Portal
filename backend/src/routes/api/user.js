@@ -5,6 +5,7 @@ import {
     retrieveUserByAuthId,
     retrieveUserById,
     retrieveUsers,
+    updateUser,
 } from '../../db/dao/userDao';
 import { checkCorrectParams } from './util/checkCorrectParams';
 import HTTP from './util/http_codes';
@@ -21,23 +22,30 @@ router.post(
     '/',
     checkCorrectParams(['upi', 'firstName', 'lastName', 'type']),
     async (req, res) => {
-        let dbUser = await retrieveUserByAuthId(req.firebase.uid);
+        try {
+            let dbUser = await retrieveUserByAuthId(req.firebase.uid);
 
-        if (dbUser) {
-            res.status(HTTP.BAD_REQUEST);
-            return res.send('account already exists');
+            if (dbUser) {
+                res.status(HTTP.BAD_REQUEST);
+                return res.send('account already exists');
+            }
+
+            dbUser = await createUser({
+                email: req.firebase.email,
+                upi: req.body.upi,
+                authUserId: req.firebase.uid,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                type: req.body.type,
+            });
+
+            return res.status(HTTP.CREATED).json(dbUser);
+        } catch (error) {
+            if (error.name === 'ValidationError') {
+                return res.status(HTTP.BAD_REQUEST).json('Invalid user type');
+            }
+            return res.status(HTTP.INTERNAL_SERVER_ERROR).json('Server error');
         }
-
-        dbUser = await createUser({
-            email: req.firebase.email,
-            upi: req.body.upi,
-            authUserId: req.firebase.uid,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            type: req.body.type,
-        });
-
-        return res.status(HTTP.CREATED).json(dbUser);
     },
 );
 
@@ -61,13 +69,34 @@ router.get('/', getUser, checkAdmin, async (req, res) => {
     }
 });
 
-/** PUT edit Firebase information */
-router.put('/', (req, res) => {
-    // TODO: PUT edit Firebase information
-    console.log(req.originalUrl);
+/** PATCH edit user
+ * PATCH /api/user/${userId}
+ * @param userId The id of the user whose information needs to be updated
+ */
+router.patch(
+    '/:userId',
+    getUser,
+    checkAdmin,
+    checkCorrectParams(['type']),
+    async (req, res) => {
+        try {
+            const { userId } = req.params;
+            const user = await retrieveUserById(userId);
+            if (!user) {
+                return res.status(HTTP.NOT_FOUND).send('User does not exist');
+            }
 
-    return res.status(HTTP.NOT_IMPLEMENTED).send('Unimplemented');
-});
+            await updateUser(userId, req.body);
+        } catch (error) {
+            if (error.name === 'ValidationError') {
+                return res.status(HTTP.BAD_REQUEST).json('Invalid user type');
+            }
+            return res.status(HTTP.INTERNAL_SERVER_ERROR).json('Server error');
+        }
+
+        return res.status(HTTP.NO_CONTENT).send('User type has been updated');
+    },
+);
 
 /** GET user bookings */
 router.get('/booking', (req, res) => {

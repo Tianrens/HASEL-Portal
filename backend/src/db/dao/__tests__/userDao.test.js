@@ -138,6 +138,16 @@ function expectDbUserMatchWithUser(dbUser, user) {
     expect(dbUser.type).toEqual(user.type);
 }
 
+function checkSuccessfulUserTypeChange(newUser, oldUser, newType) {
+    expect(newUser.email).toEqual(oldUser.email);
+    expect(newUser.upi).toEqual(oldUser.upi);
+    expect(newUser.authUserId).toEqual(oldUser.authUserId);
+    expect(newUser.firstName).toEqual(oldUser.firstName);
+    expect(newUser.lastName).toEqual(oldUser.lastName);
+    expect(newUser.currentBooking).toEqual(oldUser.currentRequestId);
+    expect(newUser.type).toEqual(newType);
+}
+
 it('get all users', async () => {
     const users = await retrieveAllUsers();
 
@@ -155,16 +165,24 @@ it('create new user', async () => {
     expectDbUserMatchWithUser(dbUser, user3);
 });
 
+it('create new user', async () => {
+    user3.type = 'INVALID';
+    try {
+        await createUser(user3);
+    } catch (error) {
+        expect(error.name).toEqual('ValidationError');
+    }
+});
+
 it('retrieve a single user', async () => {
     const dbUser = await retrieveUserById(user1._id);
 
     expectDbUserMatchWithUser(dbUser, user1);
 });
 
-it('update user info', async () => {
+it('update user type', async () => {
     const updatedUser2Info = {
         type: 'ACADEMIC',
-        currentRequestId: mongoose.Types.ObjectId('111111111111111111111111'),
     };
 
     await updateUser(user2._id, updatedUser2Info);
@@ -172,13 +190,19 @@ it('update user info', async () => {
     const dbUser = await User.findById(user2._id);
 
     expect(dbUser).toBeTruthy();
-    expect(dbUser.email).toEqual(user2.email);
-    expect(dbUser.upi).toEqual(user2.upi);
-    expect(dbUser.authUserId).toEqual(user2.authUserId);
-    expect(dbUser.firstName).toEqual(user2.firstName);
-    expect(dbUser.lastName).toEqual(user2.lastName);
-    expect(dbUser.type).toEqual(updatedUser2Info.type);
-    expect(dbUser.currentRequestId).toEqual(updatedUser2Info.currentRequestId);
+    checkSuccessfulUserTypeChange(dbUser, user2, updatedUser2Info.type);
+});
+
+it('update user type - invalid type', async () => {
+    const updatedUser2Info = {
+        type: 'INVALID',
+    };
+
+    try {
+        await updateUser(user2._id, updatedUser2Info);
+    } catch (error) {
+        expect(error.name).toEqual('ValidationError');
+    }
 });
 
 it('retrieve user with auth id', async () => {
@@ -230,12 +254,12 @@ it('retrieve all users', async () => {
     expectDbUserMatchWithUser(users[1], user1);
 });
 
-it ('retrieve users with pagination', async () => {
+it('retrieve users with pagination', async () => {
     let page = 1;
     const limit = 1;
 
     const firstPageUsers = await retrieveUsers(page, limit);
-    
+
     expect(firstPageUsers).toBeTruthy();
     expect(firstPageUsers).toHaveLength(1);
     expectDbUserMatchWithUser(firstPageUsers[0], user2);
@@ -248,7 +272,7 @@ it ('retrieve users with pagination', async () => {
     expectDbUserMatchWithUser(secondPageUsers[0], user1);
 });
 
-it ('retrieve users with page more than the maximum number of pages', async () => {
+it('retrieve users with page more than the maximum number of pages', async () => {
     const page = 3;
     const limit = 2;
 
