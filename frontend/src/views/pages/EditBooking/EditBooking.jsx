@@ -24,7 +24,7 @@ const EditBooking = () => {
             autoHideDuration: 3000,
             onClose: closeSnackbar,
         });
-        history.push('/');
+        history.goBack();
     };
 
     const errorCallback = (message) => {
@@ -48,7 +48,7 @@ const EditBooking = () => {
     };
 
     const onCancel = () => {
-        history.push('/');
+        history.goBack();
     };
 
     const onAcceptChanges = async () => {
