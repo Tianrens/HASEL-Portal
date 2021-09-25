@@ -34,7 +34,7 @@ const NewBooking = () => {
             autoHideDuration: 3000,
             onClose: closeSnackbar,
         });
-        history.push('/');
+        history.goBack();
     };
 
     const errorCallback = (message) => {

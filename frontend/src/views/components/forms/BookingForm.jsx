@@ -10,7 +10,7 @@ import {
     FormLabel,
 } from '@material-ui/core';
 import dayjs from 'dayjs';
-import styles from './BookingForm.module.scss';
+import styles from './Form.module.scss';
 import TextField from '../TextField/CustomTextField';
 import GpuBookingGanttZoomable from '../gpuBookingGantt/GpuBookingGanttZoomable';
 

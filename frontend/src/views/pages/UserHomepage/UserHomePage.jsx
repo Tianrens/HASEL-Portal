@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Icon } from '@material-ui/core';
 import { useDoc } from '../../../state/state';
 import { userDoc } from '../../../state/docs/userDoc';
@@ -12,7 +12,6 @@ import { authRequest } from '../../../hooks/util/authRequest';
 import BookingSummary from './BookingSummary';
 
 function UserHomePage() {
-    const history = useHistory();
     const [user] = useDoc(userDoc);
     const { firstName, lastName } = user;
     const workstation = user.currentRequestId?.allocatedWorkstationId;
@@ -50,9 +49,8 @@ function UserHomePage() {
                             <StyledButton
                                 type='submit'
                                 icon={<Icon>add</Icon>}
-                                onClick={() =>
-                                    history.push(`/new-booking/workstation/${workstation._id}`)
-                                }
+                                component={Link}
+                                to={`/new-booking/workstation/${workstation._id}`}
                             >
                                 Create Booking
                             </StyledButton>

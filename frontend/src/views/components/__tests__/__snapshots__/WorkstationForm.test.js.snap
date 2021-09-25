@@ -1,0 +1,477 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BookingForm renders properly 1`] = `
+<form
+  className="form"
+  id="workstation-form"
+  onSubmit={[Function]}
+>
+  <div
+    className="inputContainer"
+  >
+    <div
+      className="container"
+    >
+      <h2
+        className="text  subHeader"
+      >
+        <span>
+          General
+        </span>
+      </h2>
+    </div>
+    <div
+      className="container"
+    >
+      <p
+        className="title"
+      >
+        Workstation Name
+        <span
+          className="asterisk"
+        >
+           *
+        </span>
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input"
+            disabled={false}
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="e.g. Zeus"
+            required={true}
+            type="text"
+          />
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+            style={
+              Object {
+                "paddingLeft": 8,
+              }
+            }
+          >
+            <legend
+              className="PrivateNotchedOutline-legend-2"
+              style={
+                Object {
+                  "width": 0.01,
+                }
+              }
+            >
+              <span
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#8203;",
+                  }
+                }
+              />
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <div
+      className="container"
+    >
+      <p
+        className="title"
+      >
+        Workstation Location
+        <span
+          className="asterisk"
+        >
+           *
+        </span>
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input"
+            disabled={false}
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="e.g. 405.662"
+            required={true}
+            type="text"
+          />
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+            style={
+              Object {
+                "paddingLeft": 8,
+              }
+            }
+          >
+            <legend
+              className="PrivateNotchedOutline-legend-2"
+              style={
+                Object {
+                  "width": 0.01,
+                }
+              }
+            >
+              <span
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#8203;",
+                  }
+                }
+              />
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <div
+      className="container"
+    >
+      <p
+        className="title"
+      >
+        Host Address
+        <span
+          className="asterisk"
+        >
+           *
+        </span>
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input"
+            disabled={false}
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="e.g. 10.123.101.38"
+            required={true}
+            type="text"
+          />
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+            style={
+              Object {
+                "paddingLeft": 8,
+              }
+            }
+          >
+            <legend
+              className="PrivateNotchedOutline-legend-2"
+              style={
+                Object {
+                  "width": 0.01,
+                }
+              }
+            >
+              <span
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#8203;",
+                  }
+                }
+              />
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr
+    className="MuiDivider-root verticalDivider MuiDivider-flexItem MuiDivider-vertical"
+  />
+  <div
+    className="inputContainer"
+  >
+    <div
+      className="container"
+    >
+      <h2
+        className="text  subHeader"
+      >
+        <span>
+          Specifications
+        </span>
+      </h2>
+    </div>
+    <div
+      className="container"
+    >
+      <p
+        className="title"
+      >
+        CPU Description
+        <span
+          className="asterisk"
+        >
+           *
+        </span>
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input"
+            disabled={false}
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="e.g. AMD Threadripper 3990X (64 Cores)"
+            required={true}
+            type="text"
+          />
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+            style={
+              Object {
+                "paddingLeft": 8,
+              }
+            }
+          >
+            <legend
+              className="PrivateNotchedOutline-legend-2"
+              style={
+                Object {
+                  "width": 0.01,
+                }
+              }
+            >
+              <span
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#8203;",
+                  }
+                }
+              />
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <div
+      className="container"
+    >
+      <p
+        className="title"
+      >
+        GPU Description
+        <span
+          className="asterisk"
+        >
+           *
+        </span>
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input"
+            disabled={false}
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="e.g. RTX 3090"
+            required={true}
+            type="text"
+          />
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+            style={
+              Object {
+                "paddingLeft": 8,
+              }
+            }
+          >
+            <legend
+              className="PrivateNotchedOutline-legend-2"
+              style={
+                Object {
+                  "width": 0.01,
+                }
+              }
+            >
+              <span
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#8203;",
+                  }
+                }
+              />
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <div
+      className="container"
+    >
+      <p
+        className="title"
+      >
+        Number of GPUs
+        <span
+          className="asterisk"
+        >
+           *
+        </span>
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input"
+            disabled={false}
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="e.g. 4"
+            required={true}
+            type="text"
+          />
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+            style={
+              Object {
+                "paddingLeft": 8,
+              }
+            }
+          >
+            <legend
+              className="PrivateNotchedOutline-legend-2"
+              style={
+                Object {
+                  "width": 0.01,
+                }
+              }
+            >
+              <span
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#8203;",
+                  }
+                }
+              />
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <div
+      className="container"
+    >
+      <p
+        className="title"
+      >
+        RAM Description
+        <span
+          className="asterisk"
+        >
+           *
+        </span>
+      </p>
+      <div
+        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input"
+            disabled={false}
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="e.g. 256GB"
+            required={true}
+            type="text"
+          />
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+            style={
+              Object {
+                "paddingLeft": 8,
+              }
+            }
+          >
+            <legend
+              className="PrivateNotchedOutline-legend-2"
+              style={
+                Object {
+                  "width": 0.01,
+                }
+              }
+            >
+              <span
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#8203;",
+                  }
+                }
+              />
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+`;

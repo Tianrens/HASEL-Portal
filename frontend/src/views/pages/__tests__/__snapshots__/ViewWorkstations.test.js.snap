@@ -250,10 +250,12 @@ Array [
             </h2>
           </div>
         </div>
-        <button
+        <a
+          aria-disabled={false}
           className="MuiButtonBase-root MuiButton-root MuiButton-contained button undefined"
-          disabled={false}
+          href="/new-workstation"
           onBlur={[Function]}
+          onClick={[Function]}
           onDragLeave={[Function]}
           onFocus={[Function]}
           onKeyDown={[Function]}
@@ -264,8 +266,8 @@ Array [
           onTouchEnd={[Function]}
           onTouchMove={[Function]}
           onTouchStart={[Function]}
+          role="button"
           tabIndex={0}
-          type="button"
         >
           <span
             className="MuiButton-label"
@@ -282,7 +284,7 @@ Array [
             </span>
             Add Workstation
           </span>
-        </button>
+        </a>
       </div>
       <div
         className="workstationPlaceholder"

@@ -18,6 +18,7 @@ import { isAdminType, isSuperAdminType } from './config/accountTypes';
 import EditBooking from './views/pages/EditBooking/EditBooking';
 import ViewWorkstations from './views/pages/ViewWorkstations/ViewWorkstations';
 import ViewWorkstationBookings from './views/pages/ViewWorkstationBookings/ViewWorkstationBookings';
+import NewWorkstation from './views/pages/NewWorkstation/NewWorkstation';
 import ViewUsers from './views/pages/ViewUsers/ViewUsers';
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
             <Route exact path='/booking/:bookingId' component={EditBooking} />
             <Route exact path='/request/:requestId' component={SingleRequest} />
             <Route exact path='/requests' component={ViewRequests} />
+            <Route exact path='/new-workstation' component={NewWorkstation} />
             <Route
                 exact
                 path='/workstation/:workstationId/booking'
@@ -61,6 +63,7 @@ function App() {
             <Route exact path='/users/:userId' component={ViewProfile} />
             <Route path='/new-booking/workstation/:workstationId' component={NewBooking} />
             <Route exact path='/booking/:bookingId' component={EditBooking} />
+            <Route exact path='/new-workstation' component={NewWorkstation} />
             <Route
                 exact
                 path='/workstation/:workstationId/booking'
