@@ -40,7 +40,7 @@ export function getDisplayName(accountType) {
 
 export function supervisorNeeded() {
     const [user] = accessDoc(userDoc);
-    return user?.type !== ACCOUNT_TYPE.ACADEMIC && user?.type !== ACCOUNT_TYPE.STAFF;
+    return user?.type !== 'ACADEMIC' && user?.type !== 'STAFF';
 }
 
 export function isAdminType() {
