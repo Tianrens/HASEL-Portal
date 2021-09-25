@@ -24,8 +24,8 @@ function NavBarLink({ title, icon, link, alertBadgeNumber }) {
     );
 }
 
-// Links just for admins
-function AdminLinks() {
+// Links just for Super Admins
+function SuperAdminLinks() {
     // TODO: Retrieve number of awaiting approvals from DB
     const numNewApprovals = 73;
 
@@ -36,6 +36,22 @@ function AdminLinks() {
             src: ApprovalsIcon,
             badge: numNewApprovals,
         },
+    ];
+
+    return links.map((item) => (
+        <NavBarLink
+            key={item.title}
+            title={item.title}
+            link={item.link}
+            icon={<img className={styles.navIcon} src={item.src} alt={item.title} />}
+            alertBadgeNumber={item.badge}
+        />
+    ));
+}
+
+// Links just for admins
+function AdminLinks() {
+    const links = [
         { title: 'Workstations', link: '/workstations', src: WorkstationIcon },
         { title: 'View Users', link: '/users', src: ViewUsersIcon },
     ];
@@ -52,10 +68,11 @@ function AdminLinks() {
 }
 
 // All available links in the top bar
-export function NavLinks({ isAdmin }) {
+export function NavLinks({ isAdmin, isSuperAdmin }) {
     return (
         <div className={styles.linksWrapper}>
-            {isAdmin ? <AdminLinks /> : null}
+            {isSuperAdmin && <SuperAdminLinks />}
+            {isAdmin && <AdminLinks />}
 
             <NavBarLink
                 title='My Account'
@@ -67,7 +84,7 @@ export function NavLinks({ isAdmin }) {
 }
 
 // Side drawer that becomes visible on small screens
-export function HamburgerDrawer({ isAdmin }) {
+export function HamburgerDrawer({ isAdmin, isSuperAdmin }) {
     const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
@@ -102,7 +119,7 @@ export function HamburgerDrawer({ isAdmin }) {
                                     <Close />
                                 </IconButton>
                             </div>
-                            <NavLinks isAdmin={isAdmin} />
+                            <NavLinks isAdmin={isAdmin} isSuperAdmin={isSuperAdmin} />
                         </div>
                     </div>
                 </Drawer>

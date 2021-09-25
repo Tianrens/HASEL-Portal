@@ -5,12 +5,13 @@ import UoaLogo from '../../../assets/images/uoaLogo.svg';
 import { HamburgerDrawer, NavLinks } from './NavLinks/TopBarHelpers';
 import { useDoc } from '../../../state/state';
 import { userDoc } from '../../../state/docs/userDoc';
-import { isAdminType } from '../../../config/accountTypes';
+import { isAdminType, isSuperAdminType } from '../../../config/accountTypes';
 
 export default function TopBar() {
     const [user] = useDoc(userDoc);
     const userType = user?.type;
     const isAdmin = isAdminType();
+    const isSuperAdmin = isSuperAdminType();
 
     return (
         <div className={styles.fillTopbarSpace}>
@@ -33,10 +34,10 @@ export default function TopBar() {
                         <div className={styles.pushSpacer} />
 
                         <div className={styles.horizontalNavLinks}>
-                            <NavLinks isAdmin={isAdmin} />
+                            <NavLinks isAdmin={isAdmin} isSuperAdmin={isSuperAdmin} />
                         </div>
 
-                        <HamburgerDrawer isAdmin={isAdmin} />
+                        <HamburgerDrawer isAdmin={isAdmin} isSuperAdmin={isSuperAdmin} />
                     </div>
                 </div>
             </div>
