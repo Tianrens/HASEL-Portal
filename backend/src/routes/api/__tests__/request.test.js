@@ -559,6 +559,26 @@ it('decline request valid permissions', async () => {
     expect(updatedRequest.endDate).toBeUndefined();
 });
 
+it('update request status - invalid status', async () => {
+    const response = await axios.patch(
+        `${REQUEST_API_URL}/${studentUserRequest2._id}`,
+        { status: 'INVALID' },
+        {
+            validateStatus,
+            headers: {
+                authorization: `Bearer ${TOKEN_PASS}2`,
+            },
+        },
+    );
+
+    const updatedRequest = await retrieveRequestById(studentUserRequest2._id);
+
+    expect(response.status).toEqual(HTTP.BAD_REQUEST);
+    expect(updatedRequest.status).toEqual('PENDING');
+    expect(updatedRequest.startDate).toBeUndefined();
+    expect(updatedRequest.endDate).toBeUndefined();
+});
+
 it('approve ACADEMIC request valid permissions', async () => {
     const response = await axios.patch(
         `${REQUEST_API_URL}/${academicUserRequest._id}`,
@@ -713,30 +733,24 @@ it('delete a request which does not exist', async () => {
 });
 
 it('get request count pending as superadmin', async () => {
-    const response = await axios.get(
-        `${REQUEST_API_URL}/status/PENDING`,
-        {
-            validateStatus,
-            headers: {
-                authorization: `Bearer ${superAdminUser.authUserId}`,
-            },
+    const response = await axios.get(`${REQUEST_API_URL}/status/PENDING`, {
+        validateStatus,
+        headers: {
+            authorization: `Bearer ${superAdminUser.authUserId}`,
         },
-    );
+    });
 
     expect(response.status).toEqual(HTTP.OK);
     expect(response.data.count).toEqual(5);
 });
 
 it('get request count pending as non superadmin', async () => {
-    const response = await axios.get(
-        `${REQUEST_API_URL}/status/PENDING`,
-        {
-            validateStatus,
-            headers: {
-                authorization: `Bearer ${studentUser.authUserId}`,
-            },
+    const response = await axios.get(`${REQUEST_API_URL}/status/PENDING`, {
+        validateStatus,
+        headers: {
+            authorization: `Bearer ${studentUser.authUserId}`,
         },
-    );
+    });
 
     expect(response.status).toEqual(HTTP.FORBIDDEN);
 });

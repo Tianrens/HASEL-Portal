@@ -210,6 +210,15 @@ describe('non-time dependent tests', () => {
         expectDbRequestMatchWithRequest(dbRequest, request4);
     });
 
+    it('create new request - invalid status', async () => {
+        request4.status = 'INVALID';
+        try {
+            await createSignUpRequest(request4);
+        } catch (error) {
+            expect(error.name).toEqual('ValidationError');
+        }
+    });
+
     it('retrieve a single request', async () => {
         const dbRequest = await retrieveRequestById(request1._id);
 
@@ -230,6 +239,14 @@ describe('non-time dependent tests', () => {
         expect(dbRequest.status).toBe('EXPIRED');
         expect(dbRequest.startDate).toEqual(request1.startDate);
         expect(dbRequest.endDate).toEqual(request1.endDate);
+    });
+
+    it('update request status - invalid status', async () => {
+        try {
+            await updateRequestStatus(request1._id, 'INVALID');
+        } catch (error) {
+            expect(error.name).toEqual('ValidationError');
+        }
     });
 
     it('update request info', async () => {

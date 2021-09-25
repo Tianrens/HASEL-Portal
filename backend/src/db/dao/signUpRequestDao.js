@@ -15,7 +15,11 @@ async function createSignUpRequest(signUpRequest) {
 }
 
 async function updateRequestStatus(requestId, newStatus) {
-    await SignUpRequest.updateOne({ _id: requestId }, { status: newStatus });
+    await SignUpRequest.updateOne(
+        { _id: requestId },
+        { status: newStatus },
+        { runValidators: true },
+    );
 }
 
 async function retrieveAllRequests() {
@@ -59,7 +63,9 @@ async function retrieveRequestById(requestId) {
 }
 
 async function updateRequest(requestId, newRequestInfo) {
-    await SignUpRequest.updateOne({ _id: requestId }, newRequestInfo);
+    await SignUpRequest.updateOne({ _id: requestId }, newRequestInfo, {
+        runValidators: true,
+    });
 }
 
 async function setRequestEndDate(requestId, endDate) {
