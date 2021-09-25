@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, ClickAwayListener, Drawer, IconButton } from '@material-ui/core';
 import { Close, Dehaze } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,7 @@ import IdIcon from '../../../../assets/images/id.svg';
 import ApprovalsIcon from '../../../../assets/images/approvals.svg';
 import WorkstationIcon from '../../../../assets/images/workstation.svg';
 import ViewUsersIcon from '../../../../assets/images/viewUsers.svg';
+import { authRequest } from '../../../../hooks/util/authRequest';
 
 // Link button
 function NavBarLink({ title, icon, link, alertBadgeNumber }) {
@@ -26,8 +27,15 @@ function NavBarLink({ title, icon, link, alertBadgeNumber }) {
 
 // Links just for Super Admins
 function SuperAdminLinks() {
-    // TODO: Retrieve number of awaiting approvals from DB
-    const numNewApprovals = 73;
+    const [numNewApprovals, setNumNewApprovals] = useState();
+
+    useEffect(() => {
+        const getAndSetValues = async () => {
+            const response = await authRequest('/api/request/count/status/PENDING', 'GET');
+            setNumNewApprovals(response.data.count);
+        };
+        getAndSetValues();
+    }, []);
 
     const links = [
         {

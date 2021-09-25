@@ -73,6 +73,19 @@ router.get('/status/:status', getUser, checkSuperAdmin, async (req, res) => {
     }
 });
 
+/** GET request count */
+router.get('/count/status/:status', getUser, checkSuperAdmin, async (req, res) => {
+    const { status } = req.params;
+    try {
+        const count = await countRequests(status);
+        return res.status(HTTP.OK).json({
+            count,
+        });
+    } catch (err) {
+        return res.status(HTTP.BAD_REQUEST).json('Bad request');
+    }
+});
+
 /** GET single request */
 router.get(
     '/:requestId',

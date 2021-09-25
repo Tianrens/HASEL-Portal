@@ -711,3 +711,32 @@ it('delete a request which does not exist', async () => {
 
     expect(response.status).toEqual(HTTP.NOT_FOUND);
 });
+
+it('get request count pending as superadmin', async () => {
+    const response = await axios.get(
+        `${REQUEST_API_URL}/status/PENDING`,
+        {
+            validateStatus,
+            headers: {
+                authorization: `Bearer ${superAdminUser.authUserId}`,
+            },
+        },
+    );
+
+    expect(response.status).toEqual(HTTP.OK);
+    expect(response.data.count).toEqual(5);
+});
+
+it('get request count pending as non superadmin', async () => {
+    const response = await axios.get(
+        `${REQUEST_API_URL}/status/PENDING`,
+        {
+            validateStatus,
+            headers: {
+                authorization: `Bearer ${studentUser.authUserId}`,
+            },
+        },
+    );
+
+    expect(response.status).toEqual(HTTP.FORBIDDEN);
+});
