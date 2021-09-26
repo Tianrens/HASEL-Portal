@@ -1,14 +1,12 @@
 import { React } from 'react';
 import dayjs from 'dayjs';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Edit } from '@material-ui/icons';
 import { IconButton, Paper } from '@material-ui/core';
 import styles from './UserHomePage.module.scss';
 import TitleAndValue from '../../components/text/TitleAndValue';
 
 function BookingSummary({ bookings }) {
-    const history = useHistory();
-
     return bookings.map((booking) => {
         const t1 = dayjs(booking.startTimestamp).format('ddd DD/MM/YYYY h:mm A');
         const t2 = dayjs(booking.endTimestamp).format('ddd DD/MM/YYYY h:mm A');
@@ -24,7 +22,8 @@ function BookingSummary({ bookings }) {
                 <div className={styles.bookingInfoIcons}>
                     <IconButton
                         className={styles.bookingInfoIcon}
-                        onClick={() => history.push(`/booking/${booking._id}`)}
+                        component={Link}
+                        to={`/bookings/${booking._id}`}
                     >
                         <Edit />
                     </IconButton>

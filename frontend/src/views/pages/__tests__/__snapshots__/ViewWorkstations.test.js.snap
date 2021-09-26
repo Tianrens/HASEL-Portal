@@ -253,7 +253,7 @@ Array [
         <a
           aria-disabled={false}
           className="MuiButtonBase-root MuiButton-root MuiButton-contained button undefined"
-          href="/new-workstation"
+          href="/workstations/new"
           onBlur={[Function]}
           onClick={[Function]}
           onDragLeave={[Function]}

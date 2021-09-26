@@ -11,7 +11,7 @@ import { authRequest } from '../../../hooks/util/authRequest';
 const ViewWorkstationBookings = () => {
     const columnHeaders = ['Name', 'Booking Period', 'GPUs Booked'];
     const rowFactory = (row) => (
-        <TableRow key={row._id} component={Link} to={`/booking/${row._id}`}>
+        <TableRow key={row._id} component={Link} to={`/bookings/${row._id}`}>
             <TableCell component='th' scope='row'>
                 {row.userId.firstName} {row.userId.lastName}
             </TableCell>
@@ -29,7 +29,7 @@ const ViewWorkstationBookings = () => {
         async function getAndSetValues() {
             const response = await authRequest(`/api/workstation/${workstationId}`);
             setWorkstationTitle(response.data.name ? `- ${response.data.name}` : '');
-        };
+        }
         getAndSetValues();
     }, [workstationId]);
 

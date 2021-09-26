@@ -27,7 +27,7 @@ export default function ViewWorkstations() {
                     <div className={styles.header}>
                         <StyledHeader left>Workstation Overview</StyledHeader>
                     </div>
-                    <StyledButton component={Link} icon={<Icon>add</Icon>} to='/new-workstation'>
+                    <StyledButton component={Link} icon={<Icon>add</Icon>} to='/workstations/new'>
                         Add Workstation
                     </StyledButton>
                 </div>

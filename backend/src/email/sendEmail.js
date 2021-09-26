@@ -51,7 +51,7 @@ export async function sendNewRequestEmailToSuperAdmins(signUpRequest, url) {
         const { firstName, lastName, type } = user;
 
         const emailSubject = `New Sign Up Request - ${firstName} ${lastName}`;
-        const requestLink = `${url}/request/${signUpRequest._id}`;
+        const requestLink = `${url}/requests/${signUpRequest._id}`;
         const htmlContent = `<html><body>A user of type ${type} has submitted a new sign up request. 
         <br/><br/>To view their request, click <a href=${requestLink}>here</a></body></html>`;
 

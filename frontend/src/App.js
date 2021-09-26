@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import LandingPage from './views/pages/LandingPage/LandingPage';
 import UserHomePage from './views/pages/UserHomepage/UserHomePage';
 import NewRequest from './views/pages/NewRequest/NewRequest';
@@ -21,84 +21,85 @@ import ViewWorkstationBookings from './views/pages/ViewWorkstationBookings/ViewW
 import NewWorkstation from './views/pages/NewWorkstation/NewWorkstation';
 import ViewUsers from './views/pages/ViewUsers/ViewUsers';
 import EditWorkstation from './views/pages/EditWorkstation/EditWorkstation';
+import ProtectedRoute from './util/ProtectedRoute';
 
 function App() {
     const [idToken] = useDoc(idTokenDoc);
     const [user] = useDoc(userDoc);
+    const isSuperAdmin = isSuperAdminType(user?.type);
+    const isAdmin = isAdminType(user?.type);
 
     const UnauthenticatedRoutes = () => (
         <Switch>
-            <Route component={LandingPage} />
+            <Route exact path='/' component={LandingPage} />
+            <Route render={() => <Redirect to='/' />} />
         </Switch>
     );
 
     const SignupRoutes = () => (
         <Switch>
-            <Route component={SignupPage} />
-        </Switch>
-    );
-
-    const SuperAdminRoutes = () => (
-        <Switch>
-            <Route path='/new-booking/workstation/:workstationId' component={NewBooking} />
-            <Route exact path='/booking/:bookingId' component={EditBooking} />
-            <Route exact path='/request/:requestId' component={SingleRequest} />
-            <Route exact path='/requests' component={ViewRequests} />
-            <Route exact path='/new-workstation' component={NewWorkstation} />
-            <Route
-                exact
-                path='/workstation/:workstationId/booking'
-                component={ViewWorkstationBookings}
-            />
-            <Route exact path='/workstation/:workstationId' component={EditWorkstation} />
-            <Route exact path='/users' component={ViewUsers} />
-            <Route exact path='/users/:userId' component={ViewProfile} />
-            <Route exact path='/user' component={ProfilePage} />
-            <Route component={ViewWorkstations} />
-        </Switch>
-    );
-
-    const AdminRoutes = () => (
-        <Switch>
-            <Route exact path='/users' component={ViewUsers} />
-            <Route exact path='/user' component={ProfilePage} />
-            <Route exact path='/users/:userId' component={ViewProfile} />
-            <Route path='/new-booking/workstation/:workstationId' component={NewBooking} />
-            <Route exact path='/booking/:bookingId' component={EditBooking} />
-            <Route exact path='/new-workstation' component={NewWorkstation} />
-            <Route
-                exact
-                path='/workstation/:workstationId/booking'
-                component={ViewWorkstationBookings}
-            />
-            <Route exact path='/workstation/:workstationId' component={EditWorkstation} />
-            <Route component={ViewWorkstations} />
+            <Route exact path='/' component={SignupPage} />
+            <Route render={() => <Redirect to='/' />} />
         </Switch>
     );
 
     const PendingApprovalRoutes = () => (
         <Switch>
             <Route exact path='/user' component={ProfilePage} />
-            <Route component={PendingApproval} />
+            <Route exact path='/' component={PendingApproval} />
+            <Route render={() => <Redirect to='/' />} />
         </Switch>
     );
 
     const NoWorkstationAccessRoutes = () => (
         <Switch>
             <Route exact path='/user' component={ProfilePage} />
-            <Route component={NewRequest} />
+            <Route exact path='/' component={NewRequest} />
+            <Route render={() => <Redirect to='/' />} />
         </Switch>
     );
 
-    const WorkstationAccessRoutes = () => (
-        <Switch>
-            <Route exact path='/booking/:bookingId' component={EditBooking} />
-            <Route path='/new-booking/workstation/:workstationId' component={NewBooking} />
-            <Route exact path='/user' component={ProfilePage} />
-            <Route path='/' component={UserHomePage} />
-            <Route component={UserHomePage} />
-        </Switch>
-    );
+    const FullRoutes = () => {
+        // eslint-disable-next-line no-nested-ternary
+        const defaultComponent = isSuperAdmin
+            ? ViewRequests
+            : isAdmin
+                ? ViewWorkstations
+                : UserHomePage;
+
+        return (
+            <Switch>
+                <ProtectedRoute superAdmin exact path='/requests' component={ViewRequests} />
+                <ProtectedRoute
+                    superAdmin
+                    exact
+                    path='/requests/:requestId'
+                    component={SingleRequest}
+                />
+                <ProtectedRoute admin exact path='/workstations' component={ViewWorkstations} />
+                <ProtectedRoute admin exact path='/workstations/new' component={NewWorkstation} />
+                <ProtectedRoute
+                    admin
+                    exact
+                    path='/workstations/:workstationId/bookings'
+                    component={ViewWorkstationBookings}
+                />
+                <ProtectedRoute
+                    admin
+                    exact
+                    path='/workstations/:workstationId'
+                    component={EditWorkstation}
+                />
+                <ProtectedRoute admin exact path='/users' component={ViewUsers} />
+                <ProtectedRoute admin exact path='/users/:userId' component={ViewProfile} />
+                <Route exact path='/bookings/new' component={NewBooking} />
+                <Route exact path='/bookings/:bookingId' component={EditBooking} />
+                <Route exact path='/user' component={ProfilePage} />
+                <Route exact path='/' component={defaultComponent} />
+                <Route render={() => <Redirect to='/' />} />
+            </Switch>
+        );
+    };
 
     function Routes() {
         // Not authenticated with Firebase
@@ -109,14 +110,10 @@ function App() {
         if (idToken && !user) {
             return SignupRoutes();
         }
-        // User is super admin
-        if (isSuperAdminType(user?.type)) {
-            return SuperAdminRoutes();
-        }
 
-        // User is admin
-        if (isAdminType(user?.type)) {
-            return AdminRoutes();
+        // User is Admin or Super Admin so doesn't need a usage request
+        if (isSuperAdmin || isAdmin) {
+            return FullRoutes();
         }
 
         // User is a regular user but has pending approval
@@ -130,7 +127,7 @@ function App() {
         }
 
         // User with workstation access
-        return WorkstationAccessRoutes();
+        return FullRoutes();
     }
 
     return <Router>{Routes()}</Router>;

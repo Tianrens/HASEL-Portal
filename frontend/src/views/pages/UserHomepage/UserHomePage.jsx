@@ -51,7 +51,10 @@ function UserHomePage() {
                                 type='submit'
                                 icon={<Icon>add</Icon>}
                                 component={Link}
-                                to={`/new-booking/workstation/${workstation._id}`}
+                                to={{
+                                    pathname: '/bookings/new',
+                                    state: { workstationId: workstation._id },
+                                }}
                             >
                                 Create Booking
                             </StyledButton>

@@ -10,7 +10,7 @@ import { getDisplayName } from '../../../config/accountTypes';
 const columns = ['Name', 'Account Type', 'Application Received'];
 
 const rowFactory = (row) => (
-    <TableRow key={row._id} component={Link} to={`/request/${row._id}`}>
+    <TableRow key={row._id} component={Link} to={`/requests/${row._id}`}>
         <TableCell component='th' scope='row'>
             {row.userId.firstName} {row.userId.lastName}
         </TableCell>

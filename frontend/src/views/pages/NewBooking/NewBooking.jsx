@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import Icon from '@material-ui/core/Icon';
 import { header, buttonContainer } from './NewBooking.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
@@ -10,7 +10,8 @@ import { useCrud } from '../../../hooks/useCrud';
 import { successSnackbar, errorSnackbar } from '../../../util/SnackbarUtil';
 
 const NewBooking = () => {
-    const { workstationId } = useParams();
+    const location = useLocation();
+    const workstationId = location?.state?.workstationId;
 
     const history = useHistory();
 

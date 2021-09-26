@@ -18,7 +18,7 @@ const SingleRequest = () => {
     const history = useHistory();
     const actionCallback = (message) => {
         successSnackbar(message);
-        history.push('/requests');
+        history.goBack();
     };
 
     const [workstation, setWorkstation] = useState();

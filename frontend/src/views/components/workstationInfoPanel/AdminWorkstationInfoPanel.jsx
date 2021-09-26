@@ -11,17 +11,17 @@ export default function AdminWorkstationInfoPanel({ workstationData }) {
         {
             icon: <Icon>add</Icon>,
             title: 'Create Booking',
-            link: `/new-booking/workstation/${workstationData._id}`,
+            link: '/bookings/new',
         },
         {
             icon: <Icon>view_list</Icon>,
             title: 'View Bookings',
-            link: `/workstation/${workstationData._id}/booking`,
+            link: `/workstations/${workstationData._id}/bookings`,
         },
         {
             icon: <Icon>edit</Icon>,
             title: 'Edit Workstation',
-            link: `/workstation/${workstationData._id}`,
+            link: `/workstations/${workstationData._id}`,
         },
     ];
     const [anchorEl, setAnchorEl] = useState(null);
@@ -42,7 +42,14 @@ export default function AdminWorkstationInfoPanel({ workstationData }) {
                 <Paper>
                     <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
                         {menuItems.map((item) => (
-                            <MenuItem key={item.title} component={Link} to={item.link}>
+                            <MenuItem
+                                key={item.title}
+                                component={Link}
+                                to={{
+                                    pathname: item.link,
+                                    state: { workstationId: workstationData._id },
+                                }}
+                            >
                                 <ListItemIcon>{item.icon}</ListItemIcon>
                                 <ListItemText>{item.title}</ListItemText>
                             </MenuItem>
