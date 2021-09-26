@@ -20,6 +20,7 @@ import ViewWorkstations from './views/pages/ViewWorkstations/ViewWorkstations';
 import ViewWorkstationBookings from './views/pages/ViewWorkstationBookings/ViewWorkstationBookings';
 import NewWorkstation from './views/pages/NewWorkstation/NewWorkstation';
 import ViewUsers from './views/pages/ViewUsers/ViewUsers';
+import EditWorkstation from './views/pages/EditWorkstation/EditWorkstation';
 
 function App() {
     const [idToken] = useDoc(idTokenDoc);
@@ -49,6 +50,7 @@ function App() {
                 path='/workstation/:workstationId/booking'
                 component={ViewWorkstationBookings}
             />
+            <Route exact path='/workstation/:workstationId' component={EditWorkstation} />
             <Route exact path='/users' component={ViewUsers} />
             <Route exact path='/users/:userId' component={ViewProfile} />
             <Route exact path='/user' component={ProfilePage} />
@@ -69,6 +71,7 @@ function App() {
                 path='/workstation/:workstationId/booking'
                 component={ViewWorkstationBookings}
             />
+            <Route exact path='/workstation/:workstationId' component={EditWorkstation} />
             <Route component={ViewWorkstations} />
         </Switch>
     );

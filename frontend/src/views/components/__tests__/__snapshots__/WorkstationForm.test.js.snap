@@ -52,6 +52,7 @@ exports[`BookingForm renders properly 1`] = `
             placeholder="e.g. Zeus"
             required={true}
             type="text"
+            value=""
           />
           <fieldset
             aria-hidden={true}
@@ -114,6 +115,7 @@ exports[`BookingForm renders properly 1`] = `
             placeholder="e.g. 405.662"
             required={true}
             type="text"
+            value=""
           />
           <fieldset
             aria-hidden={true}
@@ -176,6 +178,7 @@ exports[`BookingForm renders properly 1`] = `
             placeholder="e.g. 10.123.101.38"
             required={true}
             type="text"
+            value=""
           />
           <fieldset
             aria-hidden={true}
@@ -256,6 +259,7 @@ exports[`BookingForm renders properly 1`] = `
             placeholder="e.g. AMD Threadripper 3990X (64 Cores)"
             required={true}
             type="text"
+            value=""
           />
           <fieldset
             aria-hidden={true}
@@ -318,6 +322,7 @@ exports[`BookingForm renders properly 1`] = `
             placeholder="e.g. RTX 3090"
             required={true}
             type="text"
+            value=""
           />
           <fieldset
             aria-hidden={true}
@@ -380,6 +385,7 @@ exports[`BookingForm renders properly 1`] = `
             placeholder="e.g. 4"
             required={true}
             type="text"
+            value=""
           />
           <fieldset
             aria-hidden={true}
@@ -442,6 +448,7 @@ exports[`BookingForm renders properly 1`] = `
             placeholder="e.g. 256GB"
             required={true}
             type="text"
+            value=""
           />
           <fieldset
             aria-hidden={true}

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`New Workstation page renders properly 1`] = `
+exports[`Edit Workstation page renders properly 1`] = `
 Array [
   <div
     className="fillTopbarSpace"
@@ -236,7 +236,7 @@ Array [
         className="text alignLeft "
       >
         <span>
-          New Workstation
+          Edit Workstation
         </span>
       </h2>
     </div>
@@ -723,7 +723,42 @@ Array [
     <div
       className="buttonContainer"
     >
-      <div />
+      <div>
+        <button
+          className="MuiButtonBase-root MuiButton-root MuiButton-contained button yellow"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="submit"
+        >
+          <span
+            className="MuiButton-label"
+          >
+            <span
+              className="MuiButton-startIcon MuiButton-iconSizeMedium"
+            >
+              <span
+                aria-hidden={true}
+                className="material-icons MuiIcon-root"
+              >
+                delete
+              </span>
+            </span>
+            Delete
+          </span>
+        </button>
+      </div>
       <div>
         <button
           className="MuiButtonBase-root MuiButton-root MuiButton-contained button red"
@@ -790,7 +825,7 @@ Array [
                 done
               </span>
             </span>
-            Submit
+            Confirm Changes
           </span>
         </button>
       </div>

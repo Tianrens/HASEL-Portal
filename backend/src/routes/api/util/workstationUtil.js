@@ -7,7 +7,7 @@ async function getWorkstation(req, res, next) {
     if (!workstation) {
         return res
             .status(HTTP.NOT_FOUND)
-            .send(`Could not find booking with id: ${workstation}`);
+            .send(`Could not find workstation with id: ${workstation}`);
     }
 
     req.workstation = workstation;

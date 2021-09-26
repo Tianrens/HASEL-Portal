@@ -5,14 +5,23 @@ import CustomTextField from '../TextField/CustomTextField';
 import styles from './Form.module.scss';
 
 const WorkstationForm = ({ data, updateState }) => {
-    // Can grab data from EDIT jsx and pass it into this form
-    const [name, setName] = useState(data?.name);
-    const [location, setLocation] = useState(data?.description);
-    const [host, setHost] = useState(data?.host);
-    const [cpuDescription, setCPU] = useState(data?.cpuDescription);
-    const [numGPUs, setNumGPUs] = useState(data?.numGPUs);
-    const [gpuDescription, setGPU] = useState(data?.gpuDescription);
-    const [ramDescription, setRAM] = useState(data?.ramDescription);
+    const [name, setName] = useState('');
+    const [location, setLocation] = useState('');
+    const [host, setHost] = useState('');
+    const [cpuDescription, setCPU] = useState('');
+    const [numGPUs, setNumGPUs] = useState('');
+    const [gpuDescription, setGPU] = useState('');
+    const [ramDescription, setRAM] = useState('');
+
+    useEffect(() => {
+        setName(data?.name);
+        setLocation(data?.location);
+        setHost(data?.host);
+        setCPU(data?.cpuDescription);
+        setNumGPUs(data?.numGPUs);
+        setGPU(data?.gpuDescription);
+        setRAM(data?.ramDescription);
+    }, [data]);
 
     useEffect(() => {
         updateState(
