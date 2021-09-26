@@ -26,6 +26,8 @@ let invalidPeriodBooking;
 let invalidTimeBookings;
 let validTimeBookings;
 
+const DATE_NOW_TIME = '2021-08-17T09:00:00';
+
 /**
  * Before all tests, create an in-memory MongoDB instance so we don't have to test on a real database,
  * then establish a mongoose connection to it.
@@ -53,7 +55,7 @@ beforeEach(async () => {
     );
     const usersColl = await mongoose.connection.db.collection('users');
 
-    Date.now = jest.fn(() => new Date('2021-08-17T09:00:00')); // Mock current time
+    Date.now = jest.fn(() => new Date(DATE_NOW_TIME)); // Mock current time
 
     workstation1 = new Workstation({
         name: 'Machine 1',
@@ -245,7 +247,7 @@ beforeEach(async () => {
             workstationId: workstation1._id,
             userId: user1._id,
             startTimestamp: new Date('2021-08-17T07:00:00'),
-            endTimestamp: new Date('2021-08-17T09:00:00'),
+            endTimestamp: new Date(DATE_NOW_TIME),
             gpuIndices: [1],
         },
     ];
@@ -541,7 +543,7 @@ it('update booking time conflict', async () => {
     expect.assertions(7);
     // Conflicts with booking1
     const updatedBooking2Info = {
-        startTimestamp: new Date('2021-08-17T09:00:00'),
+        startTimestamp: new Date(DATE_NOW_TIME),
         endTimestamp: new Date('2021-08-17T13:00:00'),
         gpuIndices: [0],
     };

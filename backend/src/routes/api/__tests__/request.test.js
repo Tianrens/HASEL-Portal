@@ -34,6 +34,9 @@ let workstation2;
 let workstation3;
 let updatedWorkstation;
 
+let originalDateFunction;
+const DATE_NOW_TIME = '2021-08-17T09:00:00';
+
 const TOKEN_PASS = 'test';
 const TOKEN_FAIL = 'fail';
 
@@ -58,12 +61,15 @@ beforeAll(async () => {
     app.use(express.json());
     app.use('/api/request', firebaseAuth, router);
     server = app.listen(3000);
+
+    originalDateFunction = Date.now;
 });
 
 /**
  * Before each test, intialize the database with some data
  */
 beforeEach(async () => {
+    Date.now = jest.fn(() => new Date(DATE_NOW_TIME)); // Mock current time
     const usersColl = await mongoose.connection.db.collection('users');
     const signUpRequestsColl = await mongoose.connection.db.collection(
         'signuprequests',
@@ -265,6 +271,7 @@ beforeEach(async () => {
 afterEach(async () => {
     await mongoose.connection.db.dropCollection('users');
     await mongoose.connection.db.dropCollection('signuprequests');
+    Date.now = originalDateFunction;
 });
 
 /**
