@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSnackbar } from 'notistack';
 import {
     content,
     expandingSpacer,
@@ -11,23 +10,9 @@ import {
 } from './LandingPage.module.scss';
 import LoginButton from '../../components/buttons/LoginButton';
 import HeroPageTemplate from '../../components/templates/HeroPageTemplate/HeroPageTemplate';
+import { successSnackbar, errorSnackbar } from '../../../util/SnackbarUtil';
 
 function LandingPage() {
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-    function loginSuccessCallback() {
-        enqueueSnackbar('Login Successful', {
-            variant: 'success',
-            autoHideDuration: 3000,
-            onClose: closeSnackbar,
-        });
-    }
-    function loginFailCallback(error) {
-        enqueueSnackbar(error, {
-            variant: 'error',
-            autoHideDuration: 3000,
-            onClose: closeSnackbar,
-        });
-    }
     return (
         <HeroPageTemplate>
             <div className={content}>
@@ -52,7 +37,10 @@ function LandingPage() {
             </div>
             <div className={expandingSpacer} />
             <div className={loginContainer}>
-                <LoginButton callback={loginSuccessCallback} errorCallback={loginFailCallback} />
+                <LoginButton
+                    callback={() => successSnackbar('Login Successful')}
+                    errorCallback={(error) => errorSnackbar(error)}
+                />
             </div>
         </HeroPageTemplate>
     );

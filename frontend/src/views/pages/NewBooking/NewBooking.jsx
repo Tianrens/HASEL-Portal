@@ -1,18 +1,17 @@
 import { React, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import Icon from '@material-ui/core/Icon';
-import { useSnackbar } from 'notistack';
 import { header, buttonContainer } from './NewBooking.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import BookingForm from '../../components/forms/BookingForm';
 import { authRequest } from '../../../hooks/util/authRequest';
 import { useCrud } from '../../../hooks/useCrud';
+import { successSnackbar, errorSnackbar } from '../../../util/SnackbarUtil';
 
 const NewBooking = () => {
     const { workstationId } = useParams();
 
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const history = useHistory();
 
     const userWorkstation = useCrud(`/api/workstation/${workstationId}`).data;
@@ -28,23 +27,6 @@ const NewBooking = () => {
         setBookingState(newBookingState);
     };
 
-    const successCallback = (message) => {
-        enqueueSnackbar(message, {
-            variant: 'success',
-            autoHideDuration: 3000,
-            onClose: closeSnackbar,
-        });
-        history.goBack();
-    };
-
-    const errorCallback = (message) => {
-        enqueueSnackbar(message, {
-            variant: 'error',
-            autoHideDuration: 3000,
-            onClose: closeSnackbar,
-        });
-    };
-
     const submitBooking = async () => {
         if (error) {
             return;
@@ -52,9 +34,10 @@ const NewBooking = () => {
 
         try {
             await authRequest('/api/booking/', 'POST', { workstationId, ...bookingState });
-            successCallback('Booking created');
+            successSnackbar('Booking created');
+            history.goBack();
         } catch (err) {
-            errorCallback(err.message);
+            errorSnackbar(err.response.data);
         }
     };
 

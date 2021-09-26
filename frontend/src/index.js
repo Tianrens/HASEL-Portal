@@ -9,6 +9,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './state/state';
 import StateProvider from './state/StateProvider';
+import { SnackbarUtils } from './util/SnackbarUtil';
 
 ReactDOM.render(
     <React.StrictMode>
@@ -18,6 +19,7 @@ ReactDOM.render(
                     <ThemeProvider theme={theme}>
                         <App />
                     </ThemeProvider>
+                    <SnackbarUtils />
                 </SnackbarProvider>
             </StateProvider>
         </StylesProvider>

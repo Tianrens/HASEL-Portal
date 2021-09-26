@@ -1,12 +1,12 @@
 import { React, useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import { useCrud } from '../../../hooks/useCrud';
 import { header } from './EditBooking.module.scss';
 import BottomButtons from '../../components/buttons/BottomButtons';
 import { authRequest } from '../../../hooks/util/authRequest';
 import BookingForm from '../../components/forms/BookingForm';
+import { successSnackbar, errorSnackbar } from '../../../util/SnackbarUtil';
 
 const EditBooking = () => {
     const [bookingState, setBookingState] = useState({});
@@ -16,23 +16,10 @@ const EditBooking = () => {
     const userWorkstationName = userWorkstation?.name;
     const numGPUs = userWorkstation?.numGPUs;
 
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const history = useHistory();
     const successCallback = (message) => {
-        enqueueSnackbar(message, {
-            variant: 'success',
-            autoHideDuration: 3000,
-            onClose: closeSnackbar,
-        });
+        successSnackbar(message);
         history.goBack();
-    };
-
-    const errorCallback = (message) => {
-        enqueueSnackbar(message, {
-            variant: 'error',
-            autoHideDuration: 3000,
-            onClose: closeSnackbar,
-        });
     };
 
     const { bookingId } = useParams();
@@ -43,7 +30,7 @@ const EditBooking = () => {
             await authRequest(`/api/booking/${bookingId}`, 'DELETE');
             successCallback('Booking deleted successfully');
         } catch (err) {
-            errorCallback(err.message);
+            errorSnackbar(err.response.data);
         }
     };
 
@@ -62,7 +49,7 @@ const EditBooking = () => {
             });
             successCallback('Booking updated successfully');
         } catch (err) {
-            errorCallback(err.message);
+            errorSnackbar(err.response.data);
         }
     };
 

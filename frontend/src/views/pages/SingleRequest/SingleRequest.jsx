@@ -3,7 +3,6 @@ import { useHistory, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import Divider from '@material-ui/core/Divider';
 import MenuItem from '@material-ui/core/MenuItem';
-import { useSnackbar } from 'notistack';
 import styles from './SingleRequest.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import TextField from '../../components/TextField/CustomTextField';
@@ -13,16 +12,12 @@ import TitleAndValue from '../../components/text/TitleAndValue';
 import { getDisplayName, getValidityPeriod } from '../../../config/accountTypes';
 import { authRequestLogError } from '../../../hooks/util/authRequest';
 import BottomButtons from '../../components/buttons/BottomButtons';
+import { successSnackbar } from '../../../util/SnackbarUtil';
 
 const SingleRequest = () => {
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const history = useHistory();
     const actionCallback = (message) => {
-        enqueueSnackbar(message, {
-            variant: 'success',
-            autoHideDuration: 3000,
-            onClose: closeSnackbar,
-        });
+        successSnackbar(message);
         history.push('/requests');
     };
 

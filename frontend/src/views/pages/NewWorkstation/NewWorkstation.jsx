@@ -1,14 +1,13 @@
 import { React, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import { authRequest } from '../../../hooks/util/authRequest';
 import WorkstationForm from '../../components/forms/WorkstationForm';
 import StyledHeader from '../../components/text/StyledHeader';
 import BottomButtons from '../../components/buttons/BottomButtons';
+import { errorSnackbar, successSnackbar } from '../../../util/SnackbarUtil';
 
 const NewWorkstation = () => {
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const history = useHistory();
 
     const [error, setError] = useState(true);
@@ -19,29 +18,13 @@ const NewWorkstation = () => {
         setWorkstationState(newState);
     };
 
-    const successCallback = (message) => {
-        enqueueSnackbar(message, {
-            variant: 'success',
-            autoHideDuration: 3000,
-            onClose: closeSnackbar,
-        });
-        history.goBack();
-    };
-
-    const errorCallback = (message) => {
-        enqueueSnackbar(message, {
-            variant: 'error',
-            autoHideDuration: 3000,
-            onClose: closeSnackbar,
-        });
-    };
-
     const submitHandler = async () => {
         try {
             await authRequest('/api/workstation/', 'POST', workstationState);
-            successCallback('Workstation created');
+            successSnackbar('Workstation created');
+            history.goBack();
         } catch (err) {
-            errorCallback(err.message);
+            errorSnackbar(err.response.data);
         }
     };
 
