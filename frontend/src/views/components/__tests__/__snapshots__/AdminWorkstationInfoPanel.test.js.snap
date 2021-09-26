@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BookingForm renders properly 1`] = `
+<div
+  className="MuiPaper-root wrapper MuiPaper-elevation1 MuiPaper-rounded"
+>
+  <div
+    className="infoContent"
+  >
+    <div
+      className="workstationName"
+    >
+      <div
+        className="wrapper large "
+      >
+        <img
+          className="icon "
+          src="workstation.svg"
+        />
+        <div
+          className="spacer"
+        />
+        <div>
+          <b />
+           
+        </div>
+      </div>
+    </div>
+    <div
+      className="infoFields"
+    >
+      <div
+        className="wrapper undefined responsiveWrapper"
+      >
+        <img
+          alt="CPU"
+          className="icon responsiveIcon"
+          src="cpu.svg"
+        />
+        <div
+          className="spacer"
+        />
+        <div>
+          <b>
+            CPU
+          </b>
+           
+        </div>
+      </div>
+      <div
+        className="wrapper undefined responsiveWrapper"
+      >
+        <img
+          alt="RAM"
+          className="icon responsiveIcon"
+          src="ram.svg"
+        />
+        <div
+          className="spacer"
+        />
+        <div>
+          <b>
+            RAM
+          </b>
+           
+        </div>
+      </div>
+      <div
+        className="wrapper undefined responsiveWrapper"
+      >
+        <img
+          alt="GPU"
+          className="icon responsiveIcon"
+          src="gpu.svg"
+        />
+        <div
+          className="spacer"
+        />
+        <div>
+          <b>
+            GPU
+          </b>
+           
+        </div>
+      </div>
+    </div>
+    <div
+      className="adminButtonWrapper"
+    >
+      <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-text menuButton"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="button"
+      >
+        <span
+          className="MuiButton-label"
+        >
+          <span
+            aria-hidden={true}
+            className="material-icons MuiIcon-root"
+          >
+            more_horiz
+          </span>
+        </span>
+      </button>
+      <div
+        className="MuiPaper-root MuiPaper-elevation1 MuiPaper-rounded"
+      />
+    </div>
+  </div>
+  <div
+    className="ganttWrapper"
+  />
+</div>
+`;

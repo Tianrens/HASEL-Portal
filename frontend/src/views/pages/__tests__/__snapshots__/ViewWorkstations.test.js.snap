@@ -286,16 +286,6 @@ Array [
           </span>
         </a>
       </div>
-      <div
-        className="workstationPlaceholder"
-      >
-        WORKSTATION PLACEHOLDER
-      </div>
-      <div
-        className="workstationPlaceholder"
-      >
-        WORKSTATION PLACEHOLDER
-      </div>
     </div>
   </div>,
 ]

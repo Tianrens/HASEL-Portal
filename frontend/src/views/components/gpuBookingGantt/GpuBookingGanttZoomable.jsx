@@ -57,16 +57,24 @@ export default function GpuBookingGanttZoomable({ workstationId, currentBookingD
                     zoomLevel={zoomLevels[zoomIdx]}
                 />
                 <div className={styles.buttonsContainer}>
-                    <StyledIconButton
-                        icon={<Icon>zoom_in</Icon>}
-                        onClick={handleIncrementZoom}
-                        disabled={isZoomInDisabled}
-                    />
-                    <StyledIconButton
-                        icon={<Icon>zoom_out</Icon>}
-                        onClick={handleDecrementZoom}
-                        disabled={isZoomOutDisabled}
-                    />
+                    <div className={styles.buttons}>
+                        <StyledIconButton
+                            icon={<Icon>zoom_in</Icon>}
+                            onClick={handleIncrementZoom}
+                            disabled={isZoomInDisabled}
+                        />
+                        <StyledIconButton
+                            icon={<Icon>zoom_out</Icon>}
+                            onClick={handleDecrementZoom}
+                            disabled={isZoomOutDisabled}
+                        />
+                    </div>
+                    <div>
+                        <p>
+                            Legend Placeholder: Blue = Your Booking, Grey = Other Booking, Green =
+                            Current Booking
+                        </p>
+                    </div>
                 </div>
             </div>
         )

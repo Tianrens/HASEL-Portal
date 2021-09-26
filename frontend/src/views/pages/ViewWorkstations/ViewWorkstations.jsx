@@ -1,25 +1,42 @@
 import { Icon } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { StyledButton } from '../../components/buttons/StyledButton';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import StyledHeader from '../../components/text/StyledHeader';
 import styles from './ViewWorkstations.module.scss';
+import AdminWorkstationInfoPanel from '../../components/workstationInfoPanel/AdminWorkstationInfoPanel';
+import { authRequest } from '../../../hooks/util/authRequest';
 
-const ViewWorkstations = () => (
-    <TopBarPageTemplate>
-        <div className={styles.container}>
-            <div className={styles.workstationHeader}>
-                <div className={styles.header}>
-                    <StyledHeader left>Workstation Overview</StyledHeader>
+export default function ViewWorkstations() {
+    const [workstationsData, setWorkstationsData] = useState();
+
+    useEffect(() => {
+        const getAndSetValues = async () => {
+            const workstationsResponse = await authRequest('/api/workstation');
+
+            setWorkstationsData(workstationsResponse.data);
+        };
+        getAndSetValues();
+    }, []);
+
+    return (
+        <TopBarPageTemplate>
+            <div className={styles.container}>
+                <div className={styles.workstationHeader}>
+                    <div className={styles.header}>
+                        <StyledHeader left>Workstation Overview</StyledHeader>
+                    </div>
+                    <StyledButton component={Link} icon={<Icon>add</Icon>} to='/new-workstation'>
+                        Add Workstation
+                    </StyledButton>
                 </div>
-                <StyledButton component={Link} icon={<Icon>add</Icon>} to='/new-workstation'>
-                    Add Workstation
-                </StyledButton>
+                {workstationsData?.map((workstation) => (
+                    <div key={workstation._id} className={styles.workstationInfoWrapper}>
+                        <AdminWorkstationInfoPanel workstationData={workstation} />
+                    </div>
+                ))}
             </div>
-            <div className={styles.workstationPlaceholder}>WORKSTATION PLACEHOLDER</div>
-            <div className={styles.workstationPlaceholder}>WORKSTATION PLACEHOLDER</div>
-        </div>
-    </TopBarPageTemplate>
-);
-export default ViewWorkstations;
+        </TopBarPageTemplate>
+    );
+}

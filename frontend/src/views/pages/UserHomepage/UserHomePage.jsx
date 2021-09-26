@@ -7,9 +7,10 @@ import { StyledButton } from '../../components/buttons/StyledButton';
 import styles from './UserHomePage.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import StyledHeader from '../../components/text/StyledHeader';
-import GpuBookingGanttZoomable from '../../components/gpuBookingGantt/GpuBookingGanttZoomable';
 import { authRequest } from '../../../hooks/util/authRequest';
 import BookingSummary from './BookingSummary';
+
+import WorkstationInfoPanel from '../../components/workstationInfoPanel/WorkstationInfoPanel';
 
 function UserHomePage() {
     const [user] = useDoc(userDoc);
@@ -55,7 +56,7 @@ function UserHomePage() {
                                 Create Booking
                             </StyledButton>
                         </div>
-                        <GpuBookingGanttZoomable workstationId={workstation._id} />
+                        <WorkstationInfoPanel workstationData={workstation} />
 
                         <div className={styles.header}>
                             <StyledHeader left>Your Bookings Summary</StyledHeader>

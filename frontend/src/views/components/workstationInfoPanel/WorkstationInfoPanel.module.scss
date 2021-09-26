@@ -1,0 +1,55 @@
+@import '../../../assets/colours.module';
+@import '../../../assets/responsiveDesignHelpers';
+$borderRadius: 5px 0 0 5px;
+$borderRadiusMobile: 5px 5px 0 0;
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.infoContent {
+    background: $primaryBlue;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 12em;
+    padding: 1em 2em;
+    border-radius: $borderRadius;
+}
+
+.workstationName {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1em;
+}
+
+.infoFields {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0;
+}
+
+.ganttWrapper {
+    display: inline-block;
+    overflow-x: hidden;
+}
+
+@include responsive(tablet) {
+    .wrapper {
+        flex-direction: column;
+    }
+    .infoContent {
+        border-radius: $borderRadiusMobile;
+    }
+    .workstationName {
+        justify-content: left;
+    }
+
+    .infoFields {
+        flex-direction: row;
+    }
+}

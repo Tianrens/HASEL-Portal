@@ -17,13 +17,8 @@
     color: $heading;
 }
 
-.workstationPlaceholder {
-    height: 20rem;
-    align-items: center;
-    justify-content: center;
-    background-color: lightgrey;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+.workstationInfoWrapper {
+    margin-bottom: 2em;
 }
 
 @include responsive(tablet) {

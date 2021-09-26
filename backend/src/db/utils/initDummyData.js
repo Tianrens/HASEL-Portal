@@ -10,8 +10,8 @@ async function initWorkstations() {
         location: '401.401 PC 1',
         numGPUs: 3,
         gpuDescription: 'GeForce RTX 3080 x3',
-        ramDescription: '64 GB x3',
-        cpuDescription: '2.6 GHz x3',
+        ramDescription: '64 GB',
+        cpuDescription: '2.6 GHz',
     });
     const apollo = await createWorkstation({
         name: 'Apollo',
@@ -19,8 +19,8 @@ async function initWorkstations() {
         location: '401.401 PC 2',
         numGPUs: 4,
         gpuDescription: 'GeForce RTX 3080 x4',
-        ramDescription: '64 GB x4',
-        cpuDescription: '2.6 GHz x4',
+        ramDescription: '64 GB',
+        cpuDescription: '2.6 GHz',
     });
     const athena = await createWorkstation({
         name: 'Athena',
@@ -28,8 +28,8 @@ async function initWorkstations() {
         location: '401.401 PC 3',
         numGPUs: 5,
         gpuDescription: 'GeForce RTX 3080 x5',
-        ramDescription: '64 GB x5',
-        cpuDescription: '2.6 GHz x5',
+        ramDescription: '64 GB',
+        cpuDescription: '2.6 GHz',
     });
 
     return [zeus, apollo, athena];

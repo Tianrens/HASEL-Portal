@@ -1,0 +1,25 @@
+@import '../../../assets/colours.module';
+@import '../../../assets/responsiveDesignHelpers';
+
+.adminButtonWrapper {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: flex-end;
+    min-height: 30px;
+}
+
+.menuButton {
+    color: white;
+    width: 100%;
+    background: $darkBlue;
+    &:hover {
+        background: $darkBlueHover;
+    }
+}
+
+@include responsive(tablet) {
+    .menuButton {
+        margin-top: 0.4em;
+    }
+}

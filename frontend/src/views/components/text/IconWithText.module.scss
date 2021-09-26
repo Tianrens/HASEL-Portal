@@ -1,0 +1,36 @@
+@import '../../../assets/responsiveDesignHelpers';
+
+.wrapper {
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    flex: 1 0;
+}
+
+.large {
+    font-size: 1.5em;
+    justify-content: center;
+    text-align: center;
+}
+
+.spacer {
+    min-width: 10px;
+}
+
+.icon {
+    width: 28px;
+    height: 28px;
+    image-rendering: smooth;
+}
+
+@include responsive(tablet) {
+    .responsiveWrapper {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .responsiveIcon {
+        padding-bottom: 4px;
+    }
+}
