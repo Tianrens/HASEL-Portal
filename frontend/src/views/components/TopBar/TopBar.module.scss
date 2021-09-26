@@ -2,6 +2,7 @@
 @import '../../../assets/responsiveDesignHelpers';
 
 $topBarHeight: 58px;
+$dropShadow: 0px 3px 5px rgba(0, 0, 0, 0.6);
 
 .fillTopbarSpace {
     min-height: $topBarHeight;
@@ -19,6 +20,7 @@ $topBarHeight: 58px;
     align-items: center;
     color: white;
     z-index: 100;
+    box-shadow: $dropShadow;
 }
 
 .patternBgLayer {
@@ -39,6 +41,7 @@ $topBarHeight: 58px;
     position: absolute;
     left: 10px;
     top: 5px;
+    filter: drop-shadow($dropShadow);
 }
 
 .spacer {

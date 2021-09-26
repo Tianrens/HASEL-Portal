@@ -12,7 +12,11 @@ export default function WorkstationInfoPanel({ workstationData, children }) {
     const infoFields = [
         { icon: CpuIcon, title: 'CPU', description: workstationData.cpuDescription },
         { icon: RamIcon, title: 'RAM', description: workstationData.ramDescription },
-        { icon: GpuIcon, title: 'GPU', description: workstationData.gpuDescription },
+        {
+            icon: GpuIcon,
+            title: 'GPU',
+            description: `${workstationData.numGPUs}x ${workstationData.gpuDescription} `,
+        },
     ];
 
     return (

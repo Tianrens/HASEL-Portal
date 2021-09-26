@@ -81,6 +81,7 @@ exports[`BookingForm renders properly 1`] = `
             GPU
           </b>
            
+          : undefinedx undefined 
         </div>
       </div>
     </div>

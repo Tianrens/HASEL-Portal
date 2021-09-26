@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import { DayMarkers, GanttComponent, Inject } from '@syncfusion/ej2-react-gantt';
-import './GpuBookingGanttMaterialTheme.css';
+import './GpuBookingGanttMaterialTheme.scss';
 import dayjs from 'dayjs';
 import colours from '../../../assets/_colours.module.scss';
 import { formatBookingData, formatResourceData } from './BookingGanttDataFormatters';

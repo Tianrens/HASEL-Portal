@@ -1,0 +1,12 @@
+@import './assets/colours.module';
+
+.MuiTableBody-root > .MuiTableRow-root:hover,
+.MuiMenuItem-root:hover {
+    background-color: $subHeading;
+    transition: all 0.3s;
+}
+
+.MuiPaper-root .MuiTableHead-root {
+    background-color: $primaryBlue;
+}
+
