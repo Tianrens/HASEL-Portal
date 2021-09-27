@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GanttLegend renders properly 1`] = `
+<div
+  className="wrapper"
+>
+  <div
+    className="title"
+  >
+    Legend
+  </div>
+  <div
+    className="categoriesWrapper"
+  >
+    <div
+      className="category"
+    >
+      <div
+        className="dot"
+        style={
+          Object {
+            "backgroundColor": "secondaryBlue",
+          }
+        }
+      />
+      Your Bookings
+    </div>
+    <div
+      className="category"
+    >
+      <div
+        className="dot"
+        style={
+          Object {
+            "backgroundColor": "gray",
+          }
+        }
+      />
+      Other Bookings
+    </div>
+    <div
+      className="category"
+    >
+      <div
+        className="dot"
+        style={
+          Object {
+            "backgroundColor": "green",
+          }
+        }
+      />
+      Current Booking
+    </div>
+  </div>
+</div>
+`;

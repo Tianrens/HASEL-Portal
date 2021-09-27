@@ -6,6 +6,7 @@ import { StyledIconButton } from '../buttons/StyledIconButton';
 import { authRequest } from '../../../hooks/util/authRequest';
 import { useDoc } from '../../../state/state';
 import { userDoc } from '../../../state/docs/userDoc';
+import GanttLegend from './GanttLegend';
 
 export default function GpuBookingGanttZoomable({ workstationId, currentBookingData }) {
     const [user] = useDoc(userDoc);
@@ -69,12 +70,9 @@ export default function GpuBookingGanttZoomable({ workstationId, currentBookingD
                             disabled={isZoomOutDisabled}
                         />
                     </div>
-                    <div>
-                        <p>
-                            Legend Placeholder: Blue = Your Booking, Grey = Other Booking, Green =
-                            Current Booking
-                        </p>
-                    </div>
+                </div>
+                <div className={styles.legendWrapper}>
+                    <GanttLegend hasCurrentBooking={Boolean(currentBookingData)} />
                 </div>
             </div>
         )

@@ -36,6 +36,7 @@ $borderRadiusMobile: 5px 5px 0 0;
 .ganttWrapper {
     display: inline-block;
     overflow-x: hidden;
+    border-radius: 0 5px 0 0;
 }
 
 @include responsive(tablet) {
