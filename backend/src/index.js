@@ -2,7 +2,7 @@ import express from 'express';
 import http from 'http';
 import path from 'path';
 import routes from './routes';
-import { expiringRequests } from './cron';
+import { initCron } from './cron';
 import { initDb } from './db/utils/initDb';
 
 const app = express();
@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-expiringRequests();
+initCron();
 
 server.listen(PORT, () => {
     console.log(`Server is running on PORT: ${PORT}`);

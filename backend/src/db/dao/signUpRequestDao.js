@@ -34,6 +34,12 @@ async function retrieveRequests(status, page, limit) {
         .populate('userId', 'email upi firstName lastName type');
 }
 
+async function retrieveRequestsByStatus(status) {
+    return SignUpRequest.find({ status })
+        .populate('userId', 'upi')
+        .populate('allocatedWorkstationId', 'host');
+}
+
 async function retrieveExpiringRequests(daysBefore) {
     return SignUpRequest.find({
         status: 'ACTIVE',
@@ -83,6 +89,7 @@ export {
     updateRequestStatus,
     retrieveAllRequests,
     retrieveRequests,
+    retrieveRequestsByStatus,
     retrieveExpiringRequests,
     setRequestNotifiedExpiring,
     countRequests,

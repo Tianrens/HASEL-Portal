@@ -6,8 +6,11 @@ import {
     retrieveAllBookings,
     retrieveBookingsByUser,
     retrieveBookingsByWorkstation,
+    retrieveBookingsByEndTimestampRange,
+    retrieveBookingsByStartTimestampRange,
     retrieveBookingsByWorkstationForGantt,
     updateBooking,
+    retrieveCurrentBookings,
 } from '../bookingDao';
 import { Workstation } from '../../schemas/workstationSchema';
 import { Booking } from '../../schemas/bookingSchema';
@@ -278,16 +281,10 @@ afterAll(async () => {
 
 function expectDbBookingMatchWithBooking(dbBooking, booking) {
     expect(dbBooking).toBeTruthy();
-    expect(dbBooking.workstationId).toEqual(booking.workstationId);
-    if (dbBooking.userId?._id) {
-        // Populated
-        expect(dbBooking.userId._id.toString()).toEqual(
-            booking.userId._id.toString(),
-        );
-    } else {
-        // Not populated
-        expect(dbBooking.userId.toString()).toEqual(booking.userId.toString());
-    }
+    expect(dbBooking.workstationId._id.toString()).toEqual(
+        booking.workstationId.toString(),
+    );
+    expect(dbBooking.userId._id.toString()).toEqual(booking.userId.toString());
     expect(dbBooking.startTimestamp).toEqual(booking.startTimestamp);
     expect(dbBooking.endTimestamp).toEqual(booking.endTimestamp);
     expect(dbBooking.gpuIndices.toObject()).toEqual(booking.gpuIndices);
@@ -362,6 +359,39 @@ it("retrieve user's bookings", async () => {
     expectDbBookingMatchWithBooking(bookings[0], booking1);
     expectDbBookingMatchWithBooking(bookings[1], booking2);
     expectDbBookingMatchWithBooking(bookings[2], booking3);
+});
+
+it('retrieve current bookings', async () => {
+    const bookings = await retrieveCurrentBookings();
+
+    expect(bookings).toBeTruthy();
+    expect(bookings).toHaveLength(1);
+    expectDbBookingMatchWithBooking(bookings[0], booking1);
+});
+
+it('retrieve bookings with endTimestamp', async () => {
+    // Should not grab booking2 as the timestamp is on startRange
+    const bookings = await retrieveBookingsByEndTimestampRange(
+        booking2.endTimestamp,
+        booking1.endTimestamp,
+    );
+
+    expect(bookings).toBeTruthy();
+    expect(bookings).toHaveLength(1);
+    expectDbBookingMatchWithBooking(bookings[0], booking1);
+});
+
+it('retrieve bookings with startTimestamp', async () => {
+    // Should  grab booking2 as the timestamp is after startRange
+    const bookings = await retrieveBookingsByStartTimestampRange(
+        booking2.startTimestamp - 1,
+        booking1.startTimestamp,
+    );
+
+    expect(bookings).toBeTruthy();
+    expect(bookings).toHaveLength(2);
+    expectDbBookingMatchWithBooking(bookings[0], booking1);
+    expectDbBookingMatchWithBooking(bookings[1], booking2);
 });
 
 it('retrieve bookings for a workstation for Gantt chart', async () => {

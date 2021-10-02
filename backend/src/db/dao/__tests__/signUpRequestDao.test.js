@@ -8,12 +8,14 @@ import {
     retrieveExpiringRequests,
     retrieveRequestById,
     retrieveRequests,
+    retrieveRequestsByStatus,
     setRequestNotifiedExpiring,
     updateRequest,
     updateRequestStatus,
 } from '../signUpRequestDao';
 import { SignUpRequest } from '../../schemas/signUpRequestSchema';
 import { User } from '../../schemas/userSchema';
+import { Workstation } from '../../schemas/workstationSchema';
 
 let mongo;
 
@@ -46,6 +48,7 @@ describe('non-time dependent tests', () => {
     let request3;
     let request4;
     let user1;
+    let workstation1;
 
     /**
      * Before each test, intialize the database with some data
@@ -56,6 +59,19 @@ describe('non-time dependent tests', () => {
         );
 
         const usersColl = await mongoose.connection.db.collection('users');
+        const workstationsColl = await mongoose.connection.db.collection(
+            'workstations',
+        );
+
+        workstation1 = new Workstation({
+            name: 'Machine 1',
+            host: '192.168.1.100',
+            location: 'HASEL Lab',
+            numGPUs: 2,
+            gpuDescription: 'Nvidia GeForce RTX 2080',
+            ramDescription: 'Kingston HyperX Predator 32GB',
+            cpuDescription: 'Intel Core i9 10900KF',
+        });
 
         user1 = new User({
             email: 'user1@gmail.com',
@@ -81,9 +97,7 @@ describe('non-time dependent tests', () => {
 
         request2 = {
             userId: user1._id,
-            allocatedWorkstationId: mongoose.Types.ObjectId(
-                '555555555555555555555555',
-            ),
+            allocatedWorkstationId: workstation1._id,
             supervisorName: 'Andrew Meads',
             comments: 'Need access to the HASEL Lab machines for PhD research',
             status: 'ACTIVE',
@@ -93,9 +107,7 @@ describe('non-time dependent tests', () => {
 
         request3 = {
             userId: user1._id,
-            allocatedWorkstationId: mongoose.Types.ObjectId(
-                '555555555555555555555555',
-            ),
+            allocatedWorkstationId: workstation1._id,
             supervisorName: 'Meads Andrew',
             comments: 'Need access to the LESAH Lab machines for PhD research',
             status: 'ACTIVE',
@@ -116,6 +128,7 @@ describe('non-time dependent tests', () => {
 
         await usersColl.insertOne(user1);
         await signUpRequestsColl.insertMany([request1, request2, request3]);
+        await workstationsColl.insertOne(workstation1);
     });
 
     /**
@@ -124,6 +137,7 @@ describe('non-time dependent tests', () => {
     afterEach(async () => {
         await mongoose.connection.db.dropCollection('signuprequests');
         await mongoose.connection.db.dropCollection('users');
+        await mongoose.connection.db.dropCollection('workstations');
     });
 
     function expectDbRequestMatchWithRequest(dbRequest, request) {
@@ -131,7 +145,7 @@ describe('non-time dependent tests', () => {
 
         // Occurs if the userId is populated
         expect(dbRequest.userId._id).toEqual(request.userId);
-        expect(dbRequest.allocatedWorkstationId).toEqual(
+        expect(dbRequest.allocatedWorkstationId._id).toEqual(
             request.allocatedWorkstationId,
         );
         expect(dbRequest.supervisorName).toEqual(request.supervisorName);
@@ -154,7 +168,17 @@ describe('non-time dependent tests', () => {
         expectDbRequestMatchWithRequest(requests[2], request3);
     });
 
-    it('get pending requests', async () => {
+    it('get active requests', async () => {
+        const requests = await retrieveRequestsByStatus('ACTIVE');
+
+        expect(requests).toBeTruthy();
+        expect(requests).toHaveLength(2);
+
+        expectDbRequestMatchWithRequest(requests[0], request2);
+        expectDbRequestMatchWithRequest(requests[1], request3);
+    });
+
+    it('get page 1 limit 1 pending requests', async () => {
         const STATUS = 'PENDING';
         const PAGE = 1;
         const LIMIT = 1;

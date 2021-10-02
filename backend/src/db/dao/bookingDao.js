@@ -68,6 +68,28 @@ async function retrieveBookingsByUser(userId) {
     return Booking.find({ userId });
 }
 
+async function retrieveBookingsByEndTimestampRange(startRange, endRange) {
+    return Booking.find({ endTimestamp: { $gt: startRange, $lte: endRange } })
+        .populate('userId', 'upi')
+        .populate('workstationId', 'host');
+}
+
+async function retrieveBookingsByStartTimestampRange(startRange, endRange) {
+    return Booking.find({ startTimestamp: { $gt: startRange, $lte: endRange } })
+        .populate('userId', 'upi')
+        .populate('workstationId', 'host');
+}
+
+async function retrieveCurrentBookings() {
+    const currentTime = new Date(Date.now());
+    return Booking.find({
+        startTimestamp: { $lte: currentTime },
+        endTimestamp: { $gte: currentTime },
+    })
+        .populate('userId', 'upi')
+        .populate('workstationId', 'host');
+}
+
 async function retrieveBookingsByWorkstationForGantt(workstationId) {
     const currentTime = Date.now();
     const endTime = addMonths(currentTime, 1);
@@ -161,8 +183,11 @@ async function deleteBooking(bookingId) {
 export {
     createBooking,
     retrieveAllBookings,
+    retrieveCurrentBookings,
     retrieveBookingById,
     retrieveBookingsByUser,
+    retrieveBookingsByEndTimestampRange,
+    retrieveBookingsByStartTimestampRange,
     retrieveBookingsByWorkstationForGantt,
     retrieveBookingsByWorkstation,
     updateBooking,
