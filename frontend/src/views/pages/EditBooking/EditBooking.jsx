@@ -6,7 +6,7 @@ import { header } from './EditBooking.module.scss';
 import BottomButtons from '../../components/buttons/BottomButtons';
 import { authRequest } from '../../../hooks/util/authRequest';
 import BookingForm from '../../components/forms/BookingForm';
-import { successSnackbar, errorSnackbar } from '../../../util/SnackbarUtil';
+import { onAcceptChanges, onDelete } from '../../../util/editUtil';
 
 const EditBooking = () => {
     const [bookingState, setBookingState] = useState({});
@@ -17,41 +17,9 @@ const EditBooking = () => {
     const numGPUs = userWorkstation?.numGPUs;
 
     const history = useHistory();
-    const successCallback = (message) => {
-        successSnackbar(message);
-        history.goBack();
-    };
 
     const { bookingId } = useParams();
     const booking = useCrud(`/api/booking/${bookingId}`).data;
-
-    const onDelete = async () => {
-        try {
-            await authRequest(`/api/booking/${bookingId}`, 'DELETE');
-            successCallback('Booking deleted successfully');
-        } catch (err) {
-            errorSnackbar(err.response.data);
-        }
-    };
-
-    const onCancel = () => {
-        history.goBack();
-    };
-
-    const onAcceptChanges = async () => {
-        if (error) {
-            return;
-        }
-        try {
-            await authRequest(`/api/booking/${bookingId}`, 'PUT', {
-                workstationId: userWorkstation?._id,
-                ...bookingState,
-            });
-            successCallback('Booking updated successfully');
-        } catch (err) {
-            errorSnackbar(err.response.data);
-        }
-    };
 
     useEffect(() => {
         const getAndSetValues = async () => {
@@ -78,9 +46,17 @@ const EditBooking = () => {
                 />
             )}
             <BottomButtons
-                onDelete={onDelete}
-                onAccept={onAcceptChanges}
-                onDeny={onCancel}
+                onDelete={onDelete('booking', bookingId, () => history.goBack())}
+                onAccept={onAcceptChanges(
+                    'booking',
+                    {
+                        workstationId: userWorkstation?._id,
+                        ...bookingState,
+                    },
+                    bookingId,
+                    () => history.goBack(),
+                )}
+                onDeny={() => history.goBack()}
                 acceptText='Confirm Changes'
                 denyText='Cancel'
                 acceptDisabled={error}

@@ -36,14 +36,14 @@ const EditWorkstation = () => {
             <StyledHeader left>Edit Workstation</StyledHeader>
             <WorkstationForm data={workstation} updateState={updateState} />
             <BottomButtons
-                onDelete={onDelete('workstation', workstationId, history)}
+                onDelete={onDelete('workstation', workstationId, () => history.goBack())}
                 onDeny={() => history.goBack()}
                 denyText='Cancel'
                 onAccept={onAcceptChanges(
                     'workstation',
                     workstationState,
                     workstationId,
-                    history,
+                    () => history.goBack(),
                 )}
                 acceptDisabled={error}
                 acceptText='Confirm Changes'

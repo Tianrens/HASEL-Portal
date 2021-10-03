@@ -5,9 +5,8 @@ import { header, buttonContainer } from './NewBooking.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import BookingForm from '../../components/forms/BookingForm';
-import { authRequest } from '../../../hooks/util/authRequest';
 import { useCrud } from '../../../hooks/useCrud';
-import { successSnackbar, errorSnackbar } from '../../../util/SnackbarUtil';
+import { onCreate } from '../../../util/editUtil';
 
 const NewBooking = () => {
     const location = useLocation();
@@ -26,20 +25,6 @@ const NewBooking = () => {
     const updateState = (newBookingState, isError) => {
         setError(isError);
         setBookingState(newBookingState);
-    };
-
-    const submitBooking = async () => {
-        if (error) {
-            return;
-        }
-
-        try {
-            await authRequest('/api/booking/', 'POST', { workstationId, ...bookingState });
-            successSnackbar('Booking created');
-            history.goBack();
-        } catch (err) {
-            errorSnackbar(err.response.data);
-        }
     };
 
     return (
@@ -62,7 +47,9 @@ const NewBooking = () => {
                     color='green'
                     icon={<Icon>done</Icon>}
                     type='submit'
-                    onClick={submitBooking}
+                    onClick={onCreate('booking', { workstationId, ...bookingState }, () =>
+                        history.goBack(),
+                    )}
                     disabled={error}
                 >
                     Confirm

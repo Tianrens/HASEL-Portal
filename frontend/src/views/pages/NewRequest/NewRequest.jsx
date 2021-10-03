@@ -7,7 +7,8 @@ import TextField from '../../components/TextField/CustomTextField';
 import selectMenuProps from '../../../assets/selectMenuProps';
 import { useCrud } from '../../../hooks/useCrud';
 import { supervisorNeeded } from '../../../config/accountTypes';
-import { saveRequest } from './util/saveRequest';
+import { onCreate } from '../../../util/editUtil';
+import { fetchUser } from '../../../state/docs/userDoc';
 
 const NewRequest = () => {
     const workstations = useCrud('/api/workstation').data ?? [];
@@ -18,8 +19,13 @@ const NewRequest = () => {
     const showSupervisor = supervisorNeeded();
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
-        saveRequest(supervisor, workstation, comments);
+        event.preventDefault();        
+        const createRequest = onCreate('request', {
+            allocatedWorkstationId: workstation,
+            supervisorName: supervisor,
+            comments,
+        }, async () => fetchUser());
+        createRequest();
     };
 
     return (

@@ -6,15 +6,15 @@ function capitalise(word) {
 }
 
 /**
- * @param resource is a string that describes the object to perform operations on.
+ * @param resourceString is a string that describes the object to perform operations on.
  *                 for instance, 'workstation' or 'booking'
  */
-function onDelete(resource, id, history) {
+function onCreate(resourceString, resourceState, cb) {
     return async () => {
         try {
-            await authRequest(`/api/${resource}/${id}`, 'DELETE');
-            successSnackbar(`${capitalise(resource)} deleted successfully`);
-            history.goBack();
+            await authRequest(`/api/${resourceString}/`, 'POST', resourceState);
+            successSnackbar(`${capitalise(resourceString)} created`);
+            cb();
         } catch (err) {
             errorSnackbar(err.response.data);
         }
@@ -22,21 +22,51 @@ function onDelete(resource, id, history) {
 }
 
 /**
- * @param resource is a string that describes the object to perform operations on.
- *  *              for instance, 'workstation' or 'booking'
+ * @param resourceString is a string that describes the object to perform operations on.
+ *                 for instance, 'workstation' or 'booking'
  */
-function onAcceptChanges(resource, resourceState, id, history) {
+function onDelete(resourceString, id, cb) {
     return async () => {
         try {
-            await authRequest(`/api/${resource}/${id}`, 'PUT', {
-                ...resourceState,
-            });
-            successSnackbar(`${capitalise(resource)} updated successfully`);
-            history.goBack();
+            await authRequest(`/api/${resourceString}/${id}`, 'DELETE');
+            successSnackbar(`${capitalise(resourceString)} deleted successfully`);
+            cb();
         } catch (err) {
             errorSnackbar(err.response.data);
         }
     };
 }
 
-export { onDelete, onAcceptChanges };
+/**
+ * @param resourceString is a string that describes the object to perform operations on.
+ *  *              for instance, 'workstation' or 'booking'
+ */
+function onAcceptChanges(resourceString, resourceState, id, cb) {
+    return async () => {
+        try {
+            await authRequest(`/api/${resourceString}/${id}`, 'PUT', resourceState);
+            successSnackbar(`${capitalise(resourceString)} updated successfully`);
+            cb();
+        } catch (err) {
+            errorSnackbar(err.response.data);
+        }
+    };
+}
+
+/**
+ * @param resourceString is a string that describes the object to perform operations on.
+ *  *              for instance, 'workstation' or 'booking'
+ */
+function onActionPatch(resourceString, resourceState, id, cb) {
+    return async () => {
+        try {
+            await authRequest(`/api/${resourceString}/${id}`, 'PATCH', resourceState);
+            successSnackbar(`Accepted ${capitalise(resourceString)}`);
+            cb();
+        } catch (err) {
+            errorSnackbar(err.response.data);
+        }
+    };
+}
+
+export { onCreate, onDelete, onAcceptChanges, onActionPatch };

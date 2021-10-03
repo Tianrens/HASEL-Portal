@@ -10,16 +10,11 @@ import { useCrud } from '../../../hooks/useCrud';
 import selectMenuProps from '../../../assets/selectMenuProps';
 import TitleAndValue from '../../components/text/TitleAndValue';
 import { getDisplayName, getValidityPeriod } from '../../../config/accountTypes';
-import { authRequestLogError } from '../../../hooks/util/authRequest';
 import BottomButtons from '../../components/buttons/BottomButtons';
-import { successSnackbar } from '../../../util/SnackbarUtil';
+import { onActionPatch, onDelete } from '../../../util/editUtil';
 
 const SingleRequest = () => {
     const history = useHistory();
-    const actionCallback = (message) => {
-        successSnackbar(message);
-        history.goBack();
-    };
 
     const [workstation, setWorkstation] = useState();
     const [validityPeriod, setValidityPeriod] = useState(0);
@@ -37,29 +32,6 @@ const SingleRequest = () => {
         requestCallback,
     ).data;
     const workstations = useCrud('/api/workstation').data;
-
-    const onAccept = async () => {
-        await authRequestLogError(`/api/request/${requestId}`, 'PATCH', {
-            status: 'ACTIVE',
-            requestValidity: validityPeriod,
-            allocatedWorkstationId: workstation,
-        });
-        actionCallback('Accepted Request');
-    };
-
-    const onDeny = async () => {
-        await authRequestLogError(`/api/request/${requestId}`, 'PATCH', {
-            status: 'DECLINED',
-            requestValidity: validityPeriod,
-            allocatedWorkstationId: workstation,
-        });
-        actionCallback('Denied Request');
-    };
-
-    const onDelete = async () => {
-        await authRequestLogError(`/api/request/${requestId}`, 'DELETE');
-        actionCallback('Deleted Request');
-    };
 
     const handleValidity = (input) => {
         const temp = input.replace(/\D/g, '');
@@ -122,7 +94,29 @@ const SingleRequest = () => {
                         </div>
                     </div>
                     <Divider className={styles.divider} />
-                    <BottomButtons onAccept={onAccept} onDeny={onDeny} onDelete={onDelete} />
+                    <BottomButtons
+                        onAccept={onActionPatch(
+                            'request',
+                            {
+                                status: 'ACTIVE',
+                                requestValidity: validityPeriod,
+                                allocatedWorkstationId: workstation,
+                            },
+                            requestId,
+                            () => history.goBack(),
+                        )}
+                        onDeny={onActionPatch(
+                            'request',
+                            {
+                                status: 'DECLINED',
+                                requestValidity: validityPeriod,
+                                allocatedWorkstationId: workstation,
+                            },
+                            requestId,
+                            () => history.goBack(),
+                        )}
+                        onDelete={onDelete('request', requestId, history)}
+                    />
                 </>
             )}
         </TopBarPageTemplate>
