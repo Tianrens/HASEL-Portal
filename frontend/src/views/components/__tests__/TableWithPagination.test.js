@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { StylesProvider, TableRow, TableCell } from '@material-ui/core';
+import { TableRow, TableCell } from '@mui/material';
+import StylesProvider from '@mui/styles/StylesProvider';
 import TableWithPagination from '../table/TableWithPagination';
 
 const columns = ['test'];

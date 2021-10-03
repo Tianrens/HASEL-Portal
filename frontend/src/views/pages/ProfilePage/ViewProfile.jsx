@@ -1,5 +1,5 @@
 import { React } from 'react';
-import { Icon } from '@material-ui/core';
+import { Icon } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useCrud } from '../../../hooks/useCrud';
 import styles from './Profile.module.scss';

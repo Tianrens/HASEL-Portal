@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { StylesProvider } from '@material-ui/core';
+import StylesProvider from '@mui/styles/StylesProvider';
 import WorkstationForm from '../forms/WorkstationForm';
 
 Object.defineProperty(global.self, 'crypto', {

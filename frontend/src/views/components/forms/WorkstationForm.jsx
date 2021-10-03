@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react';
-import { Divider } from '@material-ui/core';
+import { Divider } from '@mui/material';
 import StyledHeader from '../text/StyledHeader';
 import CustomTextField from '../TextField/CustomTextField';
 import styles from './Form.module.scss';

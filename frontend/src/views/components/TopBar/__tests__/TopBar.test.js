@@ -1,6 +1,6 @@
 import React from 'react';
 import ShallowRenderer from 'react-test-renderer/shallow';
-import { StylesProvider } from '@material-ui/core';
+import StylesProvider from '@mui/styles/StylesProvider';
 import { MemoryRouter } from 'react-router-dom';
 import TopBar from '../TopBar';
 

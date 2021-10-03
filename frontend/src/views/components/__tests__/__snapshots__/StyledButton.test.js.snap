@@ -2,9 +2,10 @@
 
 exports[`StyledButton renders properly 1`] = `
 <button
-  className="MuiButtonBase-root MuiButton-root MuiButton-contained button undefined"
+  className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button undefined css-sghohy-MuiButtonBase-root-MuiButton-root"
   disabled={false}
   onBlur={[Function]}
+  onContextMenu={[Function]}
   onDragLeave={[Function]}
   onFocus={[Function]}
   onKeyDown={[Function]}
@@ -17,9 +18,5 @@ exports[`StyledButton renders properly 1`] = `
   onTouchStart={[Function]}
   tabIndex={0}
   type="button"
->
-  <span
-    className="MuiButton-label"
-  />
-</button>
+/>
 `;

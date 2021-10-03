@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import MenuItem from '@material-ui/core/MenuItem';
+import MenuItem from '@mui/material/MenuItem';
 import styles from './SignupPage.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
 import TextField from '../../components/TextField/CustomTextField';

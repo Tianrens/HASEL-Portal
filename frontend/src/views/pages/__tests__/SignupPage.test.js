@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { StylesProvider } from '@material-ui/core';
+import StylesProvider from '@mui/styles/StylesProvider';
 import SignupPage from '../SignupPage/SignupPage';
 
 test('Signup page renders properly', () => {

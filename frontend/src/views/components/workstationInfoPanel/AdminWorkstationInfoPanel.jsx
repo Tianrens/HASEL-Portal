@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import { Button, ListItemIcon, ListItemText, Menu, MenuItem, Paper } from '@material-ui/core';
+import { Button, ListItemIcon, ListItemText, Menu, MenuItem, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
-import Icon from '@material-ui/core/Icon';
+import Icon from '@mui/material/Icon';
 import WorkstationInfoPanel from './WorkstationInfoPanel';
 import styles from './AdminWorkstationInfoPanel.module.scss';
 

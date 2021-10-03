@@ -34,16 +34,16 @@ exports[`BookingForm renders properly 1`] = `
         </span>
       </p>
       <div
-        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+        className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
       >
         <div
-          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
           onClick={[Function]}
         >
           <input
             aria-invalid={false}
             autoFocus={false}
-            className="MuiInputBase-input MuiOutlinedInput-input"
+            className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
             disabled={false}
             onAnimationStart={[Function]}
             onBlur={[Function]}
@@ -56,22 +56,13 @@ exports[`BookingForm renders properly 1`] = `
           />
           <fieldset
             aria-hidden={true}
-            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
-            style={
-              Object {
-                "paddingLeft": 8,
-              }
-            }
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
           >
             <legend
-              className="PrivateNotchedOutline-legend-2"
-              style={
-                Object {
-                  "width": 0.01,
-                }
-              }
+              className="css-1a1ihhj"
             >
               <span
+                className="notranslate"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "&#8203;",
@@ -97,16 +88,16 @@ exports[`BookingForm renders properly 1`] = `
         </span>
       </p>
       <div
-        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+        className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
       >
         <div
-          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
           onClick={[Function]}
         >
           <input
             aria-invalid={false}
             autoFocus={false}
-            className="MuiInputBase-input MuiOutlinedInput-input"
+            className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
             disabled={false}
             onAnimationStart={[Function]}
             onBlur={[Function]}
@@ -119,22 +110,13 @@ exports[`BookingForm renders properly 1`] = `
           />
           <fieldset
             aria-hidden={true}
-            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
-            style={
-              Object {
-                "paddingLeft": 8,
-              }
-            }
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
           >
             <legend
-              className="PrivateNotchedOutline-legend-2"
-              style={
-                Object {
-                  "width": 0.01,
-                }
-              }
+              className="css-1a1ihhj"
             >
               <span
+                className="notranslate"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "&#8203;",
@@ -160,16 +142,16 @@ exports[`BookingForm renders properly 1`] = `
         </span>
       </p>
       <div
-        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+        className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
       >
         <div
-          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
           onClick={[Function]}
         >
           <input
             aria-invalid={false}
             autoFocus={false}
-            className="MuiInputBase-input MuiOutlinedInput-input"
+            className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
             disabled={false}
             onAnimationStart={[Function]}
             onBlur={[Function]}
@@ -182,22 +164,13 @@ exports[`BookingForm renders properly 1`] = `
           />
           <fieldset
             aria-hidden={true}
-            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
-            style={
-              Object {
-                "paddingLeft": 8,
-              }
-            }
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
           >
             <legend
-              className="PrivateNotchedOutline-legend-2"
-              style={
-                Object {
-                  "width": 0.01,
-                }
-              }
+              className="css-1a1ihhj"
             >
               <span
+                className="notranslate"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "&#8203;",
@@ -211,7 +184,7 @@ exports[`BookingForm renders properly 1`] = `
     </div>
   </div>
   <hr
-    className="MuiDivider-root verticalDivider MuiDivider-flexItem MuiDivider-vertical"
+    className="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem verticalDivider css-1tk1bks-MuiDivider-root"
   />
   <div
     className="inputContainer"
@@ -241,16 +214,16 @@ exports[`BookingForm renders properly 1`] = `
         </span>
       </p>
       <div
-        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+        className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
       >
         <div
-          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
           onClick={[Function]}
         >
           <input
             aria-invalid={false}
             autoFocus={false}
-            className="MuiInputBase-input MuiOutlinedInput-input"
+            className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
             disabled={false}
             onAnimationStart={[Function]}
             onBlur={[Function]}
@@ -263,22 +236,13 @@ exports[`BookingForm renders properly 1`] = `
           />
           <fieldset
             aria-hidden={true}
-            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
-            style={
-              Object {
-                "paddingLeft": 8,
-              }
-            }
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
           >
             <legend
-              className="PrivateNotchedOutline-legend-2"
-              style={
-                Object {
-                  "width": 0.01,
-                }
-              }
+              className="css-1a1ihhj"
             >
               <span
+                className="notranslate"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "&#8203;",
@@ -304,16 +268,16 @@ exports[`BookingForm renders properly 1`] = `
         </span>
       </p>
       <div
-        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+        className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
       >
         <div
-          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
           onClick={[Function]}
         >
           <input
             aria-invalid={false}
             autoFocus={false}
-            className="MuiInputBase-input MuiOutlinedInput-input"
+            className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
             disabled={false}
             onAnimationStart={[Function]}
             onBlur={[Function]}
@@ -326,22 +290,13 @@ exports[`BookingForm renders properly 1`] = `
           />
           <fieldset
             aria-hidden={true}
-            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
-            style={
-              Object {
-                "paddingLeft": 8,
-              }
-            }
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
           >
             <legend
-              className="PrivateNotchedOutline-legend-2"
-              style={
-                Object {
-                  "width": 0.01,
-                }
-              }
+              className="css-1a1ihhj"
             >
               <span
+                className="notranslate"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "&#8203;",
@@ -367,16 +322,16 @@ exports[`BookingForm renders properly 1`] = `
         </span>
       </p>
       <div
-        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+        className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
       >
         <div
-          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
           onClick={[Function]}
         >
           <input
             aria-invalid={false}
             autoFocus={false}
-            className="MuiInputBase-input MuiOutlinedInput-input"
+            className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
             disabled={false}
             onAnimationStart={[Function]}
             onBlur={[Function]}
@@ -389,22 +344,13 @@ exports[`BookingForm renders properly 1`] = `
           />
           <fieldset
             aria-hidden={true}
-            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
-            style={
-              Object {
-                "paddingLeft": 8,
-              }
-            }
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
           >
             <legend
-              className="PrivateNotchedOutline-legend-2"
-              style={
-                Object {
-                  "width": 0.01,
-                }
-              }
+              className="css-1a1ihhj"
             >
               <span
+                className="notranslate"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "&#8203;",
@@ -430,16 +376,16 @@ exports[`BookingForm renders properly 1`] = `
         </span>
       </p>
       <div
-        className="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+        className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
       >
         <div
-          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
           onClick={[Function]}
         >
           <input
             aria-invalid={false}
             autoFocus={false}
-            className="MuiInputBase-input MuiOutlinedInput-input"
+            className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
             disabled={false}
             onAnimationStart={[Function]}
             onBlur={[Function]}
@@ -452,22 +398,13 @@ exports[`BookingForm renders properly 1`] = `
           />
           <fieldset
             aria-hidden={true}
-            className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
-            style={
-              Object {
-                "paddingLeft": 8,
-              }
-            }
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
           >
             <legend
-              className="PrivateNotchedOutline-legend-2"
-              style={
-                Object {
-                  "width": 0.01,
-                }
-              }
+              className="css-1a1ihhj"
             >
               <span
+                className="notranslate"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "&#8203;",

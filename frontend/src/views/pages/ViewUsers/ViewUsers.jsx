@@ -1,5 +1,5 @@
 import { React } from 'react';
-import { TableRow, TableCell } from '@material-ui/core';
+import { TableRow, TableCell } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { container } from './ViewUsers.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';

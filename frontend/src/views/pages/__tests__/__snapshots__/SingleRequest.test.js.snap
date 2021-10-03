@@ -42,9 +42,10 @@ Array [
               className="linksWrapper"
             >
               <button
-                className="MuiButtonBase-root MuiButton-root MuiButton-text wrapper"
+                className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root wrapper css-1e6y48t-MuiButtonBase-root-MuiButton-root"
                 disabled={false}
                 onBlur={[Function]}
+                onContextMenu={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
@@ -58,28 +59,24 @@ Array [
                 tabIndex={0}
                 type="button"
               >
-                <span
-                  className="MuiButton-label"
+                <a
+                  href="/user"
+                  onClick={[Function]}
                 >
-                  <a
-                    href="/user"
-                    onClick={[Function]}
+                  <img
+                    alt="My Account"
+                    className="navIcon"
+                    src="id.svg"
+                  />
+                  <div
+                    className="spacer"
+                  />
+                  <div
+                    className="title"
                   >
-                    <img
-                      alt="My Account"
-                      className="navIcon"
-                      src="id.svg"
-                    />
-                    <div
-                      className="spacer"
-                    />
-                    <div
-                      className="title"
-                    >
-                      My Account
-                    </div>
-                  </a>
-                </span>
+                    My Account
+                  </div>
+                </a>
               </button>
             </div>
           </div>
@@ -89,10 +86,11 @@ Array [
             onTouchEnd={[Function]}
           >
             <button
-              className="MuiButtonBase-root MuiIconButton-root drawerButton"
+              className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge drawerButton css-mf1cb5-MuiButtonBase-root-MuiIconButton-root"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
+              onContextMenu={[Function]}
               onDragLeave={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
@@ -106,26 +104,23 @@ Array [
               tabIndex={0}
               type="button"
             >
-              <span
-                className="MuiIconButton-label"
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="DehazeIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  aria-hidden={true}
-                  className="MuiSvgIcon-root"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M2 15.5v2h20v-2H2zm0-5v2h20v-2H2zm0-5v2h20v-2H2z"
-                  />
-                </svg>
-              </span>
+                <path
+                  d="M2 15.5v2h20v-2H2zm0-5v2h20v-2H2zm0-5v2h20v-2H2z"
+                />
+              </svg>
             </button>
             <div
-              className="MuiDrawer-root MuiDrawer-docked drawer"
+              className="MuiDrawer-root MuiDrawer-docked drawer css-7ik032-MuiDrawer-docked"
             >
               <div
-                className="MuiPaper-root MuiDrawer-paper MuiDrawer-paperAnchorRight MuiDrawer-paperAnchorDockedRight MuiPaper-elevation0"
+                className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorRight MuiDrawer-paperAnchorDockedRight css-18sg6k4-MuiPaper-root-MuiDrawer-paper"
                 style={
                   Object {
                     "visibility": "hidden",
@@ -140,10 +135,11 @@ Array [
                   >
                     <div>
                       <button
-                        className="MuiButtonBase-root MuiIconButton-root drawerButton"
+                        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge drawerButton css-mf1cb5-MuiButtonBase-root-MuiIconButton-root"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
+                        onContextMenu={[Function]}
                         onDragLeave={[Function]}
                         onFocus={[Function]}
                         onKeyDown={[Function]}
@@ -157,29 +153,27 @@ Array [
                         tabIndex={0}
                         type="button"
                       >
-                        <span
-                          className="MuiIconButton-label"
+                        <svg
+                          aria-hidden={true}
+                          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                          data-testid="CloseIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
                         >
-                          <svg
-                            aria-hidden={true}
-                            className="MuiSvgIcon-root"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                            />
-                          </svg>
-                        </span>
+                          <path
+                            d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                          />
+                        </svg>
                       </button>
                     </div>
                     <div
                       className="linksWrapper"
                     >
                       <button
-                        className="MuiButtonBase-root MuiButton-root MuiButton-text wrapper"
+                        className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root wrapper css-1e6y48t-MuiButtonBase-root-MuiButton-root"
                         disabled={false}
                         onBlur={[Function]}
+                        onContextMenu={[Function]}
                         onDragLeave={[Function]}
                         onFocus={[Function]}
                         onKeyDown={[Function]}
@@ -193,28 +187,24 @@ Array [
                         tabIndex={0}
                         type="button"
                       >
-                        <span
-                          className="MuiButton-label"
+                        <a
+                          href="/user"
+                          onClick={[Function]}
                         >
-                          <a
-                            href="/user"
-                            onClick={[Function]}
+                          <img
+                            alt="My Account"
+                            className="navIcon"
+                            src="id.svg"
+                          />
+                          <div
+                            className="spacer"
+                          />
+                          <div
+                            className="title"
                           >
-                            <img
-                              alt="My Account"
-                              className="navIcon"
-                              src="id.svg"
-                            />
-                            <div
-                              className="spacer"
-                            />
-                            <div
-                              className="title"
-                            >
-                              My Account
-                            </div>
-                          </a>
-                        </span>
+                            My Account
+                          </div>
+                        </a>
                       </button>
                     </div>
                   </div>

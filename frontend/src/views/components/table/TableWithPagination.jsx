@@ -1,4 +1,4 @@
-import { TablePagination } from '@material-ui/core';
+import { TablePagination } from '@mui/material';
 import { React } from 'react';
 import usePagination from '../../../hooks/usePagination';
 import StyledTable from './StyledTable';

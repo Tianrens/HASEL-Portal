@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import { container, header, title, value } from './PendingApproval.module.scss';
 import StyledHeader from '../../components/text/StyledHeader';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';

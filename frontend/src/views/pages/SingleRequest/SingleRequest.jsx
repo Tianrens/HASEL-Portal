@@ -1,8 +1,8 @@
 import { React, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
-import Divider from '@material-ui/core/Divider';
-import MenuItem from '@material-ui/core/MenuItem';
+import Divider from '@mui/material/Divider';
+import MenuItem from '@mui/material/MenuItem';
 import styles from './SingleRequest.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import TextField from '../../components/TextField/CustomTextField';

@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import MenuItem from '@material-ui/core/MenuItem';
+import MenuItem from '@mui/material/MenuItem';
 import styles from './NewRequest.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';

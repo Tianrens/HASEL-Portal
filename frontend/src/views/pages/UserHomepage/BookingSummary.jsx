@@ -1,8 +1,8 @@
 import { React } from 'react';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
-import { Edit } from '@material-ui/icons';
-import { IconButton, Paper } from '@material-ui/core';
+import { Edit } from '@mui/icons-material';
+import { IconButton, Paper } from '@mui/material';
 import styles from './UserHomePage.module.scss';
 import TitleAndValue from '../../components/text/TitleAndValue';
 
@@ -24,7 +24,7 @@ function BookingSummary({ bookings }) {
                         className={styles.bookingInfoIcon}
                         component={Link}
                         to={`/bookings/${booking._id}`}
-                    >
+                        size="large">
                         <Edit />
                     </IconButton>
                 </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconButton } from '@material-ui/core';
+import { IconButton } from '@mui/material';
 import styles from './StyledIconButton.module.scss';
 
 export function StyledIconButton({ color, icon, onClick, disabled }) {
@@ -8,7 +8,7 @@ export function StyledIconButton({ color, icon, onClick, disabled }) {
             onClick={onClick}
             className={`${styles.iconButton} ${styles[color]} ${disabled ? styles.disabled : ''}`}
             disabled={disabled}
-        >
+            size="large">
             {icon}
         </IconButton>
     );

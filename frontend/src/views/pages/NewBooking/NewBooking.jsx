@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import Icon from '@material-ui/core/Icon';
+import Icon from '@mui/material/Icon';
 import { header, buttonContainer } from './NewBooking.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';

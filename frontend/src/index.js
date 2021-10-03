@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { StylesProvider } from '@material-ui/core';
-import { ThemeProvider } from '@material-ui/core/styles';
+import StylesProvider from '@mui/styles/StylesProvider';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import { SnackbarProvider } from 'notistack';
 import theme from './assets/MaterialTheme';
 import App from './App';
@@ -16,9 +16,11 @@ ReactDOM.render(
         <StylesProvider injectFirst>
             <StateProvider>
                 <SnackbarProvider>
-                    <ThemeProvider theme={theme}>
-                        <App />
-                    </ThemeProvider>
+                    <StyledEngineProvider injectFirst>
+                        <ThemeProvider theme={theme}>
+                            <App />
+                        </ThemeProvider>
+                    </StyledEngineProvider>
                     <SnackbarUtils />
                 </SnackbarProvider>
             </StateProvider>

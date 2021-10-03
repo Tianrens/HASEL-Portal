@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper } from '@material-ui/core';
+import { Paper } from '@mui/material';
 import styles from './WorkstationInfoPanel.module.scss';
 import GpuBookingGanttZoomable from '../gpuBookingGantt/GpuBookingGanttZoomable';
 import IconWithText from '../text/IconWithText';

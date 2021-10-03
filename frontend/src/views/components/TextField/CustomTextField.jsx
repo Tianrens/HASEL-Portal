@@ -1,5 +1,5 @@
 import { React } from 'react';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import styles from './CustomTextField.module.scss';
 
 const CustomTextField = ({ title, notRequired, setValue, ...props }) => (

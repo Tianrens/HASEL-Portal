@@ -6,10 +6,11 @@ exports[`BottomButtons renders properly 1`] = `
 >
   <div>
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained button yellow"
+      className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button yellow css-sghohy-MuiButtonBase-root-MuiButton-root"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
+      onContextMenu={[Function]}
       onDragLeave={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
@@ -24,28 +25,25 @@ exports[`BottomButtons renders properly 1`] = `
       type="submit"
     >
       <span
-        className="MuiButton-label"
+        className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
       >
         <span
-          className="MuiButton-startIcon MuiButton-iconSizeMedium"
+          aria-hidden={true}
+          className="material-icons notranslate MuiIcon-root MuiIcon-fontSizeMedium css-kp9ftd-MuiIcon-root"
         >
-          <span
-            aria-hidden={true}
-            className="material-icons MuiIcon-root"
-          >
-            delete
-          </span>
+          delete
         </span>
-        Delete
       </span>
+      Delete
     </button>
   </div>
   <div>
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained button red"
+      className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button red css-sghohy-MuiButtonBase-root-MuiButton-root"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
+      onContextMenu={[Function]}
       onDragLeave={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
@@ -60,26 +58,23 @@ exports[`BottomButtons renders properly 1`] = `
       type="submit"
     >
       <span
-        className="MuiButton-label"
+        className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
       >
         <span
-          className="MuiButton-startIcon MuiButton-iconSizeMedium"
+          aria-hidden={true}
+          className="material-icons notranslate MuiIcon-root MuiIcon-fontSizeMedium css-kp9ftd-MuiIcon-root"
         >
-          <span
-            aria-hidden={true}
-            className="material-icons MuiIcon-root"
-          >
-            close
-          </span>
+          close
         </span>
-        Deny
       </span>
+      Deny
     </button>
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained button green"
+      className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button green css-sghohy-MuiButtonBase-root-MuiButton-root"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
+      onContextMenu={[Function]}
       onDragLeave={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
@@ -94,20 +89,16 @@ exports[`BottomButtons renders properly 1`] = `
       type="submit"
     >
       <span
-        className="MuiButton-label"
+        className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
       >
         <span
-          className="MuiButton-startIcon MuiButton-iconSizeMedium"
+          aria-hidden={true}
+          className="material-icons notranslate MuiIcon-root MuiIcon-fontSizeMedium css-kp9ftd-MuiIcon-root"
         >
-          <span
-            aria-hidden={true}
-            className="material-icons MuiIcon-root"
-          >
-            done
-          </span>
+          done
         </span>
-        Accept
       </span>
+      Accept
     </button>
   </div>
 </div>

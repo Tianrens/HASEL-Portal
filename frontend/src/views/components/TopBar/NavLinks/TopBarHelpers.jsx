@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button, ClickAwayListener, Drawer, IconButton } from '@material-ui/core';
-import { Close, Dehaze } from '@material-ui/icons';
+import { Button, ClickAwayListener, Drawer, IconButton } from '@mui/material';
+import { Close, Dehaze } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import styles from './TopBarHelpers.module.scss';
 import IdIcon from '../../../../assets/images/id.svg';
@@ -106,7 +106,7 @@ export function HamburgerDrawer({ isAdmin, isSuperAdmin }) {
     return (
         <ClickAwayListener onClickAway={handleDrawerClose}>
             <div className={styles.drawerWrapper}>
-                <IconButton className={styles.drawerButton} onClick={handleDrawerOpen}>
+                <IconButton className={styles.drawerButton} onClick={handleDrawerOpen} size="large">
                     <Dehaze />
                 </IconButton>
 
@@ -120,10 +120,7 @@ export function HamburgerDrawer({ isAdmin, isSuperAdmin }) {
                     <div className={styles.drawerPatternBg}>
                         <div className={styles.drawer}>
                             <div>
-                                <IconButton
-                                    className={styles.drawerButton}
-                                    onClick={handleDrawerClose}
-                                >
+                                <IconButton className={styles.drawerButton} onClick={handleDrawerClose} size="large">
                                     <Close />
                                 </IconButton>
                             </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Icon from '@material-ui/core/Icon';
+import Icon from '@mui/material/Icon';
 import GpuBookingGantt from './GpuBookingGantt';
 import styles from './GpuBookingGanttZoomable.module.scss';
 import { StyledIconButton } from '../buttons/StyledIconButton';

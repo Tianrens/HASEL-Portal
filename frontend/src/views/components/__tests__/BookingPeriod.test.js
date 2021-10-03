@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { StylesProvider } from '@material-ui/core';
+import StylesProvider from '@mui/styles/StylesProvider';
 import BookingPeriod from '../text/BookingPeriod';
 
 test('BookingPeriod renders properly', () => {

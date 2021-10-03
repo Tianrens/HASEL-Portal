@@ -50,10 +50,11 @@ exports[`App renders properly 1`] = `
         className="loginContainer"
       >
         <button
-          className="MuiButtonBase-root MuiButton-root MuiButton-contained button undefined"
+          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button undefined css-sghohy-MuiButtonBase-root-MuiButton-root"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
+          onContextMenu={[Function]}
           onDragLeave={[Function]}
           onFocus={[Function]}
           onKeyDown={[Function]}
@@ -67,11 +68,7 @@ exports[`App renders properly 1`] = `
           tabIndex={0}
           type="button"
         >
-          <span
-            className="MuiButton-label"
-          >
-            Login
-          </span>
+          Login
         </button>
       </div>
     </div>

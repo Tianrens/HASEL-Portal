@@ -2,7 +2,7 @@
 
 exports[`BookingForm renders properly 1`] = `
 <div
-  className="MuiPaper-root wrapper MuiPaper-elevation1 MuiPaper-rounded"
+  className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 wrapper css-1ps6pg7-MuiPaper-root"
 >
   <div
     className="infoContent"
@@ -89,10 +89,11 @@ exports[`BookingForm renders properly 1`] = `
       className="adminButtonWrapper"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-text menuButton"
+        className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root menuButton css-1e6y48t-MuiButtonBase-root-MuiButton-root"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
+        onContextMenu={[Function]}
         onDragLeave={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
@@ -107,18 +108,14 @@ exports[`BookingForm renders properly 1`] = `
         type="button"
       >
         <span
-          className="MuiButton-label"
+          aria-hidden={true}
+          className="material-icons notranslate MuiIcon-root MuiIcon-fontSizeMedium css-kp9ftd-MuiIcon-root"
         >
-          <span
-            aria-hidden={true}
-            className="material-icons MuiIcon-root"
-          >
-            more_horiz
-          </span>
+          more_horiz
         </span>
       </button>
       <div
-        className="MuiPaper-root MuiPaper-elevation1 MuiPaper-rounded"
+        className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ps6pg7-MuiPaper-root"
       />
     </div>
   </div>

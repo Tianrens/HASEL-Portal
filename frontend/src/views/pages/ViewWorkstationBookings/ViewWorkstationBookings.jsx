@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { TableCell, TableRow } from '@material-ui/core';
+import { TableCell, TableRow } from '@mui/material';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import StyledHeader from '../../components/text/StyledHeader';
 import { container } from './ViewWorkstationBookings.module.scss';

@@ -1,6 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { StylesProvider, TableRow, TableCell } from '@material-ui/core';
+import { TableRow, TableCell } from '@mui/material';
+import StylesProvider from '@mui/styles/StylesProvider';
 import StyledTable from '../table/StyledTable';
 
 const columns = ['test'];

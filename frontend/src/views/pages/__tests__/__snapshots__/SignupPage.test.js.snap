@@ -77,16 +77,16 @@ exports[`Signup page renders properly 1`] = `
                   </span>
                 </p>
                 <div
-                  className="MuiFormControl-root MuiTextField-root inputField MuiFormControl-fullWidth"
+                  className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root inputField css-wb57ya-MuiFormControl-root-MuiTextField-root"
                 >
                   <div
-                    className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+                    className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
                     onClick={[Function]}
                   >
                     <input
                       aria-invalid={false}
                       autoFocus={false}
-                      className="MuiInputBase-input MuiOutlinedInput-input"
+                      className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
                       defaultValue=""
                       disabled={false}
                       onAnimationStart={[Function]}
@@ -99,22 +99,13 @@ exports[`Signup page renders properly 1`] = `
                     />
                     <fieldset
                       aria-hidden={true}
-                      className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
-                      style={
-                        Object {
-                          "paddingLeft": 8,
-                        }
-                      }
+                      className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                     >
                       <legend
-                        className="PrivateNotchedOutline-legend-2"
-                        style={
-                          Object {
-                            "width": 0.01,
-                          }
-                        }
+                        className="css-1a1ihhj"
                       >
                         <span
+                          className="notranslate"
                           dangerouslySetInnerHTML={
                             Object {
                               "__html": "&#8203;",
@@ -140,16 +131,16 @@ exports[`Signup page renders properly 1`] = `
                   </span>
                 </p>
                 <div
-                  className="MuiFormControl-root MuiTextField-root inputField MuiFormControl-fullWidth"
+                  className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root inputField css-wb57ya-MuiFormControl-root-MuiTextField-root"
                 >
                   <div
-                    className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+                    className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
                     onClick={[Function]}
                   >
                     <input
                       aria-invalid={false}
                       autoFocus={false}
-                      className="MuiInputBase-input MuiOutlinedInput-input"
+                      className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
                       defaultValue=""
                       disabled={false}
                       onAnimationStart={[Function]}
@@ -162,22 +153,13 @@ exports[`Signup page renders properly 1`] = `
                     />
                     <fieldset
                       aria-hidden={true}
-                      className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
-                      style={
-                        Object {
-                          "paddingLeft": 8,
-                        }
-                      }
+                      className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                     >
                       <legend
-                        className="PrivateNotchedOutline-legend-2"
-                        style={
-                          Object {
-                            "width": 0.01,
-                          }
-                        }
+                        className="css-1a1ihhj"
                       >
                         <span
+                          className="notranslate"
                           dangerouslySetInnerHTML={
                             Object {
                               "__html": "&#8203;",
@@ -204,16 +186,16 @@ exports[`Signup page renders properly 1`] = `
                 </span>
               </p>
               <div
-                className="MuiFormControl-root MuiTextField-root inputField MuiFormControl-fullWidth"
+                className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root inputField css-wb57ya-MuiFormControl-root-MuiTextField-root"
               >
                 <div
-                  className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+                  className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
                   onClick={[Function]}
                 >
                   <input
                     aria-invalid={false}
                     autoFocus={false}
-                    className="MuiInputBase-input MuiOutlinedInput-input"
+                    className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
                     defaultValue=""
                     disabled={false}
                     onAnimationStart={[Function]}
@@ -226,22 +208,13 @@ exports[`Signup page renders properly 1`] = `
                   />
                   <fieldset
                     aria-hidden={true}
-                    className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
-                    style={
-                      Object {
-                        "paddingLeft": 8,
-                      }
-                    }
+                    className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                   >
                     <legend
-                      className="PrivateNotchedOutline-legend-2"
-                      style={
-                        Object {
-                          "width": 0.01,
-                        }
-                      }
+                      className="css-1a1ihhj"
                     >
                       <span
+                        className="notranslate"
                         dangerouslySetInnerHTML={
                           Object {
                             "__html": "&#8203;",
@@ -267,15 +240,16 @@ exports[`Signup page renders properly 1`] = `
                 </span>
               </p>
               <div
-                className="MuiFormControl-root MuiTextField-root inputField MuiFormControl-fullWidth"
+                className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root inputField css-wb57ya-MuiFormControl-root-MuiTextField-root"
               >
                 <div
-                  className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+                  className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiSelect-root css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
                   onClick={[Function]}
                 >
                   <div
+                    aria-expanded="false"
                     aria-haspopup="listbox"
-                    className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+                    className="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
                     onBlur={[Function]}
                     onFocus={[Function]}
                     onKeyDown={[Function]}
@@ -284,6 +258,7 @@ exports[`Signup page renders properly 1`] = `
                     tabIndex={0}
                   >
                     <span
+                      className="notranslate"
                       dangerouslySetInnerHTML={
                         Object {
                           "__html": "&#8203;",
@@ -294,7 +269,8 @@ exports[`Signup page renders properly 1`] = `
                   <input
                     aria-hidden={true}
                     autoFocus={false}
-                    className="MuiSelect-nativeInput"
+                    className="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+                    disabled={false}
                     onAnimationStart={[Function]}
                     onChange={[Function]}
                     required={true}
@@ -303,7 +279,8 @@ exports[`Signup page renders properly 1`] = `
                   />
                   <svg
                     aria-hidden={true}
-                    className="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+                    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+                    data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -313,22 +290,13 @@ exports[`Signup page renders properly 1`] = `
                   </svg>
                   <fieldset
                     aria-hidden={true}
-                    className="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
-                    style={
-                      Object {
-                        "paddingLeft": 8,
-                      }
-                    }
+                    className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                   >
                     <legend
-                      className="PrivateNotchedOutline-legend-2"
-                      style={
-                        Object {
-                          "width": 0.01,
-                        }
-                      }
+                      className="css-1a1ihhj"
                     >
                       <span
+                        className="notranslate"
                         dangerouslySetInnerHTML={
                           Object {
                             "__html": "&#8203;",
@@ -344,9 +312,10 @@ exports[`Signup page renders properly 1`] = `
               className="buttonContainer"
             >
               <button
-                className="MuiButtonBase-root MuiButton-root MuiButton-contained button undefined"
+                className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button undefined css-sghohy-MuiButtonBase-root-MuiButton-root"
                 disabled={false}
                 onBlur={[Function]}
+                onContextMenu={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
@@ -360,11 +329,7 @@ exports[`Signup page renders properly 1`] = `
                 tabIndex={0}
                 type="submit"
               >
-                <span
-                  className="MuiButton-label"
-                >
-                  Submit
-                </span>
+                Submit
               </button>
             </div>
           </form>

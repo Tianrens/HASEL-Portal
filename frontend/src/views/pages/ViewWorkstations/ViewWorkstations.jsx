@@ -1,4 +1,4 @@
-import { Icon } from '@material-ui/core';
+import { Icon } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { StyledButton } from '../../components/buttons/StyledButton';

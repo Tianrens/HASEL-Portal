@@ -8,7 +8,7 @@ import {
     FormGroup,
     FormHelperText,
     FormLabel,
-} from '@material-ui/core';
+} from '@mui/material';
 import dayjs from 'dayjs';
 import styles from './Form.module.scss';
 import TextField from '../TextField/CustomTextField';

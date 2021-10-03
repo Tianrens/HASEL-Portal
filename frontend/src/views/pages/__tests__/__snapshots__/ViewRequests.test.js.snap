@@ -42,9 +42,10 @@ Array [
               className="linksWrapper"
             >
               <button
-                className="MuiButtonBase-root MuiButton-root MuiButton-text wrapper"
+                className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root wrapper css-1e6y48t-MuiButtonBase-root-MuiButton-root"
                 disabled={false}
                 onBlur={[Function]}
+                onContextMenu={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
@@ -58,28 +59,24 @@ Array [
                 tabIndex={0}
                 type="button"
               >
-                <span
-                  className="MuiButton-label"
+                <a
+                  href="/user"
+                  onClick={[Function]}
                 >
-                  <a
-                    href="/user"
-                    onClick={[Function]}
+                  <img
+                    alt="My Account"
+                    className="navIcon"
+                    src="id.svg"
+                  />
+                  <div
+                    className="spacer"
+                  />
+                  <div
+                    className="title"
                   >
-                    <img
-                      alt="My Account"
-                      className="navIcon"
-                      src="id.svg"
-                    />
-                    <div
-                      className="spacer"
-                    />
-                    <div
-                      className="title"
-                    >
-                      My Account
-                    </div>
-                  </a>
-                </span>
+                    My Account
+                  </div>
+                </a>
               </button>
             </div>
           </div>
@@ -89,10 +86,11 @@ Array [
             onTouchEnd={[Function]}
           >
             <button
-              className="MuiButtonBase-root MuiIconButton-root drawerButton"
+              className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge drawerButton css-mf1cb5-MuiButtonBase-root-MuiIconButton-root"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
+              onContextMenu={[Function]}
               onDragLeave={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
@@ -106,26 +104,23 @@ Array [
               tabIndex={0}
               type="button"
             >
-              <span
-                className="MuiIconButton-label"
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="DehazeIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  aria-hidden={true}
-                  className="MuiSvgIcon-root"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M2 15.5v2h20v-2H2zm0-5v2h20v-2H2zm0-5v2h20v-2H2z"
-                  />
-                </svg>
-              </span>
+                <path
+                  d="M2 15.5v2h20v-2H2zm0-5v2h20v-2H2zm0-5v2h20v-2H2z"
+                />
+              </svg>
             </button>
             <div
-              className="MuiDrawer-root MuiDrawer-docked drawer"
+              className="MuiDrawer-root MuiDrawer-docked drawer css-7ik032-MuiDrawer-docked"
             >
               <div
-                className="MuiPaper-root MuiDrawer-paper MuiDrawer-paperAnchorRight MuiDrawer-paperAnchorDockedRight MuiPaper-elevation0"
+                className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorRight MuiDrawer-paperAnchorDockedRight css-18sg6k4-MuiPaper-root-MuiDrawer-paper"
                 style={
                   Object {
                     "visibility": "hidden",
@@ -140,10 +135,11 @@ Array [
                   >
                     <div>
                       <button
-                        className="MuiButtonBase-root MuiIconButton-root drawerButton"
+                        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge drawerButton css-mf1cb5-MuiButtonBase-root-MuiIconButton-root"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
+                        onContextMenu={[Function]}
                         onDragLeave={[Function]}
                         onFocus={[Function]}
                         onKeyDown={[Function]}
@@ -157,29 +153,27 @@ Array [
                         tabIndex={0}
                         type="button"
                       >
-                        <span
-                          className="MuiIconButton-label"
+                        <svg
+                          aria-hidden={true}
+                          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                          data-testid="CloseIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
                         >
-                          <svg
-                            aria-hidden={true}
-                            className="MuiSvgIcon-root"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                            />
-                          </svg>
-                        </span>
+                          <path
+                            d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                          />
+                        </svg>
                       </button>
                     </div>
                     <div
                       className="linksWrapper"
                     >
                       <button
-                        className="MuiButtonBase-root MuiButton-root MuiButton-text wrapper"
+                        className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root wrapper css-1e6y48t-MuiButtonBase-root-MuiButton-root"
                         disabled={false}
                         onBlur={[Function]}
+                        onContextMenu={[Function]}
                         onDragLeave={[Function]}
                         onFocus={[Function]}
                         onKeyDown={[Function]}
@@ -193,28 +187,24 @@ Array [
                         tabIndex={0}
                         type="button"
                       >
-                        <span
-                          className="MuiButton-label"
+                        <a
+                          href="/user"
+                          onClick={[Function]}
                         >
-                          <a
-                            href="/user"
-                            onClick={[Function]}
+                          <img
+                            alt="My Account"
+                            className="navIcon"
+                            src="id.svg"
+                          />
+                          <div
+                            className="spacer"
+                          />
+                          <div
+                            className="title"
                           >
-                            <img
-                              alt="My Account"
-                              className="navIcon"
-                              src="id.svg"
-                            />
-                            <div
-                              className="spacer"
-                            />
-                            <div
-                              className="title"
-                            >
-                              My Account
-                            </div>
-                          </a>
-                        </span>
+                            My Account
+                          </div>
+                        </a>
                       </button>
                     </div>
                   </div>
@@ -245,37 +235,37 @@ Array [
           </h2>
         </div>
         <div
-          className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
+          className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-11xur9t-MuiPaper-root-MuiTableContainer-root"
         >
           <table
-            className="MuiTable-root table"
+            className="MuiTable-root table css-rqglhn-MuiTable-root"
             role={null}
           >
             <thead
-              className="MuiTableHead-root"
+              className="MuiTableHead-root css-15wwp11-MuiTableHead-root"
               role={null}
             >
               <tr
-                className="MuiTableRow-root MuiTableRow-head"
+                className="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
                 role={null}
               >
                 <th
                   aria-sort={null}
-                  className="MuiTableCell-root MuiTableCell-head headerCell"
+                  className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium headerCell css-1ygcj2i-MuiTableCell-root"
                   scope="col"
                 >
                   Name
                 </th>
                 <th
                   aria-sort={null}
-                  className="MuiTableCell-root MuiTableCell-head headerCell"
+                  className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium headerCell css-1ygcj2i-MuiTableCell-root"
                   scope="col"
                 >
                   Account Type
                 </th>
                 <th
                   aria-sort={null}
-                  className="MuiTableCell-root MuiTableCell-head headerCell"
+                  className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium headerCell css-1ygcj2i-MuiTableCell-root"
                   scope="col"
                 >
                   Application Received
@@ -283,22 +273,22 @@ Array [
               </tr>
             </thead>
             <tbody
-              className="MuiTableBody-root"
+              className="MuiTableBody-root css-apqrd9-MuiTableBody-root"
               role={null}
             />
           </table>
         </div>
         <div
-          className="MuiTablePagination-root"
+          className="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
         >
           <div
-            className="MuiToolbar-root MuiToolbar-regular MuiTablePagination-toolbar MuiToolbar-gutters"
+            className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-11bfvty-MuiToolbar-root-MuiTablePagination-toolbar"
           >
             <div
-              className="MuiTablePagination-spacer"
+              className="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
             />
             <p
-              className="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
+              className="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
             >
               0-0 of 0
             </p>
@@ -306,11 +296,12 @@ Array [
               className="MuiTablePagination-actions"
             >
               <button
-                aria-label="Previous page"
-                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
+                aria-label="Go to previous page"
+                className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
                 disabled={true}
                 onBlur={[Function]}
                 onClick={[Function]}
+                onContextMenu={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
@@ -322,30 +313,28 @@ Array [
                 onTouchMove={[Function]}
                 onTouchStart={[Function]}
                 tabIndex={-1}
-                title="Previous page"
+                title="Go to previous page"
                 type="button"
               >
-                <span
-                  className="MuiIconButton-label"
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="KeyboardArrowLeftIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
                 >
-                  <svg
-                    aria-hidden={true}
-                    className="MuiSvgIcon-root"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
-                    />
-                  </svg>
-                </span>
+                  <path
+                    d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
+                  />
+                </svg>
               </button>
               <button
-                aria-label="Next page"
-                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
+                aria-label="Go to next page"
+                className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
                 disabled={true}
                 onBlur={[Function]}
                 onClick={[Function]}
+                onContextMenu={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
@@ -357,23 +346,20 @@ Array [
                 onTouchMove={[Function]}
                 onTouchStart={[Function]}
                 tabIndex={-1}
-                title="Next page"
+                title="Go to next page"
                 type="button"
               >
-                <span
-                  className="MuiIconButton-label"
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="KeyboardArrowRightIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
                 >
-                  <svg
-                    aria-hidden={true}
-                    className="MuiSvgIcon-root"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
-                    />
-                  </svg>
-                </span>
+                  <path
+                    d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+                  />
+                </svg>
               </button>
             </div>
           </div>
@@ -392,37 +378,37 @@ Array [
           </h2>
         </div>
         <div
-          className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
+          className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-11xur9t-MuiPaper-root-MuiTableContainer-root"
         >
           <table
-            className="MuiTable-root table"
+            className="MuiTable-root table css-rqglhn-MuiTable-root"
             role={null}
           >
             <thead
-              className="MuiTableHead-root"
+              className="MuiTableHead-root css-15wwp11-MuiTableHead-root"
               role={null}
             >
               <tr
-                className="MuiTableRow-root MuiTableRow-head"
+                className="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
                 role={null}
               >
                 <th
                   aria-sort={null}
-                  className="MuiTableCell-root MuiTableCell-head headerCell"
+                  className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium headerCell css-1ygcj2i-MuiTableCell-root"
                   scope="col"
                 >
                   Name
                 </th>
                 <th
                   aria-sort={null}
-                  className="MuiTableCell-root MuiTableCell-head headerCell"
+                  className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium headerCell css-1ygcj2i-MuiTableCell-root"
                   scope="col"
                 >
                   Account Type
                 </th>
                 <th
                   aria-sort={null}
-                  className="MuiTableCell-root MuiTableCell-head headerCell"
+                  className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium headerCell css-1ygcj2i-MuiTableCell-root"
                   scope="col"
                 >
                   Application Received
@@ -430,22 +416,22 @@ Array [
               </tr>
             </thead>
             <tbody
-              className="MuiTableBody-root"
+              className="MuiTableBody-root css-apqrd9-MuiTableBody-root"
               role={null}
             />
           </table>
         </div>
         <div
-          className="MuiTablePagination-root"
+          className="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
         >
           <div
-            className="MuiToolbar-root MuiToolbar-regular MuiTablePagination-toolbar MuiToolbar-gutters"
+            className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-11bfvty-MuiToolbar-root-MuiTablePagination-toolbar"
           >
             <div
-              className="MuiTablePagination-spacer"
+              className="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
             />
             <p
-              className="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
+              className="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
             >
               0-0 of 0
             </p>
@@ -453,11 +439,12 @@ Array [
               className="MuiTablePagination-actions"
             >
               <button
-                aria-label="Previous page"
-                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
+                aria-label="Go to previous page"
+                className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
                 disabled={true}
                 onBlur={[Function]}
                 onClick={[Function]}
+                onContextMenu={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
@@ -469,30 +456,28 @@ Array [
                 onTouchMove={[Function]}
                 onTouchStart={[Function]}
                 tabIndex={-1}
-                title="Previous page"
+                title="Go to previous page"
                 type="button"
               >
-                <span
-                  className="MuiIconButton-label"
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="KeyboardArrowLeftIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
                 >
-                  <svg
-                    aria-hidden={true}
-                    className="MuiSvgIcon-root"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
-                    />
-                  </svg>
-                </span>
+                  <path
+                    d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
+                  />
+                </svg>
               </button>
               <button
-                aria-label="Next page"
-                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
+                aria-label="Go to next page"
+                className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
                 disabled={true}
                 onBlur={[Function]}
                 onClick={[Function]}
+                onContextMenu={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
@@ -504,23 +489,20 @@ Array [
                 onTouchMove={[Function]}
                 onTouchStart={[Function]}
                 tabIndex={-1}
-                title="Next page"
+                title="Go to next page"
                 type="button"
               >
-                <span
-                  className="MuiIconButton-label"
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="KeyboardArrowRightIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
                 >
-                  <svg
-                    aria-hidden={true}
-                    className="MuiSvgIcon-root"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
-                    />
-                  </svg>
-                </span>
+                  <path
+                    d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+                  />
+                </svg>
               </button>
             </div>
           </div>
@@ -539,37 +521,37 @@ Array [
           </h2>
         </div>
         <div
-          className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
+          className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-11xur9t-MuiPaper-root-MuiTableContainer-root"
         >
           <table
-            className="MuiTable-root table"
+            className="MuiTable-root table css-rqglhn-MuiTable-root"
             role={null}
           >
             <thead
-              className="MuiTableHead-root"
+              className="MuiTableHead-root css-15wwp11-MuiTableHead-root"
               role={null}
             >
               <tr
-                className="MuiTableRow-root MuiTableRow-head"
+                className="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
                 role={null}
               >
                 <th
                   aria-sort={null}
-                  className="MuiTableCell-root MuiTableCell-head headerCell"
+                  className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium headerCell css-1ygcj2i-MuiTableCell-root"
                   scope="col"
                 >
                   Name
                 </th>
                 <th
                   aria-sort={null}
-                  className="MuiTableCell-root MuiTableCell-head headerCell"
+                  className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium headerCell css-1ygcj2i-MuiTableCell-root"
                   scope="col"
                 >
                   Account Type
                 </th>
                 <th
                   aria-sort={null}
-                  className="MuiTableCell-root MuiTableCell-head headerCell"
+                  className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium headerCell css-1ygcj2i-MuiTableCell-root"
                   scope="col"
                 >
                   Application Received
@@ -577,22 +559,22 @@ Array [
               </tr>
             </thead>
             <tbody
-              className="MuiTableBody-root"
+              className="MuiTableBody-root css-apqrd9-MuiTableBody-root"
               role={null}
             />
           </table>
         </div>
         <div
-          className="MuiTablePagination-root"
+          className="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
         >
           <div
-            className="MuiToolbar-root MuiToolbar-regular MuiTablePagination-toolbar MuiToolbar-gutters"
+            className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-11bfvty-MuiToolbar-root-MuiTablePagination-toolbar"
           >
             <div
-              className="MuiTablePagination-spacer"
+              className="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
             />
             <p
-              className="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
+              className="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
             >
               0-0 of 0
             </p>
@@ -600,11 +582,12 @@ Array [
               className="MuiTablePagination-actions"
             >
               <button
-                aria-label="Previous page"
-                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
+                aria-label="Go to previous page"
+                className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
                 disabled={true}
                 onBlur={[Function]}
                 onClick={[Function]}
+                onContextMenu={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
@@ -616,30 +599,28 @@ Array [
                 onTouchMove={[Function]}
                 onTouchStart={[Function]}
                 tabIndex={-1}
-                title="Previous page"
+                title="Go to previous page"
                 type="button"
               >
-                <span
-                  className="MuiIconButton-label"
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="KeyboardArrowLeftIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
                 >
-                  <svg
-                    aria-hidden={true}
-                    className="MuiSvgIcon-root"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
-                    />
-                  </svg>
-                </span>
+                  <path
+                    d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
+                  />
+                </svg>
               </button>
               <button
-                aria-label="Next page"
-                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
+                aria-label="Go to next page"
+                className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
                 disabled={true}
                 onBlur={[Function]}
                 onClick={[Function]}
+                onContextMenu={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
@@ -651,23 +632,20 @@ Array [
                 onTouchMove={[Function]}
                 onTouchStart={[Function]}
                 tabIndex={-1}
-                title="Next page"
+                title="Go to next page"
                 type="button"
               >
-                <span
-                  className="MuiIconButton-label"
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="KeyboardArrowRightIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
                 >
-                  <svg
-                    aria-hidden={true}
-                    className="MuiSvgIcon-root"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
-                    />
-                  </svg>
-                </span>
+                  <path
+                    d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+                  />
+                </svg>
               </button>
             </div>
           </div>
