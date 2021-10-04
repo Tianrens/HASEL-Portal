@@ -84,6 +84,36 @@ async function deleteRequest(requestId) {
     await SignUpRequest.deleteOne({ _id: requestId });
 }
 
+async function retrieveAllUsersOfWorkstation(workstationId) {
+    return SignUpRequest.aggregate([
+        {
+            '$lookup': {
+                'from': 'workstations',
+                'localField': 'allocatedWorkstationId',
+                'foreignField': '_id',
+                'as': 'allocatedWorkstationId',
+            }
+        },
+        {
+            '$unwind': '$allocatedWorkstationId'
+        },
+        {
+            '$lookup': {
+                'from': 'users',
+                'localField': 'userId',
+                'foreignField': '_id',
+                'as': 'userId',
+            }
+        },
+        {
+            '$unwind': '$userId'
+        },
+        {
+            '$match': { 'allocatedWorkstationId._id': workstationId, 'status': 'ACTIVE'}
+        }
+    ]);
+}
+
 export {
     createSignUpRequest,
     updateRequestStatus,
@@ -97,4 +127,5 @@ export {
     updateRequest,
     setRequestEndDate,
     deleteRequest,
+    retrieveAllUsersOfWorkstation,
 };

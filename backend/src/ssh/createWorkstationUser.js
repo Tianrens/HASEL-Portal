@@ -10,8 +10,8 @@ import { checkUserExists, execCommand, lockWorkstationUser } from '.';
 export async function createWorkstationUser(
     host,
     upi,
-    daysInactive,
-    expireDate,
+    daysInactive = -1,
+    expireDate = '',
 ) {
     const userExists = await checkUserExists(host, upi);
     if (userExists) {

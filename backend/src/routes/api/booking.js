@@ -8,7 +8,9 @@ import {
     deleteBooking,
     updateBooking,
 } from '../../db/dao/bookingDao';
+import { retrieveWorkstationById } from '../../db/dao/workstationDao';
 import { checkCorrectParams } from './util/checkCorrectParams';
+import { createWorkstationUser } from '../../ssh';
 
 const router = express.Router();
 
@@ -28,6 +30,12 @@ router.post(
                 endTimestamp: req.body.endTimestamp,
                 gpuIndices: req.body.gpuIndices,
             });
+
+            const specialUserTypes = ['ADMIN', 'SUPERADMIN', 'STAFF', 'ACADEMIC'];
+            if (specialUserTypes.includes(req.user.status)) {
+                const workstation = await retrieveWorkstationById(booking.workstationId); 
+                createWorkstationUser(workstation.host, req.user.upi); // Ignores if user already exists on workstation.
+            }
 
             return res.status(HTTP.CREATED).json(booking);
         } catch (err) {

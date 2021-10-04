@@ -15,6 +15,9 @@ import {
 import { checkAdmin, userHasWorkstationViewPerms } from './util/userPerms';
 import { checkCorrectParams } from './util/checkCorrectParams';
 import { getWorkstation } from './util/workstationUtil';
+import { createWorkstationUser } from '../../ssh';
+import { retrieveAllUsersOfWorkstation } from '../../db/dao/signUpRequestDao';
+import { sendRequestApprovedEmail } from '../../email';
 
 const router = express.Router();
 const BASE_INT_VALUE = 10;
@@ -159,6 +162,7 @@ router.put(
     ]),
     async (req, res) => {
         const { workstationId } = req.params;
+        const { workstation: oldWorkstation } = req;
 
         const newWorkstation = {
             name: req.body.name,
@@ -174,6 +178,26 @@ router.put(
             await updateWorkstation(workstationId, newWorkstation);
         } catch (err) {
             return res.status(HTTP.INTERNAL_SERVER_ERROR).send(err.message);
+        }
+
+        if (oldWorkstation.host !== newWorkstation.host) {
+            const requests = await retrieveAllUsersOfWorkstation(
+                oldWorkstation._id,
+            );
+            // eslint-disable-next-line no-restricted-syntax
+            for (const request of requests) {
+                try {
+                    const user = request.userId;
+                    const endDate = request.endDate ? new Date(request.endDate).toISOString().split('T')[0] : '';
+                    // eslint-disable-next-line no-await-in-loop
+                    await createWorkstationUser(newWorkstation.host, user.upi, -1, endDate);
+                    sendRequestApprovedEmail(user.email, request);
+                } catch (err) {
+                    return res
+                        .status(HTTP.INTERNAL_SERVER_ERROR)
+                        .send(err.message);
+                }
+            }
         }
 
         return res.status(HTTP.NO_CONTENT).send('Successful');

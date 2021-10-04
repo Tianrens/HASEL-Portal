@@ -5,6 +5,7 @@ import {
     countRequests,
     createSignUpRequest,
     retrieveAllRequests,
+    retrieveAllUsersOfWorkstation,
     retrieveExpiringRequests,
     retrieveRequestById,
     retrieveRequests,
@@ -297,6 +298,177 @@ describe('non-time dependent tests', () => {
         expect(dbRequest.status).toBe(updatedRequest2Info.status);
         expect(dbRequest.startDate).toEqual(updatedRequest2Info.startDate);
         expect(dbRequest.endDate).toEqual(updatedRequest2Info.endDate);
+    });
+});
+
+describe('non time dependent, with relationships', () => {
+    let user1;
+    let user2;
+    let user3;
+    let user4;
+    let request1;
+    let request2;
+    let request3;
+    let request4;
+    let workstation1;
+    let workstation2;
+
+    afterEach(async () => {
+        await mongoose.connection.db.dropCollection('signuprequests');
+        await mongoose.connection.db.dropCollection('users');
+        await mongoose.connection.db.dropCollection('workstations');
+    });
+
+    beforeEach(async () => {
+        const usersColl = await mongoose.connection.db.collection('users');
+        const signUpRequestsColl = await mongoose.connection.db.collection(
+            'signuprequests',
+        );
+        const workstationsColl = await mongoose.connection.db.collection(
+            'workstations',
+        );
+    
+        user1 = new User({
+            email: 'user1@gmail.com',
+            upi: 'dnut420',
+            authUserId: '12345',
+            firstName: 'Denise',
+            lastName: 'Nuts',
+            type: 'UNDERGRAD',
+        });
+
+        user2 = new User({
+            email: 'user2@gmail.com',
+            upi: 'pbip069',
+            authUserId: '088888',
+            firstName: 'Pen',
+            lastName: 'Biper',
+            type: 'ADMIN',
+        });
+        
+        user3 = {
+            email: 'user2@gmail.com',
+            upi: 'pbip069',
+            authUserId: '088888',
+            firstName: 'Pen',
+            lastName: 'Biper',
+            type: 'ADMIN',
+        };
+
+        user4 = {
+            email: 'user2@gmail.com',
+            upi: 'pbip069',
+            authUserId: '088888',
+            firstName: 'Pen',
+            lastName: 'Biper',
+            type: 'ADMIN',
+        };
+    
+        request1 = new SignUpRequest({
+            userId: user1._id,
+            allocatedWorkstationId: mongoose.Types.ObjectId(
+                '666666666666666666666666',
+            ),
+            supervisorName: 'Reza Shahamiri',
+            comments: 'Need to use the deep learning machines for part 4 project.',
+            status: 'ACTIVE',
+            startDate: new Date(2021, 0, 21),
+            endDate: new Date(2021, 9, 19),
+        });
+
+        request2 = new SignUpRequest({
+            userId: user2._id,
+            allocatedWorkstationId: mongoose.Types.ObjectId(
+                '666666666666666666666666',
+            ),
+            supervisorName: 'Reza Shahamiri',
+            comments: 'Need to use the deep learning machines for part 4 project.',
+            status: 'ACTIVE',
+            startDate: new Date(2021, 0, 21),
+            endDate: new Date(2021, 9, 19),
+        });
+
+        request4 = new SignUpRequest({
+            userId: user2._id,
+            allocatedWorkstationId: mongoose.Types.ObjectId(
+                '666666666666666666666666',
+            ),
+            supervisorName: 'Reza Shahamiri',
+            comments: 'Need to use the deep learning machines for part 4 project.',
+            status: 'PENDING',
+            startDate: new Date(2021, 0, 21),
+            endDate: new Date(2021, 9, 19),
+        });
+
+        request3 = new SignUpRequest({
+            userId: user3._id,
+            allocatedWorkstationId: mongoose.Types.ObjectId(
+                '666666666666666666666666',
+            ),
+            supervisorName: 'Reza Shahamiri',
+            comments: 'Need to use the deep learning machines for part 4 project.',
+            status: 'ACTIVE',
+            startDate: new Date(2021, 0, 21),
+            endDate: new Date(2021, 9, 19),
+        });
+    
+        workstation1 = new Workstation({
+            name: 'Machine 1',
+            host: '192.168.1.100',
+            location: 'HASEL Lab',
+            numGPUs: 2,
+            gpuDescription: 'Nvidia GeForce RTX 2080',
+            ramDescription: 'Kingston HyperX Predator 32GB',
+            cpuDescription: 'Intel Core i9 10900KF',
+        });
+
+        workstation2 = new Workstation({
+            name: 'Machine 2',
+            host: '192.168.1.100',
+            location: 'HASEL Lab',
+            numGPUs: 2,
+            gpuDescription: 'Nvidia GeForce RTX 2080',
+            ramDescription: 'Kingston HyperX Predator 32GB',
+            cpuDescription: 'Intel Core i9 10900KF',
+        });
+    
+        user1.currentRequestId = request1._id;
+        request1.allocatedWorkstationId = workstation1._id;
+    
+        user2.currentRequestId = request2._id;
+        request2.allocatedWorkstationId = workstation1._id;
+
+        user4.currentRequestId = request4._id;
+        request4.allocatedWorkstationId = workstation1._id;
+
+        await usersColl.insertMany([user1, user2, user3, user4]);
+        await signUpRequestsColl.insertMany([request1, request2, request3, request4]);
+        await workstationsColl.insertMany([workstation1, workstation2]);
+    });
+
+    it('retrieve all users of workstation', async () => {
+        const requests = await retrieveAllUsersOfWorkstation(workstation1._id);
+
+        expect(requests).toBeTruthy();
+        expect(requests.length).toEqual(2);
+        expect(requests[0].status).toEqual('ACTIVE');
+        expect(requests[1].status).toEqual('ACTIVE');
+        expect(requests[0].allocatedWorkstationId._id).toEqual(workstation1._id);
+        expect(requests[1].allocatedWorkstationId._id).toEqual(workstation1._id);
+        expect(requests[0].userId._id).toEqual(user1._id);
+        expect(requests[1].userId._id).toEqual(user2._id);
+    });
+
+    it('retrieve all users of non existing workstation', async () => {
+        const requests = await retrieveAllUsersOfWorkstation('666666666666666666666666');
+        expect(requests).toBeTruthy();
+        expect(requests.length).toEqual(0);
+    });
+
+    it('retrieve all users of workstation with no users', async () => {
+        const requests = await retrieveAllUsersOfWorkstation(workstation2._id);
+        expect(requests).toBeTruthy();
+        expect(requests.length).toEqual(0);
     });
 });
 
