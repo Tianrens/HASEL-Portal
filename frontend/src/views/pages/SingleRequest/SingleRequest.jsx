@@ -12,6 +12,11 @@ import TitleAndValue from '../../components/text/TitleAndValue';
 import { getDisplayName, getValidityPeriod } from '../../../config/accountTypes';
 import BottomButtons from '../../components/buttons/BottomButtons';
 import { onActionPatch, onDelete } from '../../../util/editUtil';
+import {
+    acceptRequestMessage,
+    denyRequestMessage,
+    deleteRequestMessage,
+} from '../../../config/ModalMessages';
 
 const SingleRequest = () => {
     const history = useHistory();
@@ -115,7 +120,10 @@ const SingleRequest = () => {
                             requestId,
                             () => history.goBack(),
                         )}
-                        onDelete={onDelete('request', requestId, history)}
+                        onDelete={onDelete('request', requestId, () => history.goBack())}
+                        deleteMessage={deleteRequestMessage}
+                        denyMessage={denyRequestMessage}
+                        acceptMessage={acceptRequestMessage}
                     />
                 </>
             )}

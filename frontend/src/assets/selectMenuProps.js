@@ -1,7 +1,7 @@
 export default {
     anchorOrigin: {
         vertical: 'bottom',
-        horizontal: 'left',
+        horizontal: 'center',
     },
     getContentAnchorEl: null,
 };

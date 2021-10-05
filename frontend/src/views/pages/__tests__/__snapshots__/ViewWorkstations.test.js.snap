@@ -241,7 +241,7 @@ Array [
           </div>
         </div>
         <a
-          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button undefined css-sghohy-MuiButtonBase-root-MuiButton-root"
+          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button undefined   css-sghohy-MuiButtonBase-root-MuiButton-root"
           href="/workstations/new"
           onBlur={[Function]}
           onClick={[Function]}

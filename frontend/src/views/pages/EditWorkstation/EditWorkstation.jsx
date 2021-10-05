@@ -6,6 +6,11 @@ import BottomButtons from '../../components/buttons/BottomButtons';
 import { authRequest } from '../../../hooks/util/authRequest';
 import WorkstationForm from '../../components/forms/WorkstationForm';
 import { onAcceptChanges, onDelete } from '../../../util/editUtil';
+import {
+    editResourceMessage,
+    discardResourceMessage,
+    deleteMessage,
+} from '../../../config/ModalMessages';
 
 const EditWorkstation = () => {
     const history = useHistory();
@@ -39,14 +44,14 @@ const EditWorkstation = () => {
                 onDelete={onDelete('workstation', workstationId, () => history.goBack())}
                 onDeny={() => history.goBack()}
                 denyText='Cancel'
-                onAccept={onAcceptChanges(
-                    'workstation',
-                    workstationState,
-                    workstationId,
-                    () => history.goBack(),
+                onAccept={onAcceptChanges('workstation', workstationState, workstationId, () =>
+                    history.goBack(),
                 )}
                 acceptDisabled={error}
                 acceptText='Confirm Changes'
+                deleteMessage={deleteMessage('workstation')}
+                denyMessage={discardResourceMessage('workstation')}
+                acceptMessage={editResourceMessage('workstation')}
             />
         </TopBarPageTemplate>
     );

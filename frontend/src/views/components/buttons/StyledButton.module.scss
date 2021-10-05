@@ -3,9 +3,14 @@
 @mixin theme($theme: $primaryBlue) {
     background-color: $theme;
     border: 2px solid $theme;
-    &:hover {
+    &:hover,
+    &.outline {
         background-color: transparent;
         color: $theme;
+    }
+    &.outline:hover {
+        background-color: $theme;
+        color: white;
     }
 }
 
@@ -46,9 +51,4 @@
 
 .red {
     @include theme($theme: $red);
-}
-
-.transparent {
-    background-color: transparent;
-    border-color: none;
 }

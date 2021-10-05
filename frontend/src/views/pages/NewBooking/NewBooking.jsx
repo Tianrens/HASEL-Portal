@@ -1,12 +1,12 @@
 import { React, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import Icon from '@mui/material/Icon';
-import { header, buttonContainer } from './NewBooking.module.scss';
-import { StyledButton } from '../../components/buttons/StyledButton';
+import { header } from './NewBooking.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import BookingForm from '../../components/forms/BookingForm';
 import { useCrud } from '../../../hooks/useCrud';
 import { onCreate } from '../../../util/editUtil';
+import BottomButtons from '../../components/buttons/BottomButtons';
+import { createResourceMessage, discardResourceMessage } from '../../../config/ModalMessages';
 
 const NewBooking = () => {
     const location = useLocation();
@@ -35,26 +35,17 @@ const NewBooking = () => {
                 numGPUs={numGPUs}
                 workstationId={workstationId}
             />
-            <div className={buttonContainer}>
-                <StyledButton
-                    color='red'
-                    icon={<Icon>close</Icon>}
-                    onClick={() => history.goBack()}
-                >
-                    Cancel
-                </StyledButton>
-                <StyledButton
-                    color='green'
-                    icon={<Icon>done</Icon>}
-                    type='submit'
-                    onClick={onCreate('booking', { workstationId, ...bookingState }, () =>
-                        history.goBack(),
-                    )}
-                    disabled={error}
-                >
-                    Confirm
-                </StyledButton>
-            </div>
+            <BottomButtons
+                onDeny={() => history.goBack()}
+                denyText='Cancel'
+                onAccept={onCreate('booking', { workstationId, ...bookingState }, () =>
+                    history.goBack(),
+                )}
+                acceptDisabled={error}
+                acceptText='Confirm'
+                denyMessage={discardResourceMessage('booking')}
+                acceptMessage={createResourceMessage('booking')}
+            />
         </TopBarPageTemplate>
     );
 };

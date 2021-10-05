@@ -45,7 +45,7 @@ function onAcceptChanges(resourceString, resourceState, id, cb) {
     return async () => {
         try {
             await authRequest(`/api/${resourceString}/${id}`, 'PUT', resourceState);
-            successSnackbar(`${capitalise(resourceString)} updated successfully`);
+            successSnackbar(`Updated ${capitalise(resourceString)} successfully`);
             cb();
         } catch (err) {
             errorSnackbar(err.response.data);
@@ -61,7 +61,7 @@ function onActionPatch(resourceString, resourceState, id, cb) {
     return async () => {
         try {
             await authRequest(`/api/${resourceString}/${id}`, 'PATCH', resourceState);
-            successSnackbar(`Accepted ${capitalise(resourceString)}`);
+            successSnackbar(`Updated ${capitalise(resourceString)} successfully`);
             cb();
         } catch (err) {
             errorSnackbar(err.response.data);

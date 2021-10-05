@@ -7,6 +7,11 @@ import BottomButtons from '../../components/buttons/BottomButtons';
 import { authRequest } from '../../../hooks/util/authRequest';
 import BookingForm from '../../components/forms/BookingForm';
 import { onAcceptChanges, onDelete } from '../../../util/editUtil';
+import {
+    editResourceMessage,
+    discardResourceMessage,
+    deleteMessage,
+} from '../../../config/ModalMessages';
 
 const EditBooking = () => {
     const [bookingState, setBookingState] = useState({});
@@ -59,6 +64,9 @@ const EditBooking = () => {
                 onDeny={() => history.goBack()}
                 acceptText='Confirm Changes'
                 denyText='Cancel'
+                deleteMessage={deleteMessage('booking')}
+                denyMessage={discardResourceMessage('booking')}
+                acceptMessage={editResourceMessage('booking')}
                 acceptDisabled={error}
             />
         </TopBarPageTemplate>

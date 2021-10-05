@@ -1,7 +1,8 @@
-import { React } from 'react';
+import { React, useState } from 'react';
 import Icon from '@mui/material/Icon';
 import { StyledButton } from './StyledButton';
 import { buttonContainer } from './BottomButtons.module.scss';
+import ConfirmDialog from '../Modal/ConfirmDialog';
 
 const BottomButtons = ({
     onDelete,
@@ -11,39 +12,67 @@ const BottomButtons = ({
     onAccept,
     acceptText,
     acceptDisabled,
-}) => (
-    <div className={buttonContainer}>
-        <div>
-            {onDelete && (
-                <StyledButton
-                    color='yellow'
-                    icon={<Icon>delete</Icon>}
-                    type='submit'
-                    onClick={onDelete}
-                >
-                    {deleteText ?? 'Delete'}
-                </StyledButton>
-            )}
-        </div>
-        <div>
-            {onDeny && (
-                <StyledButton color='red' icon={<Icon>close</Icon>} type='submit' onClick={onDeny}>
-                    {denyText ?? 'Deny'}
-                </StyledButton>
-            )}
-            {onAccept && (
-                <StyledButton
-                    color='green'
-                    icon={<Icon>done</Icon>}
-                    type='submit'
-                    onClick={onAccept}
-                    disabled={acceptDisabled}
-                >
-                    {acceptText ?? 'Accept'}
-                </StyledButton>
-            )}
-        </div>
-    </div>
-);
+    deleteMessage,
+    denyMessage,
+    acceptMessage,
+}) => {
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState('');
+    const [onSubmit, setOnSubmit] = useState();
+
+    const openModal = (msg, fn) => {
+        setMessage(msg);
+        setOnSubmit(() => fn);
+        setOpen(true);
+    };
+
+    return (
+        <>
+            <div className={buttonContainer}>
+                <div>
+                    {onDelete && (
+                        <StyledButton
+                            color='yellow'
+                            icon={<Icon>delete</Icon>}
+                            type='submit'
+                            onClick={() => openModal(deleteMessage, onDelete)}
+                        >
+                            {deleteText ?? 'Delete'}
+                        </StyledButton>
+                    )}
+                </div>
+                <div>
+                    {onDeny && (
+                        <StyledButton
+                            color='red'
+                            icon={<Icon>close</Icon>}
+                            type='submit'
+                            onClick={() => openModal(denyMessage, onDeny)}
+                        >
+                            {denyText ?? 'Deny'}
+                        </StyledButton>
+                    )}
+                    {onAccept && (
+                        <StyledButton
+                            color='green'
+                            icon={<Icon>done</Icon>}
+                            type='submit'
+                            onClick={() => openModal(acceptMessage, onAccept)}
+                            disabled={acceptDisabled}
+                        >
+                            {acceptText ?? 'Accept'}
+                        </StyledButton>
+                    )}
+                </div>
+            </div>
+            <ConfirmDialog
+                message={message}
+                open={open}
+                onSubmit={onSubmit}
+                handleClose={() => setOpen(false)}
+            />
+        </>
+    );
+};
 
 export default BottomButtons;

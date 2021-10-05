@@ -312,7 +312,7 @@ exports[`Signup page renders properly 1`] = `
               className="buttonContainer"
             >
               <button
-                className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button undefined css-sghohy-MuiButtonBase-root-MuiButton-root"
+                className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button undefined   css-sghohy-MuiButtonBase-root-MuiButton-root"
                 disabled={false}
                 onBlur={[Function]}
                 onContextMenu={[Function]}
