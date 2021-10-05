@@ -77,6 +77,9 @@ Array [
                     My Account
                   </div>
                 </a>
+                <span
+                  className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
               </button>
             </div>
           </div>
@@ -115,6 +118,9 @@ Array [
                   d="M2 15.5v2h20v-2H2zm0-5v2h20v-2H2zm0-5v2h20v-2H2z"
                 />
               </svg>
+              <span
+                className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
             </button>
             <div
               className="MuiDrawer-root MuiDrawer-docked drawer css-7ik032-MuiDrawer-docked"
@@ -164,6 +170,9 @@ Array [
                             d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
                           />
                         </svg>
+                        <span
+                          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
                       </button>
                     </div>
                     <div
@@ -205,6 +214,9 @@ Array [
                             My Account
                           </div>
                         </a>
+                        <span
+                          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
                       </button>
                     </div>
                   </div>
@@ -226,71 +238,13 @@ Array [
     </h2>
     <form
       autoComplete="off"
-      className="form"
+      className="bookingForm"
       id="booking-form"
       onSubmit={[Function]}
     >
       <div
         className="inputContainer"
       >
-        <div
-          className="container"
-        >
-          <p
-            className="title"
-          >
-            Start Date
-            <span
-              className="asterisk"
-            >
-               *
-            </span>
-          </p>
-          <div
-            className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
-          >
-            <div
-              className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
-              onClick={[Function]}
-            >
-              <input
-                aria-invalid={true}
-                autoFocus={false}
-                className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                disabled={false}
-                onAnimationStart={[Function]}
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                required={true}
-                type="date"
-                value=""
-              />
-              <fieldset
-                aria-hidden={true}
-                className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  className="css-1a1ihhj"
-                >
-                  <span
-                    className="notranslate"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "&#8203;",
-                      }
-                    }
-                  />
-                </legend>
-              </fieldset>
-            </div>
-            <p
-              className="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-contained Mui-required css-1wc848c-MuiFormHelperText-root"
-            >
-              Start time must be after current time
-            </p>
-          </div>
-        </div>
         <div
           className="container"
         >
@@ -305,25 +259,65 @@ Array [
             </span>
           </p>
           <div
-            className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+            className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+            onClick={[Function]}
           >
             <div
-              className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+              className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root"
               onClick={[Function]}
             >
               <input
-                aria-invalid={true}
+                aria-invalid={false}
                 autoFocus={false}
-                className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                disabled={false}
+                className="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd dateTimePicker dateTimePicker css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
+                disabled={true}
                 onAnimationStart={[Function]}
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
-                required={true}
-                type="time"
-                value=""
+                required={false}
+                type="text"
+                value="Sun 03/10/2021 01:00 PM"
               />
+              <div
+                className="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+              >
+                <button
+                  aria-label="Choose date, selected date is Oct 3, 2021"
+                  className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  tabIndex={0}
+                  type="button"
+                >
+                  <svg
+                    aria-hidden={true}
+                    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    data-testid="CalendarIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                    />
+                  </svg>
+                  <span
+                    className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
               <fieldset
                 aria-hidden={true}
                 className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
@@ -354,7 +348,7 @@ Array [
           <p
             className="title"
           >
-            End Date
+            End Time
             <span
               className="asterisk"
             >
@@ -362,25 +356,65 @@ Array [
             </span>
           </p>
           <div
-            className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+            className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+            onClick={[Function]}
           >
             <div
-              className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+              className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root"
               onClick={[Function]}
             >
               <input
-                aria-invalid={true}
+                aria-invalid={false}
                 autoFocus={false}
-                className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                disabled={false}
+                className="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd dateTimePicker dateTimePicker css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
+                disabled={true}
                 onAnimationStart={[Function]}
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
-                required={true}
-                type="date"
-                value=""
+                required={false}
+                type="text"
+                value="Sun 03/10/2021 04:00 PM"
               />
+              <div
+                className="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+              >
+                <button
+                  aria-label="Choose date, selected date is Oct 3, 2021"
+                  className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  tabIndex={0}
+                  type="button"
+                >
+                  <svg
+                    aria-hidden={true}
+                    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    data-testid="CalendarIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                    />
+                  </svg>
+                  <span
+                    className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
               <fieldset
                 aria-hidden={true}
                 className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
@@ -400,7 +434,7 @@ Array [
               </fieldset>
             </div>
             <p
-              className="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-contained Mui-required css-1wc848c-MuiFormHelperText-root"
+              className="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-1wc848c-MuiFormHelperText-root"
             >
               <span
                 className="notranslate"
@@ -411,59 +445,6 @@ Array [
                 }
               />
             </p>
-          </div>
-        </div>
-        <div
-          className="container"
-        >
-          <p
-            className="title"
-          >
-            End Time
-            <span
-              className="asterisk"
-            >
-               *
-            </span>
-          </p>
-          <div
-            className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
-          >
-            <div
-              className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
-              onClick={[Function]}
-            >
-              <input
-                aria-invalid={true}
-                autoFocus={false}
-                className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                disabled={false}
-                onAnimationStart={[Function]}
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                required={true}
-                type="time"
-                value=""
-              />
-              <fieldset
-                aria-hidden={true}
-                className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  className="css-1a1ihhj"
-                >
-                  <span
-                    className="notranslate"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "&#8203;",
-                      }
-                    }
-                  />
-                </legend>
-              </fieldset>
-            </div>
           </div>
         </div>
       </div>
@@ -527,6 +508,9 @@ Array [
                     d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                   />
                 </svg>
+                <span
+                  className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
               </span>
               <span
                 className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
@@ -585,6 +569,9 @@ Array [
           </span>
         </span>
         Cancel
+        <span
+          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
       </button>
       <button
         className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root Mui-disabled button green css-sghohy-MuiButtonBase-root-MuiButton-root"

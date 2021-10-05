@@ -10,30 +10,36 @@ import {
     FormLabel,
 } from '@mui/material';
 import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
 import styles from './Form.module.scss';
-import TextField from '../TextField/CustomTextField';
+import CustomDateAndTime from '../TextField/CustomDateAndTime';
 import GpuBookingGanttZoomable from '../gpuBookingGantt/GpuBookingGanttZoomable';
+import { MAX_BOOKING_TIME } from '../../../config/consts';
 
-const getTimestamp = (date, time) => dayjs(`${date}T${time}:00`).valueOf();
+dayjs.extend(duration);
+
+const roundedUp = (date) => date.minute(Math.ceil(date.minute() / 15) * 15).second(0);
 
 const BookingForm = ({ updateBookingState, numGPUs, data, workstationId }) => {
     const GPUList = Array.from(Array(numGPUs).keys());
 
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
+    const [startTime, setStartTime] = useState(roundedUp(dayjs()));
+    const [endTime, setEndTime] = useState(roundedUp(dayjs(startTime).add(3, 'hour')));
     const [selectedGPUs, setGPUs] = useState(data?.gpuIndices ?? []);
-    const [isActive, setActive] = useState(false);
+    const [hasStarted, setStarted] = useState(false);
+    const [hasEnded, setEnded] = useState(false);
+
     const noGPUSelected = selectedGPUs.length === 0;
-    const startBeforeEnd = getTimestamp(startDate, startTime) > getTimestamp(endDate, endTime);
-    const startBeforeNow = !data && getTimestamp(startDate, startTime) < dayjs().valueOf();
-    const timingInvalid = startBeforeEnd || startBeforeNow;
+    const maxTime = dayjs.duration({ hours: MAX_BOOKING_TIME }).$ms;
+    const currentTime = dayjs.duration(endTime.diff(startTime)).$ms;
+    const tooLong = currentTime > maxTime;
+    const endBeforeStart = endTime < startTime;
+    const timingInvalid = tooLong || endBeforeStart;
     // eslint-disable-next-line no-nested-ternary
-    const errorMessage = startBeforeEnd
-        ? 'Start time must be before end time'
-        : startBeforeNow
-        ? 'Start time must be after current time'
+    const errorMessage = endBeforeStart
+        ? 'End Time must be after Start Time!'
+        : tooLong
+        ? `Booking Time cannot exceed ${MAX_BOOKING_TIME} hours!`
         : ' ';
 
     const handleSelect = (event, GPU) => {
@@ -43,77 +49,67 @@ const BookingForm = ({ updateBookingState, numGPUs, data, workstationId }) => {
             setGPUs(selectedGPUs.filter((gpu) => gpu !== GPU));
         }
     };
+
+    const handleSetStart = (value) => {
+        setStartTime(value);
+        if (startTime >= endTime) {
+            setEndTime(roundedUp(dayjs(value).add(3, 'hour')));
+        }
+    };
+
     useEffect(() => {
         // Set start times to current time
-        setStartDate(dayjs().format('YYYY-MM-DD'));
-        setStartTime(dayjs().add(1, 'm').format('HH:mm'));
         if (data) {
-            setStartDate(dayjs(data.startTimestamp).format('YYYY-MM-DD'));
-            setStartTime(dayjs(data.startTimestamp).format('HH:mm'));
-            setEndDate(dayjs(data.endTimestamp).format('YYYY-MM-DD'));
-            setEndTime(dayjs(data.endTimestamp).format('HH:mm'));
+            setStartTime(dayjs(data.startTimestamp));
+            setEndTime(dayjs(data.endTimestamp));
             setGPUs(data.gpuIndices);
-            setActive(dayjs(data.startTimestamp).valueOf() < dayjs().valueOf());
+            setStarted(dayjs(data.startTimestamp).valueOf() < dayjs().valueOf());
+            setEnded(dayjs(data.endTimestamp).valueOf() < dayjs().valueOf());
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
     useEffect(() => {
         updateBookingState(
             {
-                startTimestamp: getTimestamp(startDate, startTime),
-                endTimestamp: getTimestamp(endDate, endTime),
+                startTimestamp: startTime,
+                endTimestamp: endTime,
                 gpuIndices: selectedGPUs,
             },
             noGPUSelected || timingInvalid,
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [startDate, startTime, endDate, endTime, selectedGPUs]);
+    }, [startTime, endTime, selectedGPUs]);
 
     return (
         <>
             <form
                 id='booking-form'
                 autoComplete='off'
-                className={styles.form}
+                className={styles.bookingForm}
                 onSubmit={(event) => {
                     event.preventDefault();
                 }}
             >
                 <div className={styles.inputContainer}>
-                    <TextField
-                        title='Start Date'
-                        type='date'
-                        value={startDate}
-                        setValue={setStartDate}
-                        error={timingInvalid}
-                        helperText={errorMessage}
-                        disabled={isActive}
-                    />
-                    <TextField
+                    <CustomDateAndTime
                         title='Start Time'
-                        type='time'
                         value={startTime}
-                        error={timingInvalid}
-                        setValue={setStartTime}
-                        disabled={isActive}
+                        handler={handleSetStart}
+                        minDateTime={dayjs(roundedUp(dayjs())).subtract(1, 'minute')}
+                        maxDateTime={dayjs().add(1, 'month')}
+                        disabled={hasStarted}
                     />
                 </div>
                 <div className={styles.inputContainer}>
-                    <TextField
-                        title='End Date'
-                        error={timingInvalid}
-                        type='date'
-                        value={endDate}
-                        setValue={setEndDate}
-                        // For nicer alignment on desktop mode
-                        helperText={' '}
-                    />
-                    <TextField
+                    <CustomDateAndTime
                         title='End Time'
-                        error={timingInvalid}
-                        type='time'
                         value={endTime}
-                        setValue={setEndTime}
+                        handler={setEndTime}
+                        errorMessage={errorMessage}
+                        minDateTime={dayjs(startTime).add(1, 'hour')}
+                        maxDateTime={dayjs(startTime).add(MAX_BOOKING_TIME, 'hours')}
+                        disabled={hasEnded}
                     />
                 </div>
                 <div className={styles.inputContainer}>
@@ -126,6 +122,7 @@ const BookingForm = ({ updateBookingState, numGPUs, data, workstationId }) => {
                                         <Checkbox
                                             onClick={(event) => handleSelect(event, GPU)}
                                             checked={selectedGPUs.includes(GPU)}
+                                            disabled={hasEnded}
                                         />
                                     }
                                     label={`GPU ${GPU}`}
@@ -133,7 +130,9 @@ const BookingForm = ({ updateBookingState, numGPUs, data, workstationId }) => {
                                 />
                             ))}
                         </FormGroup>
-                        {noGPUSelected && <FormHelperText>Select at least 1 GPU</FormHelperText>}
+                        <FormHelperText>
+                            {noGPUSelected ? 'Select at least 1 GPU' : ' '}
+                        </FormHelperText>
                     </FormControl>
                 </div>
             </form>
@@ -143,8 +142,8 @@ const BookingForm = ({ updateBookingState, numGPUs, data, workstationId }) => {
                     workstationId={workstationId}
                     currentBookingData={{
                         id: data?._id,
-                        startTimestamp: new Date(getTimestamp(startDate, startTime)),
-                        endTimestamp: new Date(getTimestamp(endDate, endTime)),
+                        startTimestamp: new Date(startTime),
+                        endTimestamp: new Date(endTime),
                         gpuIndices: selectedGPUs,
                         noGPUSelected,
                         timingInvalid,

@@ -17,6 +17,11 @@
     margin: 0rem 0 4rem 0;
 }
 
+.bookingForm {
+    @extend .form;
+    margin: 0;
+}
+
 .inputContainer {
     flex: 1 0;
     gap: 1.5rem;

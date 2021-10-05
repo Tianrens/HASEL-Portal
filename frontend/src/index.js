@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import StylesProvider from '@mui/styles/StylesProvider';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import AdapterDayJs from '@mui/lab/AdapterDayjs';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { SnackbarProvider } from 'notistack';
 import theme from './assets/MaterialTheme';
 import App from './App';
@@ -18,7 +20,9 @@ ReactDOM.render(
                 <SnackbarProvider>
                     <StyledEngineProvider injectFirst>
                         <ThemeProvider theme={theme}>
-                            <App />
+                            <LocalizationProvider dateAdapter={AdapterDayJs}>
+                                <App />
+                            </LocalizationProvider>
                         </ThemeProvider>
                     </StyledEngineProvider>
                     <SnackbarUtils />
