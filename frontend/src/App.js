@@ -31,15 +31,13 @@ function App() {
 
     const UnauthenticatedRoutes = () => (
         <Switch>
-            <Route exact path='/' component={LandingPage} />
-            <Route render={() => <Redirect to='/' />} />
+            <Route component={LandingPage} />
         </Switch>
     );
 
     const SignupRoutes = () => (
         <Switch>
-            <Route exact path='/' component={SignupPage} />
-            <Route render={() => <Redirect to='/' />} />
+            <Route component={SignupPage} />
         </Switch>
     );
 
