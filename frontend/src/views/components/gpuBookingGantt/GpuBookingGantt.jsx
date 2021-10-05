@@ -12,16 +12,22 @@ export default function GpuBookingGantt({
     numGPUs,
     thisUsersId,
     zoomLevel = 6,
+    conflictHandler,
 }) {
-    const formattedBookingData = formatBookingData({
+    const { formattedData, hasConflicts } = formatBookingData({
         bookingData,
         currentBookingData,
         thisUsersId,
     });
+    if (conflictHandler) {
+        conflictHandler(hasConflicts);
+    }
     const formattedResourceData = formatResourceData(numGPUs);
     // If user owns the task, colour that task differently
     const queryTaskbarInfo = (args) => {
-        if (args.data.taskData.currentBooking) {
+        if (args.data.taskData.errorBooking) {
+            args.taskbarBgColor = colours.red;
+        } else if (args.data.taskData.currentBooking) {
             args.taskbarBgColor = colours.green;
         } else if (args.data.taskData.myBooking) {
             args.taskbarBgColor = colours.secondaryBlue;
@@ -44,6 +50,7 @@ export default function GpuBookingGantt({
         resourceInfo: 'gpuIndices',
         myBooking: 'myBooking',
         currentBooking: 'currentBooking',
+        errorBooking: 'errorBooking',
     };
 
     const dayWorkingTime = [{ from: 0, to: 24 }];
@@ -89,7 +96,7 @@ export default function GpuBookingGantt({
 
     return (
         <GanttComponent
-            dataSource={formattedBookingData}
+            dataSource={formattedData}
             viewType='ResourceView'
             resources={formattedResourceData}
             resourceFields={resourceFields}

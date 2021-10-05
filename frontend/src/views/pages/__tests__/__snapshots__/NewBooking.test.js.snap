@@ -532,7 +532,11 @@ Array [
     />
     <div
       className="gantt"
-    />
+    >
+      <p
+        className="ganttError"
+      />
+    </div>
     <hr
       className="MuiDivider-root MuiDivider-fullWidth divider css-9mgopn-MuiDivider-root"
     />

@@ -28,7 +28,7 @@ const BookingForm = ({ updateBookingState, numGPUs, data, workstationId }) => {
     const [selectedGPUs, setGPUs] = useState(data?.gpuIndices ?? []);
     const [hasStarted, setStarted] = useState(false);
     const [hasEnded, setEnded] = useState(false);
-
+    const [hasConflicts, setConflicts] = useState(false);
     const noGPUSelected = selectedGPUs.length === 0;
     const maxTime = dayjs.duration({ hours: MAX_BOOKING_TIME }).$ms;
     const currentTime = dayjs.duration(endTime.diff(startTime)).$ms;
@@ -57,6 +57,10 @@ const BookingForm = ({ updateBookingState, numGPUs, data, workstationId }) => {
         }
     };
 
+    const conflictHandler = (value) => {
+        setConflicts(value);
+    };
+
     useEffect(() => {
         // Set start times to current time
         if (data) {
@@ -76,10 +80,10 @@ const BookingForm = ({ updateBookingState, numGPUs, data, workstationId }) => {
                 endTimestamp: endTime,
                 gpuIndices: selectedGPUs,
             },
-            noGPUSelected || timingInvalid,
+            noGPUSelected || timingInvalid || hasConflicts,
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [startTime, endTime, selectedGPUs]);
+    }, [startTime, endTime, selectedGPUs, hasConflicts]);
 
     return (
         <>
@@ -148,7 +152,11 @@ const BookingForm = ({ updateBookingState, numGPUs, data, workstationId }) => {
                         noGPUSelected,
                         timingInvalid,
                     }}
+                    conflictHandler={conflictHandler}
                 />
+                <p className={styles.ganttError}>
+                    {hasConflicts && 'Booking has conflicts. Resolve them to proceed.'}
+                </p>
             </div>
             <Divider className={styles.divider} />
         </>

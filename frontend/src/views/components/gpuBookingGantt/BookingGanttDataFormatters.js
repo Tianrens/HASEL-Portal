@@ -1,8 +1,20 @@
+import dayjs from 'dayjs';
+
+function dateRangeOverlaps(start1, end1, start2, end2) {
+    if (start1 < start2 && start2 < end1) return true; // b starts in a
+    if (start1 < end2 && end2 < end1) return true; // b ends in a
+    if (start2 < start1 && end1 < end2) return true; // a in b
+    return false;
+}
+
 function formatBookingData({ bookingData, currentBookingData, thisUsersId }) {
     const formattedData = [];
+    let hasConflicts = false;
+    const currentBookingValid =
+        !currentBookingData?.noGPUSelected && !currentBookingData?.timingInvalid;
 
     if (currentBookingData) {
-        if (!currentBookingData.noGPUSelected && !currentBookingData.timingInvalid) {
+        if (currentBookingValid) {
             formattedData.push({
                 bookingId: bookingData.length,
                 startTimestamp: currentBookingData.startTimestamp,
@@ -25,9 +37,24 @@ function formatBookingData({ bookingData, currentBookingData, thisUsersId }) {
                 currentBooking: false,
             });
         }
+        if (currentBookingData) {
+            const timesOverlap = dateRangeOverlaps(
+                dayjs(booking.startTimestamp).valueOf(),
+                dayjs(booking.endTimestamp).valueOf(),
+                currentBookingData.startTimestamp.valueOf(),
+                currentBookingData.endTimestamp.valueOf(),
+            );
+            const gpuOverlaps = booking.gpuIndices.filter((gpu) =>
+                currentBookingData.gpuIndices.includes(gpu),
+            );
+            if (timesOverlap && gpuOverlaps.length && currentBookingValid) {
+                formattedData[0].errorBooking = true;
+                hasConflicts = true;
+            }
+        }
     });
 
-    return formattedData;
+    return { formattedData, hasConflicts };
 }
 
 function formatResourceData(numGPUs) {

@@ -8,7 +8,11 @@ import { useDoc } from '../../../state/state';
 import { userDoc } from '../../../state/docs/userDoc';
 import GanttLegend from './GanttLegend';
 
-export default function GpuBookingGanttZoomable({ workstationId, currentBookingData }) {
+export default function GpuBookingGanttZoomable({
+    workstationId,
+    currentBookingData,
+    conflictHandler,
+}) {
     const [user] = useDoc(userDoc);
     const [workstation, setWorkstation] = useState(null);
     const [bookingsData, setBookingsData] = useState(null);
@@ -56,6 +60,7 @@ export default function GpuBookingGanttZoomable({ workstationId, currentBookingD
                     numGPUs={workstation.numGPUs}
                     thisUsersId={user._id}
                     zoomLevel={zoomLevels[zoomIdx]}
+                    conflictHandler={conflictHandler}
                 />
                 <div className={styles.buttonsContainer}>
                     <div className={styles.buttons}>
