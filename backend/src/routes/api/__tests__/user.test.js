@@ -342,7 +342,7 @@ it('retrieve all users with invalid permissions', async () => {
 
 it('update user type valid permissions', async () => {
     const updatedUser1Type = {
-        type: 'ACADEMIC',
+        type: 'ACADEMIC_STAFF',
     };
 
     const response = await authRequest(
@@ -384,7 +384,7 @@ it('update user type - type not included', async () => {
 
 it('update user type invalid permissions', async () => {
     const updatedUser1Info = {
-        type: 'ACADEMIC',
+        type: 'ACADEMIC_STAFF',
     };
 
     const response = await authRequest(

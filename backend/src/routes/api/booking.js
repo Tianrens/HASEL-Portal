@@ -31,7 +31,7 @@ router.post(
                 gpuIndices: req.body.gpuIndices,
             });
 
-            const specialUserTypes = ['ADMIN', 'SUPERADMIN', 'STAFF', 'ACADEMIC'];
+            const specialUserTypes = ['ADMIN', 'SUPERADMIN', 'NON_ACADEMIC_STAFF', 'ACADEMIC_STAFF'];
             if (specialUserTypes.includes(req.user.status)) {
                 const workstation = await retrieveWorkstationById(booking.workstationId); 
                 createWorkstationUser(workstation.host, req.user.upi); // Ignores if user already exists on workstation.

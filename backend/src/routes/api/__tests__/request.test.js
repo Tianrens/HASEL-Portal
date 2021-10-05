@@ -104,7 +104,7 @@ beforeEach(async () => {
         authUserId: 'test1',
         firstName: 'Lemon',
         lastName: 'Borat',
-        type: 'ACADEMIC',
+        type: 'ACADEMIC_STAFF',
     });
 
     staffUser = new User({
@@ -113,7 +113,7 @@ beforeEach(async () => {
         authUserId: 'test1',
         firstName: 'Pit',
         lastName: 'Bull',
-        type: 'STAFF',
+        type: 'NON_ACADEMIC_STAFF',
     });
 
     workstation1 = new Workstation({
@@ -586,7 +586,7 @@ it('update request status - invalid status', async () => {
     expect(updatedRequest.endDate).toBeUndefined();
 });
 
-it('approve ACADEMIC request valid permissions', async () => {
+it('approve ACADEMIC_STAFF request valid permissions', async () => {
     const response = await axios.patch(
         `${REQUEST_API_URL}/${academicUserRequest._id}`,
         requestApproval,
@@ -609,7 +609,7 @@ it('approve ACADEMIC request valid permissions', async () => {
     expect(updatedRequest.endDate).toBeUndefined();
 });
 
-it('approve STAFF request valid permissions', async () => {
+it('approve NON_ACADEMIC_STAFF request valid permissions', async () => {
     const response = await axios.patch(
         `${REQUEST_API_URL}/${staffUserRequest._id}`,
         requestApprovalWithCustomRequestValidity,
@@ -634,7 +634,7 @@ it('approve STAFF request valid permissions', async () => {
     ).toEqual(8);
 });
 
-it('approve STAFF request valid permissions', async () => {
+it('approve NON_ACADEMIC_STAFF request valid permissions', async () => {
     const response = await axios.patch(
         `${REQUEST_API_URL}/${staffUserRequest._id}`,
         requestApprovalWithCustomRequestValidity,

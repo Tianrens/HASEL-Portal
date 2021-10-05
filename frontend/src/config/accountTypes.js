@@ -6,8 +6,8 @@ const ACCOUNT_TYPE = {
     MASTERS: 'Masters',
     POSTGRAD: 'Postgrad',
     PHD: 'PhD',
-    STAFF: 'Staff',
-    ACADEMIC: 'Academic',
+    NON_ACADEMIC_STAFF: 'Non-Academic Staff',
+    ACADEMIC_STAFF: 'Academic Staff',
     OTHER: 'Other',
 };
 
@@ -21,9 +21,9 @@ export function getValidityPeriod(accountType) {
         return 6;
     case ACCOUNT_TYPE.PHD:
         return 12;
-    case ACCOUNT_TYPE.STAFF:
+    case ACCOUNT_TYPE.NON_ACADEMIC_STAFF:
         return 12;
-    case ACCOUNT_TYPE.ACADEMIC:
+    case ACCOUNT_TYPE.ACADEMIC_STAFF:
         return 1000;
     default:
         return 3;
@@ -40,7 +40,7 @@ export function getDisplayName(accountType) {
 
 export function supervisorNeeded() {
     const [user] = accessDoc(userDoc);
-    return user?.type !== 'ACADEMIC' && user?.type !== 'STAFF';
+    return user?.type !== 'ACADEMIC_STAFF' && user?.type !== 'NON_ACADEMIC_STAFF';
 }
 
 export function isAdminType() {

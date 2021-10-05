@@ -6,8 +6,8 @@ export async function shouldPerformUserOperation(upi) {
         throw new Error(`Cannot find user with upi: ${upi}`);
     }
 
-    if (user.type === 'STAFF' ||
-        user.type === 'ACADEMIC' ||
+    if (user.type === 'NON_ACADEMIC_STAFF' ||
+        user.type === 'ACADEMIC_STAFF' ||
         user.type === 'ADMIN' ||
         user.type === 'SUPERADMIN') {
         return false;

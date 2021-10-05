@@ -98,7 +98,7 @@ beforeEach(async () => {
         authUserId: '23423',
         firstName: 'Ale',
         lastName: 'Bell',
-        type: 'STAFF',
+        type: 'NON_ACADEMIC_STAFF',
     };
 
     await usersColl.insertMany([user1, user2]);
@@ -182,7 +182,7 @@ it('retrieve a single user', async () => {
 
 it('update user type', async () => {
     const updatedUser2Info = {
-        type: 'ACADEMIC',
+        type: 'ACADEMIC_STAFF',
     };
 
     await updateUser(user2._id, updatedUser2Info);
