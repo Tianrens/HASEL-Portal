@@ -12,7 +12,7 @@ const ConfirmDialog = ({ message, open, handleClose, onSubmit }) => (
     <Dialog open={open} onClose={handleClose} maxWidth='sm' fullWidth>
         <DialogTitle>Confirm Action</DialogTitle>
         <DialogContent>
-            <DialogContentText>{message}</DialogContentText>
+            <DialogContentText component='div'>{message}</DialogContentText>
         </DialogContent>
         <DialogActions>
             <StyledButton outline color='red' onClick={() => handleClose()}>

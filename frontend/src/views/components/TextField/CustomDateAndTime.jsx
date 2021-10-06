@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 import dayjs from 'dayjs';
 import TextField from '@mui/material/TextField';
 import DateTimePicker from '@mui/lab/DesktopDateTimePicker';
-import styles from './CustomTextField.module.scss';
+import styles from './TextField.module.scss';
 
 const CustomDateAndTime = ({
     title,

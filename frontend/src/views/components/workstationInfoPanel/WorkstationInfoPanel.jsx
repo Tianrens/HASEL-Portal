@@ -8,7 +8,7 @@ import CpuIcon from '../../../assets/images/cpu.svg';
 import RamIcon from '../../../assets/images/ram.svg';
 import GpuIcon from '../../../assets/images/gpu.svg';
 
-export default function WorkstationInfoPanel({ workstationData, children }) {
+export default function WorkstationInfoPanel({ workstationData, children, hideTimeline }) {
     const infoFields = [
         { icon: CpuIcon, title: 'CPU', description: workstationData.cpuDescription },
         { icon: RamIcon, title: 'RAM', description: workstationData.ramDescription },
@@ -43,9 +43,11 @@ export default function WorkstationInfoPanel({ workstationData, children }) {
                 </div>
                 {children}
             </div>
-            <div className={styles.ganttWrapper}>
-                <GpuBookingGanttZoomable workstationId={workstationData._id} />
-            </div>
+            {!hideTimeline && (
+                <div className={styles.ganttWrapper}>
+                    <GpuBookingGanttZoomable workstationId={workstationData._id} />
+                </div>
+            )}
         </Paper>
     );
 }

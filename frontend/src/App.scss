@@ -10,3 +10,6 @@
     background-color: $primaryBlue;
 }
 
+.MuiMenu-paper {
+    max-height: calc(50% - 35px);
+}

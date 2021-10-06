@@ -3,5 +3,5 @@ export default {
         vertical: 'bottom',
         horizontal: 'center',
     },
-    getContentAnchorEl: null,
+    getcontentanchorel: null,
 };

@@ -1,6 +1,6 @@
 import { React } from 'react';
 import TextField from '@mui/material/TextField';
-import styles from './CustomTextField.module.scss';
+import styles from './TextField.module.scss';
 
 const CustomTextField = ({ title, notRequired, setValue, ...props }) => (
     <div className={styles.container}>

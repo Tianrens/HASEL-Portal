@@ -2,12 +2,10 @@ import { React, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
 import styles from './SingleRequest.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import TextField from '../../components/TextField/CustomTextField';
 import { useCrud } from '../../../hooks/useCrud';
-import selectMenuProps from '../../../assets/selectMenuProps';
 import TitleAndValue from '../../components/text/TitleAndValue';
 import { getDisplayName, getValidityPeriod } from '../../../config/accountTypes';
 import BottomButtons from '../../components/buttons/BottomButtons';
@@ -17,6 +15,7 @@ import {
     denyRequestMessage,
     deleteRequestMessage,
 } from '../../../config/ModalMessages';
+import WorkstationDropdown from '../../components/TextField/WorkstationDropdown';
 
 const SingleRequest = () => {
     const history = useHistory();
@@ -36,7 +35,6 @@ const SingleRequest = () => {
         undefined,
         requestCallback,
     ).data;
-    const workstations = useCrud('/api/workstation').data;
 
     const handleValidity = (input) => {
         const temp = input.replace(/\D/g, '');
@@ -50,7 +48,7 @@ const SingleRequest = () => {
 
     return (
         <TopBarPageTemplate>
-            {workstations && workstation && request && (
+            {workstation && request && (
                 <>
                     <h2 className={styles.header}>Workstation Access Request</h2>
                     <div className={styles.userInfoContainer}>
@@ -77,19 +75,10 @@ const SingleRequest = () => {
                             <TitleAndValue title='Comments' value={request?.comments} />
                         </div>
                         <div className={styles.details}>
-                            <TextField
-                                title='Workstation'
-                                select
-                                defaultValue={workstation}
-                                SelectProps={{ MenuProps: selectMenuProps }}
+                            <WorkstationDropdown
+                                currentWorkstation={workstation}
                                 setValue={setWorkstation}
-                            >
-                                {workstations.map((option) => (
-                                    <MenuItem key={option._id} value={option._id}>
-                                        {option.name}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
+                            />
                             <TextField
                                 title='Validity Period (months)'
                                 value={validityPeriod}
