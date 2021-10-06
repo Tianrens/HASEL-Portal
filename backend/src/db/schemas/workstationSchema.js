@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import mongooseArchive from 'mongoose-archive';
 
 const WorkstationSchema = mongoose.Schema;
 
@@ -16,6 +17,12 @@ const workstationSchema = new WorkstationSchema(
         timestamps: {},
     },
 );
+
+workstationSchema.plugin(mongooseArchive);
+
+workstationSchema.pre('countDocuments', function removeArchived() {
+    if (!this.getQuery().archivedAt) this.where('archivedAt').exists(false);
+});
 
 const Workstation = mongoose.model('Workstation', workstationSchema);
 

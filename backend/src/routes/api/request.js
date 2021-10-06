@@ -5,7 +5,7 @@ import HTTP from './util/http_codes';
 import {
     countRequests,
     createSignUpRequest,
-    deleteRequest,
+    archiveRequest,
     retrieveRequestById,
     retrieveRequests,
     setRequestEndDate,
@@ -194,7 +194,7 @@ router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
     return res.status(HTTP.NO_CONTENT).send('Successful');
 });
 
-/** DELETE a request */
+/** ARCHIVE a request */
 router.delete('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
     try {
         const { requestId } = req.params;
@@ -215,7 +215,7 @@ router.delete('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
             await deleteWorkstationUser(workstation.host, request.userId.upi);
         }
         // Update database
-        await deleteRequest(requestId);
+        await archiveRequest(requestId);
     } catch (err) {
         if (err instanceof SSHError) {
             return res.status(HTTP.INTERNAL_SERVER_ERROR).json(err);

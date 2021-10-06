@@ -5,7 +5,7 @@ import { getUser } from './util/userUtil';
 import { getBooking } from './util/bookingUtil';
 import {
     createBooking,
-    deleteBooking,
+    archiveBooking,
     updateBooking,
 } from '../../db/dao/bookingDao';
 import { retrieveWorkstationById } from '../../db/dao/workstationDao';
@@ -90,7 +90,7 @@ router.put(
     },
 );
 
-/** DELETE a booking */
+/** ARCHIVE a booking */
 router.delete(
     '/:bookingId',
     getUser,
@@ -99,7 +99,7 @@ router.delete(
     async (req, res) => {
         const { bookingId } = req.params;
         try {
-            await deleteBooking(bookingId);
+            await archiveBooking(bookingId);
         } catch (err) {
             return res.status(HTTP.BAD_REQUEST).json('Bad request');
         }

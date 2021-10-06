@@ -684,7 +684,7 @@ it('approve PHD student request with different workstation allocation', async ()
     ).toEqual(12);
 });
 
-it('delete a request with valid permissions', async () => {
+it('archive a request with valid permissions', async () => {
     const response = await axios.delete(
         `${REQUEST_API_URL}/${dummyRequestWithAllFieldsSet1._id}`,
         {
@@ -695,15 +695,15 @@ it('delete a request with valid permissions', async () => {
         },
     );
 
-    const deletedRequest = await retrieveRequestById(
+    const archivedRequest = await retrieveRequestById(
         dummyRequestWithAllFieldsSet1._id,
     );
 
     expect(response.status).toEqual(HTTP.NO_CONTENT);
-    expect(deletedRequest).toBeNull();
+    expect(archivedRequest).toBeNull();
 });
 
-it('delete a request with invalid permissions', async () => {
+it('archive a request with invalid permissions', async () => {
     const response = await axios.delete(
         `${REQUEST_API_URL}/${dummyRequestWithAllFieldsSet1._id}`,
         {
@@ -714,18 +714,18 @@ it('delete a request with invalid permissions', async () => {
         },
     );
 
-    const deletedRequest = await retrieveRequestById(
+    const archivedRequest = await retrieveRequestById(
         dummyRequestWithAllFieldsSet1._id,
     );
 
     expect(response.status).toEqual(HTTP.FORBIDDEN);
     expectDbRequestMatchWithRequest(
-        deletedRequest,
+        archivedRequest,
         dummyRequestWithAllFieldsSet1,
     );
 });
 
-it('delete a request which does not exist', async () => {
+it('archive a request which does not exist', async () => {
     const response = await axios.delete(
         `${REQUEST_API_URL}/999999999999999999999999`,
         {

@@ -53,9 +53,14 @@ async function retrieveUserByType(userType) {
     return User.find({ type: userType });
 }
 
+async function removeRequestFromUser(userId) {
+    await User.updateOne({_id: userId}, {$unset: {'currentRequestId': null}});
+}
+
 export {
     countUsers,
     createUser,
+    removeRequestFromUser,
     retrieveAllUsers,
     retrieveUserById,
     retrieveUsers,

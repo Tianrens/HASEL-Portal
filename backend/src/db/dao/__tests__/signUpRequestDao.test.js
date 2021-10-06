@@ -2,6 +2,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import { addDays, subDays } from 'date-fns';
 import {
+    archiveRequest,
     countRequests,
     createSignUpRequest,
     retrieveAllRequests,
@@ -469,6 +470,15 @@ describe('non time dependent, with relationships', () => {
         const requests = await retrieveAllUsersOfWorkstation(workstation2._id);
         expect(requests).toBeTruthy();
         expect(requests.length).toEqual(0);
+    });
+
+    it('archive request', async () => {
+        await archiveRequest(request1);
+        const request = await retrieveRequestById(request1._id);
+        const count = await countRequests('ACTIVE');
+
+        expect(request).toBeNull();
+        expect(count).toEqual(2);
     });
 });
 

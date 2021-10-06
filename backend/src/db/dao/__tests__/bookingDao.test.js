@@ -2,7 +2,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import {
     createBooking,
-    deleteBooking,
+    archiveBooking,
     retrieveAllBookings,
     retrieveBookingsByUser,
     retrieveBookingsByWorkstation,
@@ -592,12 +592,15 @@ it('update booking time conflict', async () => {
     expect(dbBooking.gpuIndices.toObject()).toEqual(booking2.gpuIndices);
 });
 
-it('delete booking', async () => {
-    await deleteBooking(booking2._id);
+it('archive booking', async () => {
+    await archiveBooking(booking2._id);
     const bookings = await Booking.find({});
+    const count = await Booking.countDocuments({});
 
     expect(bookings).toBeTruthy();
     expect(bookings).toHaveLength(2);
     expectDbBookingMatchWithBooking(bookings[0], booking1);
     expectDbBookingMatchWithBooking(bookings[1], booking3);
+    expect(count).toEqual(2);
 });
+

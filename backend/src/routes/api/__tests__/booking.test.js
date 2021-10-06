@@ -131,7 +131,7 @@ beforeEach(async () => {
         gpuIndices: [1],
     });
 
-    // GPU1:   □□□□■■■■■■■■■
+    // GPU1:   
     validBooking = {
         workstationId: workstation1._id,
         startTimestamp: new Date('2021-08-13T11:00:00'),
@@ -139,8 +139,7 @@ beforeEach(async () => {
         gpuIndices: [1],
     };
 
-    // GPU1:       ■■■■■■■■■
-    //           □□□□
+    // GPU1:       
     invalidTimeBooking = {
         workstationId: workstation1._id,
         startTimestamp: new Date('2021-08-13T11:00:00'),
@@ -361,7 +360,7 @@ it('update booking invalid time', async () => {
     arraysAreTheSame(dbBooking.gpuIndices, existingBooking2.gpuIndices);
 });
 
-it('delete booking with valid permissions', async () => {
+it('archive booking with valid permissions', async () => {
     const response = await authRequest(
         `${BOOKING_API_URL}/${existingBooking2._id}`,
         'DELETE',
@@ -374,7 +373,7 @@ it('delete booking with valid permissions', async () => {
     expect(dbBooking).toBeNull();
 });
 
-it('delete a non-existent booking', async () => {
+it('archive a non-existent booking', async () => {
     const response = await authRequest(
         `${BOOKING_API_URL}/888888888888888888888888`,
         'DELETE',
@@ -388,7 +387,7 @@ it('delete a non-existent booking', async () => {
     expect(bookings).toHaveLength(2);
 });
 
-it('delete booking with invalid permissions', async () => {
+it('archive booking with invalid permissions', async () => {
     const response = await authRequest(
         `${BOOKING_API_URL}/${existingBooking2._id}`,
         'DELETE',
@@ -403,7 +402,7 @@ it('delete booking with invalid permissions', async () => {
     expect(dbBooking).toBeDefined();
 });
 
-it('delete booking with admin permissions', async () => {
+it('archive booking with admin permissions', async () => {
     const response = await authRequest(
         `${BOOKING_API_URL}/${existingBooking2._id}`,
         'DELETE',

@@ -73,6 +73,7 @@ beforeEach(async () => {
     workstation1 = new Workstation({
         name: 'Machine 1',
         location: 'HASEL Lab',
+        host: '111.111.111.111',
         numGPUs: 2,
         gpuDescription: 'Nvidia GeForce RTX 2080',
         ramDescription: 'Kingston HyperX Predator 32GB',
@@ -81,6 +82,7 @@ beforeEach(async () => {
     workstation2 = new Workstation({
         name: 'Deep Learning Machine 3',
         location: 'Level 9 Building 405',
+        host: '112.112.112.112',
         numGPUs: 4,
         gpuDescription: 'Nvidia GeForce RTX 3080',
         ramDescription: 'Corsair Dominator Platinum RGB 32GB',
@@ -89,6 +91,7 @@ beforeEach(async () => {
     workstation3 = new Workstation({
         name: 'Deep Learning Machine 2',
         location: 'HASEL Lab',
+        host: '113.113.133.113',
         numGPUs: 3,
         gpuDescription: 'Nvidia GeForce RTX 3060 Ti',
         ramDescription: 'Kingston HyperX Predator 16GB',
@@ -604,7 +607,7 @@ it('does not update non existing workstation as admin', async () => {
     expect(workstations.length).toEqual(3);
 });
 
-it('delete workstation that exists as admin', async () => {
+it('archive workstation that exists as admin', async () => {
     const response = await authRequest(
         `${WORKSTATION_API_URL}/${workstation1._id}`,
         'DELETE',
@@ -619,7 +622,7 @@ it('delete workstation that exists as admin', async () => {
     expect(workstations.length).toEqual(2);
 });
 
-it('delete workstation that exists as a non admin', async () => {
+it('archive workstation that exists as a non admin', async () => {
     const response = await authRequest(
         `${WORKSTATION_API_URL}/${workstation1._id}`,
         'DELETE',
@@ -634,7 +637,7 @@ it('delete workstation that exists as a non admin', async () => {
     expect(workstations.length).toEqual(3);
 });
 
-it('delete workstation that does not exists as admin', async () => {
+it('archive workstation that does not exists as admin', async () => {
     const response = await authRequest(
         `${WORKSTATION_API_URL}/555555555553555555455355`,
         'DELETE',

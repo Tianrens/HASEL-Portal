@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import mongooseArchive from 'mongoose-archive';
 
 const SignUpRequestSchema = mongoose.Schema;
 
@@ -29,6 +30,12 @@ const signUpRequestSchema = new SignUpRequestSchema(
         timestamps: {},
     },
 );
+
+signUpRequestSchema.plugin(mongooseArchive);
+
+signUpRequestSchema.pre('countDocuments', function removeArchived() {
+    if (!this.getQuery().archivedAt) this.where('archivedAt').exists(false);
+});
 
 const SignUpRequest = mongoose.model('SignUpRequest', signUpRequestSchema);
 

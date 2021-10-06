@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-
+import mongooseArchive from 'mongoose-archive';
+ 
 const BookingSchema = mongoose.Schema;
 
 const bookingSchema = new BookingSchema(
@@ -22,6 +23,12 @@ const bookingSchema = new BookingSchema(
         timestamps: {},
     },
 );
+
+bookingSchema.plugin(mongooseArchive);
+
+bookingSchema.pre('countDocuments', function removeArchived() {
+    if (!this.getQuery().archivedAt) this.where('archivedAt').exists(false);
+});
 
 const Booking = mongoose.model('Booking', bookingSchema);
 

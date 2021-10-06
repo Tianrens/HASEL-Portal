@@ -6,7 +6,7 @@ import {
     retrieveAllWorkstations,
     retrieveWorkstationById,
     updateWorkstation,
-    deleteWorkstation,
+    archiveWorkstation,
 } from '../../db/dao/workstationDao';
 import {
     retrieveBookingsByWorkstation,
@@ -204,7 +204,7 @@ router.put(
     },
 );
 
-/** DELETE a workstation */
+/** ARCHIVE a workstation */
 router.delete(
     '/:workstationId',
     getUser,
@@ -212,9 +212,8 @@ router.delete(
     getWorkstation,
     async (req, res) => {
         const { workstation } = req;
-
         try {
-            await deleteWorkstation(workstation._id);
+            await archiveWorkstation(workstation._id);
             return res.status(HTTP.NO_CONTENT).send();
         } catch (err) {
             return res.status(HTTP.INTERNAL_SERVER_ERROR).send(err.message);

@@ -2,7 +2,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import {
     createWorkstation,
-    deleteWorkstation,
+    archiveWorkstation,
     retrieveAllWorkstations,
     retrieveWorkstationOfUser,
     updateWorkstation,
@@ -182,8 +182,8 @@ it('update workstation', async () => {
     expectDbWorkstationMatchWithWorkstation(updatedWorkstation, newWorkstation);
 });
 
-it('delete workstation', async () => {
-    await deleteWorkstation(workstation2._id);
+it('archive workstation', async () => {
+    await archiveWorkstation(workstation2._id);
     const workstations = await Workstation.find({});
 
     expect(workstations).toBeTruthy();
@@ -191,6 +191,6 @@ it('delete workstation', async () => {
 
     expectDbWorkstationMatchWithWorkstation(workstations[0], workstation1);
 
-    const deletedWorkstation = await Workstation.findById(workstation2._id);
-    expect(deletedWorkstation).toBeNull();
+    const archivedWorkstation = await Workstation.findById(workstation2._id);
+    expect(archivedWorkstation).toBeNull();
 });

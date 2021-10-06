@@ -1,4 +1,4 @@
-import { retrieveRequestById } from './signUpRequestDao';
+import { archiveAllRequestsForWorkstation, retrieveRequestById } from './signUpRequestDao';
 import { retrieveUserById } from './userDao';
 
 const { Workstation } = require('../schemas/workstationSchema');
@@ -36,8 +36,13 @@ async function updateWorkstation(workstationId, newWorkstation) {
     await Workstation.findByIdAndUpdate(workstationId, newWorkstation, { new: true, useFindAndModify: false });
 }
 
-async function deleteWorkstation(workstationId) {
-    await Workstation.deleteOne({ _id: workstationId });
+async function archiveWorkstation(workstationId) {
+    const workstation = await Workstation.findById(workstationId);
+
+    // archive all requests and bookings for this workstation
+    await archiveAllRequestsForWorkstation(workstationId);
+
+    await workstation.archive();
 }
 
 export {
@@ -46,5 +51,5 @@ export {
     retrieveWorkstationById,
     retrieveWorkstationOfUser,
     updateWorkstation,
-    deleteWorkstation,
+    archiveWorkstation,
 };

@@ -1,5 +1,7 @@
 import { addDays, endOfDay, startOfDay } from 'date-fns';
 import { User } from '../schemas/userSchema';
+import { archiveAllBookingsForUser } from './bookingDao';
+import { removeRequestFromUser } from './userDao';
 
 const { SignUpRequest } = require('../schemas/signUpRequestSchema');
 
@@ -80,8 +82,11 @@ async function setRequestEndDate(requestId, endDate) {
     await dbRequest.save();
 }
 
-async function deleteRequest(requestId) {
-    await SignUpRequest.deleteOne({ _id: requestId });
+async function archiveRequest(requestId) {
+    const request = await SignUpRequest.findById(requestId);
+    await removeRequestFromUser(request.userId);
+    await archiveAllBookingsForUser(request.userId);
+    await request.archive();
 }
 
 async function retrieveAllUsersOfWorkstation(workstationId) {
@@ -114,6 +119,13 @@ async function retrieveAllUsersOfWorkstation(workstationId) {
     ]);
 }
 
+async function archiveAllRequestsForWorkstation(workstationId) {
+    const requests = await SignUpRequest.find({ allocatedWorkstationId: workstationId });
+    requests.forEach(async (request) => {
+        await archiveRequest(request);
+    });
+}
+
 export {
     createSignUpRequest,
     updateRequestStatus,
@@ -126,6 +138,7 @@ export {
     retrieveRequestById,
     updateRequest,
     setRequestEndDate,
-    deleteRequest,
+    archiveRequest,
     retrieveAllUsersOfWorkstation,
+    archiveAllRequestsForWorkstation,
 };

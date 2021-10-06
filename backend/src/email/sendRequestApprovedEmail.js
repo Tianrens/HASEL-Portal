@@ -3,16 +3,19 @@ import { retrieveUserById } from '../db/dao/userDao';
 import { retrieveWorkstationById } from '../db/dao/workstationDao';
 
 export async function sendRequestApprovedEmail(recipientEmail, request) {
-    const emailSubject = 'Hasel Portal Request Approved';
+    const getUser = retrieveUserById(request.userId);
+    const getWorkstation = retrieveWorkstationById(
+        request.allocatedWorkstationId,
+    );
+    // need to await together to prevent concurrency issues where it doesn't await for the 
+    // second one to finish.
+    const [user, workstation] = [await getUser, await getWorkstation];
 
-    const user = await retrieveUserById(request.userId);
+    const emailSubject = 'Hasel Portal Request Approved';
     const {firstName} = user;
     const username = user.upi;
     const password = process.env.DEFAULT_HASEL_PASSWORD;
     const { endDate } = request;
-    const workstation = await retrieveWorkstationById(
-        request.allocatedWorkstationId,
-    );
     const workstationName = workstation.name;
     const { host } = workstation;
 

@@ -176,8 +176,17 @@ async function updateBooking(bookingId, newBookingInfo) {
     await Booking.updateOne({ _id: bookingId }, newBookingInfo);
 }
 
-async function deleteBooking(bookingId) {
-    await Booking.deleteOne({ _id: bookingId });
+async function archiveBooking(bookingId) {
+    const booking = await Booking.findById(bookingId);
+    await booking.archive();
+}
+
+async function archiveAllBookingsForUser(user) {
+    const bookings = await Booking.find({ userId: user });
+
+    bookings.forEach(async (booking) => {
+        await archiveBooking(booking);
+    });
 }
 
 export {
@@ -191,5 +200,6 @@ export {
     retrieveBookingsByWorkstationForGantt,
     retrieveBookingsByWorkstation,
     updateBooking,
-    deleteBooking,
+    archiveBooking,
+    archiveAllBookingsForUser
 };
