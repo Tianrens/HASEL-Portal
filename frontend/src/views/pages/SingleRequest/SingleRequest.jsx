@@ -9,7 +9,7 @@ import { useCrud } from '../../../hooks/useCrud';
 import TitleAndValue from '../../components/text/TitleAndValue';
 import { getDisplayName, getValidityPeriod } from '../../../config/accountTypes';
 import BottomButtons from '../../components/buttons/BottomButtons';
-import { onActionPatch, onDelete } from '../../../util/editUtil';
+import { patchUtil, deleteUtil } from '../../../util/apiUtil';
 import {
     acceptRequestMessage,
     denyRequestMessage,
@@ -89,7 +89,7 @@ const SingleRequest = () => {
                     </div>
                     <Divider className={styles.divider} />
                     <BottomButtons
-                        onAccept={onActionPatch(
+                        onAccept={patchUtil(
                             'request',
                             {
                                 status: 'ACTIVE',
@@ -99,7 +99,7 @@ const SingleRequest = () => {
                             requestId,
                             () => history.goBack(),
                         )}
-                        onDeny={onActionPatch(
+                        onDeny={patchUtil(
                             'request',
                             {
                                 status: 'DECLINED',
@@ -109,7 +109,7 @@ const SingleRequest = () => {
                             requestId,
                             () => history.goBack(),
                         )}
-                        onDelete={onDelete('request', requestId, () => history.goBack())}
+                        onDelete={deleteUtil('request', requestId, () => history.goBack())}
                         deleteMessage={deleteRequestMessage}
                         denyMessage={denyRequestMessage}
                         acceptMessage={acceptRequestMessage}

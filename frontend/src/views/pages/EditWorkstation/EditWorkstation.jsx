@@ -5,7 +5,7 @@ import StyledHeader from '../../components/text/StyledHeader';
 import BottomButtons from '../../components/buttons/BottomButtons';
 import { authRequest } from '../../../hooks/util/authRequest';
 import WorkstationForm from '../../components/forms/WorkstationForm';
-import { onAcceptChanges, onDelete } from '../../../util/editUtil';
+import { putUtil, deleteUtil } from '../../../util/apiUtil';
 import {
     editResourceMessage,
     discardResourceMessage,
@@ -41,10 +41,10 @@ const EditWorkstation = () => {
             <StyledHeader left>Edit Workstation</StyledHeader>
             <WorkstationForm data={workstation} updateState={updateState} />
             <BottomButtons
-                onDelete={onDelete('workstation', workstationId, () => history.goBack())}
+                onDelete={deleteUtil('workstation', workstationId, () => history.goBack())}
                 onDeny={() => history.goBack()}
                 denyText='Cancel'
-                onAccept={onAcceptChanges('workstation', workstationState, workstationId, () =>
+                onAccept={putUtil('workstation', workstationState, workstationId, () =>
                     history.goBack(),
                 )}
                 acceptDisabled={error}

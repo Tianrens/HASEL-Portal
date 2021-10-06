@@ -9,7 +9,7 @@ function capitalise(word) {
  * @param resourceString is a string that describes the object to perform operations on.
  *                 for instance, 'workstation' or 'booking'
  */
-function onCreate(resourceString, resourceState, cb) {
+function postUtil(resourceString, resourceState, cb) {
     return async () => {
         try {
             await authRequest(`/api/${resourceString}/`, 'POST', resourceState);
@@ -25,7 +25,7 @@ function onCreate(resourceString, resourceState, cb) {
  * @param resourceString is a string that describes the object to perform operations on.
  *                 for instance, 'workstation' or 'booking'
  */
-function onDelete(resourceString, id, cb) {
+function deleteUtil(resourceString, id, cb) {
     return async () => {
         try {
             await authRequest(`/api/${resourceString}/${id}`, 'DELETE');
@@ -41,7 +41,7 @@ function onDelete(resourceString, id, cb) {
  * @param resourceString is a string that describes the object to perform operations on.
  *  *              for instance, 'workstation' or 'booking'
  */
-function onAcceptChanges(resourceString, resourceState, id, cb) {
+function putUtil(resourceString, resourceState, id, cb) {
     return async () => {
         try {
             await authRequest(`/api/${resourceString}/${id}`, 'PUT', resourceState);
@@ -57,7 +57,7 @@ function onAcceptChanges(resourceString, resourceState, id, cb) {
  * @param resourceString is a string that describes the object to perform operations on.
  *  *              for instance, 'workstation' or 'booking'
  */
-function onActionPatch(resourceString, resourceState, id, cb) {
+function patchUtil(resourceString, resourceState, id, cb) {
     return async () => {
         try {
             await authRequest(`/api/${resourceString}/${id}`, 'PATCH', resourceState);
@@ -69,4 +69,4 @@ function onActionPatch(resourceString, resourceState, id, cb) {
     };
 }
 
-export { onCreate, onDelete, onAcceptChanges, onActionPatch };
+export { postUtil, deleteUtil, putUtil, patchUtil };

@@ -4,7 +4,7 @@ import { header } from './NewBooking.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import BookingForm from '../../components/forms/BookingForm';
 import { useCrud } from '../../../hooks/useCrud';
-import { onCreate } from '../../../util/editUtil';
+import { postUtil } from '../../../util/apiUtil';
 import BottomButtons from '../../components/buttons/BottomButtons';
 import { createResourceMessage, discardResourceMessage } from '../../../config/ModalMessages';
 
@@ -38,7 +38,7 @@ const NewBooking = () => {
             <BottomButtons
                 onDeny={() => history.goBack()}
                 denyText='Cancel'
-                onAccept={onCreate('booking', { workstationId, ...bookingState }, () =>
+                onAccept={postUtil('booking', { workstationId, ...bookingState }, () =>
                     history.goBack(),
                 )}
                 acceptDisabled={error}

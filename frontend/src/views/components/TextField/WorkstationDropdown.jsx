@@ -15,7 +15,7 @@ const WorkstationDropdown = ({ currentWorkstation, setValue, children }) => {
 
     useEffect(() => {
         if (currentWorkstation) {
-            setChosen(workstations?.find((x) => x._id === currentWorkstation).name ?? '');
+            setChosen(workstations?.find((x) => x._id === currentWorkstation)?.name ?? '');
         }
     }, [currentWorkstation, workstations]);
 

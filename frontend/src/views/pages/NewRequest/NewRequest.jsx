@@ -4,7 +4,7 @@ import { StyledButton } from '../../components/buttons/StyledButton';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import TextField from '../../components/TextField/CustomTextField';
 import { supervisorNeeded } from '../../../config/accountTypes';
-import { onCreate } from '../../../util/editUtil';
+import { postUtil } from '../../../util/apiUtil';
 import { fetchUser } from '../../../state/docs/userDoc';
 import WorkstationDropdown from '../../components/TextField/WorkstationDropdown';
 
@@ -18,7 +18,7 @@ const NewRequest = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        onCreate(
+        postUtil(
             'request',
             {
                 allocatedWorkstationId: workstation,

@@ -6,7 +6,7 @@ import { header } from './EditBooking.module.scss';
 import BottomButtons from '../../components/buttons/BottomButtons';
 import { authRequest } from '../../../hooks/util/authRequest';
 import BookingForm from '../../components/forms/BookingForm';
-import { onAcceptChanges, onDelete } from '../../../util/editUtil';
+import { putUtil, deleteUtil } from '../../../util/apiUtil';
 import {
     editResourceMessage,
     discardResourceMessage,
@@ -51,8 +51,8 @@ const EditBooking = () => {
                 />
             )}
             <BottomButtons
-                onDelete={onDelete('booking', bookingId, () => history.goBack())}
-                onAccept={onAcceptChanges(
+                onDelete={deleteUtil('booking', bookingId, () => history.goBack())}
+                onAccept={putUtil(
                     'booking',
                     {
                         workstationId: userWorkstation?._id,

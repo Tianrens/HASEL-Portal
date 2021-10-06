@@ -4,7 +4,7 @@ import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/To
 import WorkstationForm from '../../components/forms/WorkstationForm';
 import StyledHeader from '../../components/text/StyledHeader';
 import BottomButtons from '../../components/buttons/BottomButtons';
-import { onCreate } from '../../../util/editUtil';
+import { postUtil } from '../../../util/apiUtil';
 import { discardResourceMessage, createWorkstationMessage } from '../../../config/ModalMessages';
 
 const NewWorkstation = () => {
@@ -25,7 +25,7 @@ const NewWorkstation = () => {
             <BottomButtons
                 onDeny={() => history.goBack()}
                 denyText='Cancel'
-                onAccept={onCreate('workstation', workstationState, () => history.goBack())}
+                onAccept={postUtil('workstation', workstationState, () => history.goBack())}
                 acceptDisabled={error}
                 acceptText='Submit'
                 denyMessage={discardResourceMessage('workstation')}
