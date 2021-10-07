@@ -121,9 +121,11 @@ async function retrieveAllUsersOfWorkstation(workstationId) {
 
 async function archiveAllRequestsForWorkstation(workstationId) {
     const requests = await SignUpRequest.find({ allocatedWorkstationId: workstationId });
-    requests.forEach(async (request) => {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const request of requests) {
+        // eslint-disable-next-line no-await-in-loop
         await archiveRequest(request);
-    });
+    }
 }
 
 export {

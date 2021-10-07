@@ -184,9 +184,11 @@ async function archiveBooking(bookingId) {
 async function archiveAllBookingsForUser(user) {
     const bookings = await Booking.find({ userId: user });
 
-    bookings.forEach(async (booking) => {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const booking of bookings) {
+        // eslint-disable-next-line no-await-in-loop
         await archiveBooking(booking);
-    });
+    }
 }
 
 export {
