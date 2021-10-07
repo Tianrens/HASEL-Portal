@@ -5,7 +5,7 @@ import UoaLogo from '../../../assets/images/uoaLogo.svg';
 import { HamburgerDrawer, NavLinks } from './NavLinks/TopBarHelpers';
 import { useDoc } from '../../../state/state';
 import { userDoc } from '../../../state/docs/userDoc';
-import { userIsAdmin, userIsSuperAdmin } from '../../../config/accountTypes';
+import { getDisplayName, userIsAdmin, userIsSuperAdmin } from '../../../config/accountTypes';
 
 export default function TopBar() {
     const [user] = useDoc(userDoc);
@@ -26,8 +26,12 @@ export default function TopBar() {
                             />
                             <div className={styles.spacer} />
                             <div className={styles.title}>
-                                HASEL Lab
-                                {isAdmin ? <div className={styles.subTitle}>{userType}</div> : null}
+                                HASEL Portal
+                                {isAdmin && (
+                                    <div className={styles.subTitle}>
+                                        {getDisplayName(userType)}
+                                    </div>
+                                )}
                             </div>
                         </Link>
 

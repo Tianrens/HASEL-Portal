@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import styles from './Profile.module.scss';
 import TitleAndValue from '../../components/text/TitleAndValue';
 import StyledHeader from '../../components/text/StyledHeader';
-import { isAdmin, userIsSuperAdmin } from '../../../config/accountTypes';
+import { getDisplayName, isAdmin, userIsSuperAdmin } from '../../../config/accountTypes';
 import UserTypeDropdown from '../../components/TextField/UserTypeDropdown';
 import { StyledButton } from '../../components/buttons/StyledButton';
 
@@ -33,7 +33,7 @@ const UserDetails = ({ user, adminView, updateType }) => {
                 {adminView ? (
                     <UserTypeDropdown adminView initialValue={user.type} setValue={updateType} />
                 ) : (
-                    <TitleAndValue title='Account Type' value={user.type} />
+                    <TitleAndValue title='Account Type' value={getDisplayName(user.type)} />
                 )}
                 <TitleAndValue
                     title='Account Creation Date'
