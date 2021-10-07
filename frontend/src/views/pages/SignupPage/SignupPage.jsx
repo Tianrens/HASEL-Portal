@@ -1,14 +1,12 @@
 import { React, useState } from 'react';
-import MenuItem from '@mui/material/MenuItem';
 import styles from './SignupPage.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
 import TextField from '../../components/TextField/CustomTextField';
 import StyledHeader from '../../components/text/StyledHeader';
 import HeroPageTemplate from '../../components/templates/HeroPageTemplate/HeroPageTemplate';
-import selectMenuProps from '../../../assets/selectMenuProps';
 import { auth } from '../../../firebase';
 import { signUpUser } from '../../../state/docs/userDoc';
-import ACCOUNT_TYPE from '../../../config/accountTypes';
+import UserTypeDropdown from '../../components/TextField/UserTypeDropdown';
 
 const SignupPage = () => {
     const [firstName, setFirstName] = useState('');
@@ -61,20 +59,11 @@ const SignupPage = () => {
                             setValue={setUpi}
                         />
 
-                        <TextField
-                            title='Account Type'
-                            select
-                            defaultValue=''
-                            SelectProps={{ MenuProps: selectMenuProps }}
+                        <UserTypeDropdown
                             className={styles.inputField}
+                            required
                             setValue={setAccountType}
-                        >
-                            {Object.keys(ACCOUNT_TYPE).map((option) => (
-                                <MenuItem key={option} value={option}>
-                                    {ACCOUNT_TYPE[option]}
-                                </MenuItem>
-                            ))}
-                        </TextField>
+                        />
 
                         <div className={styles.buttonContainer}>
                             <StyledButton type='submit'>Submit</StyledButton>

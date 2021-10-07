@@ -5,13 +5,13 @@ import UoaLogo from '../../../assets/images/uoaLogo.svg';
 import { HamburgerDrawer, NavLinks } from './NavLinks/TopBarHelpers';
 import { useDoc } from '../../../state/state';
 import { userDoc } from '../../../state/docs/userDoc';
-import { isAdminType, isSuperAdminType } from '../../../config/accountTypes';
+import { userIsAdmin, userIsSuperAdmin } from '../../../config/accountTypes';
 
 export default function TopBar() {
     const [user] = useDoc(userDoc);
     const userType = user?.type;
-    const isAdmin = isAdminType();
-    const isSuperAdmin = isSuperAdminType();
+    const isAdmin = userIsAdmin();
+    const isSuperAdmin = userIsSuperAdmin();
 
     return (
         <div className={styles.fillTopbarSpace}>

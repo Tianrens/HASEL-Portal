@@ -1,11 +1,15 @@
 import { React } from 'react';
 import dayjs from 'dayjs';
+import { Icon } from '@mui/material';
+import { Link } from 'react-router-dom';
 import styles from './Profile.module.scss';
 import TitleAndValue from '../../components/text/TitleAndValue';
 import StyledHeader from '../../components/text/StyledHeader';
-import { isAdminType } from '../../../config/accountTypes';
+import { isAdmin, userIsSuperAdmin } from '../../../config/accountTypes';
+import UserTypeDropdown from '../../components/TextField/UserTypeDropdown';
+import { StyledButton } from '../../components/buttons/StyledButton';
 
-const UserDetails = ({ user, adminView }) => {
+const UserDetails = ({ user, adminView, updateType }) => {
     const name = `${user.firstName} ${user.lastName}`;
     const workstation = user.currentRequestId?.allocatedWorkstationId?.name;
     const creationDate = user.createdAt;
@@ -26,18 +30,32 @@ const UserDetails = ({ user, adminView }) => {
                 Account Details
             </StyledHeader>
             <div className={styles.userInfoContainer}>
-                <TitleAndValue title='Account Type' value={user.type} />
+                {adminView ? (
+                    <UserTypeDropdown adminView initialValue={user.type} setValue={updateType} />
+                ) : (
+                    <TitleAndValue title='Account Type' value={user.type} />
+                )}
                 <TitleAndValue
                     title='Account Creation Date'
                     value={dayjs(creationDate).format('dddd DD/MM/YYYY')}
                 />
                 <div className={styles.spacer} />
             </div>
-            {(!isAdminType(user?.type) || adminView) && (
+            {!isAdmin(user?.type) && (
                 <>
-                    <StyledHeader left sub>
-                        Workstation Request
-                    </StyledHeader>
+                    <div className={styles.workstationHeader}>
+                        <div className={styles.header}>
+                            <StyledHeader left sub>
+                                Workstation Request
+                            </StyledHeader>
+                        </div>
+                        {/* Only display view request button to super admins */}
+                        {user.currentRequestId && userIsSuperAdmin() && (
+                            <Link to={`/requests/${user.currentRequestId._id}`}>
+                                <StyledButton icon={<Icon>link</Icon>}>View Request</StyledButton>
+                            </Link>
+                        )}
+                    </div>
                     <div className={styles.userInfoContainer}>
                         <TitleAndValue title='Account Status' value={accountStatus} />
                         {accountStatus === 'ACTIVE' && (

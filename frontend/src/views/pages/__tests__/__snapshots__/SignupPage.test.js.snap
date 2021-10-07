@@ -240,10 +240,11 @@ exports[`Signup page renders properly 1`] = `
                 </span>
               </p>
               <div
-                className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root inputField css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                className="MuiFormControl-root MuiTextField-root inputField css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+                title="Account Type"
               >
                 <div
-                  className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiSelect-root css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+                  className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiSelect-root css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
                   onClick={[Function]}
                 >
                   <div

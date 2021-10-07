@@ -14,7 +14,7 @@ import { idTokenDoc } from './state/docs/idTokenDoc';
 import { userDoc } from './state/docs/userDoc';
 import ViewRequests from './views/pages/ViewRequests/ViewRequests';
 import SingleRequest from './views/pages/SingleRequest/SingleRequest';
-import { isAdminType, isSuperAdminType } from './config/accountTypes';
+import { userIsAdmin, userIsSuperAdmin } from './config/accountTypes';
 import EditBooking from './views/pages/EditBooking/EditBooking';
 import ViewWorkstations from './views/pages/ViewWorkstations/ViewWorkstations';
 import ViewWorkstationBookings from './views/pages/ViewWorkstationBookings/ViewWorkstationBookings';
@@ -26,8 +26,8 @@ import ProtectedRoute from './util/ProtectedRoute';
 function App() {
     const [idToken] = useDoc(idTokenDoc);
     const [user] = useDoc(userDoc);
-    const isSuperAdmin = isSuperAdminType(user?.type);
-    const isAdmin = isAdminType(user?.type);
+    const isSuperAdmin = userIsSuperAdmin();
+    const isAdmin = userIsAdmin();
 
     const UnauthenticatedRoutes = () => (
         <Switch>
