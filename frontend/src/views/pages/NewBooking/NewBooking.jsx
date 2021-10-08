@@ -3,10 +3,10 @@ import { useHistory, useLocation, Redirect } from 'react-router-dom';
 import { header } from './NewBooking.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import BookingForm from '../../components/forms/BookingForm';
-import { useCrud } from '../../../hooks/useCrud';
 import { postUtil } from '../../../util/apiUtil';
 import BottomButtons from '../../components/buttons/BottomButtons';
 import { createResourceMessage, discardResourceMessage } from '../../../config/ModalMessages';
+import { useGet } from '../../../hooks/useGet';
 
 const NewBooking = () => {
     const location = useLocation();
@@ -14,7 +14,7 @@ const NewBooking = () => {
 
     const history = useHistory();
 
-    const userWorkstation = useCrud(`/api/workstation/${workstationId}`).data;
+    const userWorkstation = useGet(`/api/workstation/${workstationId}`).data;
 
     const userWorkstationName = userWorkstation?.name;
     const numGPUs = userWorkstation?.numGPUs;

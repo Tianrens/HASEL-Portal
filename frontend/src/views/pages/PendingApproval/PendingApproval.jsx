@@ -1,25 +1,18 @@
-import { React, useEffect, useState } from 'react';
+import React from 'react';
 import TextField from '@mui/material/TextField';
 import { container, header, title, value } from './PendingApproval.module.scss';
 import StyledHeader from '../../components/text/StyledHeader';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
-import { getRequest } from './util/getRequest';
+import { useDoc } from '../../../state/state';
+import { userDoc } from '../../../state/docs/userDoc';
 
 const PendingApproval = () => {
-    const [supervisor, setSupervisor] = useState('--');
-    const [workstation, setWorkstation] = useState('--');
-    const [comments, setComments] = useState('');
+    const [user] = useDoc(userDoc);
+    const request = user.currentRequestId;
 
-    useEffect(() => {
-        async function getAndSetValues() {
-            const request = await getRequest();
-    
-            setComments(request.comments ?? '');
-            setSupervisor(request.supervisorName ?? '--');
-            setWorkstation(request.workstation?.name ?? '--');
-        };
-        getAndSetValues();
-    }, []);
+    const supervisorName = request?.supervisorName ?? '--';
+    const comments = request?.comments ?? '--';
+    const workstationName = request?.allocatedWorkstationId?.name ?? '--';
 
     return (
         <TopBarPageTemplate>
@@ -28,7 +21,7 @@ const PendingApproval = () => {
                 <StyledHeader>Your Application</StyledHeader>
                 <h3 className={value}>
                     <span className={title}>Supervisor Name: </span>
-                    {supervisor}
+                    {supervisorName}
                 </h3>
                 <h3 className={title}>Reasoning/Comments:</h3>
                 <TextField
@@ -43,7 +36,7 @@ const PendingApproval = () => {
                 />
                 <h3 className={value}>
                     <span className={title}>Workstation Requested: </span>
-                    {workstation}
+                    {workstationName}
                 </h3>
             </div>
         </TopBarPageTemplate>

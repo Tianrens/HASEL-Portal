@@ -1,10 +1,8 @@
-import { React, useEffect, useState } from 'react';
+import { React, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
-import { useCrud } from '../../../hooks/useCrud';
 import { header } from './EditBooking.module.scss';
 import BottomButtons from '../../components/buttons/BottomButtons';
-import { authRequest } from '../../../hooks/util/authRequest';
 import BookingForm from '../../components/forms/BookingForm';
 import { putUtil, deleteUtil } from '../../../util/apiUtil';
 import {
@@ -12,29 +10,23 @@ import {
     discardResourceMessage,
     deleteMessage,
 } from '../../../config/ModalMessages';
+import { useGet } from '../../../hooks/useGet';
 
 const EditBooking = () => {
     const [bookingState, setBookingState] = useState({});
     const [error, setError] = useState(true);
-    const [userWorkstation, setUserWorkstation] = useState(null);
-
-    const userWorkstationName = userWorkstation?.name;
-    const numGPUs = userWorkstation?.numGPUs;
 
     const history = useHistory();
 
     const { bookingId } = useParams();
-    const booking = useCrud(`/api/booking/${bookingId}`).data;
+    const booking = useGet(`/api/booking/${bookingId}`).data;
+    const userWorkstation = useGet(
+        `/api/workstation/${booking?.workstationId}`,
+        booking,
+    ).data;
 
-    useEffect(() => {
-        const getAndSetValues = async () => {
-            const workstationResponse = await authRequest(
-                `/api/workstation/${booking ? booking?.workstationId : ''}`,
-            );
-            setUserWorkstation(workstationResponse.data);
-        };
-        getAndSetValues();
-    }, [booking]);
+    const userWorkstationName = userWorkstation?.name;
+    const numGPUs = userWorkstation?.numGPUs;
 
     return (
         <TopBarPageTemplate>

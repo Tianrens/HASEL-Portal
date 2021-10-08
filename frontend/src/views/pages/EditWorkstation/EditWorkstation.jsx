@@ -1,9 +1,8 @@
-import { React, useEffect, useState } from 'react';
+import { React, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import StyledHeader from '../../components/text/StyledHeader';
 import BottomButtons from '../../components/buttons/BottomButtons';
-import { authRequest } from '../../../hooks/util/authRequest';
 import WorkstationForm from '../../components/forms/WorkstationForm';
 import { putUtil, deleteUtil } from '../../../util/apiUtil';
 import {
@@ -11,30 +10,20 @@ import {
     discardResourceMessage,
     deleteMessage,
 } from '../../../config/ModalMessages';
+import { useGet } from '../../../hooks/useGet';
 
 const EditWorkstation = () => {
     const history = useHistory();
     const { workstationId } = useParams();
 
     const [error, setError] = useState(true);
-    const [workstation, setWorkstation] = useState(null);
+    const workstation = useGet(`/api/workstation/${workstationId}`).data;
     const [workstationState, setWorkstationState] = useState({});
 
     const updateState = (newState, isError) => {
         setError(isError);
         setWorkstationState(newState);
     };
-
-    useEffect(() => {
-        const getAndSetValues = async () => {
-            const workstationResponse = await authRequest(
-                `/api/workstation/${workstationId}`,
-                'GET',
-            );
-            setWorkstation(workstationResponse.data);
-        };
-        getAndSetValues();
-    }, [workstationId]);
 
     return (
         <TopBarPageTemplate>

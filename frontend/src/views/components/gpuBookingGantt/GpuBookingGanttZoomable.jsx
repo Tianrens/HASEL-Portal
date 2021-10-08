@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Icon from '@mui/material/Icon';
 import GpuBookingGantt from './GpuBookingGantt';
 import styles from './GpuBookingGanttZoomable.module.scss';
 import { StyledIconButton } from '../buttons/StyledIconButton';
-import { authRequest } from '../../../hooks/util/authRequest';
+import { useGet } from '../../../hooks/useGet';
 import { useDoc } from '../../../state/state';
 import { userDoc } from '../../../state/docs/userDoc';
 import GanttLegend from './GanttLegend';
@@ -14,8 +14,11 @@ export default function GpuBookingGanttZoomable({
     conflictHandler,
 }) {
     const [user] = useDoc(userDoc);
-    const [workstation, setWorkstation] = useState(null);
-    const [bookingsData, setBookingsData] = useState(null);
+
+    const [delayIsFinished, setDelayIsFinished] = useState(false);
+    setTimeout(() => setDelayIsFinished(true), 10); // Need a short delay so that the gantt chart renders correctly
+    const workstation = useGet(`/api/workstation/${workstationId}`, delayIsFinished).data;
+    const bookingsData = useGet(`/api/workstation/${workstationId}/booking`, delayIsFinished).data;
 
     // Zoom levels are inverse, so smaller numbers means the chart is zoomed further in
     const zoomLevels = [1, 3, 6, 12];
@@ -33,22 +36,6 @@ export default function GpuBookingGanttZoomable({
 
     const isZoomInDisabled = zoomIdx === 0;
     const isZoomOutDisabled = zoomIdx === zoomLevels.length - 1;
-
-    useEffect(() => {
-        const getAndSetValues = async () => {
-            const workstationResponse = await authRequest(
-                `/api/workstation/${workstationId || ''}`,
-            );
-            const bookingResponse = await authRequest(`/api/workstation/${workstationId}/booking`);
-            const allBookings = bookingResponse.data;
-            // Need a short delay so that the gantt chart renders correctly
-            setTimeout(() => {
-                setBookingsData(allBookings);
-                setWorkstation(workstationResponse.data);
-            }, 10);
-        };
-        getAndSetValues();
-    }, [workstationId]);
 
     return (
         workstation &&

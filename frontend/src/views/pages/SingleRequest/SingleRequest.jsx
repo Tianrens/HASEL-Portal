@@ -5,7 +5,6 @@ import Divider from '@mui/material/Divider';
 import styles from './SingleRequest.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import TextField from '../../components/TextField/CustomTextField';
-import { useCrud } from '../../../hooks/useCrud';
 import TitleAndValue from '../../components/text/TitleAndValue';
 import { getDisplayName, getValidityPeriod } from '../../../config/accountTypes';
 import BottomButtons from '../../components/buttons/BottomButtons';
@@ -16,6 +15,7 @@ import {
     deleteRequestMessage,
 } from '../../../config/ModalMessages';
 import WorkstationDropdown from '../../components/TextField/WorkstationDropdown';
+import { useGet } from '../../../hooks/useGet';
 
 const SingleRequest = () => {
     const history = useHistory();
@@ -29,12 +29,7 @@ const SingleRequest = () => {
         setWorkstation(data.allocatedWorkstationId);
         setValidityPeriod(getValidityPeriod(data.userId.type));
     };
-    const request = useCrud(
-        `/api/request/${requestId}`,
-        undefined,
-        undefined,
-        requestCallback,
-    ).data;
+    const request = useGet(`/api/request/${requestId}`, true, requestCallback).data;
 
     const handleValidity = (input) => {
         const temp = input.replace(/\D/g, '');

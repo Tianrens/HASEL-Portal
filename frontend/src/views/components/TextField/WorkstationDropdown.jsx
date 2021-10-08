@@ -6,10 +6,10 @@ import selectMenuProps from '../../../assets/selectMenuProps';
 import styles from './WorkstationDropdown.module.scss';
 import { title, asterisk } from './TextField.module.scss';
 import TitleAndValue from '../text/TitleAndValue';
-import { useCrud } from '../../../hooks/useCrud';
+import { useGet } from '../../../hooks/useGet';
 
 const WorkstationDropdown = ({ currentWorkstation, setValue, children }) => {
-    const { data: workstations } = useCrud('/api/workstation');
+    const workstations = useGet('/api/workstation').data;
 
     const [chosen, setChosen] = useState('');
 

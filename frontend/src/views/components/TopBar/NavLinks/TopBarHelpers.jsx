@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Button, ClickAwayListener, Drawer, IconButton } from '@mui/material';
 import { Close, Dehaze } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
@@ -7,7 +7,7 @@ import IdIcon from '../../../../assets/images/id.svg';
 import ApprovalsIcon from '../../../../assets/images/approvals.svg';
 import WorkstationIcon from '../../../../assets/images/workstation.svg';
 import ViewUsersIcon from '../../../../assets/images/viewUsers.svg';
-import { authRequest } from '../../../../hooks/util/authRequest';
+import { useGet } from '../../../../hooks/useGet';
 
 // Link button
 function NavBarLink({ title, icon, link, alertBadgeNumber }) {
@@ -27,15 +27,7 @@ function NavBarLink({ title, icon, link, alertBadgeNumber }) {
 
 // Links just for Super Admins
 function SuperAdminLinks() {
-    const [numNewApprovals, setNumNewApprovals] = useState();
-
-    useEffect(() => {
-        const getAndSetValues = async () => {
-            const response = await authRequest('/api/request/count/status/PENDING', 'GET');
-            setNumNewApprovals(response.data.count);
-        };
-        getAndSetValues();
-    }, []);
+    const numNewApprovals = useGet('/api/request/count/status/PENDING').data?.count;
 
     const links = [
         {

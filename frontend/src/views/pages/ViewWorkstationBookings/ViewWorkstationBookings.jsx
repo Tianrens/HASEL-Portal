@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { TableCell, TableRow } from '@mui/material';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
@@ -6,7 +6,7 @@ import StyledHeader from '../../components/text/StyledHeader';
 import { container } from './ViewWorkstationBookings.module.scss';
 import TableWithPagination from '../../components/table/TableWithPagination';
 import BookingPeriod from '../../components/text/BookingPeriod';
-import { authRequest } from '../../../hooks/util/authRequest';
+import { useGet } from '../../../hooks/useGet';
 
 const ViewWorkstationBookings = () => {
     const columnHeaders = ['Name', 'Booking Period', 'GPUs Booked'];
@@ -22,16 +22,9 @@ const ViewWorkstationBookings = () => {
         </TableRow>
     );
 
-    const [workstationTitle, setWorkstationTitle] = useState('');
-
     const { workstationId } = useParams();
-    useEffect(() => {
-        async function getAndSetValues() {
-            const response = await authRequest(`/api/workstation/${workstationId}`);
-            setWorkstationTitle(response.data.name ? `- ${response.data.name}` : '');
-        }
-        getAndSetValues();
-    }, [workstationId]);
+    const workstation = useGet(`/api/workstation/${workstationId}`).data;
+    const workstationName = workstation?.name ?? '';
 
     const sections = [
         { title: 'Active Bookings', endpoint: 'ACTIVE' },
@@ -43,7 +36,7 @@ const ViewWorkstationBookings = () => {
             <div className={container}>
                 {sections.map((section) => (
                     <div key={section.title}>
-                        <StyledHeader left>{`${section.title} ${workstationTitle}`}</StyledHeader>
+                        <StyledHeader left>{`${section.title} - ${workstationName}`}</StyledHeader>
                         <TableWithPagination
                             endpoint={`/api/workstation/${workstationId}/booking/${section.endpoint}`}
                             rowProp='bookings'

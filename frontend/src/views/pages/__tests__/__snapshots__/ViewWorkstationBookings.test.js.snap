@@ -230,7 +230,7 @@ Array [
             className="text alignLeft "
           >
             <span>
-              Active Bookings 
+              Active Bookings - 
             </span>
           </h2>
         </div>
@@ -373,7 +373,7 @@ Array [
             className="text alignLeft "
           >
             <span>
-              Past Bookings 
+              Past Bookings - 
             </span>
           </h2>
         </div>

@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import  React from 'react';
 import { Link } from 'react-router-dom';
 import { Alert, Icon } from '@mui/material';
 import { useDoc } from '../../../state/state';
@@ -7,9 +7,9 @@ import { StyledButton } from '../../components/buttons/StyledButton';
 import styles from './UserHomePage.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import StyledHeader from '../../components/text/StyledHeader';
-import { authRequest } from '../../../hooks/util/authRequest';
 import BookingSummary from './BookingSummary';
 import WorkstationInfoPanel from '../../components/workstationInfoPanel/WorkstationInfoPanel';
+import { useGet } from '../../../hooks/useGet';
 import { supervisorNeeded } from '../../../config/accountTypes';
 import { MAX_BOOKINGS } from '../../../config/consts';
 
@@ -19,30 +19,16 @@ function UserHomePage() {
     const isNormalUser = supervisorNeeded();
     const workstation = user.currentRequestId?.allocatedWorkstationId;
 
-    const [bookingsData, setBookingsData] = useState([]);
-    const [userBookings, setUserBookings] = useState([]);
+    const bookingsData = useGet(`/api/workstation/${workstation._id}/booking/ACTIVE?page=1&limit=1000`).data;
+    const allBookings = bookingsData?.bookings;
+    const userBookings = allBookings && allBookings.filter((booking) => booking.userId._id === user._id);
 
     // TODO: Add additional check and warning message if workstation is offline
-    const maxBookingsReached = userBookings.length >= MAX_BOOKINGS && isNormalUser;
+    const maxBookingsReached = userBookings?.length >= MAX_BOOKINGS && isNormalUser;
     const disableBooking = maxBookingsReached;
     const warning = maxBookingsReached
         ? `You can only have up to ${MAX_BOOKINGS} simultaneous bookings.`
         : null;
-
-    useEffect(() => {
-        const getAndSetValues = async () => {
-            const response = await authRequest(
-                `/api/workstation/${workstation._id}/booking/ACTIVE?page=1&limit=1000`,
-            );
-            const allBookings = response.data.bookings;
-            const userBookingData = allBookings.filter(
-                (booking) => booking.userId._id === user._id,
-            );
-            setBookingsData(allBookings);
-            setUserBookings(userBookingData);
-        };
-        getAndSetValues();
-    }, [user._id, workstation._id]);
 
     return (
         <TopBarPageTemplate>
@@ -50,7 +36,7 @@ function UserHomePage() {
                 <h1 className={styles.title}>
                     Welcome, {firstName} {lastName}!
                 </h1>
-                {bookingsData && (
+                {allBookings && (
                     <div className={styles.content}>
                         <div className={styles.workstationHeader}>
                             <div className={styles.header}>
