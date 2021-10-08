@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, Redirect } from 'react-router-dom';
 import { header } from './NewBooking.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import BookingForm from '../../components/forms/BookingForm';
@@ -27,6 +27,9 @@ const NewBooking = () => {
         setBookingState(newBookingState);
     };
 
+    if (!workstationId) {
+        return <Redirect to='/' />;
+    }
     return (
         <TopBarPageTemplate>
             <h2 className={header}>Create Booking - {userWorkstationName}</h2>

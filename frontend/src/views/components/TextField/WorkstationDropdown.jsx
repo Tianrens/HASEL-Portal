@@ -40,7 +40,7 @@ const WorkstationDropdown = ({ currentWorkstation, setValue, children }) => {
                 }}
                 InputLabelProps={{ shrink: true }}
                 onChange={(e) => {
-                    setValue(workstations.find((x) => x.name === e.target.value));
+                    setValue(workstations.find((x) => x.name === e.target.value)._id);
                     setChosen(e.target.value);
                 }}
             >

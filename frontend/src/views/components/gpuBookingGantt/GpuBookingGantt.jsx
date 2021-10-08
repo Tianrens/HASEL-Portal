@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import React from 'react';
+import { React, useEffect } from 'react';
 import { DayMarkers, GanttComponent, Inject } from '@syncfusion/ej2-react-gantt';
 import './GpuBookingGanttMaterialTheme.scss';
 import dayjs from 'dayjs';
@@ -19,9 +19,12 @@ export default function GpuBookingGantt({
         currentBookingData,
         thisUsersId,
     });
-    if (conflictHandler) {
-        conflictHandler(hasConflicts);
-    }
+
+    useEffect(() => {
+        if (conflictHandler) {
+            conflictHandler(hasConflicts);
+        }
+    }, [conflictHandler, hasConflicts]);
     const formattedResourceData = formatResourceData(numGPUs);
     // If user owns the task, colour that task differently
     const queryTaskbarInfo = (args) => {

@@ -74,8 +74,14 @@ router.get('/', async (req, res) => {
  * @returns The workstation specified
  */
 router.get('/:workstationId', async (req, res) => {
-    const workstation = await retrieveWorkstationById(req.params.workstationId);
-    return res.status(HTTP.OK).json(workstation);
+    try {
+        const workstation = await retrieveWorkstationById(
+            req.params.workstationId,
+        );
+        return res.status(HTTP.OK).json(workstation);
+    } catch (err) {
+        return res.status(HTTP.BAD_REQUEST).send(err.message);
+    }
 });
 
 /** GET bookings for a workstation.
@@ -188,9 +194,16 @@ router.put(
             for (const request of requests) {
                 try {
                     const user = request.userId;
-                    const endDate = request.endDate ? new Date(request.endDate).toISOString().split('T')[0] : '';
+                    const endDate = request.endDate
+                        ? new Date(request.endDate).toISOString().split('T')[0]
+                        : '';
                     // eslint-disable-next-line no-await-in-loop
-                    await createWorkstationUser(newWorkstation.host, user.upi, -1, endDate);
+                    await createWorkstationUser(
+                        newWorkstation.host,
+                        user.upi,
+                        -1,
+                        endDate,
+                    );
                     sendRequestApprovedEmail(user.email, request);
                 } catch (err) {
                     return res

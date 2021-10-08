@@ -15,6 +15,11 @@ Object.defineProperty(global.self, 'crypto', {
     },
 });
 
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => ({ state: { workstationId: 1 } }),
+}));
+
 test('New Booking page renders properly', () => {
     MockDate.set('2021-10-03');
 

@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Icon } from '@mui/material';
+import { Alert, Icon } from '@mui/material';
 import { useDoc } from '../../../state/state';
 import { userDoc } from '../../../state/docs/userDoc';
 import { StyledButton } from '../../components/buttons/StyledButton';
@@ -9,16 +9,25 @@ import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/To
 import StyledHeader from '../../components/text/StyledHeader';
 import { authRequest } from '../../../hooks/util/authRequest';
 import BookingSummary from './BookingSummary';
-
 import WorkstationInfoPanel from '../../components/workstationInfoPanel/WorkstationInfoPanel';
+import { supervisorNeeded } from '../../../config/accountTypes';
+import { MAX_BOOKINGS } from '../../../config/consts';
 
 function UserHomePage() {
     const [user] = useDoc(userDoc);
     const { firstName, lastName } = user;
+    const isNormalUser = supervisorNeeded();
     const workstation = user.currentRequestId?.allocatedWorkstationId;
 
     const [bookingsData, setBookingsData] = useState([]);
     const [userBookings, setUserBookings] = useState([]);
+
+    // TODO: Add additional check and warning message if workstation is offline
+    const maxBookingsReached = userBookings.length >= MAX_BOOKINGS && isNormalUser;
+    const disableBooking = maxBookingsReached;
+    const warning = maxBookingsReached
+        ? `You can only have up to ${MAX_BOOKINGS} simultaneous bookings.`
+        : null;
 
     useEffect(() => {
         const getAndSetValues = async () => {
@@ -51,6 +60,7 @@ function UserHomePage() {
                                 type='submit'
                                 icon={<Icon>add</Icon>}
                                 component={Link}
+                                disabled={disableBooking}
                                 to={{
                                     pathname: '/bookings/new',
                                     state: { workstationId: workstation._id },
@@ -59,12 +69,20 @@ function UserHomePage() {
                                 Create Booking
                             </StyledButton>
                         </div>
+                        {warning && <Alert severity='warning'>{warning}</Alert>}
                         <WorkstationInfoPanel workstationData={workstation} />
 
                         <div className={styles.header}>
                             <StyledHeader left>Your Bookings Summary</StyledHeader>
                         </div>
-                        <BookingSummary bookings={userBookings} />
+                        {userBookings.length ? (
+                            <BookingSummary bookings={userBookings} />
+                        ) : (
+                            <Alert severity='info'>
+                                You have no upcoming bookings. Create a booking to log in to your
+                                workstation!
+                            </Alert>
+                        )}
                     </div>
                 )}
             </div>

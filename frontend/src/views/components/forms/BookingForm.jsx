@@ -14,7 +14,11 @@ import duration from 'dayjs/plugin/duration';
 import styles from './Form.module.scss';
 import CustomDateAndTime from '../TextField/CustomDateAndTime';
 import GpuBookingGanttZoomable from '../gpuBookingGantt/GpuBookingGanttZoomable';
-import { MAX_BOOKING_TIME } from '../../../config/consts';
+import {
+    MAX_BOOKING_START_DATE,
+    MAX_BOOKING_DURATION,
+    MIN_BOOKING_DURATION,
+} from '../../../config/consts';
 
 dayjs.extend(duration);
 
@@ -30,7 +34,7 @@ const BookingForm = ({ updateBookingState, numGPUs, data, workstationId }) => {
     const [hasEnded, setEnded] = useState(false);
     const [hasConflicts, setConflicts] = useState(false);
     const noGPUSelected = selectedGPUs.length === 0;
-    const maxTime = dayjs.duration({ hours: MAX_BOOKING_TIME }).$ms;
+    const maxTime = dayjs.duration({ hours: MAX_BOOKING_DURATION }).$ms;
     const currentTime = dayjs.duration(endTime.diff(startTime)).$ms;
     const tooLong = currentTime > maxTime;
     const endBeforeStart = endTime < startTime;
@@ -39,7 +43,7 @@ const BookingForm = ({ updateBookingState, numGPUs, data, workstationId }) => {
     const errorMessage = endBeforeStart
         ? 'End Time must be after Start Time!'
         : tooLong
-        ? `Booking Time cannot exceed ${MAX_BOOKING_TIME} hours!`
+        ? `Booking Time cannot exceed ${MAX_BOOKING_DURATION} hours!`
         : ' ';
 
     const handleSelect = (event, GPU) => {
@@ -101,7 +105,7 @@ const BookingForm = ({ updateBookingState, numGPUs, data, workstationId }) => {
                         value={startTime}
                         handler={handleSetStart}
                         minDateTime={dayjs(roundedUp(dayjs())).subtract(1, 'minute')}
-                        maxDateTime={dayjs().add(1, 'month')}
+                        maxDateTime={dayjs().add(MAX_BOOKING_START_DATE, 'week')}
                         disabled={hasStarted}
                     />
                 </div>
@@ -111,8 +115,8 @@ const BookingForm = ({ updateBookingState, numGPUs, data, workstationId }) => {
                         value={endTime}
                         handler={setEndTime}
                         errorMessage={errorMessage}
-                        minDateTime={dayjs(startTime).add(1, 'hour')}
-                        maxDateTime={dayjs(startTime).add(MAX_BOOKING_TIME, 'hours')}
+                        minDateTime={dayjs(startTime).add(MIN_BOOKING_DURATION, 'hour')}
+                        maxDateTime={dayjs(startTime).add(MAX_BOOKING_DURATION, 'hour')}
                         disabled={hasEnded}
                     />
                 </div>
