@@ -78,6 +78,7 @@ beforeEach(async () => {
         gpuDescription: 'Nvidia GeForce RTX 2080',
         ramDescription: 'Kingston HyperX Predator 32GB',
         cpuDescription: 'Intel Core i9 10900KF',
+        status: false,
     });
     workstation2 = new Workstation({
         name: 'Deep Learning Machine 3',
@@ -87,6 +88,7 @@ beforeEach(async () => {
         gpuDescription: 'Nvidia GeForce RTX 3080',
         ramDescription: 'Corsair Dominator Platinum RGB 32GB',
         cpuDescription: 'Intel Xeon Silver 4210R',
+        status: false,
     });
     workstation3 = new Workstation({
         name: 'Deep Learning Machine 2',
@@ -96,6 +98,7 @@ beforeEach(async () => {
         gpuDescription: 'Nvidia GeForce RTX 3060 Ti',
         ramDescription: 'Kingston HyperX Predator 16GB',
         cpuDescription: 'Intel Core i7-11700K 8 Core / 16 Thread',
+        status: false,
     });
     workstation4 = {
         name: 'Deep Learning Machine 4',
@@ -105,6 +108,7 @@ beforeEach(async () => {
         gpuDescription: 'Nvidia GeForce RTX 3080',
         ramDescription: 'Corsair Dominator Platinum RGB 32GB',
         cpuDescription: 'Intel Xeon Silver 4210R',
+        status: false,
     };
     await workstationColl.insertMany([
         workstation1,
@@ -238,6 +242,9 @@ function expectDbWorkstationMatchWithWorkstation(
     );
     expect(responseWorkstation.cpuDescription).toEqual(
         requestWorkstation.cpuDescription,
+    );
+    expect(responseWorkstation.status).toEqual(
+        requestWorkstation.status,
     );
 }
 

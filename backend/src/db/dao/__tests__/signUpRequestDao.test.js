@@ -73,6 +73,7 @@ describe('non-time dependent tests', () => {
             gpuDescription: 'Nvidia GeForce RTX 2080',
             ramDescription: 'Kingston HyperX Predator 32GB',
             cpuDescription: 'Intel Core i9 10900KF',
+            status: false,
         });
 
         user1 = new User({
@@ -421,6 +422,7 @@ describe('non time dependent, with relationships', () => {
             gpuDescription: 'Nvidia GeForce RTX 2080',
             ramDescription: 'Kingston HyperX Predator 32GB',
             cpuDescription: 'Intel Core i9 10900KF',
+            status: false,
         });
 
         workstation2 = new Workstation({
@@ -431,6 +433,7 @@ describe('non time dependent, with relationships', () => {
             gpuDescription: 'Nvidia GeForce RTX 2080',
             ramDescription: 'Kingston HyperX Predator 32GB',
             cpuDescription: 'Intel Core i9 10900KF',
+            status: false,
         });
     
         user1.currentRequestId = request1._id;

@@ -12,6 +12,7 @@ const workstationSchema = new WorkstationSchema(
         gpuDescription: { type: String, required: true },
         ramDescription: { type: String, required: true },
         cpuDescription: { type: String, required: true },
+        status: { type: Boolean, default: false },
     },
     {
         timestamps: {},

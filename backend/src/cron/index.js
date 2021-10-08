@@ -2,6 +2,7 @@ import { expiringRequests } from './expiringRequests';
 import { manageUserLocks } from './manageUserLocks';
 import { lockActiveUsers } from './lockActiveUsers';
 import { unlockCurrentBookingUsers } from './unlockCurrentBookingUsers';
+import { checkServerStatus } from './checkServerStatus';
 
 /**
  * Should initialize all cron jobs
@@ -15,4 +16,5 @@ export async function initCron() {
     // Run cron jobs
     expiringRequests();
     manageUserLocks();
+    checkServerStatus();
 }

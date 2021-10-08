@@ -131,7 +131,7 @@ beforeEach(async () => {
         gpuIndices: [1],
     });
 
-    // GPU1:   
+    // GPU1: □□□□■■■■■■■■■   
     validBooking = {
         workstationId: workstation1._id,
         startTimestamp: new Date('2021-08-13T11:00:00'),
@@ -139,7 +139,8 @@ beforeEach(async () => {
         gpuIndices: [1],
     };
 
-    // GPU1:       
+    // GPU1:       ■■■■■■■■■
+    //           □□□□     
     invalidTimeBooking = {
         workstationId: workstation1._id,
         startTimestamp: new Date('2021-08-13T11:00:00'),

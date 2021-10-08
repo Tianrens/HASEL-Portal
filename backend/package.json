@@ -21,6 +21,7 @@
         "esm": "^3.2.25",
         "express": "^4.17.1",
         "firebase-admin": "^9.11.0",
+        "is-reachable": "^5.1.0",
         "mongoose": "^5.13.7",
         "mongoose-archive": "^1.1.0",
         "node-schedule": "^2.0.0",

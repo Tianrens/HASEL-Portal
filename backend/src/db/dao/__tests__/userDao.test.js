@@ -78,6 +78,7 @@ beforeEach(async () => {
         gpuDescription: 'Nvidia GeForce RTX 2080',
         ramDescription: 'Kingston HyperX Predator 32GB',
         cpuDescription: 'Intel Core i9 10900KF',
+        status: false,
     });
 
     user1.currentRequestId = request1._id;

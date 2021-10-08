@@ -52,6 +52,7 @@ beforeEach(async () => {
         gpuDescription: 'Nvidia GeForce RTX 2080',
         ramDescription: 'Kingston HyperX Predator 32GB',
         cpuDescription: 'Intel Core i9 10900KF',
+        status: false,
     });
 
     workstation2 = new Workstation({
@@ -62,6 +63,7 @@ beforeEach(async () => {
         gpuDescription: 'Nvidia GeForce RTX 3080',
         ramDescription: 'Corsair Dominator Platinum RGB 32GB',
         cpuDescription: 'Intel Xeon Silver 4210R',
+        status: false,
     });
 
     workstation3 = {
@@ -72,6 +74,7 @@ beforeEach(async () => {
         gpuDescription: 'Nvidia GeForce RTX 3060 Ti',
         ramDescription: 'Kingston HyperX Predator 16GB',
         cpuDescription: 'Intel Core i7-11700K 8 Core / 16 Thread',
+        status: false,
     };
 
     user1 = new User({
@@ -133,6 +136,7 @@ function expectDbWorkstationMatchWithWorkstation(dbWorkstation, workstation) {
     expect(dbWorkstation.gpuDescription).toEqual(workstation.gpuDescription);
     expect(dbWorkstation.ramDescription).toEqual(workstation.ramDescription);
     expect(dbWorkstation.cpuDescription).toEqual(workstation.cpuDescription);
+    expect(dbWorkstation.status).toEqual(workstation.status);
 }
 
 it('get all workstations', async () => {
@@ -174,6 +178,7 @@ it('update workstation', async () => {
         gpuDescription: 'Nvidia GeForce RTX 3080',
         ramDescription: 'Corsair Dominator Platinum RGB 32GB',
         cpuDescription: 'Intel Xeon Silver 4210R',
+        status: false,
     };
 
     await updateWorkstation(workstation1._id, newWorkstation);
