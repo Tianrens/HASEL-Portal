@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Alert, Icon } from '@mui/material';
 import { useDoc } from '../../../state/state';
-import { userDoc } from '../../../state/docs/userDoc';
+import { fetchUser, userDoc } from '../../../state/docs/userDoc';
 import { StyledButton } from '../../components/buttons/StyledButton';
 import styles from './UserHomePage.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
@@ -27,12 +27,15 @@ function UserHomePage() {
     const userBookings =
         allBookings && allBookings.filter((booking) => booking.userId._id === user._id);
 
-    // TODO: Add additional check and warning message if workstation is offline
     const maxBookingsReached = userBookings?.length >= MAX_BOOKINGS && isNormalUser;
     const disableBooking = maxBookingsReached || isOffline;
     const warning =
         maxBookingsReached &&
         `You can only have up to ${MAX_BOOKINGS} simultaneous bookings. Booking created will be enabled once a booking has been completed or is deleted.`;
+
+    useEffect(() => {
+        fetchUser();
+    }, []);
 
     return (
         <TopBarPageTemplate>
@@ -66,7 +69,7 @@ function UserHomePage() {
                             <StyledHeader left>Your Bookings Summary</StyledHeader>
                         </div>
                         {userBookings.length ? (
-                            <BookingSummary bookings={userBookings} />
+                            <BookingSummary bookings={userBookings} isOffline={isOffline} />
                         ) : (
                             <Alert severity='info'>
                                 You have no upcoming bookings. Create a booking to log in to your

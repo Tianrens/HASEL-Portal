@@ -11,7 +11,6 @@ export async function fetchUser() {
     try {
         const res = await authRequest('/api/user/info', 'GET');
         setUser(res.data);
-        console.log(res.data);
     } catch (err) {
         setUser(null);
         console.error(err);

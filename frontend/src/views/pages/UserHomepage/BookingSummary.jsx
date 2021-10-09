@@ -6,7 +6,7 @@ import { IconButton, Paper } from '@mui/material';
 import styles from './UserHomePage.module.scss';
 import TitleAndValue from '../../components/text/TitleAndValue';
 
-function BookingSummary({ bookings }) {
+function BookingSummary({ bookings, isOffline }) {
     return bookings.map((booking) => {
         const t1 = dayjs(booking.startTimestamp).format('ddd DD/MM/YYYY h:mm A');
         const t2 = dayjs(booking.endTimestamp).format('ddd DD/MM/YYYY h:mm A');
@@ -22,9 +22,11 @@ function BookingSummary({ bookings }) {
                 <div className={styles.bookingInfoIcons}>
                     <IconButton
                         className={styles.bookingInfoIcon}
+                        disabled={isOffline}
                         component={Link}
                         to={`/bookings/${booking._id}`}
-                        size="large">
+                        size='large'
+                    >
                         <Edit />
                     </IconButton>
                 </div>
