@@ -32,7 +32,7 @@ router.post(
             });
 
             const specialUserTypes = ['ADMIN', 'SUPERADMIN', 'NON_ACADEMIC_STAFF', 'ACADEMIC_STAFF'];
-            if (specialUserTypes.includes(req.user.status)) {
+            if (specialUserTypes.includes(req.user.type)) {
                 const workstation = await retrieveWorkstationById(booking.workstationId); 
                 createWorkstationUser(workstation.host, req.user.upi); // Ignores if user already exists on workstation.
             }
