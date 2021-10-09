@@ -11,7 +11,7 @@ export async function createWorkstationUser(
     host,
     upi,
     daysInactive = -1,
-    expireDate = '',
+    expireDate = "''",
 ) {
     const userExists = await checkUserExists(host, upi);
     if (userExists) {
