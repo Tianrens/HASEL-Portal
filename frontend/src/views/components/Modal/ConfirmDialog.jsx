@@ -15,7 +15,7 @@ const ConfirmDialog = ({ message, open, handleClose, onSubmit }) => (
             <DialogContentText component='div'>{message}</DialogContentText>
         </DialogContent>
         <DialogActions>
-            <StyledButton outline color='red' onClick={() => handleClose()}>
+            <StyledButton color='lighter' outline onClick={() => handleClose()}>
                 No
             </StyledButton>
             <StyledButton

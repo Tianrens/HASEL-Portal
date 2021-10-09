@@ -32,7 +32,7 @@ const BottomButtons = ({
                 <div>
                     {onDelete && (
                         <StyledButton
-                            color='yellow'
+                            color='red'
                             icon={<Icon>delete</Icon>}
                             type='submit'
                             onClick={() => openModal(deleteMessage, onDelete)}
@@ -44,7 +44,8 @@ const BottomButtons = ({
                 <div>
                     {onDeny && (
                         <StyledButton
-                            color='red'
+                            color="lighter"
+                            outline
                             icon={<Icon>close</Icon>}
                             type='submit'
                             onClick={() => openModal(denyMessage, onDeny)}
@@ -54,7 +55,6 @@ const BottomButtons = ({
                     )}
                     {onAccept && (
                         <StyledButton
-                            color='green'
                             icon={<Icon>done</Icon>}
                             type='submit'
                             onClick={() => openModal(acceptMessage, onAccept)}

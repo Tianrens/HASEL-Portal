@@ -33,7 +33,7 @@ export default function GpuBookingGantt({
         } else if (args.data.taskData.currentBooking) {
             args.taskbarBgColor = colours.green;
         } else if (args.data.taskData.myBooking) {
-            args.taskbarBgColor = colours.secondaryBlue;
+            args.taskbarBgColor = colours.purple500;
         } else {
             args.taskbarBgColor = colours.gray;
         }

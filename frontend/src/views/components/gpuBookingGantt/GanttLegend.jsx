@@ -4,7 +4,7 @@ import styles from './GanttLegend.module.scss';
 
 export default function GanttLegend({ hasCurrentBooking }) {
     const categories = [
-        { description: 'Your Bookings', colour: colours.secondaryBlue },
+        { description: 'Your Bookings', colour: colours.purple500 },
         { description: 'Other Bookings', colour: colours.gray },
     ];
 

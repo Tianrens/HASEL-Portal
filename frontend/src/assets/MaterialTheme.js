@@ -1,14 +1,15 @@
-import { adaptV4Theme, createTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
+import colors from './_colours.module.scss';
 
-const theme = createTheme(adaptV4Theme({
+const theme = createTheme({
     palette: {
         primary: {
-            main: '#00467F',
+            main: colors.purple700,
         },
         secondary: {
-            main: '#0080A7',
+            main: colors.purple300,
         },
     },
-}));
+});
 
 export default theme;

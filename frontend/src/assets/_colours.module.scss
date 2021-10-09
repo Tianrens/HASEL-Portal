@@ -1,7 +1,8 @@
-$primaryBlue: #00467f;
-$secondaryBlue: #0080a7;
-$darkBlue: #01345e;
-$darkBlueHover: #002550;
+$purple300: #a559b3;
+$purple500: #8c4fc4e7;
+$purple700: #4f2d7f;
+$purple800: #3a205f;
+$purple800Hover: #190b2c;
 $green: #43a047;
 $red: #d32f2f;
 $yellow: #fbc02d;
@@ -23,8 +24,9 @@ $subHeading: lightgray;
 $body: #4a4c4c;
 
 :export {
-    primaryBlue: $primaryBlue;
-    secondaryBlue: $secondaryBlue;
+    purple700: $purple700;
+    purple500: $purple500;
+    purple300: $purple300;
     green: $green;
     gray: $gray;
     red: $red;

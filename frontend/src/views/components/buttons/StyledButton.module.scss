@@ -1,6 +1,6 @@
 @import '../../../assets/colours.module';
 
-@mixin theme($theme: $primaryBlue) {
+@mixin theme($theme: $purple700) {
     background-color: $theme;
     border: 2px solid $theme;
     &:hover,
@@ -36,9 +36,8 @@
     white-space: nowrap;
 }
 
-.white {
-    @include theme($theme: white);
-    color: $primaryBlue;
+.lighter {
+    @include theme($theme: $purple500);
 }
 
 .green {

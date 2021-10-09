@@ -19,7 +19,7 @@ exports[`GanttLegend renders properly 1`] = `
         className="dot"
         style={
           Object {
-            "backgroundColor": "secondaryBlue",
+            "backgroundColor": "purple500",
           }
         }
       />
