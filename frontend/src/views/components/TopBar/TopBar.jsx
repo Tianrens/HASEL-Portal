@@ -29,7 +29,7 @@ export default function TopBar() {
                                 HASEL Portal
                                 {isAdmin && (
                                     <div className={styles.subTitle}>
-                                        {getDisplayName(userType)}
+                                        {getDisplayName(userType).toUpperCase()}
                                     </div>
                                 )}
                             </div>

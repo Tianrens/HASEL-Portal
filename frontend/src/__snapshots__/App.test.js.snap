@@ -16,7 +16,7 @@ exports[`App renders properly 1`] = `
         <h1
           className="header"
         >
-          HASEL Lab
+          HASEL Portal
         </h1>
         <div
           className="QnA"

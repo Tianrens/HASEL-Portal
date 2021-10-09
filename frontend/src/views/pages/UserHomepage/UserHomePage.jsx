@@ -1,4 +1,4 @@
-import  React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Alert, Icon } from '@mui/material';
 import { useDoc } from '../../../state/state';
@@ -18,17 +18,21 @@ function UserHomePage() {
     const { firstName, lastName } = user;
     const isNormalUser = supervisorNeeded();
     const workstation = user.currentRequestId?.allocatedWorkstationId;
+    const isOffline = !workstation?.status; // status=true if online
 
-    const bookingsData = useGet(`/api/workstation/${workstation._id}/booking/ACTIVE?page=1&limit=1000`).data;
+    const bookingsData = useGet(
+        `/api/workstation/${workstation._id}/booking/ACTIVE?page=1&limit=1000`,
+    ).data;
     const allBookings = bookingsData?.bookings;
-    const userBookings = allBookings && allBookings.filter((booking) => booking.userId._id === user._id);
+    const userBookings =
+        allBookings && allBookings.filter((booking) => booking.userId._id === user._id);
 
     // TODO: Add additional check and warning message if workstation is offline
     const maxBookingsReached = userBookings?.length >= MAX_BOOKINGS && isNormalUser;
-    const disableBooking = maxBookingsReached;
-    const warning = maxBookingsReached
-        ? `You can only have up to ${MAX_BOOKINGS} simultaneous bookings.`
-        : null;
+    const disableBooking = maxBookingsReached || isOffline;
+    const warning =
+        maxBookingsReached &&
+        `You can only have up to ${MAX_BOOKINGS} simultaneous bookings. Booking created will be enabled once a booking has been completed or is deleted.`;
 
     return (
         <TopBarPageTemplate>

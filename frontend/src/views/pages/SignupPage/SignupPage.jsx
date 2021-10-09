@@ -24,7 +24,7 @@ const SignupPage = () => {
     return (
         <HeroPageTemplate>
             <div className={styles.content}>
-                <h1 className={styles.header}>Finish setting up your HASEL lab account.</h1>
+                <h1 className={styles.header}>Finish setting up your HASEL Portal account.</h1>
                 <div className={styles.accountDetailsContainer}>
                     <StyledHeader left>Account Details</StyledHeader>
                     <p className={styles.inputTitle}>UoA Email</p>

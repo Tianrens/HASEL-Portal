@@ -16,7 +16,7 @@ exports[`Signup page renders properly 1`] = `
         <h1
           className="header"
         >
-          Finish setting up your HASEL lab account.
+          Finish setting up your HASEL Portal account.
         </h1>
         <div
           className="accountDetailsContainer"

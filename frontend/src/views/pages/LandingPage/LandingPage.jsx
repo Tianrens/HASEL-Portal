@@ -16,7 +16,7 @@ function LandingPage() {
     return (
         <HeroPageTemplate>
             <div className={content}>
-                <h1 className={header}>HASEL Lab</h1>
+                <h1 className={header}>HASEL Portal</h1>
                 <div className={QnA}>
                     <h2 className={subheader}>What is HASEL?</h2>
                     <p className={text}>

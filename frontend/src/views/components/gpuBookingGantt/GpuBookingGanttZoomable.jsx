@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Alert } from '@mui/material';
 import Icon from '@mui/material/Icon';
 import GpuBookingGantt from './GpuBookingGantt';
 import styles from './GpuBookingGanttZoomable.module.scss';
@@ -7,6 +8,7 @@ import { useGet } from '../../../hooks/useGet';
 import { useDoc } from '../../../state/state';
 import { userDoc } from '../../../state/docs/userDoc';
 import GanttLegend from './GanttLegend';
+import { userIsAdmin } from '../../../config/accountTypes';
 
 export default function GpuBookingGanttZoomable({
     workstationId,
@@ -14,11 +16,17 @@ export default function GpuBookingGanttZoomable({
     conflictHandler,
 }) {
     const [user] = useDoc(userDoc);
+    const isAdmin = userIsAdmin();
 
     const [delayIsFinished, setDelayIsFinished] = useState(false);
     setTimeout(() => setDelayIsFinished(true), 10); // Need a short delay so that the gantt chart renders correctly
     const workstation = useGet(`/api/workstation/${workstationId}`, delayIsFinished).data;
     const bookingsData = useGet(`/api/workstation/${workstationId}/booking`, delayIsFinished).data;
+
+    const isOffline = !workstation?.status; // status=true if online
+    const offlineMessage = isAdmin
+        ? 'Workstation is currently offline. Booking creation has been disabled for users.'
+        : 'Workstation is currently offline. If you would like to make a booking, please try again later.';
 
     // Zoom levels are inverse, so smaller numbers means the chart is zoomed further in
     const zoomLevels = [1, 3, 6, 12];
@@ -41,6 +49,7 @@ export default function GpuBookingGanttZoomable({
         workstation &&
         bookingsData && (
             <div>
+                {isOffline && <Alert severity='error'>{offlineMessage}</Alert>}
                 <GpuBookingGantt
                     bookingData={bookingsData}
                     currentBookingData={currentBookingData}
