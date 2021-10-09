@@ -1,34 +1,30 @@
 import schedule from 'node-schedule';
-import {
-    retrieveBookingsByEndTimestampRange,
-    retrieveBookingsByStartTimestampRange,
-} from '../db/dao/bookingDao';
+import { retrieveRequestsByStatus } from '../db/dao/signUpRequestDao';
 import { lockWorkstationUser, unlockWorkstationUser } from '../ssh';
+import { retrieveCurrentBookings } from '../db/dao/bookingDao';
 
 const REPEAT_EVERY_NTH_MINUTE = 15;
 
-export async function lockUsers(startRange, endRange) {
-    const endingBookings = await retrieveBookingsByEndTimestampRange(
-        startRange,
-        endRange,
-    );
-    for (let i = 0; i < endingBookings.length; i += 1) {
-        const booking = endingBookings[i];
+async function lockActiveUsers() {
+    // TODO: Need to check if expired requests have workstation accounts
+    // Lock all ACTIVE accounts
+    const activeRequests = await retrieveRequestsByStatus('ACTIVE');
+    // Will not lock ADMINs, SUPERADMINs, ACADEMIC_STAFF and NON_ACADEMIC_STAFF
+    for (let i = 0; i < activeRequests.length; i += 1) {
+        const request = activeRequests[i];
         // eslint-disable-next-line no-await-in-loop
         await lockWorkstationUser(
-            booking.workstationId.host,
-            booking.userId.upi,
+            request.allocatedWorkstationId.host,
+            request.userId.upi,
         );
     }
 }
 
-export async function unlockUsers(startRange, endRange) {
-    const startingBookings = await retrieveBookingsByStartTimestampRange(
-        startRange,
-        endRange,
-    );
-    for (let i = 0; i < startingBookings.length; i += 1) {
-        const booking = startingBookings[i];
+async function unlockCurrentBookingUsers() {
+    // Unlock all current bookings
+    const currentBookings = await retrieveCurrentBookings();
+    for (let i = 0; i < currentBookings.length; i += 1) {
+        const booking = currentBookings[i];
         // eslint-disable-next-line no-await-in-loop
         await unlockWorkstationUser(
             booking.workstationId.host,
@@ -38,13 +34,8 @@ export async function unlockUsers(startRange, endRange) {
 }
 
 export async function lockUnlockUsers() {
-    const coeff = 1000 * 60 * REPEAT_EVERY_NTH_MINUTE;
-    const endRange = new Date(Math.round(Date.now() / coeff) * coeff);
-    const startRange = new Date(endRange - coeff);
-
-    // Lock first, then unlock
-    await lockUsers(startRange, endRange);
-    await unlockUsers(startRange, endRange);
+    await lockActiveUsers();
+    await unlockCurrentBookingUsers();
 }
 
 export function manageUserLocks() {

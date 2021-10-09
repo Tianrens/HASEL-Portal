@@ -1,7 +1,5 @@
 import { expiringRequests } from './expiringRequests';
-import { manageUserLocks } from './manageUserLocks';
-import { lockActiveUsers } from './lockActiveUsers';
-import { unlockCurrentBookingUsers } from './unlockCurrentBookingUsers';
+import { lockUnlockUsers, manageUserLocks } from './manageUserLocks';
 import { checkServerStatus } from './checkServerStatus';
 
 /**
@@ -10,8 +8,7 @@ import { checkServerStatus } from './checkServerStatus';
  */
 export async function initCron() {
     // Run initialization steps to ensure workstations are in a correct state
-    await lockActiveUsers();
-    await unlockCurrentBookingUsers();
+    await lockUnlockUsers();
 
     // Run cron jobs
     expiringRequests();
