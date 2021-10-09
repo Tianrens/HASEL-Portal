@@ -42,7 +42,7 @@ export function manageUserLocks() {
     const rule = new schedule.RecurrenceRule();
 
     // Job repeats every nth minute
-    rule.minute = [new schedule.Range(0, 59, REPEAT_EVERY_NTH_MINUTE)];
+    rule.minute = [new schedule.Range(1, 59, REPEAT_EVERY_NTH_MINUTE)];
     rule.tz = 'Pacific/Auckland';
 
     schedule.scheduleJob(rule, lockUnlockUsers);
