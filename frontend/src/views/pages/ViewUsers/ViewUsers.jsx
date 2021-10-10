@@ -1,8 +1,9 @@
-import { React } from 'react';
+import { React, useState } from 'react';
 import { TableCell, TableRow } from '@mui/material';
 import { Link } from 'react-router-dom';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import StyledHeader from '../../components/text/StyledHeader';
+import SearchBar from '../../components/TextField/SearchBar';
 import TableWithPagination from '../../components/table/TableWithPagination';
 import { getDisplayName } from '../../../config/accountTypes';
 import styles from './ViewUsers.module.scss';
@@ -25,18 +26,50 @@ const rowFactory = (user) => (
     </TableRow>
 );
 
-const ViewUsers = () => (
-    <TopBarPageTemplate>
-        <div className={styles.container}>
-            <StyledHeader left>Users</StyledHeader>
-            <TableWithPagination
-                endpoint='/api/user'
-                rowProp='users'
-                columns={columns}
-                rowFactory={rowFactory}
-            />
-        </div>
-    </TopBarPageTemplate>
-);
+const ViewUsers = () => {
+    // Maintain state value of search bar
+    const [search, setSearch] = useState('');
+    // Use to search backend
+    const [activeSearch, setActiveSearch] = useState('');
+
+    return (
+        <TopBarPageTemplate>
+            <div className={styles.container}>
+                <div className={styles.header}>
+                    <StyledHeader left>Users</StyledHeader>
+                    <SearchBar
+                        placeholder='Search by name or UPI'
+                        value={search}
+                        onChange={(newValue) => setSearch(newValue)}
+                        onRequestSearch={() => setActiveSearch(search)}
+                        onCancelSearch={() => setActiveSearch('')}
+                    />
+                </div>
+                <h3 className={styles.searchIndicator}>
+                    <i className={`${styles.italic} ${!activeSearch ? styles.hidden : ''}`}>
+                        Search results for: <b>{activeSearch}</b>
+                    </i>
+                </h3>
+                {activeSearch ? (
+                    <>
+                        <TableWithPagination
+                            endpoint={`/api/user/search/${activeSearch}`}
+                            rowProp='matchingUsers'
+                            columns={columns}
+                            rowFactory={rowFactory}
+                        />
+                    </>
+                ) : (
+                    <TableWithPagination
+                        endpoint='/api/user'
+                        rowProp='users'
+                        columns={columns}
+                        rowFactory={rowFactory}
+                    />
+                )}
+            </div>
+        </TopBarPageTemplate>
+    );
+};
 
 export default ViewUsers;
