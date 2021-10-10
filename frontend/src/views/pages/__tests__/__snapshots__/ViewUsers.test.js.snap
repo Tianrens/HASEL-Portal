@@ -281,7 +281,7 @@ Array [
                 className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium headerCell css-1ygcj2i-MuiTableCell-root"
                 scope="col"
               >
-                Date Approved
+                Expiry Date
               </th>
             </tr>
           </thead>

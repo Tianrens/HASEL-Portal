@@ -1,7 +1,8 @@
-import { React, useEffect, useState } from 'react';
+import { React, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import Divider from '@mui/material/Divider';
+import DatePicker from '@mui/lab/DatePicker';
 import styles from './SingleRequest.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import TextField from '../../components/TextField/CustomTextField';
@@ -21,25 +22,16 @@ const SingleRequest = () => {
     const history = useHistory();
 
     const [workstation, setWorkstation] = useState();
-    const [validityPeriod, setValidityPeriod] = useState(0);
-    const [validUntil, setValidUntil] = useState(null);
+    const [endDate, setEndDate] = useState(dayjs());
+    const error = endDate.isBefore(dayjs());
 
     const { requestId } = useParams();
     const requestCallback = (data) => {
         setWorkstation(data.allocatedWorkstationId);
-        setValidityPeriod(getValidityPeriod(data.userId.type));
+        const newValidTill = dayjs().add(getValidityPeriod(data.userId.type), 'month');
+        setEndDate(data.endDate ? dayjs(data.endDate) : newValidTill);
     };
     const request = useGet(`/api/request/${requestId}`, true, requestCallback).data;
-
-    const handleValidity = (input) => {
-        const temp = input.replace(/\D/g, '');
-        setValidityPeriod(temp);
-    };
-
-    useEffect(() => {
-        const newDate = dayjs().add(validityPeriod, 'month').format('DD/MM/YYYY');
-        setValidUntil(`Account will be valid until ${newDate}`);
-    }, [validityPeriod]);
 
     return (
         <TopBarPageTemplate>
@@ -74,11 +66,14 @@ const SingleRequest = () => {
                                 currentWorkstation={workstation}
                                 setValue={setWorkstation}
                             />
-                            <TextField
-                                title='Validity Period (months)'
-                                value={validityPeriod}
-                                helperText={validUntil}
-                                setValue={handleValidity}
+                            <DatePicker
+                                inputFormat='DD/MM/YYYY'
+                                value={endDate}
+                                onChange={setEndDate}
+                                minDate={dayjs()}
+                                renderInput={(params) => (
+                                    <TextField title='Request Expiry Date' {...params} />
+                                )}
                             />
                         </div>
                     </div>
@@ -88,8 +83,8 @@ const SingleRequest = () => {
                             'request',
                             {
                                 status: 'ACTIVE',
-                                requestValidity: validityPeriod,
                                 allocatedWorkstationId: workstation,
+                                endDate,
                             },
                             requestId,
                             () => history.goBack(),
@@ -98,8 +93,8 @@ const SingleRequest = () => {
                             'request',
                             {
                                 status: 'DECLINED',
-                                requestValidity: validityPeriod,
                                 allocatedWorkstationId: workstation,
+                                endDate,
                             },
                             requestId,
                             () => history.goBack(),
@@ -108,6 +103,7 @@ const SingleRequest = () => {
                         deleteMessage={deleteRequestMessage}
                         denyMessage={denyRequestMessage}
                         acceptMessage={acceptRequestMessage}
+                        acceptDisabled={error}
                     />
                 </>
             )}

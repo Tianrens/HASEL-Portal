@@ -23,8 +23,6 @@ let academicUserRequest;
 let staffUserRequest;
 let requestApproval;
 let requestDeclined;
-let requestApprovalWithCustomRequestValidity;
-let requestApprovalWithNewWorkstationAllocation;
 let studentUser;
 let superAdminUser;
 let academicUser;
@@ -221,21 +219,12 @@ beforeEach(async () => {
 
     requestApproval = {
         status: 'ACTIVE',
+        endDate: new Date(2021, 9, 29),
+        allocatedWorkstationId: updatedWorkstation._id,
     };
 
     requestDeclined = {
         status: 'DECLINED',
-    };
-
-    requestApprovalWithCustomRequestValidity = {
-        status: 'ACTIVE',
-        // The requestValidity specifies in months how long the request will be active for
-        requestValidity: 8,
-    };
-
-    requestApprovalWithNewWorkstationAllocation = {
-        status: 'ACTIVE',
-        allocatedWorkstationId: updatedWorkstation,
     };
 
     studentUser.currentRequestId = studentUserRequest1._id;
@@ -321,14 +310,6 @@ function datesAreTheSame(first, second) {
     expect(firstDate.getDate()).toEqual(secondDate.getDate());
     expect(firstDate.getHours()).toEqual(secondDate.getHours());
     expect(firstDate.getMinutes()).toEqual(secondDate.getMinutes());
-}
-
-function monthDiffBetweenDates(date1, date2) {
-    let months;
-    months = (date2.getFullYear() - date1.getFullYear()) * 12;
-    months -= date1.getMonth();
-    months += date2.getMonth();
-    return months <= 0 ? 0 : months;
 }
 
 it('create request success', async () => {
@@ -520,13 +501,39 @@ it('approve PHD student request valid permissions', async () => {
 
     expect(response.status).toEqual(HTTP.NO_CONTENT);
     expect(updatedRequest.allocatedWorkstationId.toString()).toEqual(
-        studentUserRequest2.allocatedWorkstationId.toString(),
+        updatedWorkstation._id.toString(),
     );
     expect(updatedRequest.status).toEqual('ACTIVE');
     datesAreTheSame(updatedRequest.startDate, Date.now());
-    expect(
-        monthDiffBetweenDates(updatedRequest.startDate, updatedRequest.endDate),
-    ).toEqual(12);
+    datesAreTheSame(updatedRequest.endDate, requestApproval.endDate);
+});
+
+it('approve ACTIVE request valid permissions', async () => {
+    const response = await axios.patch(
+        `${REQUEST_API_URL}/${dummyRequestWithAllFieldsSet4._id}`,
+        requestApproval,
+        {
+            validateStatus,
+            headers: {
+                authorization: `Bearer ${TOKEN_PASS}2`,
+            },
+        },
+    );
+
+    const updatedRequest = await retrieveRequestById(
+        dummyRequestWithAllFieldsSet4._id,
+    );
+
+    expect(response.status).toEqual(HTTP.NO_CONTENT);
+    expect(updatedRequest.allocatedWorkstationId.toString()).toEqual(
+        updatedWorkstation._id.toString(),
+    );
+    expect(updatedRequest.status).toEqual('ACTIVE');
+    datesAreTheSame(
+        updatedRequest.startDate,
+        dummyRequestWithAllFieldsSet4.startDate,
+    );
+    datesAreTheSame(updatedRequest.endDate, requestApproval.endDate);
 });
 
 it('approve request invalid permissions', async () => {
@@ -584,104 +591,6 @@ it('update request status - invalid status', async () => {
     expect(updatedRequest.status).toEqual('PENDING');
     expect(updatedRequest.startDate).toBeUndefined();
     expect(updatedRequest.endDate).toBeUndefined();
-});
-
-it('approve ACADEMIC_STAFF request valid permissions', async () => {
-    const response = await axios.patch(
-        `${REQUEST_API_URL}/${academicUserRequest._id}`,
-        requestApproval,
-        {
-            validateStatus,
-            headers: {
-                authorization: `Bearer ${TOKEN_PASS}2`,
-            },
-        },
-    );
-
-    const updatedRequest = await retrieveRequestById(academicUserRequest._id);
-
-    expect(response.status).toEqual(HTTP.NO_CONTENT);
-    expect(updatedRequest.allocatedWorkstationId.toString()).toEqual(
-        academicUserRequest.allocatedWorkstationId.toString(),
-    );
-    expect(updatedRequest.status).toEqual('ACTIVE');
-    datesAreTheSame(updatedRequest.startDate, Date.now());
-    expect(updatedRequest.endDate).toBeUndefined();
-});
-
-it('approve NON_ACADEMIC_STAFF request valid permissions', async () => {
-    const response = await axios.patch(
-        `${REQUEST_API_URL}/${staffUserRequest._id}`,
-        requestApprovalWithCustomRequestValidity,
-        {
-            validateStatus,
-            headers: {
-                authorization: `Bearer ${TOKEN_PASS}2`,
-            },
-        },
-    );
-
-    const updatedRequest = await retrieveRequestById(staffUserRequest._id);
-
-    expect(response.status).toEqual(HTTP.NO_CONTENT);
-    expect(updatedRequest.allocatedWorkstationId.toString()).toEqual(
-        staffUserRequest.allocatedWorkstationId.toString(),
-    );
-    expect(updatedRequest.status).toEqual('ACTIVE');
-    datesAreTheSame(updatedRequest.startDate, Date.now());
-    expect(
-        monthDiffBetweenDates(updatedRequest.startDate, updatedRequest.endDate),
-    ).toEqual(8);
-});
-
-it('approve NON_ACADEMIC_STAFF request valid permissions', async () => {
-    const response = await axios.patch(
-        `${REQUEST_API_URL}/${staffUserRequest._id}`,
-        requestApprovalWithCustomRequestValidity,
-        {
-            validateStatus,
-            headers: {
-                authorization: `Bearer ${TOKEN_PASS}2`,
-            },
-        },
-    );
-
-    const updatedRequest = await retrieveRequestById(staffUserRequest._id);
-
-    expect(response.status).toEqual(HTTP.NO_CONTENT);
-    expect(updatedRequest.allocatedWorkstationId.toString()).toEqual(
-        staffUserRequest.allocatedWorkstationId.toString(),
-    );
-    expect(updatedRequest.status).toEqual('ACTIVE');
-    datesAreTheSame(updatedRequest.startDate, Date.now());
-    expect(
-        monthDiffBetweenDates(updatedRequest.startDate, updatedRequest.endDate),
-    ).toEqual(8);
-});
-
-it('approve PHD student request with different workstation allocation', async () => {
-    const response = await axios.patch(
-        `${REQUEST_API_URL}/${studentUserRequest2._id}`,
-        requestApprovalWithNewWorkstationAllocation,
-        {
-            validateStatus,
-            headers: {
-                authorization: `Bearer ${TOKEN_PASS}2`,
-            },
-        },
-    );
-
-    const updatedRequest = await retrieveRequestById(studentUserRequest2._id);
-
-    expect(response.status).toEqual(HTTP.NO_CONTENT);
-    expect(updatedRequest.allocatedWorkstationId.toString()).toEqual(
-        updatedWorkstation._id.toString(),
-    );
-    expect(updatedRequest.status).toEqual('ACTIVE');
-    datesAreTheSame(updatedRequest.startDate, Date.now());
-    expect(
-        monthDiffBetweenDates(updatedRequest.startDate, updatedRequest.endDate),
-    ).toEqual(12);
 });
 
 it('archive a request with valid permissions', async () => {

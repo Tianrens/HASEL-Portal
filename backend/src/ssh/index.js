@@ -6,4 +6,5 @@ export { lockWorkstationUser } from './lockWorkstationUser';
 export { unlockWorkstationUser } from './unlockWorkstationUser';
 export { getLockedUsers } from './getLockedUsers';
 export { checkUserExists } from './checkUserExists';
+export { changeUserExpireDate } from './changeUserExpireDate';
 export { checkServerOnline } from './checkServerOnline';

@@ -7,7 +7,7 @@ import TableWithPagination from '../../components/table/TableWithPagination';
 import { getDisplayName } from '../../../config/accountTypes';
 import styles from './ViewUsers.module.scss';
 
-const columns = ['Name', 'UPI', 'Type', 'Status', 'Date Approved'];
+const columns = ['Name', 'UPI', 'Type', 'Status', 'Expiry Date'];
 
 const rowFactory = (user) => (
     <TableRow key={user._id} component={Link} to={`/users/${user._id}`}>
@@ -18,8 +18,8 @@ const rowFactory = (user) => (
         <TableCell align='right'>{getDisplayName(user.type)}</TableCell>
         <TableCell align='right'>{user?.currentRequestId?.status ?? '-'}</TableCell>
         <TableCell align='right'>
-            {user?.currentRequestId?.startDate
-                ? new Date(user.currentRequestId.startDate).toLocaleDateString()
+            {user?.currentRequestId?.endDate
+                ? new Date(user.currentRequestId.endDate).toLocaleDateString()
                 : '-'}
         </TableCell>
     </TableRow>

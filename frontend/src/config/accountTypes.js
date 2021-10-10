@@ -28,9 +28,9 @@ export function getValidityPeriod(accountType) {
     case NON_ADMIN_ACCOUNT_TYPE.PHD:
         return 12;
     case NON_ADMIN_ACCOUNT_TYPE.NON_ACADEMIC_STAFF:
-        return 12;
+        return 500;
     case NON_ADMIN_ACCOUNT_TYPE.ACADEMIC_STAFF:
-        return 1000;
+        return 500;
     default:
         return 3;
     }

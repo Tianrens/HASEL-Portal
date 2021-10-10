@@ -13,7 +13,7 @@ const CustomTextField = ({ title, notRequired, setValue, ...props }) => (
             required={!notRequired}
             variant='outlined'
             InputLabelProps={{ shrink: true }}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => setValue && setValue(e.target.value)}
             {...props}
         />
     </div>
