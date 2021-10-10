@@ -2,17 +2,19 @@
 import { React, useEffect } from 'react';
 import { DayMarkers, GanttComponent, Inject } from '@syncfusion/ej2-react-gantt';
 import './GpuBookingGanttMaterialTheme.scss';
-import dayjs from 'dayjs';
 import colours from '../../../assets/_colours.module.scss';
 import { formatBookingData, formatResourceData } from './BookingGanttDataFormatters';
+import { customZoomingLevels } from './zoomLevels';
+import Tooltip from './Tooltip';
 
 export default function GpuBookingGantt({
     bookingData,
     currentBookingData,
     numGPUs,
     thisUsersId,
-    zoomLevel = 6,
     conflictHandler,
+    setGanttRef,
+    zoomLevels,
 }) {
     const { formattedData, hasConflicts } = formatBookingData({
         bookingData,
@@ -54,21 +56,11 @@ export default function GpuBookingGantt({
         myBooking: 'myBooking',
         currentBooking: 'currentBooking',
         errorBooking: 'errorBooking',
+        userUPI: 'userUPI',
+        userName: 'userName',
     };
 
     const dayWorkingTime = [{ from: 0, to: 24 }];
-
-    const timelineSettings = {
-        topTier: {
-            unit: 'Day',
-            format: 'dddd MMM yyyy',
-        },
-        bottomTier: {
-            unit: 'Hour',
-            count: zoomLevel,
-            format: 'H',
-        },
-    };
 
     // Display a vertical line indicating the current time
     const eventMarkers = [
@@ -85,16 +77,8 @@ export default function GpuBookingGantt({
         name: 'gpuName',
     };
 
-    const tooltipTemplate = (props) => (
-        <div>
-            Start Time: {dayjs(props.startTimestamp).format('ddd DD/MM/YYYY HH:mm')}
-            <br />
-            End Time: {dayjs(props.endTimestamp).format('ddd DD/MM/YYYY HH:mm')}
-            <br />
-            <br />
-            GPUs Booked: {props.gpuIndices}
-        </div>
-    );
+    const tooltipTemplate = (props) => <Tooltip props={props} />;
+
     const tooltipSettings = { taskbar: tooltipTemplate };
 
     return (
@@ -105,7 +89,6 @@ export default function GpuBookingGantt({
             resourceFields={resourceFields}
             taskFields={taskFields}
             dayWorkingTime={dayWorkingTime}
-            timelineSettings={timelineSettings}
             eventMarkers={eventMarkers}
             columns={columns}
             enableMultiTaskbar
@@ -114,6 +97,9 @@ export default function GpuBookingGantt({
             queryTaskbarInfo={queryTaskbarInfo}
             includeWeekend
             tooltipSettings={tooltipSettings}
+            ref={(gantt) => setGanttRef(gantt)}
+            dataBound={zoomLevels}
+            timelineSettings={customZoomingLevels[5]}
         >
             <Inject services={[DayMarkers]} />
         </GanttComponent>

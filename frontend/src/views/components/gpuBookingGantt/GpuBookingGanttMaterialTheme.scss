@@ -27270,8 +27270,11 @@ input[type='text'] {
     opacity: 0.9; /*! tooltip arrow */ /*! tooltip sticky mode close icon */ /*! tooltip content area */
 }
 .e-tooltip-wrap.e-popup {
-    background-color: #616161;
-    border: 1px solid #616161;
+    background-color: #3a3a3a;
+    border: 1px solid #3a3a3a;
+    padding: 5px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    border-radius: 5px;
 }
 .e-tooltip-wrap .e-arrow-tip-outer {
     height: 0;

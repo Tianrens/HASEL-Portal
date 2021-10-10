@@ -12,7 +12,6 @@ function formatBookingData({ bookingData, currentBookingData, thisUsersId }) {
     let hasConflicts = false;
     const currentBookingValid =
         !currentBookingData?.noGPUSelected && !currentBookingData?.timingInvalid;
-
     if (currentBookingData) {
         if (currentBookingValid) {
             formattedData.push({
@@ -30,6 +29,8 @@ function formatBookingData({ bookingData, currentBookingData, thisUsersId }) {
         if (!currentBookingData || booking._id !== currentBookingData.id) {
             formattedData.push({
                 bookingId: index,
+                userName: `${booking.userId.firstName} ${booking.userId.lastName}`,
+                userUPI: booking.userId.upi,
                 startTimestamp: booking.startTimestamp,
                 endTimestamp: booking.endTimestamp,
                 gpuIndices: booking.gpuIndices,

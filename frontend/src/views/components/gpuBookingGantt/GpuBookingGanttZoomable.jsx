@@ -8,6 +8,7 @@ import { useGet } from '../../../hooks/useGet';
 import { useDoc } from '../../../state/state';
 import { userDoc } from '../../../state/docs/userDoc';
 import GanttLegend from './GanttLegend';
+import { customZoomingLevels } from './zoomLevels';
 import { userIsAdmin } from '../../../config/accountTypes';
 
 export default function GpuBookingGanttZoomable({
@@ -21,7 +22,11 @@ export default function GpuBookingGanttZoomable({
     const [delayIsFinished, setDelayIsFinished] = useState(false);
     setTimeout(() => setDelayIsFinished(true), 10); // Need a short delay so that the gantt chart renders correctly
     const workstation = useGet(`/api/workstation/${workstationId}`, delayIsFinished).data;
-    const bookingsData = useGet(`/api/workstation/${workstationId}/booking`, delayIsFinished).data;
+    const bookingsData = useGet(
+        `/api/workstation/${workstationId}/booking/ACTIVE?page=1&limit=1000`,
+        delayIsFinished,
+    ).data;
+    const [ganttRef, setGanttRef] = useState();
 
     const isOffline = !workstation?.status; // status=true if online
     const offlineMessage = isAdmin
@@ -29,21 +34,27 @@ export default function GpuBookingGanttZoomable({
         : 'Workstation is currently offline. If you would like to make a booking, please try again later.';
 
     // Zoom levels are inverse, so smaller numbers means the chart is zoomed further in
-    const zoomLevels = [1, 3, 6, 12];
     const [zoomIdx, setZoomIdx] = useState(2);
+    const maxZoomLevel = 5;
 
     const handleIncrementZoom = () => {
-        const newIdx = zoomIdx > 0 ? zoomIdx - 1 : 0;
+        ganttRef.zoomIn();
+        const newIdx = zoomIdx - 1;
         setZoomIdx(newIdx);
     };
 
     const handleDecrementZoom = () => {
-        const newIdx = zoomIdx < zoomLevels.length - 1 ? zoomIdx + 1 : zoomLevels.length - 1;
+        ganttRef.zoomOut();
+        const newIdx = zoomIdx + 1;
         setZoomIdx(newIdx);
     };
 
+    const zoomLevels = () => {
+        ganttRef.zoomingLevels = customZoomingLevels;
+    };
+
     const isZoomInDisabled = zoomIdx === 0;
-    const isZoomOutDisabled = zoomIdx === zoomLevels.length - 1;
+    const isZoomOutDisabled = zoomIdx === maxZoomLevel;
 
     return (
         workstation &&
@@ -51,12 +62,13 @@ export default function GpuBookingGanttZoomable({
             <div>
                 {isOffline && <Alert severity='error'>{offlineMessage}</Alert>}
                 <GpuBookingGantt
-                    bookingData={bookingsData}
+                    bookingData={bookingsData.bookings}
                     currentBookingData={currentBookingData}
                     numGPUs={workstation.numGPUs}
                     thisUsersId={user._id}
-                    zoomLevel={zoomLevels[zoomIdx]}
                     conflictHandler={conflictHandler}
+                    setGanttRef={setGanttRef}
+                    zoomLevels={zoomLevels}
                 />
                 <div className={styles.buttonsContainer}>
                     <div className={styles.buttons}>
@@ -73,6 +85,7 @@ export default function GpuBookingGanttZoomable({
                     </div>
                 </div>
                 <div className={styles.legendWrapper}>
+                    <p>Tip: Hover over a booking for more information.</p>
                     <GanttLegend hasCurrentBooking={Boolean(currentBookingData)} />
                 </div>
             </div>

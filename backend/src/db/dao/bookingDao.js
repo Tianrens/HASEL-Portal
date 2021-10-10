@@ -155,7 +155,7 @@ async function retrieveBookingsByWorkstationWithPagination(
         .sort(sortObject)
         .skip(page > 0 ? (page - 1) * limit : 0) // Skips start at 0, pages start at 1
         .limit(limit)
-        .populate('userId', 'firstName lastName');
+        .populate('userId', 'firstName lastName upi');
 
     const count = await Booking.countDocuments({
         workstationId,
