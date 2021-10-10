@@ -1,6 +1,6 @@
+@import '../../../../assets/responsiveDesignHelpers';
+
 .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
+    @extend .responsiveMargin;
+    margin-top: 2rem;
 }

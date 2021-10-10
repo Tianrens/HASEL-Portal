@@ -219,9 +219,7 @@ Array [
   <div
     className="content"
   >
-    <div
-      className="container"
-    >
+    <div>
       <div>
         <div
           className="container"

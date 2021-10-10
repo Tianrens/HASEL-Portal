@@ -1,7 +1,7 @@
 @mixin responsive($breakpoint) {
     $mobileSize: 600px;
-    $tinyMobileSize: 480px;
-    $tabletSize: 850px;
+    $tinyMobileSize: 350px;
+    $tabletSize: 880px;
 
     // Note that applying a mobile css change will also stack the changes for views of greater size than it (e.g. tablet)
     @if $breakpoint==tablet {

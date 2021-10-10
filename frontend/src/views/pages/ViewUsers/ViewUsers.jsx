@@ -1,11 +1,11 @@
 import { React } from 'react';
-import { TableRow, TableCell } from '@mui/material';
+import { TableCell, TableRow } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { container } from './ViewUsers.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import StyledHeader from '../../components/text/StyledHeader';
 import TableWithPagination from '../../components/table/TableWithPagination';
 import { getDisplayName } from '../../../config/accountTypes';
+import styles from './ViewUsers.module.scss';
 
 const columns = ['Name', 'UPI', 'Type', 'Status', 'Date Approved'];
 
@@ -27,7 +27,7 @@ const rowFactory = (user) => (
 
 const ViewUsers = () => (
     <TopBarPageTemplate>
-        <div className={container}>
+        <div className={styles.container}>
             <StyledHeader left>Users</StyledHeader>
             <TableWithPagination
                 endpoint='/api/user'

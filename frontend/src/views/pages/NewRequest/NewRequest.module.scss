@@ -7,13 +7,13 @@
     flex: 0 0 100%;
     margin-bottom: 4rem;
 }
-
-.container {
+.wrapper {
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    width: 40%;
-    column-gap: 3rem;
+    justify-content: center;
+    width: 100%;
+}
+.container {
+    width: 50%;
 }
 .form {
     width: 100%;
@@ -37,7 +37,6 @@
 
 @include responsive(tablet) {
     .container {
-        flex-direction: column;
         width: 90%;
     }
 }
