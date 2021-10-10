@@ -205,7 +205,7 @@ router.put(
                         -1,
                         endDate,
                     );
-                    sendRequestApprovedEmail(user.email, request);
+                    sendRequestApprovedEmail(user.email, request, `${req.protocol}://${req.get('host')}`);
                 } catch (err) {
                     return res
                         .status(HTTP.INTERNAL_SERVER_ERROR)

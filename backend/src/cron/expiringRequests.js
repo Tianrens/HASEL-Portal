@@ -8,9 +8,7 @@ export async function emailExpiringRequests(daysBefore) {
     const signUpRequests = await retrieveExpiringRequests(daysBefore);
 
     signUpRequests.forEach((signUpRequest) => {
-        const { email, upi } = signUpRequest.userId;
-
-        sendExpiringAccountEmail(email, upi);
+        sendExpiringAccountEmail(signUpRequest);
         setRequestNotifiedExpiring(signUpRequest._id, true);
     });
 }

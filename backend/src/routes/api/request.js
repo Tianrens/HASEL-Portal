@@ -158,7 +158,7 @@ router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
             await updateRequestStatus(requestId, req.body.status);
             await setRequestEndDate(requestId, endDate);
             request = await retrieveRequestById(request._id);
-            sendRequestApprovedEmail(requestUser.email, request);
+            sendRequestApprovedEmail(requestUser.email, request, `${req.protocol}://${req.get('host')}`);
         } else if (request.status === 'ACTIVE') {
             // Request already approved, editing information
             // Change workstation information first
@@ -195,7 +195,7 @@ router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
                 endDate,
             });
             // Send new approved email to indicate that host/endDate has changed
-            sendRequestApprovedEmail(requestUser.email, request);
+            sendRequestApprovedEmail(requestUser.email, request, `${req.protocol}://${req.get('host')}`);
         } else {
             await updateRequestStatus(requestId, req.body.status);
             sendRequestDeniedEmail(requestUser.email, request);

@@ -1,8 +1,9 @@
 import { sendEmail } from './sendEmail';
 import { retrieveUserById } from '../db/dao/userDao';
 import { retrieveWorkstationById } from '../db/dao/workstationDao';
+import { requestApprovedEmail } from './emailTemplates/requestApprovedEmail';
 
-export async function sendRequestApprovedEmail(recipientEmail, request) {
+export async function sendRequestApprovedEmail(recipientEmail, request, url) {
     const getUser = retrieveUserById(request.userId);
     const getWorkstation = retrieveWorkstationById(
         request.allocatedWorkstationId,
@@ -10,35 +11,6 @@ export async function sendRequestApprovedEmail(recipientEmail, request) {
     // need to await together to prevent concurrency issues where it doesn't await for the 
     // second one to finish.
     const [user, workstation] = [await getUser, await getWorkstation];
-
-    const emailSubject = 'Hasel Portal Request Approved';
-    const {firstName} = user;
-    const username = user.upi;
-    const password = process.env.DEFAULT_HASEL_PASSWORD;
-    const { endDate } = request;
-    const workstationName = workstation.name;
-    const { host } = workstation;
-
-    let endDateFormatted = '';
-    if (endDate) {
-        endDateFormatted = `${endDate.getDate()}/${endDate.getMonth()}/${endDate.getFullYear()}`;
-    } else {
-        endDateFormatted = 'Unlimited access';
-    }
-
-    const message =
-        `<html><body>Hi ${firstName},<br/><br/>` +
-        'Your Hasel Portal Request has been approved.<br/>' +
-        'Here is your account:<br/><ul>' +
-        `<li>Machine: ${host} (${workstationName})</li>` +
-        `<li>Username: ${username}</li>` +
-        `<li>Default password: ${password}</li>` +
-        `<li>Access valid until: ${endDateFormatted}</li></ul></br>` +
-        'You will be prompted to change your password on your first login.<br/><br/>' +
-        'If you already have an account on the workstation, your password will not be changed.<br/><br/>' + 
-        'Let us know by replying to this email if you have any questions.<br/><br/>' +
-        'Best regards,<br/>' +
-        'Hasel Portal Team</body></html>';
-
-    sendEmail(recipientEmail, emailSubject, null, message);
+    const email = requestApprovedEmail(user, workstation, request, url);
+    sendEmail(recipientEmail, email.emailSubject, null, email.htmlContent);
 }

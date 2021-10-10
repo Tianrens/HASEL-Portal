@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 
 import { retrieveUserByType, retrieveUserById } from '../db/dao/userDao';
+import { newRequestEmail } from './emailTemplates/newRequestEmail';
 
 require('dotenv').config();
 
@@ -11,6 +12,9 @@ export function sendEmail(
     htmlContent = null,
 ) {
     if (process.env.NODE_ENV !== 'production') {
+        console.log(recipientEmail);
+        console.log(emailSubject);
+        console.log(htmlContent);
         return;
     }
 
@@ -48,16 +52,11 @@ export async function sendNewRequestEmailToSuperAdmins(signUpRequest, url) {
         retrieveUserById(signUpRequest.userId),
         retrieveUserByType('SUPERADMIN'),
     ]).then(([user, superAdmins]) => {
-        const { firstName, lastName, type } = user;
-
-        const emailSubject = `New Sign Up Request - ${firstName} ${lastName}`;
-        const requestLink = `${url}/requests/${signUpRequest._id}`;
-        const htmlContent = `<html><body>A user of type ${type} has submitted a new sign up request. 
-        <br/><br/>To view their request, click <a href=${requestLink}>here</a></body></html>`;
+        const email = newRequestEmail(user, signUpRequest, url);
 
         for (let i = 0; i < superAdmins.length; i += 1) {
             const superAdmin = superAdmins[i];
-            sendEmail(superAdmin.email, emailSubject, null, htmlContent);
+            sendEmail(superAdmin.email, email.emailSubject, null, email.htmlContent);
         }
     });
 }

@@ -1,8 +1,9 @@
+import { expiringAccountEmail } from './emailTemplates/expiringAccountEmail';
 import { sendEmail } from './sendEmail';
 
-export async function sendExpiringAccountEmail(recipientEmail, upi) {
-    const emailSubject = `Hasel Lab Workstation Account Expiring - ${upi}`;
-    const emailHTML = `<html><body>Your Hasel Lab Workstation Account ${upi} is about to expire!\n\n</body></html>`;
+export async function sendExpiringAccountEmail(signUpRequest) {
+    const { email: recipientEmail } = signUpRequest.userId;
+    const email = expiringAccountEmail(signUpRequest);
 
-    sendEmail(recipientEmail, emailSubject, null, emailHTML);
+    sendEmail(recipientEmail, email.emailSubject, null, email.htmlContent);
 }
