@@ -1,4 +1,5 @@
 import { User } from '../schemas/userSchema';
+import { SignUpRequest } from '../schemas/signUpRequestSchema';
 
 async function countUsers() {
     return User.countDocuments();
@@ -54,7 +55,63 @@ async function retrieveUserByType(userType) {
 }
 
 async function removeRequestFromUser(userId) {
-    await User.updateOne({_id: userId}, {$unset: {'currentRequestId': null}});
+    await User.updateOne(
+        { _id: userId },
+        { $unset: { currentRequestId: null } },
+    );
+}
+
+async function retrieveUsersBySearchQuery(searchParam, page, limit) {
+    // Remove leading and trailing spaces, and make the search case insensitive
+    const searchRegex = new RegExp(`^${searchParam.trim()}`, 'i');
+    const results = await User.aggregate([
+        {
+            $addFields: {
+                fullName: {
+                    $concat: ['$firstName', ' ', '$lastName'],
+                },
+            },
+        },
+        {
+            $match: {
+                $or: [
+                    { firstName: searchRegex },
+                    { lastName: searchRegex },
+                    { upi: searchRegex },
+                    { fullName: searchRegex },
+                ],
+            },
+        },
+        {
+            $sort: { lastName: 1 },
+        },
+        {
+            $facet: {
+                users: [
+                    { $skip: page > 0 ? (page - 1) * limit : 0 },
+                    { $limit: limit },
+                ],
+                count: [
+                    {
+                        $count: 'count',
+                    },
+                ],
+            },
+        },
+    ]);
+
+    const matchingUsers = [];
+    const count = results[0].count.length > 0 ? results[0].count[0].count : 0;
+
+    results[0].users.forEach((user) => {
+        matchingUsers.push(user);
+    });
+
+    await SignUpRequest.populate(matchingUsers, {
+        path: 'currentRequestId',
+    });
+
+    return { matchingUsers, count };
 }
 
 export {
@@ -68,4 +125,5 @@ export {
     retrieveUserByAuthId,
     retrieveUserByType,
     retrieveUserByUpi,
+    retrieveUsersBySearchQuery,
 };

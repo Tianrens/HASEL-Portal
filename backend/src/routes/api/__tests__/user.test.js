@@ -496,3 +496,224 @@ it('retrieve users with a larger limit than the amount of users', async () => {
     expectResponseUserSameAsRequestUser(response.data.users[1], user1);
     expectResponseUserSameAsRequestUser(response.data.users[2], adminUser);
 });
+
+it('retrieve users by partial firstname', async () => {
+    const page = 1;
+    const limit = 3;
+    const searchParam = 'hungr';
+
+    const response = await authRequest(
+        `${userApiUrl}/search/${searchParam}/?page=${page}&limit=${limit}`,
+        'GET',
+        adminUser.authUserId,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.OK);
+
+    const { count, pageCount, matchingUsers } = response.data;
+
+    expect(matchingUsers).toBeTruthy();
+    expect(matchingUsers).toHaveLength(1);
+    expect(count).toBe(1);
+    expect(pageCount).toBe(1);
+
+    expectResponseUserSameAsRequestUser(matchingUsers[0], user1);
+});
+
+it('retrieve users by partial lastname', async () => {
+    const page = 1;
+    const limit = 3;
+    const searchParam = 'mil';
+
+    const response = await authRequest(
+        `${userApiUrl}/search/${searchParam}/?page=${page}&limit=${limit}`,
+        'GET',
+        adminUser.authUserId,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.OK);
+
+    const { count, pageCount, matchingUsers } = response.data;
+
+    expect(matchingUsers).toBeTruthy();
+    expect(matchingUsers).toHaveLength(1);
+    expect(count).toBe(1);
+    expect(pageCount).toBe(1);
+
+    expectResponseUserSameAsRequestUser(matchingUsers[0], user1);
+});
+
+it('retrieve users by partial fullname', async () => {
+    const page = 1;
+    const limit = 3;
+    const searchParam = 'hungry mi';
+
+    const response = await authRequest(
+        `${userApiUrl}/search/${searchParam}/?page=${page}&limit=${limit}`,
+        'GET',
+        adminUser.authUserId,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.OK);
+
+    const { count, pageCount, matchingUsers } = response.data;
+
+    expect(matchingUsers).toBeTruthy();
+    expect(matchingUsers).toHaveLength(1);
+    expect(count).toBe(1);
+    expect(pageCount).toBe(1);
+
+    expectResponseUserSameAsRequestUser(matchingUsers[0], user1);
+});
+
+it('retrieve users by partial upi', async () => {
+    const page = 1;
+    const limit = 3;
+    const searchParam = 'hmi1';
+
+    const response = await authRequest(
+        `${userApiUrl}/search/${searchParam}/?page=${page}&limit=${limit}`,
+        'GET',
+        adminUser.authUserId,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.OK);
+
+    const { count, pageCount, matchingUsers } = response.data;
+
+    expect(matchingUsers).toBeTruthy();
+    expect(matchingUsers).toHaveLength(1);
+    expect(count).toBe(1);
+    expect(pageCount).toBe(1);
+
+    expectResponseUserSameAsRequestUser(matchingUsers[0], user1);
+});
+
+it('retrieve users by search query with pagination', async () => {
+    let page = 1;
+    const limit = 1;
+    const searchParam = 'hun';
+
+    const firstPageResponse = await authRequest(
+        `${userApiUrl}/search/${searchParam}/?page=${page}&limit=${limit}`,
+        'GET',
+        adminUser.authUserId,
+    );
+
+    expect(firstPageResponse).toBeDefined();
+    expect(firstPageResponse.status).toEqual(HTTP.OK);
+
+    const firstPageCount = firstPageResponse.data.count;
+    const firstPagePageCount = firstPageResponse.data.pageCount;
+    const firstPageUsers = firstPageResponse.data.matchingUsers;
+
+    expect(firstPageUsers).toHaveLength(1);
+    expect(firstPageCount).toBe(2);
+    expect(firstPagePageCount).toBe(2);
+    expectResponseUserSameAsRequestUser(firstPageUsers[0], superAdminUser);
+
+    page = 2;
+    const secondPageResponse = await authRequest(
+        `${userApiUrl}/search/${searchParam}/?page=${page}&limit=${limit}`,
+        'GET',
+        adminUser.authUserId,
+    );
+
+    expect(secondPageResponse).toBeDefined();
+    expect(secondPageResponse.status).toEqual(HTTP.OK);
+
+    const secondPageCount = secondPageResponse.data.count;
+    const secondPagePageCount = secondPageResponse.data.pageCount;
+    const secondPageUsers = secondPageResponse.data.matchingUsers;
+
+    expect(secondPageUsers).toBeTruthy();
+    expect(secondPageUsers).toHaveLength(1);
+    expect(secondPageCount).toBe(2);
+    expect(secondPagePageCount).toBe(2);
+    expectResponseUserSameAsRequestUser(secondPageUsers[0], user1);
+});
+
+it('retrieve users by search query with page more than the maximum number of pages', async () => {
+    const page = 3;
+    const limit = 2;
+    const searchParam = 'hun';
+
+    const response = await authRequest(
+        `${userApiUrl}/search/${searchParam}/?page=${page}&limit=${limit}`,
+        'GET',
+        adminUser.authUserId,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.OK);
+
+    const { count, pageCount, matchingUsers } = response.data;
+
+    expect(matchingUsers).toHaveLength(0);
+    expect(count).toBe(2);
+    expect(pageCount).toBe(1);
+});
+
+it('retrieve users by search query with a larger limit than the amount of users', async () => {
+    const page = 1;
+    const limit = 5;
+    const searchParam = 'hun';
+
+    const response = await authRequest(
+        `${userApiUrl}/search/${searchParam}/?page=${page}&limit=${limit}`,
+        'GET',
+        adminUser.authUserId,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.OK);
+
+    const { count, pageCount, matchingUsers } = response.data;
+
+    expect(matchingUsers).toHaveLength(2);
+    expect(count).toBe(2);
+    expect(pageCount).toBe(1);
+
+    expectResponseUserSameAsRequestUser(matchingUsers[0], superAdminUser);
+    expectResponseUserSameAsRequestUser(matchingUsers[1], user1);
+});
+
+it('retrieve users by search query invalid permissions', async () => {
+    const page = 1;
+    const limit = 5;
+    const searchParam = 'hun';
+
+    const response = await authRequest(
+        `${userApiUrl}/search/${searchParam}/?page=${page}&limit=${limit}`,
+        'GET',
+        user1.authUserId,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.FORBIDDEN);
+});
+
+it('retrieve users by search query no matching results', async () => {
+    const page = 1;
+    const limit = 2;
+    const searchParam = 'giga';
+
+    const response = await authRequest(
+        `${userApiUrl}/search/${searchParam}/?page=${page}&limit=${limit}`,
+        'GET',
+        adminUser.authUserId,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.OK);
+
+    const { count, pageCount, matchingUsers } = response.data;
+
+    expect(matchingUsers).toHaveLength(0);
+    expect(count).toBe(0);
+    expect(pageCount).toBe(0);
+});

@@ -5,6 +5,7 @@ import {
     retrieveUserByAuthId,
     retrieveUserById,
     retrieveUsers,
+    retrieveUsersBySearchQuery,
     updateUser,
 } from '../../db/dao/userDao';
 import { checkCorrectParams } from './util/checkCorrectParams';
@@ -146,6 +147,41 @@ router.get('/:userId', getUser, checkAdmin, async (req, res) => {
         return res.status(HTTP.NOT_FOUND).send('User does not exist');
     }
     return res.status(HTTP.OK).json(user);
+});
+
+/** GET users by search query
+ * GET /api/user/search/${searchParam}/?page=${page}&limit=${limit}
+ * @param   searchParam The partial or full upi, firstname, lastname or fullname to search users by
+ * @query   page        The page number specified
+ * @query   limit       The number of users in a page
+ * @returns count       The number of matching users in the database
+ * @returns pageCount   The number of pages in the database
+ * @returns bookings    The array of matching user objects
+ */
+router.get('/search/:searchParam', getUser, checkAdmin, async (req, res) => {
+    try {
+        const { searchParam } = req.params;
+
+        const page = parseInt(req.query.page, BASE_INT_VALUE);
+        const limit = parseInt(req.query.limit, BASE_INT_VALUE);
+        const result = await retrieveUsersBySearchQuery(
+            searchParam,
+            page,
+            limit,
+        );
+
+        const { matchingUsers } = result;
+        const { count } = result;
+        const pageCount = Math.ceil(count / limit);
+
+        return res.status(HTTP.OK).json({
+            count,
+            pageCount,
+            matchingUsers,
+        });
+    } catch (err) {
+        return res.status(HTTP.INTERNAL_SERVER_ERROR).json('Server error');
+    }
 });
 
 export default router;

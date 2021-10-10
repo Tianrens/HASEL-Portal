@@ -9,6 +9,7 @@ import {
     retrieveUserByType,
     retrieveUserByUpi,
     retrieveUsers,
+    retrieveUsersBySearchQuery,
     updateUser,
 } from '../userDao';
 import { User } from '../../schemas/userSchema';
@@ -20,6 +21,7 @@ let request1;
 let user1;
 let user2;
 let user3;
+let user4;
 let workstation1;
 
 /**
@@ -100,6 +102,15 @@ beforeEach(async () => {
         firstName: 'Ale',
         lastName: 'Bell',
         type: 'NON_ACADEMIC_STAFF',
+    };
+
+    user4 = {
+        email: 'user4@gmail.com',
+        upi: 'dgar146',
+        authUserId: '513567',
+        firstName: 'Denlop',
+        lastName: 'Garfield',
+        type: 'UNDERGRAD',
     };
 
     await usersColl.insertMany([user1, user2]);
@@ -300,4 +311,154 @@ it('retrieve user by upi', async () => {
 
     expect(user).toBeTruthy();
     expectDbUserMatchWithUser(user, user2);
+});
+
+it('retrieve users by partial firstname', async () => {
+    const page = 1;
+    const limit = 3;
+    const searchParam = 'pe';
+
+    const result = await retrieveUsersBySearchQuery(searchParam, page, limit);
+
+    const { matchingUsers } = result;
+    const totalMatchesCount = result.count;
+
+    expect(matchingUsers).toBeTruthy();
+    expect(matchingUsers).toHaveLength(1);
+    expect(totalMatchesCount).toBe(1);
+
+    expectDbUserMatchWithUser(matchingUsers[0], user2);
+});
+
+it('retrieve users by partial lastname', async () => {
+    const page = 1;
+    const limit = 3;
+    const searchParam = 'nut';
+
+    const result = await retrieveUsersBySearchQuery(searchParam, page, limit);
+
+    const { matchingUsers } = result;
+    const totalMatchesCount = result.count;
+
+    expect(matchingUsers).toBeTruthy();
+    expect(matchingUsers).toHaveLength(1);
+    expect(totalMatchesCount).toBe(1);
+
+    expectDbUserMatchWithUser(matchingUsers[0], user1);
+});
+
+it('retrieve users by partial fullname', async () => {
+    const page = 1;
+    const limit = 3;
+    const searchParam = 'denise nu';
+
+    const result = await retrieveUsersBySearchQuery(searchParam, page, limit);
+
+    const { matchingUsers } = result;
+    const totalMatchesCount = result.count;
+
+    expect(matchingUsers).toBeTruthy();
+    expect(matchingUsers).toHaveLength(1);
+    expect(totalMatchesCount).toBe(1);
+
+    expectDbUserMatchWithUser(matchingUsers[0], user1);
+});
+
+it('retrieve users by partial upi', async () => {
+    const page = 1;
+    const limit = 3;
+    const searchParam = 'pbi';
+
+    const result = await retrieveUsersBySearchQuery(searchParam, page, limit);
+
+    const { matchingUsers } = result;
+    const totalMatchesCount = result.count;
+
+    expect(matchingUsers).toBeTruthy();
+    expect(matchingUsers).toHaveLength(1);
+    expect(totalMatchesCount).toBe(1);
+    expectDbUserMatchWithUser(matchingUsers[0], user2);
+});
+
+it('retrieve users by search query with pagination', async () => {
+    await createUser(user4);
+
+    let page = 1;
+    const limit = 1;
+    const searchParam = 'Den';
+
+    const firstPageResult = await retrieveUsersBySearchQuery(
+        searchParam,
+        page,
+        limit,
+    );
+
+    const firstPageUsers = firstPageResult.matchingUsers;
+    const totalMatchesCount1 = firstPageResult.count;
+
+    expect(firstPageUsers).toBeTruthy();
+    expect(firstPageUsers).toHaveLength(1);
+    expect(totalMatchesCount1).toBe(2);
+    expectDbUserMatchWithUser(firstPageUsers[0], user4);
+
+    page = 2;
+    const secondPageResult = await retrieveUsersBySearchQuery(
+        searchParam,
+        page,
+        limit,
+    );
+
+    const secondPageUsers = secondPageResult.matchingUsers;
+    const totalMatchesCount2 = secondPageResult.count;
+
+    expect(secondPageUsers).toBeTruthy();
+    expect(secondPageUsers).toHaveLength(1);
+    expect(totalMatchesCount2).toBe(2);
+    expectDbUserMatchWithUser(secondPageUsers[0], user1);
+});
+
+it('retrieve users by search query with page more than the maximum number of pages', async () => {
+    const page = 3;
+    const limit = 2;
+    const searchParam = 'Den';
+
+    const result = await retrieveUsersBySearchQuery(searchParam, page, limit);
+    const users = result.matchingUsers;
+    const totalMatchesCount = result.count;
+
+    expect(users).toHaveLength(0);
+    expect(totalMatchesCount).toBe(1);
+});
+
+it('retrieve users by search query with a larger limit than the amount of users', async () => {
+    await createUser(user4);
+
+    const page = 1;
+    const limit = 5;
+    const searchParam = 'de';
+
+    const result = await retrieveUsersBySearchQuery(searchParam, page, limit);
+    const users = result.matchingUsers;
+    const totalMatchesCount = result.count;
+
+    expect(users).toBeTruthy();
+    expect(users).toHaveLength(2);
+    expect(totalMatchesCount).toBe(2);
+
+    expectDbUserMatchWithUser(users[0], user4);
+    expectDbUserMatchWithUser(users[1], user1);
+});
+
+it('retrieve users by search query with no matching results', async () => {
+    const page = 1;
+    const limit = 2;
+    const searchParam = 'giga';
+
+    const result = await retrieveUsersBySearchQuery(searchParam, page, limit);
+    const users = result.matchingUsers;
+    const totalMatchesCount = result.count;
+
+    expect(users).toBeTruthy();
+    expect(users).toHaveLength(0);
+    expect(totalMatchesCount).toBe(0);
 });
