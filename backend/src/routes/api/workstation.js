@@ -2,15 +2,17 @@ import express from 'express';
 import HTTP from './util/http_codes';
 import { getUser, isAdmin } from './util/userUtil';
 import {
+    archiveWorkstation,
     createWorkstation,
     retrieveAllWorkstations,
     retrieveWorkstationById,
     updateWorkstation,
-    archiveWorkstation,
 } from '../../db/dao/workstationDao';
 import {
+    archiveBooking,
     retrieveBookingsByWorkstation,
     retrieveBookingsByWorkstationForGantt,
+    retrieveBookingsByWorkstationWithPagination,
 } from '../../db/dao/bookingDao';
 import { checkAdmin, userHasWorkstationViewPerms } from './util/userPerms';
 import { checkCorrectParams } from './util/checkCorrectParams';
@@ -137,12 +139,13 @@ router.get(
         const { workstationId, status } = req.params;
 
         try {
-            const { bookings, count } = await retrieveBookingsByWorkstation(
-                workstationId,
-                page,
-                limit,
-                status,
-            );
+            const { bookings, count } =
+                await retrieveBookingsByWorkstationWithPagination(
+                    workstationId,
+                    page,
+                    limit,
+                    status,
+                );
             const pageCount = Math.ceil(count / limit);
             return res.status(HTTP.OK).json({ count, pageCount, bookings });
         } catch (err) {
@@ -190,14 +193,12 @@ router.put(
             const requests = await retrieveAllUsersOfWorkstation(
                 oldWorkstation._id,
             );
-            // eslint-disable-next-line no-restricted-syntax
             for (const request of requests) {
                 try {
                     const user = request.userId;
                     const endDate = request.endDate
                         ? new Date(request.endDate).toISOString().split('T')[0]
                         : '';
-                    // eslint-disable-next-line no-await-in-loop
                     await createWorkstationUser(
                         newWorkstation.host,
                         user.upi,
@@ -209,6 +210,26 @@ router.put(
                     return res
                         .status(HTTP.INTERNAL_SERVER_ERROR)
                         .send(err.message);
+                }
+            }
+        }
+
+        // Delete bookings using the deleted GPUs
+        if (oldWorkstation.numGPUs > newWorkstation.numGPUs) {
+            const bookings = await retrieveBookingsByWorkstation(
+                oldWorkstation._id,
+            );
+
+            for (let i = 0; i < bookings.length; i += 1) {
+                const booking = bookings[i];
+                for (let j = 0; j < booking.gpuIndices.length; j += 1) {
+                    if (
+                        booking.gpuIndices[j] >= newWorkstation.numGPUs &&
+                        booking.gpuIndices[j] < oldWorkstation.numGPUs
+                    ) {
+                        await archiveBooking(booking._id);
+                        break;
+                    }
                 }
             }
         }

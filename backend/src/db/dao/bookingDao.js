@@ -68,6 +68,10 @@ async function retrieveBookingsByUser(userId) {
     return Booking.find({ userId });
 }
 
+async function retrieveBookingsByWorkstation(workstationId) {
+    return Booking.find({ workstationId });
+}
+
 async function retrieveBookingsByEndTimestampRange(startRange, endRange) {
     return Booking.find({ endTimestamp: { $gt: startRange, $lte: endRange } })
         .populate('userId', 'upi')
@@ -103,7 +107,7 @@ async function retrieveBookingsByWorkstationForGantt(workstationId) {
     return bookings;
 }
 
-async function retrieveBookingsByWorkstation(
+async function retrieveBookingsByWorkstationWithPagination(
     workstationId,
     page,
     limit,
@@ -197,11 +201,12 @@ export {
     retrieveCurrentBookings,
     retrieveBookingById,
     retrieveBookingsByUser,
+    retrieveBookingsByWorkstation,
     retrieveBookingsByEndTimestampRange,
     retrieveBookingsByStartTimestampRange,
     retrieveBookingsByWorkstationForGantt,
-    retrieveBookingsByWorkstation,
+    retrieveBookingsByWorkstationWithPagination,
     updateBooking,
     archiveBooking,
-    archiveAllBookingsForUser
+    archiveAllBookingsForUser,
 };

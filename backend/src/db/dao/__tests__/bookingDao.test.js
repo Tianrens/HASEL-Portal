@@ -1,16 +1,17 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import {
-    createBooking,
     archiveBooking,
+    createBooking,
     retrieveAllBookings,
-    retrieveBookingsByUser,
-    retrieveBookingsByWorkstation,
     retrieveBookingsByEndTimestampRange,
     retrieveBookingsByStartTimestampRange,
+    retrieveBookingsByUser,
+    retrieveBookingsByWorkstation,
     retrieveBookingsByWorkstationForGantt,
-    updateBooking,
+    retrieveBookingsByWorkstationWithPagination,
     retrieveCurrentBookings,
+    updateBooking,
 } from '../bookingDao';
 import { Workstation } from '../../schemas/workstationSchema';
 import { Booking } from '../../schemas/bookingSchema';
@@ -321,11 +322,9 @@ it('create new booking GPU out of range', async () => {
 
 it('create new booking time agreement', async () => {
     for (let i = 0; i < validTimeBookings.length; i += 1) {
-        // eslint-disable-next-line no-await-in-loop
         const newBooking = await createBooking(validTimeBookings[i]);
 
         expectDbBookingMatchWithBooking(newBooking, validTimeBookings[i]);
-        // eslint-disable-next-line no-await-in-loop
         await Booking.findByIdAndDelete(newBooking._id);
     }
 });
@@ -334,7 +333,6 @@ it('create new booking time conflict', async () => {
     expect.assertions(invalidTimeBookings.length);
     for (let i = 0; i < invalidTimeBookings.length; i += 1) {
         try {
-            // eslint-disable-next-line no-await-in-loop
             await createBooking(invalidTimeBookings[i]);
         } catch (err) {
             // Do nothing as expected action
@@ -354,6 +352,16 @@ it('create new booking end before start', async () => {
 
 it("retrieve user's bookings", async () => {
     const bookings = await retrieveBookingsByUser(booking1.userId);
+
+    expect(bookings).toBeTruthy();
+    expect(bookings).toHaveLength(3);
+    expectDbBookingMatchWithBooking(bookings[0], booking1);
+    expectDbBookingMatchWithBooking(bookings[1], booking2);
+    expectDbBookingMatchWithBooking(bookings[2], booking3);
+});
+
+it('retrieve bookings by workstation', async () => {
+    const bookings = await retrieveBookingsByWorkstation(workstation1._id);
 
     expect(bookings).toBeTruthy();
     expect(bookings).toHaveLength(3);
@@ -410,7 +418,7 @@ it('retrieve all bookings for a workstation', async () => {
     const page = 1;
     const limit = 3;
     const status = 'all';
-    const data = await retrieveBookingsByWorkstation(
+    const data = await retrieveBookingsByWorkstationWithPagination(
         booking1.workstationId,
         page,
         limit,
@@ -429,7 +437,7 @@ it('retrieve active bookings for a workstation', async () => {
     const page = 1;
     const limit = 3;
     const status = 'active';
-    const data = await retrieveBookingsByWorkstation(
+    const data = await retrieveBookingsByWorkstationWithPagination(
         booking1.workstationId,
         page,
         limit,
@@ -447,7 +455,7 @@ it('retrieve future bookings for a workstation', async () => {
     const page = 1;
     const limit = 3;
     const status = 'future';
-    const data = await retrieveBookingsByWorkstation(
+    const data = await retrieveBookingsByWorkstationWithPagination(
         booking1.workstationId,
         page,
         limit,
@@ -464,7 +472,7 @@ it('retrieve current bookings for a workstation', async () => {
     const page = 1;
     const limit = 3;
     const status = 'current';
-    const data = await retrieveBookingsByWorkstation(
+    const data = await retrieveBookingsByWorkstationWithPagination(
         booking1.workstationId,
         page,
         limit,
@@ -481,7 +489,7 @@ it('retrieve past bookings for a workstation', async () => {
     const page = 1;
     const limit = 3;
     const status = 'past';
-    const data = await retrieveBookingsByWorkstation(
+    const data = await retrieveBookingsByWorkstationWithPagination(
         booking1.workstationId,
         page,
         limit,
@@ -498,7 +506,7 @@ it('retrieve all bookings for a workstation page 2 limit 2', async () => {
     const page = 2;
     const limit = 2;
     const status = 'all';
-    const data = await retrieveBookingsByWorkstation(
+    const data = await retrieveBookingsByWorkstationWithPagination(
         booking1.workstationId,
         page,
         limit,
@@ -517,7 +525,7 @@ it('retrieve bookings invalid status', async () => {
     const limit = 2;
     const status = 'invalid';
     try {
-        await retrieveBookingsByWorkstation(
+        await retrieveBookingsByWorkstationWithPagination(
             booking1.workstationId,
             page,
             limit,
@@ -604,4 +612,3 @@ it('archive booking', async () => {
     expectDbBookingMatchWithBooking(bookings[1], booking3);
     expect(count).toEqual(2);
 });
-

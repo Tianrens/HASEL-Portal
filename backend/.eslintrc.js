@@ -21,5 +21,7 @@ module.exports = {
         semi: [2, 'always'],
         'no-underscore-dangle': 'off',
         'eol-last': ['error', 'always'],
+        'no-await-in-loop': 0,
+        'no-restricted-syntax': ['error', 'ForInStatement', 'LabeledStatement', 'WithStatement']
     },
 };

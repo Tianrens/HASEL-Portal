@@ -74,7 +74,7 @@ beforeEach(async () => {
         name: 'Machine 1',
         location: 'HASEL Lab',
         host: '111.111.111.111',
-        numGPUs: 2,
+        numGPUs: 4,
         gpuDescription: 'Nvidia GeForce RTX 2080',
         ramDescription: 'Kingston HyperX Predator 32GB',
         cpuDescription: 'Intel Core i9 10900KF',
@@ -84,7 +84,7 @@ beforeEach(async () => {
         name: 'Deep Learning Machine 3',
         location: 'Level 9 Building 405',
         host: '112.112.112.112',
-        numGPUs: 4,
+        numGPUs: 5,
         gpuDescription: 'Nvidia GeForce RTX 3080',
         ramDescription: 'Corsair Dominator Platinum RGB 32GB',
         cpuDescription: 'Intel Xeon Silver 4210R',
@@ -104,7 +104,7 @@ beforeEach(async () => {
         name: 'Deep Learning Machine 4',
         host: '10.104.144.52',
         location: 'HASEL Lab',
-        numGPUs: 4,
+        numGPUs: 2,
         gpuDescription: 'Nvidia GeForce RTX 3080',
         ramDescription: 'Corsair Dominator Platinum RGB 32GB',
         cpuDescription: 'Intel Xeon Silver 4210R',
@@ -243,9 +243,7 @@ function expectDbWorkstationMatchWithWorkstation(
     expect(responseWorkstation.cpuDescription).toEqual(
         requestWorkstation.cpuDescription,
     );
-    expect(responseWorkstation.status).toEqual(
-        requestWorkstation.status,
-    );
+    expect(responseWorkstation.status).toEqual(requestWorkstation.status);
 }
 
 function expectDbBookingMatchWithBooking(responseBooking, requestBooking) {
@@ -255,12 +253,22 @@ function expectDbBookingMatchWithBooking(responseBooking, requestBooking) {
     );
     expect(responseBooking.userId.str).toEqual(requestBooking.userId.str);
     arraysAreTheSame(responseBooking.gpuIndices, requestBooking.gpuIndices);
-    expect(responseBooking.startTimestamp).toEqual(
-        requestBooking.startTimestamp.toISOString(),
-    );
-    expect(responseBooking.endTimestamp).toEqual(
-        requestBooking.endTimestamp.toISOString(),
-    );
+
+    if (typeof responseBooking.startTimestamp !== 'string') {
+        expect(responseBooking.startTimestamp.toISOString()).toEqual(
+            requestBooking.startTimestamp.toISOString(),
+        );
+        expect(responseBooking.endTimestamp.toISOString()).toEqual(
+            requestBooking.endTimestamp.toISOString(),
+        );
+    } else {
+        expect(responseBooking.startTimestamp).toEqual(
+            requestBooking.startTimestamp.toISOString(),
+        );
+        expect(responseBooking.endTimestamp).toEqual(
+            requestBooking.endTimestamp.toISOString(),
+        );
+    }
 }
 
 function expectWorkstationUpdatedCorrectly(
@@ -568,6 +576,10 @@ it('update workstation as admin', async () => {
 
     const workstations = await Workstation.find({});
     expect(workstations.length).toEqual(3);
+
+    const bookings = await Booking.find({});
+    expect(bookings.length).toEqual(1);
+    expectDbBookingMatchWithBooking(bookings[0], undergradBooking);
 });
 
 it('update workstation as non-admin', async () => {
