@@ -33,31 +33,28 @@ const NewRequest = () => {
         <TopBarPageTemplate>
             <div className={styles.container}>
                 <h1 className={styles.header}>{headerText}</h1>
-                <div className={styles.wrapper}>
-                    <div className={styles.container}>
-                        <form autoComplete='off' className={styles.form} onSubmit={handleSubmit}>
-                            {showSupervisor && (
-                                <>
-                                    <TextField title='Supervisor Name' setValue={setSupervisor} />
-                                </>
-                            )}
 
-                            <TextField
-                                title='Reasoning/Comments'
-                                notRequired
-                                setValue={setComments}
-                                multiline
-                                rows={4}
-                            />
+                <form autoComplete='off' className={styles.form} onSubmit={handleSubmit}>
+                    {showSupervisor && (
+                        <>
+                            <TextField title='Supervisor Name' setValue={setSupervisor} />
+                        </>
+                    )}
 
-                            <WorkstationDropdown setValue={setWorkstation} />
+                    <TextField
+                        title='Reasoning/Comments'
+                        notRequired
+                        setValue={setComments}
+                        multiline
+                        rows={4}
+                    />
 
-                            <div className={styles.buttonContainer}>
-                                <StyledButton type='submit'>Request Access</StyledButton>
-                            </div>
-                        </form>
+                    <WorkstationDropdown setValue={setWorkstation} />
+
+                    <div className={styles.buttonContainer}>
+                        <StyledButton type='submit'>Request Access</StyledButton>
                     </div>
-                </div>
+                </form>
             </div>
         </TopBarPageTemplate>
     );
