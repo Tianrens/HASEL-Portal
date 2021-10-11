@@ -1,12 +1,13 @@
 import { React, useState } from 'react';
-import { useHistory, useLocation, Redirect } from 'react-router-dom';
-import { header } from './NewBooking.module.scss';
+import { Redirect, useHistory, useLocation } from 'react-router-dom';
+import styles from './NewBooking.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import BookingForm from '../../components/forms/BookingForm';
 import { postUtil } from '../../../util/apiUtil';
 import BottomButtons from '../../components/buttons/BottomButtons';
 import { createResourceMessage, discardResourceMessage } from '../../../config/ModalMessages';
 import { useGet } from '../../../hooks/useGet';
+import LoadingWheelDiv from '../../components/LoadingWheel/LoadingWheelDiv';
 
 const NewBooking = () => {
     const location = useLocation();
@@ -32,23 +33,29 @@ const NewBooking = () => {
     }
     return (
         <TopBarPageTemplate>
-            <h2 className={header}>Create Booking - {userWorkstationName}</h2>
-            <BookingForm
-                updateBookingState={updateState}
-                numGPUs={numGPUs}
-                workstationId={workstationId}
-            />
-            <BottomButtons
-                onDeny={() => history.goBack()}
-                denyText='Cancel'
-                onAccept={postUtil('booking', { workstationId, ...bookingState }, () =>
-                    history.goBack(),
-                )}
-                acceptDisabled={error}
-                acceptText='Confirm'
-                denyMessage={discardResourceMessage('booking')}
-                acceptMessage={createResourceMessage('booking')}
-            />
+            <h2 className={styles.header}>Create Booking - {userWorkstationName}</h2>
+            {!userWorkstation ? (
+                <LoadingWheelDiv />
+            ) : (
+                <div className={styles.fadeInAnimation}>
+                    <BookingForm
+                        updateBookingState={updateState}
+                        numGPUs={numGPUs}
+                        workstationId={workstationId}
+                    />
+                    <BottomButtons
+                        onDeny={() => history.goBack()}
+                        denyText='Cancel'
+                        onAccept={postUtil('booking', { workstationId, ...bookingState }, () =>
+                            history.goBack(),
+                        )}
+                        acceptDisabled={error}
+                        acceptText='Confirm'
+                        denyMessage={discardResourceMessage('booking')}
+                        acceptMessage={createResourceMessage('booking')}
+                    />
+                </div>
+            )}
         </TopBarPageTemplate>
     );
 };

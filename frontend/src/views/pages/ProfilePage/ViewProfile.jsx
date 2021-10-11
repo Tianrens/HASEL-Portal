@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import styles from './Profile.module.scss';
 import StyledHeader from '../../components/text/StyledHeader';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
@@ -8,6 +8,7 @@ import BottomButtons from '../../components/buttons/BottomButtons';
 import { discardResourceMessage, editResourceMessage } from '../../../config/ModalMessages';
 import { patchUtil } from '../../../util/apiUtil';
 import { useGet } from '../../../hooks/useGet';
+import LoadingWheelDiv from '../../components/LoadingWheel/LoadingWheelDiv';
 
 const ViewProfile = () => {
     const { userId } = useParams();
@@ -20,8 +21,10 @@ const ViewProfile = () => {
 
     return (
         <TopBarPageTemplate>
-            {user && (
-                <div className={styles.container}>
+            {!user ? (
+                <LoadingWheelDiv />
+            ) : (
+                <div className={styles.fadeInAnimation}>
                     <StyledHeader left>{`${user?.firstName}'s Account`}</StyledHeader>
                     <UserDetails user={user} adminView updateType={(newType) => setType(newType)} />
                     <BottomButtons

@@ -2,6 +2,7 @@ import { TablePagination } from '@mui/material';
 import { React } from 'react';
 import usePagination from '../../../hooks/usePagination';
 import StyledTable from './StyledTable';
+import LoadingWheelDiv from '../LoadingWheel/LoadingWheelDiv';
 
 const TableWithPagination = ({ endpoint, rowProp, rowsPerPage = 10, ...props }) => {
     const { data, total, isLoading, page, setPage } = usePagination(endpoint, [], rowsPerPage);
@@ -11,20 +12,21 @@ const TableWithPagination = ({ endpoint, rowProp, rowsPerPage = 10, ...props }) 
 
     return (
         <>
-            {/* TODO: Update loading div with loading component */}
             {isLoading ? (
-                <div>Loading...</div>
+                <LoadingWheelDiv />
             ) : (
-                <StyledTable {...props} rows={data[rowProp] ?? []} />
+                <>
+                    <StyledTable {...props} rows={data[rowProp] ?? []} />
+                    <TablePagination
+                        component='div'
+                        count={total}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        rowsPerPageOptions={[]}
+                        rowsPerPage={rowsPerPage}
+                    />
+                </>
             )}
-            <TablePagination
-                component='div'
-                count={total}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPageOptions={[]}
-                rowsPerPage={rowsPerPage}
-            />
         </>
     );
 };

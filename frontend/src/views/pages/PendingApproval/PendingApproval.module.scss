@@ -1,5 +1,6 @@
 @import '../../../assets/colours.module';
 @import '../../../assets/responsiveDesignHelpers';
+@import '../../../assets/animations.module';
 
 .header {
     color: $heading;
@@ -15,6 +16,7 @@
     display: flex;
     justify-content: center;
     width: 100%;
+    @extend .fadeInAnimation;
 }
 .container {
     display: flex;

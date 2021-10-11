@@ -4,9 +4,10 @@ import TextField from '@mui/material/TextField';
 import { MenuItem } from '@mui/material';
 import selectMenuProps from '../../../assets/selectMenuProps';
 import styles from './WorkstationDropdown.module.scss';
-import { title, asterisk } from './TextField.module.scss';
+import { asterisk, title } from './TextField.module.scss';
 import TitleAndValue from '../text/TitleAndValue';
 import { useGet } from '../../../hooks/useGet';
+import LoadingWheelDiv from '../LoadingWheel/LoadingWheelDiv';
 
 const WorkstationDropdown = ({ currentWorkstation, setValue, children }) => {
     const workstations = useGet('/api/workstation').data;
@@ -45,7 +46,9 @@ const WorkstationDropdown = ({ currentWorkstation, setValue, children }) => {
                 }}
             >
                 {children}
-                {workstations &&
+                {!workstations ? (
+                    <LoadingWheelDiv />
+                ) : (
                     workstations.map((workstation) => (
                         <MenuItem
                             key={workstation._id}
@@ -64,7 +67,8 @@ const WorkstationDropdown = ({ currentWorkstation, setValue, children }) => {
                                 />
                             </div>
                         </MenuItem>
-                    ))}
+                    ))
+                )}
             </TextField>
         </div>
     );

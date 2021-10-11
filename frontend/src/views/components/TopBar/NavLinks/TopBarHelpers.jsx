@@ -12,16 +12,16 @@ import { useGet } from '../../../../hooks/useGet';
 // Link button
 function NavBarLink({ title, icon, link, alertBadgeNumber }) {
     return (
-        <Button className={styles.wrapper}>
-            <Link to={link}>
+        <Link to={link}>
+            <Button className={styles.wrapper}>
                 {icon}
                 <div className={styles.spacer} />
                 <div className={styles.title}>{title}</div>
                 {alertBadgeNumber ? (
                     <div className={styles.alertBadge}>{alertBadgeNumber}</div>
                 ) : null}
-            </Link>
-        </Button>
+            </Button>
+        </Link>
     );
 }
 
@@ -98,7 +98,7 @@ export function HamburgerDrawer({ isAdmin, isSuperAdmin }) {
     return (
         <ClickAwayListener onClickAway={handleDrawerClose}>
             <div className={styles.drawerWrapper}>
-                <IconButton className={styles.drawerButton} onClick={handleDrawerOpen} size="large">
+                <IconButton className={styles.drawerButton} onClick={handleDrawerOpen} size='large'>
                     <Dehaze />
                 </IconButton>
 
@@ -112,7 +112,11 @@ export function HamburgerDrawer({ isAdmin, isSuperAdmin }) {
                     <div className={styles.drawerPatternBg}>
                         <div className={styles.drawer}>
                             <div>
-                                <IconButton className={styles.drawerButton} onClick={handleDrawerClose} size="large">
+                                <IconButton
+                                    className={styles.drawerButton}
+                                    onClick={handleDrawerClose}
+                                    size='large'
+                                >
                                     <Close />
                                 </IconButton>
                             </div>

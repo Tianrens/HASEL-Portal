@@ -34,40 +34,38 @@ const ViewUsers = () => {
 
     return (
         <TopBarPageTemplate>
-            <div className={styles.container}>
-                <div className={styles.header}>
-                    <StyledHeader left>Users</StyledHeader>
-                    <SearchBar
-                        placeholder='Search by name or UPI'
-                        value={search}
-                        onChange={(newValue) => setSearch(newValue)}
-                        onRequestSearch={() => setActiveSearch(search)}
-                        onCancelSearch={() => setActiveSearch('')}
-                    />
-                </div>
-                <h3 className={styles.searchIndicator}>
-                    <i className={`${styles.italic} ${!activeSearch ? styles.hidden : ''}`}>
-                        Search results for: <b>{activeSearch}</b>
-                    </i>
-                </h3>
-                {activeSearch ? (
-                    <>
-                        <TableWithPagination
-                            endpoint={`/api/user/search/${activeSearch}`}
-                            rowProp='matchingUsers'
-                            columns={columns}
-                            rowFactory={rowFactory}
-                        />
-                    </>
-                ) : (
+            <div className={styles.header}>
+                <StyledHeader left>Users</StyledHeader>
+                <SearchBar
+                    placeholder='Search by name or UPI'
+                    value={search}
+                    onChange={(newValue) => setSearch(newValue)}
+                    onRequestSearch={() => setActiveSearch(search)}
+                    onCancelSearch={() => setActiveSearch('')}
+                />
+            </div>
+            <h3 className={styles.searchIndicator}>
+                <i className={`${styles.italic} ${!activeSearch ? styles.hidden : ''}`}>
+                    Search results for: <b>{activeSearch}</b>
+                </i>
+            </h3>
+            {activeSearch ? (
+                <>
                     <TableWithPagination
-                        endpoint='/api/user'
-                        rowProp='users'
+                        endpoint={`/api/user/search/${activeSearch}`}
+                        rowProp='matchingUsers'
                         columns={columns}
                         rowFactory={rowFactory}
                     />
-                )}
-            </div>
+                </>
+            ) : (
+                <TableWithPagination
+                    endpoint='/api/user'
+                    rowProp='users'
+                    columns={columns}
+                    rowFactory={rowFactory}
+                />
+            )}
         </TopBarPageTemplate>
     );
 };

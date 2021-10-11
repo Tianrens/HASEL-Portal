@@ -4,13 +4,15 @@ import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/To
 import StyledHeader from '../../components/text/StyledHeader';
 import BottomButtons from '../../components/buttons/BottomButtons';
 import WorkstationForm from '../../components/forms/WorkstationForm';
-import { putUtil, deleteUtil } from '../../../util/apiUtil';
+import { deleteUtil, putUtil } from '../../../util/apiUtil';
 import {
-    editResourceMessage,
-    discardResourceMessage,
     deleteMessage,
+    discardResourceMessage,
+    editResourceMessage,
 } from '../../../config/ModalMessages';
 import { useGet } from '../../../hooks/useGet';
+import LoadingWheelDiv from '../../components/LoadingWheel/LoadingWheelDiv';
+import styles from './EditWorkstation.module.scss';
 
 const EditWorkstation = () => {
     const history = useHistory();
@@ -28,20 +30,27 @@ const EditWorkstation = () => {
     return (
         <TopBarPageTemplate>
             <StyledHeader left>Edit Workstation</StyledHeader>
-            <WorkstationForm data={workstation} updateState={updateState} />
-            <BottomButtons
-                onDelete={deleteUtil('workstation', workstationId, () => history.goBack())}
-                onDeny={() => history.goBack()}
-                denyText='Cancel'
-                onAccept={putUtil('workstation', workstationState, workstationId, () =>
-                    history.goBack(),
-                )}
-                acceptDisabled={error}
-                acceptText='Confirm Changes'
-                deleteMessage={deleteMessage('workstation')}
-                denyMessage={discardResourceMessage('workstation')}
-                acceptMessage={editResourceMessage('workstation')}
-            />
+
+            {!workstation ? (
+                <LoadingWheelDiv />
+            ) : (
+                <div className={styles.fadeInAnimation}>
+                    <WorkstationForm data={workstation} updateState={updateState} />
+                    <BottomButtons
+                        onDelete={deleteUtil('workstation', workstationId, () => history.goBack())}
+                        onDeny={() => history.goBack()}
+                        denyText='Cancel'
+                        onAccept={putUtil('workstation', workstationState, workstationId, () =>
+                            history.goBack(),
+                        )}
+                        acceptDisabled={error}
+                        acceptText='Confirm Changes'
+                        deleteMessage={deleteMessage('workstation')}
+                        denyMessage={discardResourceMessage('workstation')}
+                        acceptMessage={editResourceMessage('workstation')}
+                    />
+                </div>
+            )}
         </TopBarPageTemplate>
     );
 };

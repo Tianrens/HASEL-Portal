@@ -1,5 +1,11 @@
 @import '../../../assets/responsiveDesignHelpers';
 @import '../../../assets/_colours.module.scss';
+@import '../../../assets/animations.module';
+
+.wrapper {
+    @extend .fadeInAnimation;
+    width: 100%;
+}
 
 .buttonsContainer {
     display: flex;

@@ -1,6 +1,17 @@
 @import '../../../../assets/responsiveDesignHelpers';
+@import '../../../../assets/animations.module';
 
 .content {
     @extend .responsiveMargin;
+    @extend .fadeInAnimation;
     margin-top: 2rem;
+    min-height: calc(100vh - 58px - 3rem);
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }

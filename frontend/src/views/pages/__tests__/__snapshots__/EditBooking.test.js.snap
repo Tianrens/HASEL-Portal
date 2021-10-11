@@ -41,27 +41,27 @@ Array [
             <div
               className="linksWrapper"
             >
-              <button
-                className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root wrapper css-1e6y48t-MuiButtonBase-root-MuiButton-root"
-                disabled={false}
-                onBlur={[Function]}
-                onContextMenu={[Function]}
-                onDragLeave={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onMouseDown={[Function]}
-                onMouseLeave={[Function]}
-                onMouseUp={[Function]}
-                onTouchEnd={[Function]}
-                onTouchMove={[Function]}
-                onTouchStart={[Function]}
-                tabIndex={0}
-                type="button"
+              <a
+                href="/user"
+                onClick={[Function]}
               >
-                <a
-                  href="/user"
-                  onClick={[Function]}
+                <button
+                  className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root wrapper css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onContextMenu={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  tabIndex={0}
+                  type="button"
                 >
                   <img
                     alt="My Account"
@@ -76,8 +76,8 @@ Array [
                   >
                     My Account
                   </div>
-                </a>
-              </button>
+                </button>
+              </a>
             </div>
           </div>
           <div
@@ -169,27 +169,27 @@ Array [
                     <div
                       className="linksWrapper"
                     >
-                      <button
-                        className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root wrapper css-1e6y48t-MuiButtonBase-root-MuiButton-root"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onContextMenu={[Function]}
-                        onDragLeave={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        tabIndex={0}
-                        type="button"
+                      <a
+                        href="/user"
+                        onClick={[Function]}
                       >
-                        <a
-                          href="/user"
-                          onClick={[Function]}
+                        <button
+                          className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root wrapper css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
                         >
                           <img
                             alt="My Account"
@@ -204,8 +204,8 @@ Array [
                           >
                             My Account
                           </div>
-                        </a>
-                      </button>
+                        </button>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -219,110 +219,39 @@ Array [
   <div
     className="content"
   >
-    <h2
-      className="header"
-    >
-      Edit Booking - 
-    </h2>
     <div
-      className="buttonContainer"
+      className="container"
     >
-      <div>
-        <button
-          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button red   css-sghohy-MuiButtonBase-root-MuiButton-root"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onContextMenu={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={0}
-          type="submit"
+      <h2
+        className="header"
+      >
+        Edit Booking - 
+      </h2>
+      <div
+        className="container"
+      >
+        <div
+          className="chase"
         >
-          <span
-            className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
-          >
-            <span
-              aria-hidden={true}
-              className="material-icons notranslate MuiIcon-root MuiIcon-fontSizeMedium css-kp9ftd-MuiIcon-root"
-            >
-              delete
-            </span>
-          </span>
-          Delete
-        </button>
-      </div>
-      <div>
-        <button
-          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button lighter outline css-sghohy-MuiButtonBase-root-MuiButton-root"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onContextMenu={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={0}
-          type="submit"
-        >
-          <span
-            className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
-          >
-            <span
-              aria-hidden={true}
-              className="material-icons notranslate MuiIcon-root MuiIcon-fontSizeMedium css-kp9ftd-MuiIcon-root"
-            >
-              close
-            </span>
-          </span>
-          Cancel
-        </button>
-        <button
-          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root Mui-disabled button undefined   css-sghohy-MuiButtonBase-root-MuiButton-root"
-          disabled={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onContextMenu={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={-1}
-          type="submit"
-        >
-          <span
-            className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
-          >
-            <span
-              aria-hidden={true}
-              className="material-icons notranslate MuiIcon-root MuiIcon-fontSizeMedium css-kp9ftd-MuiIcon-root"
-            >
-              done
-            </span>
-          </span>
-          Confirm Changes
-        </button>
+          <div
+            className="chaseDot"
+          />
+          <div
+            className="chaseDot"
+          />
+          <div
+            className="chaseDot"
+          />
+          <div
+            className="chaseDot"
+          />
+          <div
+            className="chaseDot"
+          />
+          <div
+            className="chaseDot"
+          />
+        </div>
       </div>
     </div>
   </div>,

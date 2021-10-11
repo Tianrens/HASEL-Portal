@@ -9,14 +9,15 @@ import TextField from '../../components/TextField/CustomTextField';
 import TitleAndValue from '../../components/text/TitleAndValue';
 import { getDisplayName, getValidityPeriod } from '../../../config/accountTypes';
 import BottomButtons from '../../components/buttons/BottomButtons';
-import { patchUtil, deleteUtil } from '../../../util/apiUtil';
+import { deleteUtil, patchUtil } from '../../../util/apiUtil';
 import {
     acceptRequestMessage,
-    denyRequestMessage,
     deleteRequestMessage,
+    denyRequestMessage,
 } from '../../../config/ModalMessages';
 import WorkstationDropdown from '../../components/TextField/WorkstationDropdown';
 import { useGet } from '../../../hooks/useGet';
+import LoadingWheelDiv from '../../components/LoadingWheel/LoadingWheelDiv';
 
 const SingleRequest = () => {
     const history = useHistory();
@@ -35,7 +36,9 @@ const SingleRequest = () => {
 
     return (
         <TopBarPageTemplate>
-            {workstation && request && (
+            {!workstation || !request ? (
+                <LoadingWheelDiv />
+            ) : (
                 <>
                     <h2 className={styles.header}>Workstation Access Request</h2>
                     <div className={styles.userInfoContainer}>

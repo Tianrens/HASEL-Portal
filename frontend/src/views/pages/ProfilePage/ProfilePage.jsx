@@ -21,7 +21,7 @@ const ProfilePage = () => {
     return (
         <TopBarPageTemplate>
             {user && (
-                <div className={styles.container}>
+                <>
                     <div className={styles.workstationHeader}>
                         <div className={styles.header}>
                             <StyledHeader left>My Account</StyledHeader>
@@ -29,7 +29,7 @@ const ProfilePage = () => {
                         <StyledButton onClick={logoutHandler}>Log Out</StyledButton>
                     </div>
                     <UserDetails user={user} />
-                </div>
+                </>
             )}
         </TopBarPageTemplate>
     );

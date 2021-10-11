@@ -41,27 +41,27 @@ Array [
             <div
               className="linksWrapper"
             >
-              <button
-                className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root wrapper css-1e6y48t-MuiButtonBase-root-MuiButton-root"
-                disabled={false}
-                onBlur={[Function]}
-                onContextMenu={[Function]}
-                onDragLeave={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onMouseDown={[Function]}
-                onMouseLeave={[Function]}
-                onMouseUp={[Function]}
-                onTouchEnd={[Function]}
-                onTouchMove={[Function]}
-                onTouchStart={[Function]}
-                tabIndex={0}
-                type="button"
+              <a
+                href="/user"
+                onClick={[Function]}
               >
-                <a
-                  href="/user"
-                  onClick={[Function]}
+                <button
+                  className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root wrapper css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onContextMenu={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  tabIndex={0}
+                  type="button"
                 >
                   <img
                     alt="My Account"
@@ -76,8 +76,8 @@ Array [
                   >
                     My Account
                   </div>
-                </a>
-              </button>
+                </button>
+              </a>
             </div>
           </div>
           <div
@@ -169,27 +169,27 @@ Array [
                     <div
                       className="linksWrapper"
                     >
-                      <button
-                        className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root wrapper css-1e6y48t-MuiButtonBase-root-MuiButton-root"
-                        disabled={false}
-                        onBlur={[Function]}
-                        onContextMenu={[Function]}
-                        onDragLeave={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        tabIndex={0}
-                        type="button"
+                      <a
+                        href="/user"
+                        onClick={[Function]}
                       >
-                        <a
-                          href="/user"
-                          onClick={[Function]}
+                        <button
+                          className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root wrapper css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
                         >
                           <img
                             alt="My Account"
@@ -204,8 +204,8 @@ Array [
                           >
                             My Account
                           </div>
-                        </a>
-                      </button>
+                        </button>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -222,498 +222,502 @@ Array [
     <div
       className="container"
     >
-      <h2
-        className="text alignLeft "
-      >
-        <span>
-          New Workstation
-        </span>
-      </h2>
-    </div>
-    <form
-      className="form"
-      id="workstation-form"
-      onSubmit={[Function]}
-    >
       <div
-        className="inputContainer"
+        className="container"
+      >
+        <h2
+          className="text alignLeft "
+        >
+          <span>
+            New Workstation
+          </span>
+        </h2>
+      </div>
+      <form
+        className="form"
+        id="workstation-form"
+        onSubmit={[Function]}
       >
         <div
-          className="container"
+          className="inputContainer"
         >
-          <h2
-            className="text  subHeader"
-          >
-            <span>
-              General
-            </span>
-          </h2>
-        </div>
-        <div
-          className="container"
-        >
-          <p
-            className="title"
-          >
-            Workstation Name
-            <span
-              className="asterisk"
-            >
-               *
-            </span>
-          </p>
           <div
-            className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+            className="container"
           >
-            <div
-              className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
-              onClick={[Function]}
+            <h2
+              className="text  subHeader"
             >
-              <input
-                aria-invalid={false}
-                autoFocus={false}
-                className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                disabled={false}
-                onAnimationStart={[Function]}
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                placeholder="e.g. Zeus"
-                required={true}
-                type="text"
-                value=""
-              />
-              <fieldset
-                aria-hidden={true}
-                className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+              <span>
+                General
+              </span>
+            </h2>
+          </div>
+          <div
+            className="container"
+          >
+            <p
+              className="title"
+            >
+              Workstation Name
+              <span
+                className="asterisk"
               >
-                <legend
-                  className="css-1a1ihhj"
+                 *
+              </span>
+            </p>
+            <div
+              className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+            >
+              <div
+                className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+                onClick={[Function]}
+              >
+                <input
+                  aria-invalid={false}
+                  autoFocus={false}
+                  className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  disabled={false}
+                  onAnimationStart={[Function]}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  placeholder="e.g. Zeus"
+                  required={true}
+                  type="text"
+                  value=""
+                />
+                <fieldset
+                  aria-hidden={true}
+                  className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                 >
-                  <span
-                    className="notranslate"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "&#8203;",
+                  <legend
+                    className="css-1a1ihhj"
+                  >
+                    <span
+                      className="notranslate"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "&#8203;",
+                        }
                       }
-                    }
-                  />
-                </legend>
-              </fieldset>
+                    />
+                  </legend>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <div
+            className="container"
+          >
+            <p
+              className="title"
+            >
+              Workstation Location
+              <span
+                className="asterisk"
+              >
+                 *
+              </span>
+            </p>
+            <div
+              className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+            >
+              <div
+                className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+                onClick={[Function]}
+              >
+                <input
+                  aria-invalid={false}
+                  autoFocus={false}
+                  className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  disabled={false}
+                  onAnimationStart={[Function]}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  placeholder="e.g. 405.662"
+                  required={true}
+                  type="text"
+                  value=""
+                />
+                <fieldset
+                  aria-hidden={true}
+                  className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    className="css-1a1ihhj"
+                  >
+                    <span
+                      className="notranslate"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "&#8203;",
+                        }
+                      }
+                    />
+                  </legend>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <div
+            className="container"
+          >
+            <p
+              className="title"
+            >
+              Host Address
+              <span
+                className="asterisk"
+              >
+                 *
+              </span>
+            </p>
+            <div
+              className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+            >
+              <div
+                className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+                onClick={[Function]}
+              >
+                <input
+                  aria-invalid={false}
+                  autoFocus={false}
+                  className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  disabled={false}
+                  onAnimationStart={[Function]}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  placeholder="e.g. 10.123.101.38"
+                  required={true}
+                  type="text"
+                  value=""
+                />
+                <fieldset
+                  aria-hidden={true}
+                  className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    className="css-1a1ihhj"
+                  >
+                    <span
+                      className="notranslate"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "&#8203;",
+                        }
+                      }
+                    />
+                  </legend>
+                </fieldset>
+              </div>
             </div>
           </div>
         </div>
+        <hr
+          className="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem verticalDivider css-1tk1bks-MuiDivider-root"
+        />
         <div
-          className="container"
+          className="inputContainer"
         >
-          <p
-            className="title"
-          >
-            Workstation Location
-            <span
-              className="asterisk"
-            >
-               *
-            </span>
-          </p>
           <div
-            className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+            className="container"
           >
-            <div
-              className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
-              onClick={[Function]}
+            <h2
+              className="text  subHeader"
             >
-              <input
-                aria-invalid={false}
-                autoFocus={false}
-                className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                disabled={false}
-                onAnimationStart={[Function]}
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                placeholder="e.g. 405.662"
-                required={true}
-                type="text"
-                value=""
-              />
-              <fieldset
-                aria-hidden={true}
-                className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+              <span>
+                Specifications
+              </span>
+            </h2>
+          </div>
+          <div
+            className="container"
+          >
+            <p
+              className="title"
+            >
+              CPU Description
+              <span
+                className="asterisk"
               >
-                <legend
-                  className="css-1a1ihhj"
+                 *
+              </span>
+            </p>
+            <div
+              className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+            >
+              <div
+                className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+                onClick={[Function]}
+              >
+                <input
+                  aria-invalid={false}
+                  autoFocus={false}
+                  className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  disabled={false}
+                  onAnimationStart={[Function]}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  placeholder="e.g. AMD Threadripper 3990X (64 Cores)"
+                  required={true}
+                  type="text"
+                  value=""
+                />
+                <fieldset
+                  aria-hidden={true}
+                  className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                 >
-                  <span
-                    className="notranslate"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "&#8203;",
+                  <legend
+                    className="css-1a1ihhj"
+                  >
+                    <span
+                      className="notranslate"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "&#8203;",
+                        }
                       }
-                    }
-                  />
-                </legend>
-              </fieldset>
+                    />
+                  </legend>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <div
+            className="container"
+          >
+            <p
+              className="title"
+            >
+              GPU Description
+              <span
+                className="asterisk"
+              >
+                 *
+              </span>
+            </p>
+            <div
+              className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+            >
+              <div
+                className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+                onClick={[Function]}
+              >
+                <input
+                  aria-invalid={false}
+                  autoFocus={false}
+                  className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  disabled={false}
+                  onAnimationStart={[Function]}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  placeholder="e.g. RTX 3090"
+                  required={true}
+                  type="text"
+                  value=""
+                />
+                <fieldset
+                  aria-hidden={true}
+                  className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    className="css-1a1ihhj"
+                  >
+                    <span
+                      className="notranslate"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "&#8203;",
+                        }
+                      }
+                    />
+                  </legend>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <div
+            className="container"
+          >
+            <p
+              className="title"
+            >
+              Number of GPUs
+              <span
+                className="asterisk"
+              >
+                 *
+              </span>
+            </p>
+            <div
+              className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+            >
+              <div
+                className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+                onClick={[Function]}
+              >
+                <input
+                  aria-invalid={false}
+                  autoFocus={false}
+                  className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  disabled={false}
+                  onAnimationStart={[Function]}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  placeholder="e.g. 4"
+                  required={true}
+                  type="text"
+                  value=""
+                />
+                <fieldset
+                  aria-hidden={true}
+                  className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    className="css-1a1ihhj"
+                  >
+                    <span
+                      className="notranslate"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "&#8203;",
+                        }
+                      }
+                    />
+                  </legend>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <div
+            className="container"
+          >
+            <p
+              className="title"
+            >
+              RAM Description
+              <span
+                className="asterisk"
+              >
+                 *
+              </span>
+            </p>
+            <div
+              className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+            >
+              <div
+                className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+                onClick={[Function]}
+              >
+                <input
+                  aria-invalid={false}
+                  autoFocus={false}
+                  className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  disabled={false}
+                  onAnimationStart={[Function]}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  placeholder="e.g. 256GB"
+                  required={true}
+                  type="text"
+                  value=""
+                />
+                <fieldset
+                  aria-hidden={true}
+                  className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    className="css-1a1ihhj"
+                  >
+                    <span
+                      className="notranslate"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "&#8203;",
+                        }
+                      }
+                    />
+                  </legend>
+                </fieldset>
+              </div>
             </div>
           </div>
         </div>
-        <div
-          className="container"
-        >
-          <p
-            className="title"
-          >
-            Host Address
-            <span
-              className="asterisk"
-            >
-               *
-            </span>
-          </p>
-          <div
-            className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
-          >
-            <div
-              className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
-              onClick={[Function]}
-            >
-              <input
-                aria-invalid={false}
-                autoFocus={false}
-                className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                disabled={false}
-                onAnimationStart={[Function]}
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                placeholder="e.g. 10.123.101.38"
-                required={true}
-                type="text"
-                value=""
-              />
-              <fieldset
-                aria-hidden={true}
-                className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  className="css-1a1ihhj"
-                >
-                  <span
-                    className="notranslate"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "&#8203;",
-                      }
-                    }
-                  />
-                </legend>
-              </fieldset>
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr
-        className="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem verticalDivider css-1tk1bks-MuiDivider-root"
-      />
+      </form>
       <div
-        className="inputContainer"
+        className="buttonContainer"
       >
-        <div
-          className="container"
-        >
-          <h2
-            className="text  subHeader"
+        <div />
+        <div>
+          <button
+            className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button lighter outline css-sghohy-MuiButtonBase-root-MuiButton-root"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            type="submit"
           >
-            <span>
-              Specifications
-            </span>
-          </h2>
-        </div>
-        <div
-          className="container"
-        >
-          <p
-            className="title"
-          >
-            CPU Description
             <span
-              className="asterisk"
+              className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
             >
-               *
-            </span>
-          </p>
-          <div
-            className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
-          >
-            <div
-              className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
-              onClick={[Function]}
-            >
-              <input
-                aria-invalid={false}
-                autoFocus={false}
-                className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                disabled={false}
-                onAnimationStart={[Function]}
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                placeholder="e.g. AMD Threadripper 3990X (64 Cores)"
-                required={true}
-                type="text"
-                value=""
-              />
-              <fieldset
+              <span
                 aria-hidden={true}
-                className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                className="material-icons notranslate MuiIcon-root MuiIcon-fontSizeMedium css-kp9ftd-MuiIcon-root"
               >
-                <legend
-                  className="css-1a1ihhj"
-                >
-                  <span
-                    className="notranslate"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "&#8203;",
-                      }
-                    }
-                  />
-                </legend>
-              </fieldset>
-            </div>
-          </div>
-        </div>
-        <div
-          className="container"
-        >
-          <p
-            className="title"
-          >
-            GPU Description
-            <span
-              className="asterisk"
-            >
-               *
+                close
+              </span>
             </span>
-          </p>
-          <div
-            className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+            Cancel
+          </button>
+          <button
+            className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root Mui-disabled button undefined   css-sghohy-MuiButtonBase-root-MuiButton-root"
+            disabled={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={-1}
+            type="submit"
           >
-            <div
-              className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
-              onClick={[Function]}
+            <span
+              className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
             >
-              <input
-                aria-invalid={false}
-                autoFocus={false}
-                className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                disabled={false}
-                onAnimationStart={[Function]}
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                placeholder="e.g. RTX 3090"
-                required={true}
-                type="text"
-                value=""
-              />
-              <fieldset
+              <span
                 aria-hidden={true}
-                className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                className="material-icons notranslate MuiIcon-root MuiIcon-fontSizeMedium css-kp9ftd-MuiIcon-root"
               >
-                <legend
-                  className="css-1a1ihhj"
-                >
-                  <span
-                    className="notranslate"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "&#8203;",
-                      }
-                    }
-                  />
-                </legend>
-              </fieldset>
-            </div>
-          </div>
+                done
+              </span>
+            </span>
+            Submit
+          </button>
         </div>
-        <div
-          className="container"
-        >
-          <p
-            className="title"
-          >
-            Number of GPUs
-            <span
-              className="asterisk"
-            >
-               *
-            </span>
-          </p>
-          <div
-            className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
-          >
-            <div
-              className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
-              onClick={[Function]}
-            >
-              <input
-                aria-invalid={false}
-                autoFocus={false}
-                className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                disabled={false}
-                onAnimationStart={[Function]}
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                placeholder="e.g. 4"
-                required={true}
-                type="text"
-                value=""
-              />
-              <fieldset
-                aria-hidden={true}
-                className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  className="css-1a1ihhj"
-                >
-                  <span
-                    className="notranslate"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "&#8203;",
-                      }
-                    }
-                  />
-                </legend>
-              </fieldset>
-            </div>
-          </div>
-        </div>
-        <div
-          className="container"
-        >
-          <p
-            className="title"
-          >
-            RAM Description
-            <span
-              className="asterisk"
-            >
-               *
-            </span>
-          </p>
-          <div
-            className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
-          >
-            <div
-              className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
-              onClick={[Function]}
-            >
-              <input
-                aria-invalid={false}
-                autoFocus={false}
-                className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                disabled={false}
-                onAnimationStart={[Function]}
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                placeholder="e.g. 256GB"
-                required={true}
-                type="text"
-                value=""
-              />
-              <fieldset
-                aria-hidden={true}
-                className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  className="css-1a1ihhj"
-                >
-                  <span
-                    className="notranslate"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "&#8203;",
-                      }
-                    }
-                  />
-                </legend>
-              </fieldset>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-    <div
-      className="buttonContainer"
-    >
-      <div />
-      <div>
-        <button
-          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button lighter outline css-sghohy-MuiButtonBase-root-MuiButton-root"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onContextMenu={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={0}
-          type="submit"
-        >
-          <span
-            className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
-          >
-            <span
-              aria-hidden={true}
-              className="material-icons notranslate MuiIcon-root MuiIcon-fontSizeMedium css-kp9ftd-MuiIcon-root"
-            >
-              close
-            </span>
-          </span>
-          Cancel
-        </button>
-        <button
-          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root Mui-disabled button undefined   css-sghohy-MuiButtonBase-root-MuiButton-root"
-          disabled={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onContextMenu={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={-1}
-          type="submit"
-        >
-          <span
-            className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
-          >
-            <span
-              aria-hidden={true}
-              className="material-icons notranslate MuiIcon-root MuiIcon-fontSizeMedium css-kp9ftd-MuiIcon-root"
-            >
-              done
-            </span>
-          </span>
-          Submit
-        </button>
       </div>
     </div>
   </div>,

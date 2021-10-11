@@ -34,7 +34,7 @@
 }
 @include responsive(mobile) {
     .responsiveMargin {
-        margin: 0.6rem 2rem;
+        margin: 0.6rem 1.5rem;
     }
 }
 @include responsive(tinyMobile) {

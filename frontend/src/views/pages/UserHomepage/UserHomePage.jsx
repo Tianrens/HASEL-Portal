@@ -39,46 +39,44 @@ function UserHomePage() {
 
     return (
         <TopBarPageTemplate>
-            <div className={styles.container}>
-                <h1 className={styles.title}>
-                    Welcome, {firstName} {lastName}!
-                </h1>
-                {allBookings && (
-                    <div className={styles.content}>
-                        <div className={styles.workstationHeader}>
-                            <div className={styles.header}>
-                                <StyledHeader left>Workstation Availability</StyledHeader>
-                            </div>
-                            <StyledButton
-                                type='submit'
-                                icon={<Icon>add</Icon>}
-                                component={Link}
-                                disabled={disableBooking}
-                                to={{
-                                    pathname: '/bookings/new',
-                                    state: { workstationId: workstation._id },
-                                }}
-                            >
-                                Create Booking
-                            </StyledButton>
-                        </div>
-                        {warning && <Alert severity='warning'>{warning}</Alert>}
-                        <WorkstationInfoPanel workstationData={workstation} />
-
+            <h1 className={styles.title}>
+                Welcome, {firstName} {lastName}!
+            </h1>
+            {allBookings && (
+                <div className={styles.content}>
+                    <div className={styles.workstationHeader}>
                         <div className={styles.header}>
-                            <StyledHeader left>Your Bookings Summary</StyledHeader>
+                            <StyledHeader left>Workstation Availability</StyledHeader>
                         </div>
-                        {userBookings.length ? (
-                            <BookingSummary bookings={userBookings} isOffline={isOffline} />
-                        ) : (
-                            <Alert severity='info'>
-                                You have no upcoming bookings. Create a booking to log in to your
-                                workstation!
-                            </Alert>
-                        )}
+                        <StyledButton
+                            type='submit'
+                            icon={<Icon>add</Icon>}
+                            component={Link}
+                            disabled={disableBooking}
+                            to={{
+                                pathname: '/bookings/new',
+                                state: { workstationId: workstation._id },
+                            }}
+                        >
+                            Create Booking
+                        </StyledButton>
                     </div>
-                )}
-            </div>
+                    {warning && <Alert severity='warning'>{warning}</Alert>}
+                    <WorkstationInfoPanel workstationData={workstation} />
+
+                    <div className={styles.header}>
+                        <StyledHeader left>Your Bookings Summary</StyledHeader>
+                    </div>
+                    {userBookings.length ? (
+                        <BookingSummary bookings={userBookings} isOffline={isOffline} />
+                    ) : (
+                        <Alert severity='info'>
+                            You have no upcoming bookings. Create a booking to log in to your
+                            workstation!
+                        </Alert>
+                    )}
+                </div>
+            )}
         </TopBarPageTemplate>
     );
 }

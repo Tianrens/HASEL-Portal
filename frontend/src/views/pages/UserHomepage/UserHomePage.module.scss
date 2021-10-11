@@ -1,9 +1,6 @@
 @import '../../../assets/colours.module';
 @import '../../../assets/responsiveDesignHelpers';
-
-.container {
-    width: 100%;
-}
+@import '../../../assets/animations.module';
 
 .title {
     color: $heading;
@@ -21,6 +18,7 @@
 .content {
     flex-direction: column;
     row-gap: 1rem;
+    @extend .fadeInAnimation;
 }
 
 .header {

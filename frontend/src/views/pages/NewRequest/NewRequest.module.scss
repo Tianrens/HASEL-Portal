@@ -4,7 +4,6 @@
 .header {
     color: $heading;
     text-align: center;
-    flex: 0 0 100%;
     margin-bottom: 4rem;
 }
 .wrapper {
@@ -14,6 +13,9 @@
 }
 .container {
     width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
 }
 .form {
     width: 100%;
@@ -37,6 +39,6 @@
 
 @include responsive(tablet) {
     .container {
-        width: 90%;
+        width: 100%;
     }
 }

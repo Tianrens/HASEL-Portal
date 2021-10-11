@@ -5,7 +5,6 @@ import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/To
 import StyledHeader from '../../components/text/StyledHeader';
 import TableWithPagination from '../../components/table/TableWithPagination';
 import { getDisplayName } from '../../../config/accountTypes';
-import styles from './ViewRequests.module.scss';
 
 const columns = ['Name', 'Account Type', 'Application Received'];
 
@@ -27,19 +26,17 @@ const sections = [
 
 const ViewRequests = () => (
     <TopBarPageTemplate>
-        <div className={styles.container}>
-            {sections.map((section) => (
-                <div key={section.title}>
-                    <StyledHeader left>{section.title}</StyledHeader>
-                    <TableWithPagination
-                        endpoint={`/api/request/status/${section.endpoint}`}
-                        rowProp='requests'
-                        columns={columns}
-                        rowFactory={rowFactory}
-                    />
-                </div>
-            ))}
-        </div>
+        {sections.map((section) => (
+            <div key={section.title}>
+                <StyledHeader left>{section.title}</StyledHeader>
+                <TableWithPagination
+                    endpoint={`/api/request/status/${section.endpoint}`}
+                    rowProp='requests'
+                    columns={columns}
+                    rowFactory={rowFactory}
+                />
+            </div>
+        ))}
     </TopBarPageTemplate>
 );
 

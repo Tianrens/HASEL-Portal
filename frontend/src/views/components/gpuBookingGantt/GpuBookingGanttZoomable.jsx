@@ -8,8 +8,9 @@ import { useGet } from '../../../hooks/useGet';
 import { useDoc } from '../../../state/state';
 import { userDoc } from '../../../state/docs/userDoc';
 import GanttLegend from './GanttLegend';
-import { customZoomingLevels } from './zoomLevels';
 import { userIsAdmin } from '../../../config/accountTypes';
+import LoadingWheelDiv from '../LoadingWheel/LoadingWheelDiv';
+import { customZoomingLevels } from './zoomLevels';
 
 export default function GpuBookingGanttZoomable({
     workstationId,
@@ -57,38 +58,41 @@ export default function GpuBookingGanttZoomable({
     const isZoomOutDisabled = zoomIdx === maxZoomLevel;
 
     return (
-        workstation &&
-        bookingsData && (
-            <div>
-                {isOffline && <Alert severity='error'>{offlineMessage}</Alert>}
-                <GpuBookingGantt
-                    bookingData={bookingsData.bookings}
-                    currentBookingData={currentBookingData}
-                    numGPUs={workstation.numGPUs}
-                    thisUsersId={user._id}
-                    conflictHandler={conflictHandler}
-                    setGanttRef={setGanttRef}
-                    zoomLevels={zoomLevels}
-                />
-                <div className={styles.buttonsContainer}>
-                    <div className={styles.buttons}>
-                        <StyledIconButton
-                            icon={<Icon>zoom_in</Icon>}
-                            onClick={handleIncrementZoom}
-                            disabled={isZoomInDisabled}
-                        />
-                        <StyledIconButton
-                            icon={<Icon>zoom_out</Icon>}
-                            onClick={handleDecrementZoom}
-                            disabled={isZoomOutDisabled}
-                        />
+        <>
+            {!workstation || !bookingsData ? (
+                <LoadingWheelDiv />
+            ) : (
+                <div className={styles.wrapper}>
+                    {isOffline && <Alert severity='error'>{offlineMessage}</Alert>}
+                    <GpuBookingGantt
+                        bookingData={bookingsData.bookings}
+                        currentBookingData={currentBookingData}
+                        numGPUs={workstation.numGPUs}
+                        thisUsersId={user._id}
+                        conflictHandler={conflictHandler}
+                        setGanttRef={setGanttRef}
+                        zoomLevels={zoomLevels}
+                    />
+                    <div className={styles.buttonsContainer}>
+                        <div className={styles.buttons}>
+                            <StyledIconButton
+                                icon={<Icon>zoom_in</Icon>}
+                                onClick={handleIncrementZoom}
+                                disabled={isZoomInDisabled}
+                            />
+                            <StyledIconButton
+                                icon={<Icon>zoom_out</Icon>}
+                                onClick={handleDecrementZoom}
+                                disabled={isZoomOutDisabled}
+                            />
+                        </div>
+                    </div>
+                    <div className={styles.legendWrapper}>
+                        <p>Tip: Hover over a booking for more information.</p>
+                        <GanttLegend hasCurrentBooking={Boolean(currentBookingData)} />
                     </div>
                 </div>
-                <div className={styles.legendWrapper}>
-                    <p>Tip: Hover over a booking for more information.</p>
-                    <GanttLegend hasCurrentBooking={Boolean(currentBookingData)} />
-                </div>
-            </div>
-        )
+            )}
+        </>
     );
 }

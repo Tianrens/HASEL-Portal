@@ -1,5 +1,6 @@
 @import '../../../assets/colours.module';
 @import '../../../assets/responsiveDesignHelpers';
+@import '../../../assets/animations.module';
 $borderRadius: 5px 0 0 5px;
 $borderRadiusMobile: 5px 5px 0 0;
 
@@ -8,6 +9,7 @@ $borderRadiusMobile: 5px 5px 0 0;
     flex-direction: row;
     width: 100%;
     border-radius: 5px 5px 5px 5px;
+    @extend .fadeInAnimation;
 }
 
 .infoContent {
@@ -19,6 +21,7 @@ $borderRadiusMobile: 5px 5px 0 0;
     min-width: 12em;
     padding: 1em 2em;
     border-radius: $borderRadius;
+    max-width: 180px;
 }
 
 .workstationName {
@@ -33,9 +36,19 @@ $borderRadiusMobile: 5px 5px 0 0;
     flex: 1 0;
 }
 
-.ganttWrapper {
-    display: inline-block;
+.ganttLoadingWrapper {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     overflow-x: hidden;
+}
+
+.ganttWrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
     border-radius: 0 5px 0 0;
 }
 
@@ -45,6 +58,7 @@ $borderRadiusMobile: 5px 5px 0 0;
     }
     .infoContent {
         border-radius: $borderRadiusMobile;
+        max-width: none;
     }
     .workstationName {
         justify-content: left;

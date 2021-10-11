@@ -44,8 +44,10 @@ export default function WorkstationInfoPanel({ workstationData, children, hideTi
                 {children}
             </div>
             {!hideTimeline && (
-                <div className={styles.ganttWrapper}>
-                    <GpuBookingGanttZoomable workstationId={workstationData._id} />
+                <div className={styles.ganttLoadingWrapper}>
+                    <div className={styles.ganttWrapper}>
+                        <GpuBookingGanttZoomable workstationId={workstationData._id} />
+                    </div>
                 </div>
             )}
         </Paper>

@@ -11,7 +11,7 @@
 }
 
 a {
-    color: white;
+    color: $topBar;
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -19,6 +19,8 @@ a {
 
 .title {
     text-transform: none;
+    text-decoration: none;
+    color: $topBar;
 }
 
 .spacer {
@@ -35,6 +37,7 @@ a {
     border-radius: 5px;
     font-size: 10px;
     font-weight: normal;
+    color: $topBar;
 }
 
 .navIcon {

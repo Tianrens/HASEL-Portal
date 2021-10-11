@@ -120,7 +120,38 @@ exports[`BookingForm renders properly 1`] = `
     </div>
   </div>
   <div
-    className="ganttWrapper"
-  />
+    className="ganttLoadingWrapper"
+  >
+    <div
+      className="ganttWrapper"
+    >
+      <div
+        className="container"
+      >
+        <div
+          className="chase"
+        >
+          <div
+            className="chaseDot"
+          />
+          <div
+            className="chaseDot"
+          />
+          <div
+            className="chaseDot"
+          />
+          <div
+            className="chaseDot"
+          />
+          <div
+            className="chaseDot"
+          />
+          <div
+            className="chaseDot"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;

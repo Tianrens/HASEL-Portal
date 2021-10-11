@@ -1,5 +1,6 @@
 @import '../../../assets/colours.module';
 @import '../../../assets/responsiveDesignHelpers';
+@import '../../../assets/animations.module';
 
 .headerCell {
     background-color: $purple700;
@@ -14,6 +15,7 @@
 
 .table {
     table-layout: fixed;
+    @extend .fadeInAnimation;
 }
 
 // fix layout on smaller screen
