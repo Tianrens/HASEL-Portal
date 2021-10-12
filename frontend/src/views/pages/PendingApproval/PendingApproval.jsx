@@ -1,6 +1,6 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
-import { container, header, title, value } from './PendingApproval.module.scss';
+import { container, header, title, value, paragraphText } from './PendingApproval.module.scss';
 import StyledHeader from '../../components/text/StyledHeader';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import { useDoc } from '../../../state/state';
@@ -11,7 +11,7 @@ const PendingApproval = () => {
     const [user] = useDoc(userDoc);
     const request = user.currentRequestId;
 
-    const supervisorName = request?.supervisorName ?? '--';
+    const supervisorName = request?.supervisorName;
     const comments = request?.comments ?? '--';
     const workstationName = request?.allocatedWorkstationId?.name ?? '--';
 
@@ -21,12 +21,13 @@ const PendingApproval = () => {
                 <LoadingWheelDiv />
             ) : (
                 <div className={container}>
-                    <h1 className={header}>Sit tight, your account is awaiting approval.</h1>
+                    <h1 className={header}>Sit tight, your application is awaiting approval.</h1>
+                    <p className={paragraphText}>You will receive an email once your application has been approved or denied.</p>
                     <StyledHeader>Your Application</StyledHeader>
-                    <h3 className={value}>
+                    {supervisorName && <h3 className={value}>
                         <span className={title}>Supervisor Name: </span>
                         {supervisorName}
-                    </h3>
+                    </h3>}
                     <h3 className={title}>Reasoning/Comments:</h3>
                     <TextField
                         value={comments}
