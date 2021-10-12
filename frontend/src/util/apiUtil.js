@@ -5,6 +5,14 @@ function capitalise(word) {
     return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
+function returnError(err) {
+    if (Object.keys(err.response.data).length === 0) {
+        errorSnackbar(err.response.statusText);
+    } else {
+        errorSnackbar(err.response.data);
+    }
+}
+
 /**
  * @param resourceString is a string that describes the object to perform operations on.
  *                 for instance, 'workstation' or 'booking'
@@ -16,7 +24,7 @@ function postUtil(resourceString, resourceState, cb) {
             successSnackbar(`${capitalise(resourceString)} created`);
             cb();
         } catch (err) {
-            errorSnackbar(err.response.data);
+            returnError(err);
         }
     };
 }
@@ -32,7 +40,7 @@ function deleteUtil(resourceString, id, cb) {
             successSnackbar(`${capitalise(resourceString)} deleted successfully`);
             cb();
         } catch (err) {
-            errorSnackbar(err.response.data);
+            returnError(err);
         }
     };
 }
@@ -48,7 +56,7 @@ function putUtil(resourceString, resourceState, id, cb) {
             successSnackbar(`Updated ${capitalise(resourceString)} successfully`);
             cb();
         } catch (err) {
-            errorSnackbar(err.response.data);
+            returnError(err);
         }
     };
 }
@@ -64,7 +72,7 @@ function patchUtil(resourceString, resourceState, id, cb) {
             successSnackbar(`Updated ${capitalise(resourceString)} successfully`);
             cb();
         } catch (err) {
-            errorSnackbar(err.response.data);
+            returnError(err);
         }
     };
 }
