@@ -22,15 +22,40 @@ exports[`Signup page renders properly 1`] = `
           className="accountDetailsContainer"
         >
           <div
-            className="container"
+            className="accountDetailsHeader"
           >
-            <h2
-              className="text alignLeft "
+            <div
+              className="container"
             >
-              <span>
-                Account Details
-              </span>
-            </h2>
+              <h2
+                className="text alignLeft "
+              >
+                <span>
+                  Account Details
+                </span>
+              </h2>
+            </div>
+            <button
+              className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button undefined   css-sghohy-MuiButtonBase-root-MuiButton-root"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={0}
+              type="button"
+            >
+              Sign Out
+            </button>
           </div>
           <p
             className="inputTitle"

@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './SignupPage.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
 import TextField from '../../components/TextField/CustomTextField';
@@ -14,6 +15,8 @@ const SignupPage = () => {
     const [upi, setUpi] = useState('');
     const [accountType, setAccountType] = useState('');
 
+    const history = useHistory();
+
     const uoaEmail = auth?.currentUser?.email ?? 'Unknown email, please contact Admin';
 
     const handleSubmit = async (event) => {
@@ -21,12 +24,20 @@ const SignupPage = () => {
         await signUpUser(firstName, lastName, upi, accountType);
     };
 
+    const signOutHandler = () => {
+        history.push('/');
+        auth.signOut();
+    };
+
     return (
         <HeroPageTemplate>
             <div className={styles.content}>
                 <h1 className={styles.header}>Finish setting up your HASEL Portal account.</h1>
                 <div className={styles.accountDetailsContainer}>
-                    <StyledHeader left>Account Details</StyledHeader>
+                    <div className={styles.accountDetailsHeader}>
+                        <StyledHeader left>Account Details</StyledHeader>
+                        <StyledButton onClick={signOutHandler}>Sign Out</StyledButton>
+                    </div>
                     <p className={styles.inputTitle}>UoA Email</p>
                     <p className={styles.uoaEmail}>{uoaEmail}</p>
                 </div>
