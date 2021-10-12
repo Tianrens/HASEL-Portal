@@ -1,8 +1,5 @@
 import nodemailer from 'nodemailer';
 
-import { retrieveUserByType, retrieveUserById } from '../db/dao/userDao';
-import { newRequestEmail } from './emailTemplates/newRequestEmail';
-
 require('dotenv').config();
 
 export function sendEmail(
@@ -43,20 +40,6 @@ export function sendEmail(
             throw error;
         } else {
             console.log(`Email sent: ${info.response}`);
-        }
-    });
-}
-
-export async function sendNewRequestEmailToSuperAdmins(signUpRequest, url) {
-    await Promise.all([
-        retrieveUserById(signUpRequest.userId),
-        retrieveUserByType('SUPERADMIN'),
-    ]).then(([user, superAdmins]) => {
-        const email = newRequestEmail(user, signUpRequest, url);
-
-        for (let i = 0; i < superAdmins.length; i += 1) {
-            const superAdmin = superAdmins[i];
-            sendEmail(superAdmin.email, email.emailSubject, null, email.htmlContent);
         }
     });
 }
