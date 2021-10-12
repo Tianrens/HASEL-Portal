@@ -14,6 +14,7 @@ import {
     acceptRequestMessage,
     deleteRequestMessage,
     denyRequestMessage,
+    editRequestMessage,
 } from '../../../config/ModalMessages';
 import WorkstationDropdown from '../../components/TextField/WorkstationDropdown';
 import { useGet } from '../../../hooks/useGet';
@@ -68,6 +69,7 @@ const SingleRequest = () => {
                             <WorkstationDropdown
                                 currentWorkstation={workstation}
                                 setValue={setWorkstation}
+                                disabled={request.status === 'DECLINED'}
                             />
                             <DatePicker
                                 inputFormat='DD/MM/YYYY'
@@ -77,35 +79,39 @@ const SingleRequest = () => {
                                 renderInput={(params) => (
                                     <TextField title='Request Expiry Date' {...params} />
                                 )}
+                                disabled={request.status === 'DECLINED'}
                             />
                         </div>
                     </div>
                     <Divider className={styles.divider} />
                     <BottomButtons
-                        onAccept={patchUtil(
-                            'request',
-                            {
-                                status: 'ACTIVE',
-                                allocatedWorkstationId: workstation,
-                                endDate,
-                            },
-                            requestId,
-                            () => history.goBack(),
-                        )}
-                        onDeny={patchUtil(
-                            'request',
-                            {
-                                status: 'DECLINED',
-                                allocatedWorkstationId: workstation,
-                                endDate,
-                            },
-                            requestId,
-                            () => history.goBack(),
-                        )}
-                        onDelete={deleteUtil('request', requestId, () => history.goBack())}
+                        onAccept={
+                            (request.status === 'PENDING' || request.status === 'ACTIVE') && patchUtil(
+                                'request',
+                                {
+                                    status: 'ACTIVE',
+                                    allocatedWorkstationId: workstation,
+                                    endDate,
+                                },
+                                requestId,
+                                () => history.push('/requests'),
+                            )}
+                        onDeny={
+                            request.status === 'PENDING' && patchUtil(
+                                'request',
+                                {
+                                    status: 'DECLINED',
+                                    allocatedWorkstationId: workstation,
+                                    endDate,
+                                },
+                                requestId,
+                                () => history.push('/requests'),
+                            )}
+                        onDelete={deleteUtil('request', requestId, () => history.push('/requests'))}
                         deleteMessage={deleteRequestMessage}
                         denyMessage={denyRequestMessage}
-                        acceptMessage={acceptRequestMessage}
+                        acceptMessage={request.status === 'PENDING' ? acceptRequestMessage: editRequestMessage}
+                        acceptText={request.status === 'PENDING' ? 'Accept' : 'Confirm'}
                         acceptDisabled={error}
                     />
                 </>

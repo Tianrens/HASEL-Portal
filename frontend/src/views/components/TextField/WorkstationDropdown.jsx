@@ -9,7 +9,7 @@ import TitleAndValue from '../text/TitleAndValue';
 import { useGet } from '../../../hooks/useGet';
 import LoadingWheelDiv from '../LoadingWheel/LoadingWheelDiv';
 
-const WorkstationDropdown = ({ currentWorkstation, setValue, children }) => {
+const WorkstationDropdown = ({ currentWorkstation, setValue, children, ...props }) => {
     const workstations = useGet('/api/workstation').data;
 
     const [chosen, setChosen] = useState('');
@@ -44,6 +44,7 @@ const WorkstationDropdown = ({ currentWorkstation, setValue, children }) => {
                     setValue(workstations.find((x) => x.name === e.target.value)._id);
                     setChosen(e.target.value);
                 }}
+                {...props}
             >
                 {children}
                 {!workstations ? (

@@ -37,6 +37,16 @@ export const acceptRequestMessage = (
     </p>
 );
 
+export const editRequestMessage = (
+    <p>
+        Are you sure you want to confirm your changes to this workstation request?
+        <br />
+        <br />
+        This will also make changes as necessary to the user and their allocated workstation.
+        <br />
+        The user will also be sent an email with updated details regarding their workstation account.
+    </p>
+);
 export const createWorkstationMessage = (
     <p>
         Are you sure you want to create this workstation?
