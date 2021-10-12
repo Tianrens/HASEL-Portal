@@ -38,7 +38,7 @@ function formatBookingData({ bookingData, currentBookingData, thisUsersId }) {
                 currentBooking: false,
             });
         }
-        if (currentBookingData) {
+        if (currentBookingData && booking._id !== currentBookingData.id) {
             const timesOverlap = dateRangeOverlaps(
                 dayjs(booking.startTimestamp).valueOf(),
                 dayjs(booking.endTimestamp).valueOf(),
