@@ -4,6 +4,7 @@ import {
     countUsers,
     createUser,
     retrieveAllUsers,
+    retrieveAllUsersCSV,
     retrieveUserByAuthId,
     retrieveUserById,
     retrieveUserByType,
@@ -461,4 +462,14 @@ it('retrieve users by search query with no matching results', async () => {
     expect(users).toBeTruthy();
     expect(users).toHaveLength(0);
     expect(totalMatchesCount).toBe(0);
+});
+
+it('retrieve all users for CSV download', async () => {
+    const users = await retrieveAllUsersCSV();
+
+    expect(users).toBeTruthy();
+    expect(users).toHaveLength(2);
+
+    expectDbUserMatchWithUser(users[0], user1);
+    expectDbUserMatchWithUser(users[1], user2);
 });

@@ -287,6 +287,22 @@ it("retrieve user's workstation with declined request", async () => {
     expect(response.status).toEqual(HTTP.BAD_REQUEST);
 });
 
+it('retrieve all users for CSV with admin', async () => {
+    const response = await authRequest(
+        `${userApiUrl}/`,
+        'GET',
+        adminUser.authUserId,
+    );
+
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(HTTP.OK);
+
+    expect(response.data.users).toHaveLength(3);
+    expectResponseUserSameAsRequestUser(response.data.users[0], superAdminUser);
+    expectResponseUserSameAsRequestUser(response.data.users[1], user1);
+    expectResponseUserSameAsRequestUser(response.data.users[2], adminUser);
+});
+
 it('retrieve all users with admin', async () => {
     const page = 1;
     const limit = 3;

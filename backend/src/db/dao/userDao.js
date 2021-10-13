@@ -16,6 +16,21 @@ async function retrieveAllUsers() {
     return User.find({});
 }
 
+async function retrieveAllUsersCSV() {
+    return User.find(
+        {},
+        'authUserId email upi firstName lastName type currentRequestId',
+    ).populate({
+        path: 'currentRequestId',
+        select: ['status', 'startDate', 'endDate'],
+        // also populate the workstation
+        populate: {
+            path: 'allocatedWorkstationId',
+            select: ['name'],
+        },
+    });
+}
+
 async function retrieveUsers(page, limit) {
     return User.find()
         .sort({ lastName: 1 }) // sort alphabetically by last name
@@ -119,6 +134,7 @@ export {
     createUser,
     removeRequestFromUser,
     retrieveAllUsers,
+    retrieveAllUsersCSV,
     retrieveUserById,
     retrieveUsers,
     updateUser,

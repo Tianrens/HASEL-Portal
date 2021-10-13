@@ -2,6 +2,7 @@ import express from 'express';
 import {
     countUsers,
     createUser,
+    retrieveAllUsersCSV,
     retrieveUserByAuthId,
     retrieveUserById,
     retrieveUsers,
@@ -49,8 +50,14 @@ router.post(
         }
     },
 );
-
-/** GET all users */
+/** GET ALL users
+ * GET /api/user/?page=${page}&limit=${limit}
+ * @query   page        The page number specified
+ * @query   limit       The number of users in a page
+ * @returns count       The number of matching users in the database
+ * @returns pageCount   The number of pages in the database
+ * @returns users       The array of matching user objects
+ */
 router.get('/', getUser, checkAdmin, async (req, res) => {
     try {
         const page = parseInt(req.query.page, BASE_INT_VALUE);
@@ -58,11 +65,27 @@ router.get('/', getUser, checkAdmin, async (req, res) => {
 
         const count = await countUsers();
         const pageCount = Math.ceil(count / limit);
+
         const users = await retrieveUsers(page, limit);
 
         return res.status(HTTP.OK).json({
             count,
             pageCount,
+            users,
+        });
+    } catch (err) {
+        return res.status(HTTP.BAD_REQUEST).json('Bad request');
+    }
+});
+
+/** GET ALL users with specific fields for CSV
+ * GET /api/user/download
+ * @returns users       The array of matching user objects
+ */
+router.get('/download', getUser, checkAdmin, async (req, res) => {
+    try {
+        const users = await retrieveAllUsersCSV();
+        return res.status(HTTP.OK).json({
             users,
         });
     } catch (err) {

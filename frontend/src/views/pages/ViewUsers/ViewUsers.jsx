@@ -1,5 +1,7 @@
 import { React, useState } from 'react';
-import { TableCell, TableRow } from '@mui/material';
+import jsonexport from 'jsonexport';
+import dayjs from 'dayjs';
+import { Icon, TableCell, TableRow } from '@mui/material';
 import { Link } from 'react-router-dom';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import StyledHeader from '../../components/text/StyledHeader';
@@ -7,6 +9,9 @@ import SearchBar from '../../components/TextField/SearchBar';
 import TableWithPagination from '../../components/table/TableWithPagination';
 import { getDisplayName } from '../../../config/accountTypes';
 import styles from './ViewUsers.module.scss';
+import { authRequest } from '../../../hooks/util/authRequest';
+import { csvOptions } from './CSVConfig';
+import { StyledButton } from '../../components/buttons/StyledButton';
 
 const columns = ['Name', 'UPI', 'Type', 'Status', 'Expiry Date'];
 
@@ -26,6 +31,33 @@ const rowFactory = (user) => (
     </TableRow>
 );
 
+const exportUsers = async () => {
+    let users;
+
+    await authRequest('/api/user/download', 'GET')
+        .then((response) => {
+            users = response.data.users;
+
+            // eslint-disable-next-line consistent-return
+            jsonexport(users, csvOptions, (err, csv) => {
+                const data = new Blob([csv], { type: 'text/csv' });
+
+                // invoke browser download action
+                const csvURL = window.URL.createObjectURL(data);
+                const tempLink = document.createElement('a');
+                tempLink.href = csvURL;
+                tempLink.setAttribute(
+                    'download',
+                    `HASEL Portal Users - ${dayjs().format('DD/MMM/YY')}.csv`,
+                );
+                tempLink.click();
+            });
+        })
+        .catch((err) => {
+            console.log(`GET ERROR: ${err.message}`);
+        });
+};
+
 const ViewUsers = () => {
     // Maintain state value of search bar
     const [search, setSearch] = useState('');
@@ -36,6 +68,10 @@ const ViewUsers = () => {
         <TopBarPageTemplate>
             <div className={styles.header}>
                 <StyledHeader left>Users</StyledHeader>
+                <StyledButton onClick={() => exportUsers()} icon={<Icon>download</Icon>}>
+                    Download Data
+                </StyledButton>
+
                 <SearchBar
                     placeholder='Search by name or UPI'
                     value={search}

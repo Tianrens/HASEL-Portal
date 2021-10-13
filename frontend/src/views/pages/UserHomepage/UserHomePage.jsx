@@ -31,7 +31,7 @@ function UserHomePage() {
     const disableBooking = maxBookingsReached || isOffline;
     const warning =
         maxBookingsReached &&
-        `You can only have up to ${MAX_BOOKINGS} simultaneous bookings. Booking created will be enabled once a booking has been completed or is deleted.`;
+        `You can only have up to ${MAX_BOOKINGS} simultaneous bookings. Booking creation will be enabled once a booking has been completed or is deleted.`;
 
     useEffect(() => {
         fetchUser();
