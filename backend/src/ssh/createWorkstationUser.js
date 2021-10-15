@@ -1,5 +1,6 @@
 import { SSHError } from 'node-ssh';
 import { checkUserExists, execCommand, lockWorkstationUser } from '.';
+import { checkUserGroupExists } from './checkUserGroupExists';
 
 /**
  * @param {string} host ip address of machine to ssh into
@@ -16,6 +17,12 @@ export async function createWorkstationUser(
     const userExists = await checkUserExists(host, upi);
     if (userExists) {
         return;
+    }
+    
+    const userGroupExists = await checkUserGroupExists(host);
+    if (!userGroupExists) {
+        const errorMessage = 'User group does not exist on workstation. Please add hasel-users user group onto the workstation';
+        throw errorMessage;
     }
 
     const addUserResult = await execCommand(

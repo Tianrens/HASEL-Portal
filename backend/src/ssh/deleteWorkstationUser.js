@@ -1,5 +1,5 @@
 import { SSHError } from 'node-ssh';
-import { execCommand } from '.';
+import { checkUserActive, execCommand } from '.';
 import { shouldPerformUserOperation } from './util/shouldPerformUserOperation';
 
 /**
@@ -8,8 +8,13 @@ import { shouldPerformUserOperation } from './util/shouldPerformUserOperation';
  */
 export async function deleteWorkstationUser(host, upi) {
     const shouldDelete = await shouldPerformUserOperation(upi);
+    const isActive = await checkUserActive(host, upi);
     if (!shouldDelete) {
         return;
+    }
+    if (isActive) {
+        const errorMessage = 'Cannot delete user as user is currently logged in on the workstation.';
+        throw errorMessage;
     }
 
     // Deletes the user, their home directory and mail spool.

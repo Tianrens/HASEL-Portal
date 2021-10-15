@@ -8,3 +8,5 @@ export { getLockedUsers } from './getLockedUsers';
 export { checkUserExists } from './checkUserExists';
 export { changeUserExpireDate } from './changeUserExpireDate';
 export { checkServerOnline } from './checkServerOnline';
+export { checkUserActive } from './checkUserActive';
+export { checkUserGroupExists} from './checkUserGroupExists';
