@@ -1,5 +1,6 @@
 import express from 'express';
 import { SSHError } from 'node-ssh';
+import { addDays } from 'date-fns';
 import { getUser } from './util/userUtil';
 import HTTP from './util/http_codes';
 import {
@@ -128,7 +129,7 @@ router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
     let expireDateString;
     if ('endDate' in req.body) {
         endDate = new Date(req.body.endDate);
-        [expireDateString] = endDate.toISOString().split('T');
+        [expireDateString] = addDays(endDate, 1).toISOString().split('T');
     }
 
     let { allocatedWorkstationId } = request;
@@ -194,6 +195,7 @@ router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
                 allocatedWorkstationId,
                 endDate,
             });
+            request = await retrieveRequestById(request._id);
             // Send new approved email to indicate that host/endDate has changed
             sendRequestApprovedEmail(requestUser.email, request, `${req.protocol}://${req.get('host')}`);
         } else {
