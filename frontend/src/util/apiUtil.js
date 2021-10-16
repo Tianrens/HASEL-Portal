@@ -6,10 +6,14 @@ function capitalise(word) {
 }
 
 function returnError(err) {
-    if (Object.keys(err.response.data).length === 0) {
-        errorSnackbar(err.response.statusText);
-    } else {
-        errorSnackbar(err.response.data);
+    try {
+        if (Object.keys(err.response.data).length === 0) {
+            errorSnackbar(err.response.statusText);
+        } else {
+            errorSnackbar(err.response.data);
+        }
+    } catch {
+        errorSnackbar('An error has occured');
     }
 }
 
