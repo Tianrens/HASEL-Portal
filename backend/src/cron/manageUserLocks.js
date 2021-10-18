@@ -39,11 +39,6 @@ export async function lockUnlockUsers() {
 }
 
 export function manageUserLocks() {
-    const rule = new schedule.RecurrenceRule();
-
-    // Job repeats every nth minute
-    rule.minute = [new schedule.Range(1, 59, REPEAT_EVERY_NTH_MINUTE)];
-    rule.tz = 'Pacific/Auckland';
-
-    schedule.scheduleJob(rule, lockUnlockUsers);
+    // Execute job 5 seconds after every 15 minutes.
+    schedule.scheduleJob(`5 */${REPEAT_EVERY_NTH_MINUTE} * * * *`, lockUnlockUsers);
 }
