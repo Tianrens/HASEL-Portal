@@ -224,7 +224,7 @@ Array [
     >
       <div>
         <div
-          className="container"
+          className="container "
         >
           <h2
             className="text alignLeft "
@@ -367,7 +367,7 @@ Array [
       </div>
       <div>
         <div
-          className="container"
+          className="container "
         >
           <h2
             className="text alignLeft "
@@ -510,7 +510,7 @@ Array [
       </div>
       <div>
         <div
-          className="container"
+          className="container "
         >
           <h2
             className="text alignLeft "

@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import { Icon } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import styles from './SignupPage.module.scss';
 import { StyledButton } from '../../components/buttons/StyledButton';
@@ -24,7 +25,7 @@ const SignupPage = () => {
         await signUpUser(firstName, lastName, upi, accountType);
     };
 
-    const signOutHandler = () => {
+    const logOutHandler = () => {
         history.push('/');
         auth.signOut();
     };
@@ -34,10 +35,20 @@ const SignupPage = () => {
             <div className={styles.content}>
                 <h1 className={styles.header}>Finish setting up your HASEL Portal account.</h1>
                 <div className={styles.accountDetailsContainer}>
-                    <div className={styles.accountDetailsHeader}>
-                        <StyledHeader left>Account Details</StyledHeader>
-                        <StyledButton onClick={signOutHandler}>Sign Out</StyledButton>
-                    </div>
+                    <StyledHeader
+                        left
+                        actions={
+                            <StyledButton
+                                size='small'
+                                icon={<Icon>logout</Icon>}
+                                onClick={logOutHandler}
+                            >
+                                Log Out
+                            </StyledButton>
+                        }
+                    >
+                        Account Details
+                    </StyledHeader>
                     <p className={styles.inputTitle}>UoA Email</p>
                     <p className={styles.uoaEmail}>{uoaEmail}</p>
                 </div>

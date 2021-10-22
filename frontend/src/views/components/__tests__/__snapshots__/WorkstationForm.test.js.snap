@@ -10,7 +10,7 @@ exports[`BookingForm renders properly 1`] = `
     className="inputContainer"
   >
     <div
-      className="container"
+      className="container smallMargin"
     >
       <h2
         className="text  subHeader"
@@ -190,7 +190,7 @@ exports[`BookingForm renders properly 1`] = `
     className="inputContainer"
   >
     <div
-      className="container"
+      className="container smallMargin"
     >
       <h2
         className="text  subHeader"

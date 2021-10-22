@@ -1,3 +1,4 @@
+import { Icon } from '@mui/material';
 import React from 'react';
 import { firebase, auth } from '../../../firebase';
 import { StyledButton } from './StyledButton';
@@ -24,6 +25,7 @@ async function login(callback, errorCallback) {
 function LoginButton({ callback, errorCallback }) {
     return (
         <StyledButton
+            icon={<Icon>login</Icon>}
             onClick={() => {
                 login(callback, errorCallback);
             }}

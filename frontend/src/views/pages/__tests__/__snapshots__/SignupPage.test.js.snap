@@ -22,21 +22,17 @@ exports[`Signup page renders properly 1`] = `
           className="accountDetailsContainer"
         >
           <div
-            className="accountDetailsHeader"
+            className="container "
           >
-            <div
-              className="container"
+            <h2
+              className="text alignLeft "
             >
-              <h2
-                className="text alignLeft "
-              >
-                <span>
-                  Account Details
-                </span>
-              </h2>
-            </div>
+              <span>
+                Account Details
+              </span>
+            </h2>
             <button
-              className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button undefined   css-sghohy-MuiButtonBase-root-MuiButton-root"
+              className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButtonBase-root button undefined   small css-11qr2p8-MuiButtonBase-root-MuiButton-root"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -54,7 +50,17 @@ exports[`Signup page renders properly 1`] = `
               tabIndex={0}
               type="button"
             >
-              Sign Out
+              <span
+                className="MuiButton-startIcon MuiButton-iconSizeSmall css-y6rp3m-MuiButton-startIcon"
+              >
+                <span
+                  aria-hidden={true}
+                  className="material-icons notranslate MuiIcon-root MuiIcon-fontSizeMedium css-kp9ftd-MuiIcon-root"
+                >
+                  logout
+                </span>
+              </span>
+              Log Out
             </button>
           </div>
           <p
@@ -70,7 +76,7 @@ exports[`Signup page renders properly 1`] = `
         </div>
         <div>
           <div
-            className="container"
+            className="container "
           >
             <h2
               className="text alignLeft "
@@ -338,7 +344,7 @@ exports[`Signup page renders properly 1`] = `
               className="buttonContainer"
             >
               <button
-                className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button undefined   css-sghohy-MuiButtonBase-root-MuiButton-root"
+                className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButtonBase-root button undefined     css-jh47zj-MuiButtonBase-root-MuiButton-root"
                 disabled={false}
                 onBlur={[Function]}
                 onContextMenu={[Function]}

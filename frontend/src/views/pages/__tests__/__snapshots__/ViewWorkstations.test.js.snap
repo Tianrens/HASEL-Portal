@@ -223,25 +223,17 @@ Array [
       className="container"
     >
       <div
-        className="workstationHeader"
+        className="container "
       >
-        <div
-          className="header"
+        <h2
+          className="text alignLeft "
         >
-          <div
-            className="container"
-          >
-            <h2
-              className="text alignLeft "
-            >
-              <span>
-                Workstation Overview
-              </span>
-            </h2>
-          </div>
-        </div>
+          <span>
+            Workstation Overview
+          </span>
+        </h2>
         <a
-          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button undefined   css-sghohy-MuiButtonBase-root-MuiButton-root"
+          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButtonBase-root button undefined   small css-11qr2p8-MuiButtonBase-root-MuiButton-root"
           href="/workstations/new"
           onBlur={[Function]}
           onClick={[Function]}
@@ -259,7 +251,7 @@ Array [
           tabIndex={0}
         >
           <span
-            className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+            className="MuiButton-startIcon MuiButton-iconSizeSmall css-y6rp3m-MuiButton-startIcon"
           >
             <span
               aria-hidden={true}

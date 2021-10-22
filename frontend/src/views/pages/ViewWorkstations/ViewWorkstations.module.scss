@@ -1,18 +1,6 @@
 @import '../../../assets/colours.module';
 @import '../../../assets/responsiveDesignHelpers';
 
-.workstationHeader {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-}
-
-.header {
-    flex-basis: 100%;
-    color: $heading;
-}
-
 .workstationInfoWrapper {
     margin-bottom: 2em;
 }

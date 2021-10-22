@@ -14,14 +14,21 @@ export default function ViewWorkstations() {
 
     return (
         <TopBarPageTemplate>
-            <div className={styles.workstationHeader}>
-                <div className={styles.header}>
-                    <StyledHeader left>Workstation Overview</StyledHeader>
-                </div>
-                <StyledButton component={Link} icon={<Icon>add</Icon>} to='/workstations/new'>
-                    Add Workstation
-                </StyledButton>
-            </div>
+            <StyledHeader
+                left
+                actions={
+                    <StyledButton
+                        size='small'
+                        component={Link}
+                        icon={<Icon>add</Icon>}
+                        to='/workstations/new'
+                    >
+                        Add Workstation
+                    </StyledButton>
+                }
+            >
+                Workstation Overview
+            </StyledHeader>
             {!workstations ? (
                 <LoadingWheelDiv />
             ) : (

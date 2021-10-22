@@ -222,11 +222,17 @@ Array [
     <div
       className="container"
     >
-      <h2
-        className="header"
+      <div
+        className="container "
       >
-        Edit Booking - 
-      </h2>
+        <h2
+          className="text alignLeft "
+        >
+          <span>
+            Edit Booking - 
+          </span>
+        </h2>
+      </div>
       <div
         className="container"
       >

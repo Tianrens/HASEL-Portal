@@ -223,7 +223,7 @@ Array [
       className="container"
     >
       <div
-        className="container"
+        className="container "
       >
         <h2
           className="text alignLeft "
@@ -242,7 +242,7 @@ Array [
           className="inputContainer"
         >
           <div
-            className="container"
+            className="container smallMargin"
           >
             <h2
               className="text  subHeader"
@@ -422,7 +422,7 @@ Array [
           className="inputContainer"
         >
           <div
-            className="container"
+            className="container smallMargin"
           >
             <h2
               className="text  subHeader"
@@ -656,7 +656,7 @@ Array [
         <div />
         <div>
           <button
-            className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button lighter outline css-sghohy-MuiButtonBase-root-MuiButton-root"
+            className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButtonBase-root button lighter outline   css-jh47zj-MuiButtonBase-root-MuiButton-root"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -675,7 +675,7 @@ Array [
             type="submit"
           >
             <span
-              className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+              className="MuiButton-startIcon MuiButton-iconSizeLarge css-htszrh-MuiButton-startIcon"
             >
               <span
                 aria-hidden={true}
@@ -687,7 +687,7 @@ Array [
             Cancel
           </button>
           <button
-            className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root Mui-disabled button undefined   css-sghohy-MuiButtonBase-root-MuiButton-root"
+            className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButtonBase-root Mui-disabled button undefined     css-jh47zj-MuiButtonBase-root-MuiButton-root"
             disabled={true}
             onBlur={[Function]}
             onClick={[Function]}
@@ -706,7 +706,7 @@ Array [
             type="submit"
           >
             <span
-              className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+              className="MuiButton-startIcon MuiButton-iconSizeLarge css-htszrh-MuiButton-startIcon"
             >
               <span
                 aria-hidden={true}

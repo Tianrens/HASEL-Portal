@@ -19,6 +19,7 @@ import {
 import WorkstationDropdown from '../../components/TextField/WorkstationDropdown';
 import { useGet } from '../../../hooks/useGet';
 import LoadingWheelDiv from '../../components/LoadingWheel/LoadingWheelDiv';
+import StyledHeader from '../../components/text/StyledHeader';
 
 const SingleRequest = () => {
     const history = useHistory();
@@ -35,13 +36,23 @@ const SingleRequest = () => {
     };
     const request = useGet(`/api/request/${requestId}`, true, requestCallback).data;
 
+    const handleClick = () => {
+        if (history.length > 1) {
+            history.goBack();
+        } else {
+            history.push('/requests');
+        }
+    };
+
     return (
         <TopBarPageTemplate>
             {!workstation || !request ? (
                 <LoadingWheelDiv />
             ) : (
                 <>
-                    <h2 className={styles.header}>Workstation Access Request</h2>
+                    <StyledHeader left back>
+                        Workstation Access Request
+                    </StyledHeader>
                     <div className={styles.userInfoContainer}>
                         <TitleAndValue
                             title='Name'
@@ -86,7 +97,8 @@ const SingleRequest = () => {
                     <Divider className={styles.divider} />
                     <BottomButtons
                         onAccept={
-                            (request.status === 'PENDING' || request.status === 'ACTIVE') && patchUtil(
+                            (request.status === 'PENDING' || request.status === 'ACTIVE') &&
+                            patchUtil(
                                 'request',
                                 {
                                     status: 'ACTIVE',
@@ -94,10 +106,12 @@ const SingleRequest = () => {
                                     endDate,
                                 },
                                 requestId,
-                                () => history.push('/requests'),
-                            )}
+                                () => handleClick(),
+                            )
+                        }
                         onDeny={
-                            request.status === 'PENDING' && patchUtil(
+                            request.status === 'PENDING' &&
+                            patchUtil(
                                 'request',
                                 {
                                     status: 'DECLINED',
@@ -105,12 +119,15 @@ const SingleRequest = () => {
                                     endDate,
                                 },
                                 requestId,
-                                () => history.push('/requests'),
-                            )}
-                        onDelete={deleteUtil('request', requestId, () => history.push('/requests'))}
+                                () => handleClick(),
+                            )
+                        }
+                        onDelete={deleteUtil('request', requestId, () => handleClick())}
                         deleteMessage={deleteRequestMessage}
                         denyMessage={denyRequestMessage}
-                        acceptMessage={request.status === 'PENDING' ? acceptRequestMessage: editRequestMessage}
+                        acceptMessage={
+                            request.status === 'PENDING' ? acceptRequestMessage : editRequestMessage
+                        }
                         acceptText={request.status === 'PENDING' ? 'Accept' : 'Confirm'}
                         acceptDisabled={error}
                     />

@@ -44,23 +44,26 @@ function UserHomePage() {
             </h1>
             {allBookings && (
                 <div className={styles.content}>
-                    <div className={styles.workstationHeader}>
-                        <div className={styles.header}>
-                            <StyledHeader left>Workstation Availability</StyledHeader>
-                        </div>
-                        <StyledButton
-                            type='submit'
-                            icon={<Icon>add</Icon>}
-                            component={Link}
-                            disabled={disableBooking}
-                            to={{
-                                pathname: '/bookings/new',
-                                state: { workstationId: workstation._id },
-                            }}
-                        >
-                            Create Booking
-                        </StyledButton>
-                    </div>
+                    <StyledHeader
+                        left
+                        actions={
+                            <StyledButton
+                                type='submit'
+                                icon={<Icon>add</Icon>}
+                                size='small'
+                                component={Link}
+                                disabled={disableBooking}
+                                to={{
+                                    pathname: '/bookings/new',
+                                    state: { workstationId: workstation._id },
+                                }}
+                            >
+                                Create Booking
+                            </StyledButton>
+                        }
+                    >
+                        Workstation Availability
+                    </StyledHeader>
                     {warning && <Alert severity='warning'>{warning}</Alert>}
                     <WorkstationInfoPanel workstationData={workstation} />
 

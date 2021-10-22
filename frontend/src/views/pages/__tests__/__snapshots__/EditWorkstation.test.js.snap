@@ -223,7 +223,7 @@ Array [
       className="container"
     >
       <div
-        className="container"
+        className="container "
       >
         <h2
           className="text alignLeft "

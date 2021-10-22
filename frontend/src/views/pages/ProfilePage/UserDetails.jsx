@@ -43,19 +43,22 @@ const UserDetails = ({ user, adminView, updateType }) => {
             </div>
             {!isAdmin(user?.type) && (
                 <>
-                    <div className={styles.workstationHeader}>
-                        <div className={styles.header}>
-                            <StyledHeader left sub>
-                                Workstation Request
-                            </StyledHeader>
-                        </div>
-                        {/* Only display view request button to super admins */}
-                        {user.currentRequestId && userIsSuperAdmin() && (
-                            <Link to={`/requests/${user.currentRequestId._id}`}>
-                                <StyledButton icon={<Icon>link</Icon>}>View Request</StyledButton>
-                            </Link>
-                        )}
-                    </div>
+                    <StyledHeader
+                        left
+                        sub
+                        actions={
+                            user.currentRequestId &&
+                            userIsSuperAdmin() && (
+                                <Link to={`/requests/${user.currentRequestId._id}`}>
+                                    <StyledButton size='small' icon={<Icon>link</Icon>}>
+                                        View Request
+                                    </StyledButton>
+                                </Link>
+                            )
+                        }
+                    >
+                        Workstation Request
+                    </StyledHeader>
                     <div className={styles.userInfoContainer}>
                         <TitleAndValue title='Account Status' value={accountStatus} />
                         {accountStatus === 'ACTIVE' && (

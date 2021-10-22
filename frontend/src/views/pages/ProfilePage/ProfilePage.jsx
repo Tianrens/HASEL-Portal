@@ -1,6 +1,6 @@
 import { React } from 'react';
 import { useHistory } from 'react-router-dom';
-import styles from './Profile.module.scss';
+import { Icon } from '@mui/material';
 import StyledHeader from '../../components/text/StyledHeader';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import { useDoc } from '../../../state/state';
@@ -22,12 +22,20 @@ const ProfilePage = () => {
         <TopBarPageTemplate>
             {user && (
                 <>
-                    <div className={styles.workstationHeader}>
-                        <div className={styles.header}>
-                            <StyledHeader left>My Account</StyledHeader>
-                        </div>
-                        <StyledButton onClick={logoutHandler}>Log Out</StyledButton>
-                    </div>
+                    <StyledHeader
+                        left
+                        actions={
+                            <StyledButton
+                                size='small'
+                                icon={<Icon>logout</Icon>}
+                                onClick={logoutHandler}
+                            >
+                                Log Out
+                            </StyledButton>
+                        }
+                    >
+                        My Account
+                    </StyledHeader>
                     <UserDetails user={user} />
                 </>
             )}

@@ -66,20 +66,29 @@ const ViewUsers = () => {
 
     return (
         <TopBarPageTemplate>
-            <div className={styles.header}>
-                <StyledHeader left>Users</StyledHeader>
-                <StyledButton onClick={() => exportUsers()} icon={<Icon>download</Icon>}>
-                    Download Data
-                </StyledButton>
-
-                <SearchBar
-                    placeholder='Search by name or UPI'
-                    value={search}
-                    onChange={(newValue) => setSearch(newValue)}
-                    onRequestSearch={() => setActiveSearch(search)}
-                    onCancelSearch={() => setActiveSearch('')}
-                />
-            </div>
+            <StyledHeader
+                left
+                actions={
+                    <>
+                        <StyledButton
+                            size='small'
+                            onClick={() => exportUsers()}
+                            icon={<Icon>download</Icon>}
+                        >
+                            Download Data
+                        </StyledButton>
+                        <SearchBar
+                            placeholder='Search by name or UPI'
+                            value={search}
+                            onChange={(newValue) => setSearch(newValue)}
+                            onRequestSearch={() => setActiveSearch(search)}
+                            onCancelSearch={() => setActiveSearch('')}
+                        />
+                    </>
+                }
+            >
+                Users
+            </StyledHeader>
             <h3 className={styles.searchIndicator}>
                 <i className={`${styles.italic} ${!activeSearch ? styles.hidden : ''}`}>
                     Search results for: <b>{activeSearch}</b>

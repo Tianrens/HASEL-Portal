@@ -1,6 +1,6 @@
 @import '../../../assets/responsiveDesignHelpers';
 @import '../../../assets/colours.module';
-
+@import '../../../assets/animations.module';
 .form,
 .section,
 .inputContainer,
@@ -10,6 +10,7 @@
 }
 
 .form {
+    @extend .fadeInAnimation;
     display: flex;
     flex-direction: row;
     width: 100%;

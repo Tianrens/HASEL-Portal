@@ -223,21 +223,17 @@ Array [
       className="container"
     >
       <div
-        className="header"
+        className="container "
       >
-        <div
-          className="container"
+        <h2
+          className="text alignLeft "
         >
-          <h2
-            className="text alignLeft "
-          >
-            <span>
-              Users
-            </span>
-          </h2>
-        </div>
+          <span>
+            Users
+          </span>
+        </h2>
         <button
-          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button undefined   css-sghohy-MuiButtonBase-root-MuiButton-root"
+          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButtonBase-root button undefined   small css-11qr2p8-MuiButtonBase-root-MuiButton-root"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -256,7 +252,7 @@ Array [
           type="button"
         >
           <span
-            className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+            className="MuiButton-startIcon MuiButton-iconSizeSmall css-y6rp3m-MuiButton-startIcon"
           >
             <span
               aria-hidden={true}

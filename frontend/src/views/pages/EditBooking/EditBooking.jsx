@@ -1,7 +1,6 @@
 import { React, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
-import styles from './EditBooking.module.scss';
 import BottomButtons from '../../components/buttons/BottomButtons';
 import BookingForm from '../../components/forms/BookingForm';
 import { deleteUtil, putUtil } from '../../../util/apiUtil';
@@ -12,6 +11,7 @@ import {
 } from '../../../config/ModalMessages';
 import { useGet } from '../../../hooks/useGet';
 import LoadingWheelDiv from '../../components/LoadingWheel/LoadingWheelDiv';
+import StyledHeader from '../../components/text/StyledHeader';
 
 const EditBooking = () => {
     const [bookingState, setBookingState] = useState({});
@@ -28,11 +28,11 @@ const EditBooking = () => {
 
     return (
         <TopBarPageTemplate>
-            <h2 className={styles.header}>Edit Booking - {userWorkstationName}</h2>
+            <StyledHeader left>Edit Booking - {userWorkstationName}</StyledHeader>
             {!userWorkstation ? (
                 <LoadingWheelDiv />
             ) : (
-                <div className={styles.fadeInAnimation}>
+                <>
                     <BookingForm
                         updateBookingState={(newBookingState, isError) => {
                             setError(isError);
@@ -62,7 +62,7 @@ const EditBooking = () => {
                         acceptMessage={editResourceMessage('booking')}
                         acceptDisabled={error}
                     />
-                </div>
+                </>
             )}
         </TopBarPageTemplate>
     );

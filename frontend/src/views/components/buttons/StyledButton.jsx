@@ -5,7 +5,7 @@ import styles from './StyledButton.module.scss';
 export function StyledButton({
     color,
     outline,
-    size,
+    size = 'large',
     icon,
     onClick,
     children,
@@ -18,7 +18,9 @@ export function StyledButton({
             variant='contained'
             onClick={onClick}
             startIcon={icon} // Must be a Material UI component
-            className={`${styles.button} ${styles[color]} ${outline ? styles.outline : ' '}`}
+            className={`${styles.button} ${styles[color]} ${outline ? styles.outline : ' '} ${
+                size === 'small' ? styles.small : ' '
+            }`}
             size={size}
             type={type}
             form={form}

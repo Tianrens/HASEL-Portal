@@ -1,6 +1,5 @@
 import { React, useState } from 'react';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
-import styles from './NewBooking.module.scss';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import BookingForm from '../../components/forms/BookingForm';
 import { postUtil } from '../../../util/apiUtil';
@@ -8,6 +7,7 @@ import BottomButtons from '../../components/buttons/BottomButtons';
 import { createResourceMessage, discardResourceMessage } from '../../../config/ModalMessages';
 import { useGet } from '../../../hooks/useGet';
 import LoadingWheelDiv from '../../components/LoadingWheel/LoadingWheelDiv';
+import StyledHeader from '../../components/text/StyledHeader';
 
 const NewBooking = () => {
     const location = useLocation();
@@ -33,11 +33,11 @@ const NewBooking = () => {
     }
     return (
         <TopBarPageTemplate>
-            <h2 className={styles.header}>Create Booking - {userWorkstationName}</h2>
+            <StyledHeader left>Create Booking - {userWorkstationName}</StyledHeader>
             {!userWorkstation ? (
                 <LoadingWheelDiv />
             ) : (
-                <div className={styles.fadeInAnimation}>
+                <>
                     <BookingForm
                         updateBookingState={updateState}
                         numGPUs={numGPUs}
@@ -54,7 +54,7 @@ const NewBooking = () => {
                         denyMessage={discardResourceMessage('booking')}
                         acceptMessage={createResourceMessage('booking')}
                     />
-                </div>
+                </>
             )}
         </TopBarPageTemplate>
     );

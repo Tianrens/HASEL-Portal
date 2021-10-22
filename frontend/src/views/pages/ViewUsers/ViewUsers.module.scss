@@ -1,27 +1,6 @@
-@import '../../../assets/responsiveDesignHelpers';
-
-.header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    column-gap: 1rem;
-}
-
-.header div:first-child {
-    display: flex;
-    flex-direction: column;
-    flex: 1 0;
-}
-
-.header div:last-child {
-    display: flex;
-    flex: 0 0 30%;
-}
-
 .searchIndicator {
     height: 1em;
+    margin-top: 0;
 }
 
 .hidden {
@@ -30,15 +9,4 @@
 
 .italic {
     font-weight: normal;
-}
-
-@include responsive(tablet) {
-    .header {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .header > :nth-child(2) {
-        margin-bottom: 1rem;
-        margin-top: 0;
-    }
 }

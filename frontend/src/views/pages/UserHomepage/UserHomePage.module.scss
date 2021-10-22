@@ -7,7 +7,6 @@
 }
 
 .content,
-.workstationHeader,
 .workstationPlaceholder,
 .bookingInfo,
 .bookingInfoContent,
@@ -19,15 +18,6 @@
     flex-direction: column;
     row-gap: 1rem;
     @extend .fadeInAnimation;
-}
-
-.header {
-    flex-basis: 100%;
-}
-
-.workstationHeader {
-    flex-direction: row;
-    justify-content: space-between;
 }
 
 .bookingInfo {
@@ -55,16 +45,8 @@
 }
 
 @include responsive(tablet) {
-    .workstationHeader {
-        flex-direction: column;
-    }
-
     .title {
         font-size: x-large;
-    }
-
-    .header {
-        font-size: small;
     }
 
     .bookingInfo {

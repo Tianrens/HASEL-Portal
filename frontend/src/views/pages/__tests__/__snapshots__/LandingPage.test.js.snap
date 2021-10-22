@@ -50,7 +50,7 @@ exports[`Landing Page renders properly 1`] = `
         className="loginContainer"
       >
         <button
-          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root button undefined   css-sghohy-MuiButtonBase-root-MuiButton-root"
+          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButtonBase-root button undefined     css-jh47zj-MuiButtonBase-root-MuiButton-root"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -68,6 +68,16 @@ exports[`Landing Page renders properly 1`] = `
           tabIndex={0}
           type="button"
         >
+          <span
+            className="MuiButton-startIcon MuiButton-iconSizeLarge css-htszrh-MuiButton-startIcon"
+          >
+            <span
+              aria-hidden={true}
+              className="material-icons notranslate MuiIcon-root MuiIcon-fontSizeMedium css-kp9ftd-MuiIcon-root"
+            >
+              login
+            </span>
+          </span>
           Login
         </button>
       </div>

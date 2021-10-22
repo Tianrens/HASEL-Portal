@@ -29,25 +29,26 @@ const ViewWorkstationBookings = () => {
     const workstationName = workstation?.name ?? '';
 
     const sections = [
-        { title: 'Active Bookings', endpoint: 'ACTIVE' },
+        { title: 'Current and Upcoming Bookings', endpoint: 'ACTIVE' },
         { title: 'Past Bookings', endpoint: 'PAST' },
     ];
 
     return (
         <TopBarPageTemplate>
-            <div>
-                {sections.map((section) => (
-                    <div key={section.title}>
-                        <StyledHeader left>{`${section.title} - ${workstationName}`}</StyledHeader>
-                        <TableWithPagination
-                            endpoint={`/api/workstation/${workstationId}/booking/${section.endpoint}`}
-                            rowProp='bookings'
-                            columns={columnHeaders}
-                            rowFactory={rowFactory}
-                        />
-                    </div>
-                ))}
-            </div>
+            <StyledHeader left back>
+                Bookings Overview - {workstationName}
+            </StyledHeader>
+            {sections.map((section) => (
+                <div key={section.title}>
+                    <StyledHeader left sub>{`${section.title}`}</StyledHeader>
+                    <TableWithPagination
+                        endpoint={`/api/workstation/${workstationId}/booking/${section.endpoint}`}
+                        rowProp='bookings'
+                        columns={columnHeaders}
+                        rowFactory={rowFactory}
+                    />
+                </div>
+            ))}
         </TopBarPageTemplate>
     );
 };
