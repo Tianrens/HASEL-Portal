@@ -14,6 +14,8 @@ import HTTP from './util/http_codes';
 import { getUser } from './util/userUtil';
 import { checkAdmin } from './util/userPerms';
 import { retrieveWorkstationOfUser } from '../../db/dao/workstationDao';
+import { specialUserTypes } from '../../config';
+import { lockWorkstationUser, unlockWorkstationUser } from '../../ssh';
 
 const router = express.Router();
 
@@ -105,12 +107,24 @@ router.patch(
     async (req, res) => {
         try {
             const { userId } = req.params;
+            const newUserInfo = req.body;
             const user = await retrieveUserById(userId);
             if (!user) {
                 return res.status(HTTP.NOT_FOUND).send('User does not exist');
             }
 
-            await updateUser(userId, req.body);
+            if (newUserInfo.type !== user.type) {
+                // Order matters because unlock/lock workstation user cannot occur on a special user type
+                if (specialUserTypes.includes(newUserInfo.type)) { // Special to non-special
+                    await updateUser(userId, newUserInfo);
+                    lockWorkstationUser(user.currentRequestId.allocatedWorkstationId.host, user.upi);
+                } else { // Non-special to special
+                    unlockWorkstationUser(user.currentRequestId.allocatedWorkstationId.host, user.upi);
+                    await updateUser(userId, newUserInfo);
+                }
+            } else {
+                await updateUser(userId, newUserInfo);
+            }
         } catch (error) {
             if (error.name === 'ValidationError') {
                 return res.status(HTTP.BAD_REQUEST).json('Invalid user type');

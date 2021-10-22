@@ -11,6 +11,7 @@ import {
 import { retrieveWorkstationById } from '../../db/dao/workstationDao';
 import { checkCorrectParams } from './util/checkCorrectParams';
 import { createWorkstationUser } from '../../ssh';
+import { specialUserTypes } from '../../config';
 
 const router = express.Router();
 
@@ -31,7 +32,6 @@ router.post(
                 gpuIndices: req.body.gpuIndices,
             });
 
-            const specialUserTypes = ['ADMIN', 'SUPERADMIN', 'NON_ACADEMIC_STAFF', 'ACADEMIC_STAFF'];
             if (specialUserTypes.includes(req.user.type)) {
                 const workstation = await retrieveWorkstationById(booking.workstationId); 
                 await createWorkstationUser(workstation.host, req.user.upi); // Ignores if user already exists on workstation.

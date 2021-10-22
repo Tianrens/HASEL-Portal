@@ -1,3 +1,4 @@
+import { specialUserTypes } from '../../config';
 import { retrieveUserByUpi } from '../../db/dao/userDao';
 
 export async function shouldPerformUserOperation(upi) {
@@ -6,10 +7,7 @@ export async function shouldPerformUserOperation(upi) {
         throw new Error(`Cannot find user with upi: ${upi}`);
     }
 
-    if (user.type === 'NON_ACADEMIC_STAFF' ||
-        user.type === 'ACADEMIC_STAFF' ||
-        user.type === 'ADMIN' ||
-        user.type === 'SUPERADMIN') {
+    if (specialUserTypes.includes(user.type)) {
         return false;
     }
 
