@@ -114,13 +114,17 @@ router.patch(
                 return res.status(HTTP.NOT_FOUND).send('User does not exist');
             }
 
-            if (newUserInfo.type !== user.type) {
+            if (user?.currentRequestId) {
                 // Order matters because unlock/lock workstation user cannot occur on a special user type
-                if (specialUserTypes.includes(newUserInfo.type)) { // Special to non-special
+                // Non-special to special
+                if (!specialUserTypes.includes(user.type) && specialUserTypes.includes(newUserInfo.type)) {
                     await updateUser(userId, newUserInfo);
-                    lockWorkstationUser(user.currentRequestId.allocatedWorkstationId.host, user.upi);
-                } else { // Non-special to special
                     unlockWorkstationUser(user.currentRequestId.allocatedWorkstationId.host, user.upi);
+                // Special to non-special
+                } else if (specialUserTypes.includes(user.type) && !specialUserTypes.includes(newUserInfo.type)) {
+                    lockWorkstationUser(user.currentRequestId.allocatedWorkstationId.host, user.upi);
+                    await updateUser(userId, newUserInfo);
+                } else {
                     await updateUser(userId, newUserInfo);
                 }
             } else {

@@ -36,13 +36,13 @@ const HelpPage = () => {
                     <>
                         <div className={styles.panel}>
                             <StyledHeader>HASEL Workstation Manual</StyledHeader>
-                            <StyledButton href='/manual.pdf' target='_blank'>
+                            <StyledButton href='/Manual.pdf' target='_blank'>
                                 View PDF
                             </StyledButton>
                             <iframe
                                 className={styles.pdf}
-                                title='HASEL Lab Manual'
-                                src='/manual.pdf'
+                                title='HASEL Workstation Manual'
+                                src='/Manual.pdf'
                             />
                         </div>
                         <Divider orientation='vertical' flexItem />
