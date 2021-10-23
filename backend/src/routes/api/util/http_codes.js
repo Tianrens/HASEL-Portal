@@ -1,3 +1,4 @@
+/** Utility for retrieving HTTP codes from status message */
 const HTTP = {
     OK: 200,
     CREATED: 201,

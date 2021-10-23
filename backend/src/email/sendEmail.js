@@ -2,6 +2,14 @@ import nodemailer from 'nodemailer';
 
 require('dotenv').config();
 
+/**
+ * Sends an email using Nodemailer from the email specified in the ENV file.
+ * @param {String} recipientEmail the email of the recipient(s)
+ * @param {String} emailSubject the subject of the email to send
+ * @param {String} emailText the main text of the email. This is used OR htmlContent is used.
+ * @param {String} htmlContent the main content of the email in html form. If this is used, emailText should be null.
+ * @returns 
+ */
 export function sendEmail(
     recipientEmail,
     emailSubject,
@@ -10,6 +18,8 @@ export function sendEmail(
     ccRecipients = null,
     sender = null,
 ) {
+    // if not in production mode, the email is not sent to prevent too much spam.
+    // instead, the email is logged for debugging.
     if (process.env.NODE_ENV !== 'production') {
         console.log(
             'From Name: ',

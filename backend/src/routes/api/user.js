@@ -22,7 +22,13 @@ const router = express.Router();
 
 const BASE_INT_VALUE = 10;
 
-/** POST a new user from Firebase */
+/** POST a new user from Firebase
+ * POST /api/user 
+ * @body upi of the user 
+ * @body firstName of the user
+ * @body lastName of the user
+ * @body type of the user
+ */
 router.post(
     '/',
     checkCorrectParams(['upi', 'firstName', 'lastName', 'type']),
@@ -53,6 +59,7 @@ router.post(
         }
     },
 );
+
 /** GET ALL users
  * GET /api/user/?page=${page}&limit=${limit}
  * @query   page        The page number specified
@@ -99,6 +106,7 @@ router.get('/download', getUser, checkAdmin, async (req, res) => {
 /** PATCH edit user
  * PATCH /api/user/${userId}
  * @param userId The id of the user whose information needs to be updated
+ * @body type of the user to change to
  */
 router.patch(
     '/:userId',
@@ -141,15 +149,10 @@ router.patch(
     },
 );
 
-/** GET user bookings */
-router.get('/booking', (req, res) => {
-    // TODO: GET user bookings
-    console.log(req.originalUrl);
-
-    return res.status(HTTP.NOT_IMPLEMENTED).send('Unimplemented');
-});
-
-/** GET user info */
+/** GET user info
+ * GET /api/user/info
+ * @returns info of current user from firebase auth
+ */
 router.get('/info', async (req, res) => {
     const dbUser = await retrieveUserByAuthId(req.firebase.uid);
     if (!dbUser) {
@@ -159,7 +162,10 @@ router.get('/info', async (req, res) => {
     return res.send(dbUser);
 });
 
-/** GET user workstation */
+/** GET user workstation
+ * GET /api/user/workstation
+ * @returns workstation of current user from firebase auth
+ */
 router.get('/workstation', getUser, async (req, res) => {
     let workstation;
     try {

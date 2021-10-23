@@ -1,6 +1,14 @@
 import { button } from './components/button';
 import { withGreetingAndSignatureForAdmin } from './components/withGreetingAndSignatureForAdmin';
 
+/**
+ * Email for new request
+ * @param {User} user 
+ * @param {User} superAdmin 
+ * @param {SignupRequest} signUpRequest 
+ * @param {String} url 
+ * @returns formatted email
+ */
 export function newRequestEmail(user, superAdmin, signUpRequest, url) {
     const { firstName, lastName, type } = user;
     const email = {};

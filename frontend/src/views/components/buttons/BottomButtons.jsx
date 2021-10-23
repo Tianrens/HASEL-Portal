@@ -4,6 +4,12 @@ import { StyledButton } from './StyledButton';
 import { buttonContainer } from './BottomButtons.module.scss';
 import ConfirmDialog from '../Modal/ConfirmDialog';
 
+/**
+ * Configurable buttons for the bottom of a page.
+ * onDelete, onAccept, and onDeny control whether that button is displayed.
+ * Delete button is displayed on the left, and the deny and accept buttons are displayed on the right.
+ * For each action, if the button is clicked, a modal is shown to confirm that action.
+ */
 const BottomButtons = ({
     onDelete,
     deleteText,
@@ -44,7 +50,7 @@ const BottomButtons = ({
                 <div>
                     {onDeny && (
                         <StyledButton
-                            color="lighter"
+                            color='lighter'
                             outline
                             icon={<Icon>close</Icon>}
                             type='submit'

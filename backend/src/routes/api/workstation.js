@@ -24,7 +24,11 @@ import { sendRequestApprovedEmail } from '../../email';
 const router = express.Router();
 const BASE_INT_VALUE = 10;
 
-/** POST add a new workstation. Only admins can add a new workstation. */
+/**
+ * POST add a new workstation. Only admins can add a new workstation.
+ * @param workstation name, host, location, numGPUs, gpuDescription, ramDescription, cpuDescription
+ * @return workstation created workstation if successful
+ */
 router.post(
     '/',
     getUser,
@@ -154,7 +158,11 @@ router.get(
     },
 );
 
-/** PUT edit a workstation */
+/**
+ * Update a workstation by Id
+ * @param workstationId id of a workstation
+ * @param workstation name, host, location, numGPUs, gpuDescription, ramDescription, cpuDescription
+ */
 router.put(
     '/:workstationId',
     getUser,
@@ -189,6 +197,7 @@ router.put(
             return res.status(HTTP.INTERNAL_SERVER_ERROR).send(err.message);
         }
 
+        // If host ip address is changed, migrate users to new host.
         if (oldWorkstation.host !== newWorkstation.host) {
             const requests = await retrieveAllUsersOfWorkstation(
                 oldWorkstation._id,
@@ -238,7 +247,10 @@ router.put(
     },
 );
 
-/** ARCHIVE a workstation */
+/**
+ * Archives a workstation
+ * @param workstationId id of a workstation
+ */
 router.delete(
     '/:workstationId',
     getUser,

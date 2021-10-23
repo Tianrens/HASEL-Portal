@@ -1,6 +1,11 @@
 import { formattedEndDate } from './components/formattedEndDate';
 import { withGreetingAndSignature } from './components/withGreetingAndSignature';
 
+/**
+ * Email template for signup request
+ * @param {SignupRequest} signUpRequest 
+ * @returns email
+ */
 export function expiringAccountEmail(signUpRequest) {
     const email = {};
     const user = signUpRequest.userId;

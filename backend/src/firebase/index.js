@@ -4,6 +4,7 @@ import tunnel from 'tunnel';
 // Initialize firebase.
 require('dotenv').config();
 
+// Proxy Firease, bypassing UoA firebase
 const tunnelingAgent = tunnel.httpsOverHttp({
     proxy: {
         host: process.env.PROXY_HOST,

@@ -2,6 +2,14 @@ import { button } from './components/button';
 import { formattedEndDate } from './components/formattedEndDate';
 import { withGreetingAndSignature } from './components/withGreetingAndSignature';
 
+/**
+ * Email template for approved SignupRequest
+ * @param {User} user 
+ * @param {Workstation} workstation 
+ * @param {SignupRequest} request 
+ * @param {String} url 
+ * @returns 
+ */
 export function requestApprovedEmail(user, workstation, request, url) {
     const email = {};
 

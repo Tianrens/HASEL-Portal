@@ -88,6 +88,7 @@ async function retrieveUsersBySearchQuery(searchParam, page, limit) {
             },
         },
         {
+            // check if the search query matches the firstname, lastname, upi or fullname of the user
             $match: {
                 $or: [
                     { firstName: searchRegex },
@@ -98,6 +99,7 @@ async function retrieveUsersBySearchQuery(searchParam, page, limit) {
             },
         },
         {
+            // sort the results by the lastname
             $sort: { lastName: 1 },
         },
         {
@@ -116,6 +118,7 @@ async function retrieveUsersBySearchQuery(searchParam, page, limit) {
     ]);
 
     const matchingUsers = [];
+    // if matching users are found, extract the total number of matching documents
     const count = results[0].count.length > 0 ? results[0].count[0].count : 0;
 
     results[0].users.forEach((user) => {

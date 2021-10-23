@@ -4,9 +4,9 @@ import { addDays } from 'date-fns';
 import { getUser } from './util/userUtil';
 import HTTP from './util/http_codes';
 import {
+    archiveRequest,
     countRequests,
     createSignUpRequest,
-    archiveRequest,
     retrieveRequestById,
     retrieveRequests,
     setRequestEndDate,
@@ -20,16 +20,20 @@ import {
 } from '../../email';
 import { checkSuperAdmin, userHasRequestViewPerms } from './util/userPerms';
 import {
+    changeUserExpireDate,
     createWorkstationUser,
     deleteWorkstationUser,
-    changeUserExpireDate,
 } from '../../ssh';
 import { retrieveWorkstationById } from '../../db/dao/workstationDao';
 
 const router = express.Router();
 const BASE_INT_VALUE = 10;
 
-/** POST new request */
+/** 
+ * POST /api/request
+ * Creates a new request using the input request
+ * @returns {signUpRequest} The link to the created request in the response
+ */
 router.post('/', getUser, async (req, res) => {
     try {
         const signUpRequest = await createSignUpRequest({
@@ -51,7 +55,15 @@ router.post('/', getUser, async (req, res) => {
     }
 });
 
-/** GET requests */
+/** GET requests
+ * GET /api/request/status/${status}
+ * @param   status      The status of the request (where its active, pending, declined, etc.)
+ * @query   page        The page number specified
+ * @query   limit       The number of requests in a page
+ * @returns count       The number of matching requests in the database
+ * @returns pageCount   The number of pages the results span over
+ * @returns requests    The array of matching request objects
+ */
 router.get('/status/:status', getUser, checkSuperAdmin, async (req, res) => {
     const { status } = req.params;
     try {
@@ -71,7 +83,11 @@ router.get('/status/:status', getUser, checkSuperAdmin, async (req, res) => {
     }
 });
 
-/** GET request count */
+/** GET request count
+ * GET /api/request/count/status/${status}
+ * @param   status      The status of the request (where its active, pending, declined, etc.)
+ * @returns count       The number of matching requests in the database with the given status
+ */
 router.get(
     '/count/status/:status',
     getUser,
@@ -89,7 +105,11 @@ router.get(
     },
 );
 
-/** GET single request */
+/** GET single request
+ * GET /api/request/${requestId}
+ * @param   requestId   Id of the request object which needs to be retrieved
+ * @returns request     The matching request object
+ */
 router.get(
     '/:requestId',
     getUser,
@@ -105,7 +125,10 @@ router.get(
     },
 );
 
-/** PATCH approve or deny request */
+/** PATCH - approve or deny requests
+ * PATCH /api/request/${requestId}
+ * @param   requestId   Id of the request object which needs to be changed
+ */
 router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
     // Status must be either ACTIVE or DECLINED
     if (
@@ -159,7 +182,11 @@ router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
             await updateRequestStatus(requestId, req.body.status);
             await setRequestEndDate(requestId, endDate);
             request = await retrieveRequestById(request._id);
-            sendRequestApprovedEmail(requestUser.email, request, `${req.protocol}://${req.get('host')}`);
+            sendRequestApprovedEmail(
+                requestUser.email,
+                request,
+                `${req.protocol}://${req.get('host')}`,
+            );
         } else if (request.status === 'ACTIVE') {
             // Request already approved, editing information
             // Change workstation information first
@@ -197,7 +224,11 @@ router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
             });
             request = await retrieveRequestById(request._id);
             // Send new approved email to indicate that host/endDate has changed
-            sendRequestApprovedEmail(requestUser.email, request, `${req.protocol}://${req.get('host')}`);
+            sendRequestApprovedEmail(
+                requestUser.email,
+                request,
+                `${req.protocol}://${req.get('host')}`,
+            );
         } else {
             await updateRequestStatus(requestId, req.body.status);
             sendRequestDeniedEmail(requestUser.email, request);
@@ -212,7 +243,10 @@ router.patch('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
     return res.status(HTTP.NO_CONTENT).send('Successful');
 });
 
-/** ARCHIVE a request */
+/** DELETE archive a request
+ * DELETE /api/request/${requestId}
+ * @param   requestId   Id of the request object which needs to be archived
+ */
 router.delete('/:requestId', getUser, checkSuperAdmin, async (req, res) => {
     try {
         const { requestId } = req.params;

@@ -15,8 +15,16 @@ import { specialUserTypes } from '../../config';
 
 const router = express.Router();
 
-/** POST add a new booking. User can only book workstation that matches signup request.
- * Request must also be ACTIVE */
+/**
+ * Create a new booking. User can only book workstation that matches signup request.
+ * Request must also be ACTIVE
+ * POST /api/booking
+ * @body workstationId of the booking
+ * @body startTimestamp of the booking
+ * @body endTimestamp of the booking
+ * @body gpuIndices to book
+ * @return booking that has been created
+ */
 router.post(
     '/',
     getUser,
@@ -44,15 +52,13 @@ router.post(
     },
 );
 
-/** GET all bookings */
-router.get('/', (req, res) => {
-    // TODO: GET all bookings
-    console.log(req.originalUrl);
 
-    return res.status(HTTP.NOT_IMPLEMENTED).send('Unimplemented');
-});
-
-/** GET single booking by ID */
+/**
+ * Get single booking by ID. Booking must belong to the user or the user must be an admin or above.
+ * GET /api/booking/${bookingId}
+ * @param bookingId of the booking to get
+ * @return the singular booking
+ */
 router.get(
     '/:bookingId',
     getUser,
@@ -67,7 +73,14 @@ router.get(
     },
 );
 
-/** PUT edit a booking. Can only edit if they are ADMINS */
+/**
+ * Update a booking. Can only edit if they are ADMINS.
+ * PUT /api/booking/${bookingId}
+ * @param bookingId of the booking to update
+ * @body startTimestamp of the booking
+ * @body endTimestamp of the booking
+ * @body gpuIndices to book
+ */
 router.put(
     '/:bookingId',
     getUser,
@@ -90,7 +103,11 @@ router.put(
     },
 );
 
-/** ARCHIVE a booking */
+/**
+ * Archive a booking.
+ * DELETE /api/booking/${bookingId}
+ * @param bookingId of the booking to delete
+ */
 router.delete(
     '/:bookingId',
     getUser,
