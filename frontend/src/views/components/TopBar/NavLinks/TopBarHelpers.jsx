@@ -7,6 +7,7 @@ import IdIcon from '../../../../assets/images/id.svg';
 import ApprovalsIcon from '../../../../assets/images/approvals.svg';
 import WorkstationIcon from '../../../../assets/images/workstation.svg';
 import ViewUsersIcon from '../../../../assets/images/viewUsers.svg';
+import HelpIcon from '../../../../assets/images/help.svg';
 import { useGet } from '../../../../hooks/useGet';
 
 // Link button
@@ -74,6 +75,13 @@ export function NavLinks({ isAdmin, isSuperAdmin }) {
             {isSuperAdmin && <SuperAdminLinks />}
             {isAdmin && <AdminLinks />}
 
+            {!isAdmin && (
+                <NavBarLink
+                    title='Help'
+                    link='/help'
+                    icon={<img className={styles.navIcon} src={HelpIcon} alt='Help' />}
+                />
+            )}
             <NavBarLink
                 title='My Account'
                 link='/user'

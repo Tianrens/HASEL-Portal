@@ -21,6 +21,7 @@ import ViewWorkstationBookings from './views/pages/ViewWorkstationBookings/ViewW
 import NewWorkstation from './views/pages/NewWorkstation/NewWorkstation';
 import ViewUsers from './views/pages/ViewUsers/ViewUsers';
 import EditWorkstation from './views/pages/EditWorkstation/EditWorkstation';
+import HelpPage from './views/pages/Help/HelpPage';
 import ProtectedRoute from './util/ProtectedRoute';
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
 
     const PendingApprovalRoutes = () => (
         <Switch>
+            <Route exact path='/help' component={HelpPage} />
             <Route exact path='/user' component={ProfilePage} />
             <Route exact path='/' component={PendingApproval} />
             <Route render={() => <Redirect to='/' />} />
@@ -51,6 +53,7 @@ function App() {
 
     const NoWorkstationAccessRoutes = () => (
         <Switch>
+            <Route exact path='/help' component={HelpPage} />
             <Route exact path='/user' component={ProfilePage} />
             <Route exact path='/' component={NewRequest} />
             <Route render={() => <Redirect to='/' />} />
@@ -93,6 +96,7 @@ function App() {
                 <Route exact path='/bookings/new' component={NewBooking} />
                 <Route exact path='/bookings/:bookingId' component={EditBooking} />
                 <Route exact path='/user' component={ProfilePage} />
+                <Route exact path='/help' component={HelpPage} />
                 <Route exact path='/' component={defaultComponent} />
                 <Route render={() => <Redirect to='/' />} />
             </Switch>

@@ -21,11 +21,11 @@ function returnError(err) {
  * @param resourceString is a string that describes the object to perform operations on.
  *                 for instance, 'workstation' or 'booking'
  */
-function postUtil(resourceString, resourceState, cb) {
+function postUtil(resourceString, resourceState, cb, altMessage) {
     return async () => {
         try {
             await authRequest(`/api/${resourceString}/`, 'POST', resourceState);
-            successSnackbar(`${capitalise(resourceString)} created`);
+            successSnackbar(altMessage || `${capitalise(resourceString)} created`);
             cb();
         } catch (err) {
             returnError(err);

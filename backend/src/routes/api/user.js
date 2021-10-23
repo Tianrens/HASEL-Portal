@@ -16,6 +16,7 @@ import { checkAdmin } from './util/userPerms';
 import { retrieveWorkstationOfUser } from '../../db/dao/workstationDao';
 import { specialUserTypes } from '../../config';
 import { lockWorkstationUser, unlockWorkstationUser } from '../../ssh';
+import { sendContactFormEmail } from '../../email/sentContactFormEmail';
 
 const router = express.Router();
 
@@ -220,5 +221,28 @@ router.get('/search/:searchParam', getUser, checkAdmin, async (req, res) => {
         return res.status(HTTP.INTERNAL_SERVER_ERROR).json('Server error');
     }
 });
+
+/** Send an email to an admin. SENDS TO EMAIL IN .env FILE !
+ * POST /api/user/contact
+ * @query   subject     The subject of the user's query
+ * @query   message     The message of the user's query
+ */
+router.post(
+    '/contact',
+    getUser,
+    checkCorrectParams(['subject', 'message']),
+    async (req, res) => {
+        try {
+            const userName = `${req.user.firstName} ${req.user.lastName}`;
+            const { upi, email } = req.user;
+
+            sendContactFormEmail(req.body, userName, upi, email);
+
+            return res.status(HTTP.CREATED).json(req.user);
+        } catch (error) {
+            return res.status(HTTP.INTERNAL_SERVER_ERROR).json('Server error');
+        }
+    },
+);
 
 export default router;

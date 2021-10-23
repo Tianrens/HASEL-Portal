@@ -42,6 +42,43 @@ Array [
               className="linksWrapper"
             >
               <a
+                href="/help"
+                onClick={[Function]}
+              >
+                <button
+                  className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root wrapper css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onContextMenu={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  tabIndex={0}
+                  type="button"
+                >
+                  <img
+                    alt="Help"
+                    className="navIcon"
+                    src="help.svg"
+                  />
+                  <div
+                    className="spacer"
+                  />
+                  <div
+                    className="title"
+                  >
+                    Help
+                  </div>
+                </button>
+              </a>
+              <a
                 href="/user"
                 onClick={[Function]}
               >
@@ -169,6 +206,43 @@ Array [
                     <div
                       className="linksWrapper"
                     >
+                      <a
+                        href="/help"
+                        onClick={[Function]}
+                      >
+                        <button
+                          className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root wrapper css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
+                        >
+                          <img
+                            alt="Help"
+                            className="navIcon"
+                            src="help.svg"
+                          />
+                          <div
+                            className="spacer"
+                          />
+                          <div
+                            className="title"
+                          >
+                            Help
+                          </div>
+                        </button>
+                      </a>
                       <a
                         href="/user"
                         onClick={[Function]}

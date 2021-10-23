@@ -1,0 +1,65 @@
+@import '../../../assets/colours.module';
+@import '../../../assets/responsiveDesignHelpers';
+
+.container {
+    display: flex;
+    column-gap: 4rem;
+    width: 100%;
+    justify-content: center;
+}
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0;
+    max-width: 50%;
+}
+
+.panel a {
+    display: none;
+}
+
+.pdf {
+    height: 75vh;
+    width: 100%;
+}
+
+.subtitle {
+    text-align: center;
+    color: $purple500;
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+    flex-grow: 1;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+@include responsive(tablet) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1.5rem;
+    }
+    .pdf {
+        display: none;
+    }
+    .panel {
+        display: grid;
+        max-width: 100%;
+    }
+    .panel a {
+        display: initial;
+    }
+    .buttonContainer > button {
+        width: 100%;
+    }
+}

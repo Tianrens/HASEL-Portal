@@ -7,11 +7,22 @@ export function sendEmail(
     emailSubject,
     emailText = null,
     htmlContent = null,
+    ccRecipients = null,
+    sender = null,
 ) {
     if (process.env.NODE_ENV !== 'production') {
-        console.log(recipientEmail);
-        console.log(emailSubject);
-        console.log(htmlContent);
+        console.log(
+            'From Name: ',
+            sender ? sender.name : process.env.EMAIL_NAME,
+        );
+        console.log(
+            'From Email: ',
+            sender ? sender.email : process.env.EMAIL_ADDRESS,
+        );
+        console.log('To: ', recipientEmail);
+        console.log('CC:', ccRecipients);
+        console.log('Subject: ', emailSubject);
+        console.log('Content: ', htmlContent);
         return;
     }
 
@@ -26,10 +37,11 @@ export function sendEmail(
 
     const mailOptions = {
         from: {
-            name: process.env.EMAIL_NAME,
-            address: process.env.EMAIL_ADDRESS,
+            name: sender ? sender.name : process.env.EMAIL_NAME,
+            address: sender ? sender.email : process.env.EMAIL_ADDRESS,
         },
         to: recipientEmail,
+        cc: ccRecipients,
         subject: emailSubject,
         text: emailText,
         html: htmlContent,
