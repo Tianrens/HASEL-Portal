@@ -14,7 +14,7 @@ const UserDetails = ({ user, adminView, updateType }) => {
     const workstation = user.currentRequestId?.allocatedWorkstationId?.name;
     const creationDate = user.createdAt;
     const accountStatus = user.currentRequestId?.status || 'No Current Request';
-    const expiryDate = dayjs(user.currentRequestId?.endDate).format('dddd DD/MM/YYYY');
+    const expiryDate = dayjs(user.currentRequestId?.endDate).format('dddd DD MMM YYYY');
 
     return (
         <div className={styles.detailsContainer}>
@@ -37,7 +37,7 @@ const UserDetails = ({ user, adminView, updateType }) => {
                 )}
                 <TitleAndValue
                     title='Account Creation Date'
-                    value={dayjs(creationDate).format('dddd DD/MM/YYYY')}
+                    value={dayjs(creationDate).format('dddd DD MMM YYYY')}
                 />
                 <div className={styles.spacer} />
             </div>

@@ -9,15 +9,18 @@ import { discardResourceMessage, editResourceMessage } from '../../../config/Mod
 import { patchUtil } from '../../../util/apiUtil';
 import { useGet } from '../../../hooks/useGet';
 import LoadingWheelDiv from '../../components/LoadingWheel/LoadingWheelDiv';
+import { useDoc } from '../../../state/state';
+import { userDoc } from '../../../state/docs/userDoc';
 
 const ViewProfile = () => {
     const { userId } = useParams();
     const history = useHistory();
 
+    const [selfUser] = useDoc(userDoc);
     const user = useGet(`/api/user/${userId}`).data;
     const [type, setType] = useState(user?.type);
     const typeChanged = type !== user?.type;
-    const invalidChange = type === 'SUPERADMIN' && user?.type === 'ADMIN';
+    const invalidChange = type === 'SUPERADMIN' && selfUser?.type === 'ADMIN';
 
     return (
         <TopBarPageTemplate>

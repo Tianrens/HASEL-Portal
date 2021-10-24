@@ -5,9 +5,10 @@ import { StyledButton } from '../../components/buttons/StyledButton';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import TextField from '../../components/TextField/CustomTextField';
 import { postUtil } from '../../../util/apiUtil';
-import { fetchUser, userDoc } from '../../../state/docs/userDoc';
+import { userDoc } from '../../../state/docs/userDoc';
 import StyledHeader from '../../components/text/StyledHeader';
 import { useDoc } from '../../../state/state';
+import { userIsAdmin } from '../../../config/accountTypes';
 
 const HelpPage = () => {
     const [user] = useDoc(userDoc);
@@ -15,6 +16,13 @@ const HelpPage = () => {
 
     const [subject, setSubject] = useState('');
     const [message, setMessage] = useState('');
+
+    const isEmpty = !subject || !message;
+
+    const clearForm = () => {
+        setSubject('');
+        setMessage('');
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -24,7 +32,7 @@ const HelpPage = () => {
                 subject,
                 message,
             },
-            async () => fetchUser(),
+            () => clearForm(),
             'Email sent successfully',
         )();
     };
@@ -32,7 +40,7 @@ const HelpPage = () => {
     return (
         <TopBarPageTemplate>
             <div className={styles.container}>
-                {userIsActive && (
+                {(userIsActive || userIsAdmin()) && (
                     <>
                         <div className={styles.panel}>
                             <StyledHeader>HASEL Workstation Manual</StyledHeader>
@@ -55,11 +63,19 @@ const HelpPage = () => {
                             If you want to send us a message, please fill out this form and we will
                             respond to you as soon as possible.
                         </p>
-                        <TextField title='Subject' setValue={setSubject} />
-                        <TextField title='Message' setValue={setMessage} multiline rows={4} />
+                        <TextField title='Subject' value={subject} setValue={setSubject} />
+                        <TextField
+                            title='Message'
+                            value={message}
+                            setValue={setMessage}
+                            multiline
+                            rows={4}
+                        />
 
                         <div className={styles.buttonContainer}>
-                            <StyledButton type='submit'>Submit Message</StyledButton>
+                            <StyledButton disabled={isEmpty} type='submit'>
+                                Submit Message
+                            </StyledButton>
                         </div>
                     </form>
                 </div>

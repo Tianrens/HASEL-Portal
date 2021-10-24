@@ -1,5 +1,6 @@
 import { React, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import dayjs from 'dayjs';
 import TopBarPageTemplate from '../../components/templates/TopBarPageTemplate/TopBarPageTemplate';
 import BottomButtons from '../../components/buttons/BottomButtons';
 import BookingForm from '../../components/forms/BookingForm';
@@ -26,9 +27,13 @@ const EditBooking = () => {
     const userWorkstationName = userWorkstation?.name;
     const numGPUs = userWorkstation?.numGPUs;
 
+    const hasEnded = dayjs(booking?.endTimestamp).valueOf() < dayjs().valueOf();
+
     return (
         <TopBarPageTemplate>
-            <StyledHeader left>Edit Booking - {userWorkstationName}</StyledHeader>
+            <StyledHeader left back={hasEnded}>
+                Edit Booking - {userWorkstationName}
+            </StyledHeader>
             {!userWorkstation ? (
                 <LoadingWheelDiv />
             ) : (
@@ -45,16 +50,24 @@ const EditBooking = () => {
 
                     <BottomButtons
                         onDelete={deleteUtil('booking', bookingId, () => history.goBack())}
-                        onAccept={putUtil(
-                            'booking',
-                            {
-                                workstationId: userWorkstation?._id,
-                                ...bookingState,
-                            },
-                            bookingId,
-                            () => history.goBack(),
-                        )}
-                        onDeny={() => history.goBack()}
+                        onAccept={
+                            !hasEnded &&
+                            putUtil(
+                                'booking',
+                                {
+                                    workstationId: userWorkstation?._id,
+                                    ...bookingState,
+                                },
+                                bookingId,
+                                () => history.goBack(),
+                            )
+                        }
+                        onDeny={
+                            !hasEnded &&
+                            function goBack() {
+                                history.goBack();
+                            }
+                        }
                         acceptText='Confirm Changes'
                         denyText='Cancel'
                         deleteMessage={deleteMessage('booking')}

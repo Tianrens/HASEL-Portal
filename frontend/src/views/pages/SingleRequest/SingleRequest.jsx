@@ -26,7 +26,7 @@ const SingleRequest = () => {
 
     const [workstation, setWorkstation] = useState();
     const [endDate, setEndDate] = useState(dayjs());
-    const error = endDate.isBefore(dayjs());
+    const error = !endDate || endDate?.isBefore(dayjs());
 
     const { requestId } = useParams();
     const requestCallback = (data) => {
